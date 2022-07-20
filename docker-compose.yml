@@ -1,0 +1,9 @@
+version: "3.9"
+
+services:
+  frontend:
+    build:
+      context: ""
+    container_name: "ebb-frontend-container"
+    ports:
+      - "9999:3000"
