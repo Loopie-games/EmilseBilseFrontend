@@ -4,6 +4,7 @@ services:
   frontend:
     build:
       context: ""
-    container_name: "ebb-frontend-container"
+    image: "localhost:7002/ebb-backend-test_api:${IMAGE_TAG}"
+    container_name: "${CONT_NAME}"
     ports:
-      - "9999:3000"
+      - "${PORT}:3000"
