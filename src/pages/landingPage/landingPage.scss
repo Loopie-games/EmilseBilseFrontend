@@ -1,6 +1,12 @@
-.test {
+.LandingPage-Container  {
+    padding-top: 70px;
     height: 100vh;
     background-image: url(../../assets/landingPage/darkbg.png);
     background-size: cover;
     background-repeat: repeat;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
 }
