@@ -10,8 +10,9 @@ const LandingPage = () => {
                         Join Room
                     </div>
                     <div className='LandingPage-JoinInput'>
-                        <input type="text" />
+                        <input type="text" placeholder='Pin Code' />
                     </div>
+                    <div className='LandingPage-JoinButton'>Join</div>
                 </div>
                 <div className='LandingPage-CreateRoom'>
                     Create Room
