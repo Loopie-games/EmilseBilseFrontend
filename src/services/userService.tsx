@@ -1,4 +1,4 @@
-import { UserDTO, CreateUserDTO } from "../models/user/userInterface";
+import { CreateUserDTO } from "../models/user/userInterface";
 import http from "../http-common"
 
 class UserService{

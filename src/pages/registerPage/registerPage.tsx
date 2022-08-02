@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { useStore } from '../../stores/store';
-import {CreateUserDTO, UserDTO } from "../../models/user/userInterface";
+import {CreateUserDTO } from "../../models/user/userInterface";
 
 const RegisterPage = () =>{
 
