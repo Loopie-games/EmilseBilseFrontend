@@ -13,7 +13,7 @@ const Navbar = () => {
                 <div className='Navbar-Button-Container'>
                     <div className='Navbar-Button-Wrapper'>
                         <div className='Navbar-ButtononWrapper-NoBorder'>
-                            <Link className='Navbar-Button-Text' to={'/'}>SIGN UP</Link>
+                            <Link className='Navbar-Button-Text' to={'/register'}>SIGN UP</Link>
                         </div>
                         <div className='Navbar-ButtononWrapper-Border'>
                             <Link className='Navbar-Button-Text' to={'/'}>LOG IN</Link>
