@@ -8,7 +8,8 @@ import Navbar from './components/shared/navbar/Navbar';
 function App() {
   const routes = [
     { path: "/", element: <LandingPage /> },
-      {path: "/register", element: <RegisterPage /> }
+      {path: "/register", element: <RegisterPage /> },
+    {path: "/login", element:  <LandingPage/>}
   ];
 
   return (
