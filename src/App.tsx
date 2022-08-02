@@ -3,11 +3,13 @@ import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/landingPage/landingPage';
+import RegisterPage from './pages/registerPage/registerPage';
 import Navbar from './components/shared/navbar/Navbar';
 
 function App() {
   const routes = [
     { path: "/", element: <LandingPage /> },
+      {path: "/register", element: <RegisterPage /> }
   ];
 
   return (
