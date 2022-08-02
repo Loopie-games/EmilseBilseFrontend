@@ -13,7 +13,7 @@ const LandingPage = () => {
     useEffect(() => {
         loadTestData();
         setLoaded(true);
-    }, []);
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
     const loadTestData = async () => {
         setLoaded(false);
         await authStore.test();

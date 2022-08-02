@@ -22,19 +22,19 @@
         .Navbar-Button-Container {
             flex: 1;
             .Navbar-Button-Wrapper {
-                justify-content: end;
-                align-items: end;
+                justify-content: flex-end;
+                align-items: flex-end;
                 display: flex;
                 gap: 40px;
 
-                .Navbar-ButtononWrapper-NoBorder {
+                .Navbar-ButtonOnWrapper-NoBorder {
                     height: 40px;
                     width: 115px;
                     display: flex;
                     justify-content: center;
                     align-items: center;
                 }
-                .Navbar-ButtononWrapper-Border {
+                .Navbar-ButtonOnWrapper-Border {
                     position: relative;
                     height: 40px;
                     width: 115px;
@@ -46,7 +46,7 @@
                 .Navbar-Button-Text {
                     text-decoration: none;
                     color: #fff;
-                    font-family: "Arial";
+                    font-family: "Arial", serif;
                     font-style: normal;
                     font-weight: 700;
                     font-size: 16px;
