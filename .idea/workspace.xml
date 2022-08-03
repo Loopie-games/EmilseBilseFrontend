@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="95ab0aca-e3bd-4f58-a05b-c1aa8ae3437f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/models/user/userInterface.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/user/userInterface.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/services/userService.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/userService.tsx" afterDir="false" />
