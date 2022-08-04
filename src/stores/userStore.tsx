@@ -29,6 +29,7 @@ export class UserStore {
         this.loginResponse = response.data;
         console.log(this.loginResponse)
         if(this.loginResponse?.isValid){
+            localStorage.setItem("userId", this.loginResponse.userId);
             this.getById(this.loginResponse.userId)
         }
     }
