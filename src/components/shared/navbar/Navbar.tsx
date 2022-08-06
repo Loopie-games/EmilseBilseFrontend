@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import './Navbar.scss'
 
 const Navbar = () => {
+
     return (
         <div className='Navbar-Container'>
             <div className='Navbar-Wrapper'>
@@ -15,10 +16,10 @@ const Navbar = () => {
                 <div className='Navbar-Button-Container'>
                     <div className='Navbar-Button-Wrapper'>
                         <div className='Navbar-ButtonWrapper'>
-                            <Link className='Navbar-Button-Text' to={'/Signup'}>SIGN UP</Link>
+                            <Link className='Navbar-Button-Text' to={'/register'}>SIGN UP</Link>
                         </div>
                         <div className='Navbar-ButtonWrapper'>
-                            <Link className='Navbar-Button-Text' to={'/Login'}>LOG IN</Link>
+                            <Link className='Navbar-Button-Text' to={'/login'}>LOG IN</Link>
                         </div>
                     </div>
                 </div>

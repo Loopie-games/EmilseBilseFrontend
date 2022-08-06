@@ -13,19 +13,12 @@ const LandingPage = () => {
     const { authStore } = useStore();
 
     useEffect(() => {
-        loadTestData();
         setLoaded(true);
     }, []);
-
-    const loadTestData = async () => {
-        setLoaded(false);
-        await authStore.test();
-    }
 
     const handlePinChange = (e: any) => {
         setPinValue(e.target.value);
         console.log(pinValue);
-
     }
 
     const checkPinLength = () => {
@@ -40,12 +33,12 @@ const LandingPage = () => {
                     <div className='LandingPage-Wrapper'>
                         <div className='LandingPage-JoinWrapper'>
                             <div className='LandingPage-JoinLabel'>
-                                Join Room {authStore.t !== undefined ? authStore.t[0].username : ''}
+                                Join Room
                             </div>
                             <div className={`LandingPage-JoinInput ${hasPin ? "active" : ""}`} >
                                 <input type="text" placeholder='Pin Code' maxLength={5} onChange={(e) => handlePinChange(e)} onKeyUp={() => checkPinLength()} />
                             </div>
-                            <div className='LandingPage-JoinButton' onClick={loadTestData}>Join</div>
+                            <div className='LandingPage-JoinButton'>Join</div>
                         </div>
                         <div className='LandingPage-CreateRoom'>
                             Create Room
