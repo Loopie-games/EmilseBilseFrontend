@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
 import { useStore } from '../../stores/store';
 import {CreateUserDTO } from "../../models/user/userInterface";
+import securityService from '../../services/securityService';
 
 const RegisterPage = () =>{
 
@@ -11,10 +12,8 @@ const RegisterPage = () =>{
 
     const {userStore} = useStore();
 
-
-
     async function onSubmitNewUser() {
-        let user: CreateUserDTO = {username, password, nickname};
+        let user: CreateUserDTO = {username, password, salt: '', nickname};
         await userStore.create(user)
         console.log(userStore.user)
     }

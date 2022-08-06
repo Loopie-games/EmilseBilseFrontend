@@ -7,6 +7,7 @@ export interface UserDTO {
 export interface CreateUserDTO{
     username: string
     password: string
+    salt: string
     nickname: string
 }
 

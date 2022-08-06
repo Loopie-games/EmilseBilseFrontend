@@ -1,5 +1,6 @@
 import { action, makeAutoObservable, observable } from "mobx";
 import {CreateUserDTO, LoginDTO, LoginResponseDTO, UserDTO} from "../models/user/userInterface";
+import securityService from "../services/securityService";
 import userService from "../services/userService";
 
 export class UserStore {
@@ -13,8 +14,13 @@ export class UserStore {
 
     @action
     create = async (data: CreateUserDTO) =>{
-        const response = await userService.createUser(data)
-        this.user = response.data
+        data.salt = securityService.generateSalt();
+        data.password = securityService.hashPassword(data.password, data.salt);
+        console.log(data);
+        
+        //@TODO, reImplement when salt is implemented in backend table
+        //const response = await userService.createUser(data)
+        //this.user = response.data
     }
 
     @action
