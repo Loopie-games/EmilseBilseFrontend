@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
 import { useStore } from '../../stores/store';
 import {LoginDTO } from "../../models/user/userInterface";
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () =>{
     const [loggedIn, setLoggedIn] = useState(false)
@@ -9,15 +10,17 @@ const LoginPage = () =>{
     const [password, setPassword] = useState('')
 
     const {userStore} = useStore();
+    const navigate = useNavigate()
 
 
 
-    async function onLogin() {
+    async function onLogin(this: any) {
         let user: LoginDTO = {username, password};
         await userStore.login(user)
 
         if(userStore.loginResponse?.isValid){
             setLoggedIn(true)
+            navigate('/home')
         }
     }
 
