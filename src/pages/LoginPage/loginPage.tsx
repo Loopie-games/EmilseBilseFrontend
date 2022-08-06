@@ -5,6 +5,7 @@ import { LoginDTO } from "../../models/user/userInterface";
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import './loginPage.scss'
+import Icon from '../../components/shared/icon/Icon';
 
 const LoginPage = () => {
     const [loggedIn, setLoggedIn] = useState(false)
@@ -16,7 +17,7 @@ const LoginPage = () => {
     const { userStore } = useStore();
     const navigate = useNavigate()
 
-    
+
     useEffect(() => {
         setShouldAnimate(true)
     }, [])
@@ -41,26 +42,26 @@ const LoginPage = () => {
         <>
             <div className='Login-Container'>
 
-                <img className={shouldAnimate ? '' : ''} src='https://github.githubassets.com/images/modules/site/codespaces/glow.png'></img>
+                <img className='Login-Background' src='https://github.githubassets.com/images/modules/site/codespaces/glow.png'></img>
                 <div className='Login-Wrapper' >
-                    <div className={`Login-Component ${shouldAnimate ? 'animComponent' : ''}` }>
+                    <div className={`Login-Component ${shouldAnimate ? 'animComponent' : ''}`}>
                         <div className='Login-Title'>Login</div>
-                        <div style={{color: 'red'}}>{incorrect ? 'Incorrect username or password' : ''}</div>
+                        <div style={{ color: 'red' }}>{incorrect ? 'Incorrect username or password' : ''}</div>
                         <div className='Login-InputContainer'>
                             <div className='Login-InputWrapper'>
                                 <div className='Login-InputTitle'>
-                                    Username 
+                                    Username
                                 </div>
                                 <div className={`Login-InputFieldWrapper ${username.length > 0 ? 'active' : ''}`}>
-                                    <div className='Login-InputIcon'>icon</div>
-                                    <input className='Login-InputInput' onClick={() => setIncorrect(false)} onChange={(e) => {setUsername(e.target.value); if(e.target.value.length <=1){setIncorrect(false)}}} type="text" />
+                                    <div className='Login-InputIcon'><Icon name="username" /></div>
+                                    <input className='Login-InputInput' placeholder='Username' onClick={() => setIncorrect(false)} onChange={(e) => { setUsername(e.target.value); if (e.target.value.length <= 1) { setIncorrect(false) } }} type="text" />
                                 </div>
                             </div>
                             <div className='Login-InputWrapper'>
                                 <div className='Login-InputTitle'>Password</div>
                                 <div className={`Login-InputFieldWrapper ${password.length > 0 ? 'active' : ''}`}>
-                                    <div className='Login-InputIcon'>icon</div>
-                                    <input className='Login-InputInput' onClick={() => setIncorrect(false)} onChange={(e) => {setPassword(e.target.value); if(e.target.value.length <=1){setIncorrect(false)}}} type="Password" />
+                                    <div className='Login-InputIcon'><Icon name="password" /></div>
+                                    <input className='Login-InputInput' placeholder='Password' onClick={() => setIncorrect(false)} onChange={(e) => { setPassword(e.target.value); if (e.target.value.length <= 1) { setIncorrect(false) } }} type="Password" />
                                 </div>
                             </div>
                             <div className='Login-Button' onClick={() => onLogin()}>
