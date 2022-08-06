@@ -41,7 +41,7 @@ const LoginPage = () => {
         <>
             <div className='Login-Container'>
 
-                <img className={shouldAnimate ? 'animBackground' : ''} src='https://github.githubassets.com/images/modules/site/codespaces/glow.png'></img>
+                <img className={shouldAnimate ? '' : ''} src='https://github.githubassets.com/images/modules/site/codespaces/glow.png'></img>
                 <div className='Login-Wrapper' >
                     <div className={`Login-Component ${shouldAnimate ? 'animComponent' : ''}` }>
                         <div className='Login-Title'>Login</div>

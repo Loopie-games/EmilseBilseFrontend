@@ -13,8 +13,7 @@ $defaultEasing: cubic-bezier(0.4, 0, 0.2, 1);
         z-index: 1;
         height: auto !important;
         -webkit-user-drag: none;
-        transition: all 1s $defaultEasing;
-        filter: hue-rotate(0deg);
+        animation: 1s initialBackground forwards, 5s foreverBackground alternate infinite;
     }
     .Login-Wrapper {
         display: flex;
@@ -30,8 +29,9 @@ $defaultEasing: cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             flex-direction: column;
             align-items: center;
-            opacity: 0;
-            transition: opacity .35s $defaultEasing;
+            animation: 0.35s opacity forwards;
+            box-shadow: 0 0 0 1px #000, 0 30px 30px rgba(0, 0, 0, 0.07), 0 15px 15px rgba(0, 0, 0, 0.06),
+                0 10px 8px rgba(0, 0, 0, 0.05), 0 4px 4px rgba(0, 0, 0, 0.04), 0 2px 2px rgba(0, 0, 0, 0.03);
             .Login-Title {
                 width: 100%;
                 height: 85px;
@@ -146,12 +146,48 @@ $defaultEasing: cubic-bezier(0.4, 0, 0.2, 1);
     }
 }
 
-.animBackground{
-    filter: hue-rotate(90deg)!important;
+.Login-Component::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    content: "";
+    border-radius: inherit;
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
 }
 
-.animComponent{
+.animComponent {
     opacity: 100% !important;
+}
+
+@keyframes opacity {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 100%;
+    }
+}
+
+@keyframes initialBackground {
+    0% {
+        filter: hue-rotate(0deg);
+    }
+    100% {
+        filter: hue-rotate(100deg);
+    }
+}
+
+@keyframes foreverBackground {
+    0% {
+        filter: hue-rotate(100deg);
+    }
+    100% {
+        filter: hue-rotate(80deg);
+    }
 }
 
 .active {
