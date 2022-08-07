@@ -14,12 +14,12 @@ const LandingPage = () => {
 
     useEffect(() => {
         loadTestData();
-        setLoaded(true);
-    }, []);
+    });
 
     const loadTestData = async () => {
         setLoaded(false);
         await authStore.test();
+        setLoaded(true);
     }
 
     const handlePinChange = (e: any) => {
@@ -36,7 +36,7 @@ const LandingPage = () => {
         <>
             {!loaded ? <div>Loading...</div> :
                 <div className='LandingPage-Container '>
-                    <img src='https://github.githubassets.com/images/modules/site/codespaces/glow.png'></img>
+                    <img src='https://github.githubassets.com/images/modules/site/codespaces/glow.png' alt={"glow img"}></img>
                     <div className='LandingPage-Wrapper'>
                         <div className='LandingPage-JoinWrapper'>
                             <div className='LandingPage-JoinLabel'>

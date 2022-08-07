@@ -6,7 +6,6 @@ import RegisterPage from './pages/registerPage/registerPage';
 import LoginPage from'./pages/LoginPage/loginPage';
 import HomePage from'./pages/homePage/homePage';
 import Navbar from './components/shared/navbar/Navbar';
-import TestPage from './pages/test/testPage';
 
 function App() {
   const routes = [
