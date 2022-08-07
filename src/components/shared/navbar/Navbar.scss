@@ -24,11 +24,11 @@
             flex: 1;
             .Navbar-Button-Wrapper {
                 justify-content: flex-end;
-                align-items: flex-end;
+                align-items: center;
                 display: flex;
                 gap: 40px;
 
-                .Navbar-ButtonWrapper {
+                .Navbar-Button {
                     position: relative;
                     height: 40px;
                     width: 115px;
@@ -37,12 +37,6 @@
                     align-items: center;
                     transition: box-shadow 0.2s, outline 0.2s ease;
                     border-radius: 5px;
-                }
-                .Navbar-ButtonWrapper:hover {
-                    cursor: pointer;
-                    box-shadow: rgb(255 255 255) 0 0 0 2px inset;
-                }
-                .Navbar-Button-Text {
                     text-decoration: none;
                     font-family: "Caviar Dreams";
                     font-style: normal;
@@ -50,6 +44,10 @@
                     font-size: 16px;
                     line-height: 0%;
                     color: #fff;
+                }
+                .Navbar-Button:hover {
+                    cursor: pointer;
+                    box-shadow: rgb(255 255 255) 0 0 0 2px inset;
                 }
             }
         }
