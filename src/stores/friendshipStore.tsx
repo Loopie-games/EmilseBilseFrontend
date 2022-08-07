@@ -11,6 +11,7 @@ export class FriendshipStore {
         this._friendlist = response.data;
     }
 
+    @action
     setFriends = (friends: Friend[]) => {
         this._friendlist = friends
 }

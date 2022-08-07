@@ -1,7 +1,8 @@
 import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
 import { useStore } from '../../stores/store';
-import { CreateUserDTO } from "../../models/user/userInterface";
+import {CreateUserDTO } from "../../models/user/userInterface";
+import securityService from '../../services/securityService';
 import { Link } from 'react-router-dom';
 import Icon from '../../components/shared/icon/Icon';
 import './registerPage.scss'
@@ -22,11 +23,7 @@ const RegisterPage = () => {
 
     const { userStore } = useStore();
 
-
-
     async function onSubmitNewUser() {
-        console.log(repeatPassword.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/));
-
         if (username.length < 8 && username.match(/^[a-zA-Z0-9]+$/) === null) {
             setUsernameError(true)
         }
