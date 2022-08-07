@@ -5,6 +5,7 @@ import userService from "../services/userService";
 
 export class UserStore {
 
+
     @observable user: UserDTO | undefined;
     @observable loginResponse: LoginResponseDTO | undefined;
 
@@ -27,6 +28,8 @@ export class UserStore {
     getById = async (userId: string) =>{
         const response = await userService.getById(userId)
         this.user = response.data
+        console.log(this.user);
+        
     }
 
     @action
@@ -38,5 +41,11 @@ export class UserStore {
             localStorage.setItem("userId", this.loginResponse.userId);
             this.getById(this.loginResponse.userId)
         }
+    }
+
+    @action
+    logout() {
+        localStorage.removeItem("userId");
+        this.user = undefined;
     }
 }

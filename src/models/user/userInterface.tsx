@@ -2,6 +2,7 @@ export interface UserDTO {
     id: string
     username: string
     nickname: string
+    profilePicture?: string
 }
 
 export interface CreateUserDTO{

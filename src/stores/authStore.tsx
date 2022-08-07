@@ -11,15 +11,7 @@ export class AuthStore {
         const response = await authService.attemptLogin(data)
         this.user = response.data;
     }
-
-    @action
-    test = async () => {
-        const response = await authService.test();
-        console.log(response);
-        
-        this.t = response.data;
-    }
-
+    
     constructor() {
         makeAutoObservable(this);
     }

@@ -1,6 +1,4 @@
 .LandingPage-Container {
-    padding-top: 70px;
-    height: calc(100% - 70px);
     display: flex;
     background-color: #1b1f24;
     flex-direction: row;
@@ -9,11 +7,9 @@
     color: #fff;
     font-family: "Caviar Dreams" !important;
     user-select: none;
-    position: absolute;
-    top: 0;
-    left: 0;
+    flex: 1;
     width: 100%;
-    img{
+    img {
         width: 50%;
         position: absolute;
         z-index: 1;
@@ -30,9 +26,11 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        box-shadow: 0 0 0 1px #000, 0 30px 30px rgba(0, 0, 0, 0.07), 0 15px 15px rgba(0, 0, 0, 0.06),
+        position: relative;
+        box-shadow: 0 0 0 1px #101316, 0 30px 30px rgba(0, 0, 0, 0.07), 0 15px 15px rgba(0, 0, 0, 0.06),
             0 10px 8px rgba(0, 0, 0, 0.05), 0 4px 4px rgba(0, 0, 0, 0.04), 0 2px 2px rgba(0, 0, 0, 0.03);
 
+        animation: 0.35s opacity forwards;
         .LandingPage-JoinWrapper {
             .LandingPage-JoinLabel {
                 font-family: "Caviar Dreams";
@@ -41,6 +39,9 @@
                 font-size: 32px;
                 line-height: 0%;
                 margin-bottom: 36px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
             .LandingPage-JoinInput {
                 width: 280px;
@@ -118,9 +119,27 @@
     }
 }
 .LandingPage-Wrapper::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    content: "";
+    border-radius: inherit;
     box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
 }
 
 .active {
     box-shadow: rgb(255 255 255) 0 0 0 2px inset !important;
+}
+
+@keyframes opacity {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 100%;
+    }
 }
