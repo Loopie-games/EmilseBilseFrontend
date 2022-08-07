@@ -1,0 +1,144 @@
+.LoggedInNavbar-Link {
+    font-family: "Caviar Dreams";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    color: #fff;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+    text-decoration: none;
+    &:hover {
+        opacity: 1;
+    }
+}
+.LoggedInNavbar-UserContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    position: relative;
+
+    .LoggedInNavbar-UserWrapper {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+
+        .LoggedInNavbar-UserNickName {
+            font-family: "Caviar Dreams";
+            font-style: normal;
+            font-weight: 400;
+            font-size: 14px;
+            color: #fff;
+        }
+        .LoggedInNavbar-UserAvatarContainer {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #fff;
+            border: 3px solid #8694a4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            img {
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                user-select: none;
+                -webkit-user-drag: none;
+            }
+        }
+        .LoggedInNavbar-UserDropdownContainer {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+    .LoggedInNavbar-DropDownContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 0%;
+        background-color: #24292f;
+        border-radius: 5px;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        z-index: 1;
+        transition: all 0.2s;
+        opacity: 0;
+        visibility: hidden;
+        box-shadow: 0 0 0 1px #101316, 0 30px 30px rgba(0, 0, 0, 0.07), 0 15px 15px rgba(0, 0, 0, 0.06),
+            0 10px 8px rgba(0, 0, 0, 0.05), 0 4px 4px rgba(0, 0, 0, 0.04), 0 2px 2px rgb(0 0 0 / 3%),
+            0 0 10px 0px rgb(255 255 255 / 50%);
+        &::after {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            content: "";
+            border-radius: inherit;
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+        }
+        &.show {
+            opacity: 1;
+            height: 150px;
+            visibility: visible;
+        }
+
+        .LoggedInNavbar-DropDownItem {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            width: 100%;
+            height: 40px;
+            border-bottom: 1px solid #121518;
+            gap: 5px;
+            cursor: pointer;
+            transition: background 0.2s;
+            &:first-of-type {
+                border-radius: 5px 5px 0 0;
+            }
+            &:last-of-type {
+                border-radius: 0 0 5px 5px;
+                border: none;
+            }
+            &:hover {
+                background: rgba(255, 255, 255, 0.05);
+            }
+            .LoggedInNavbar-DropDownItemIcon {
+                width: 20px;
+                height: 20px;
+                margin-left: 5px;
+                img {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+            .LoggedInNavbar-DropDownItemText {
+                font-family: "Caviar Dreams";
+                font-style: normal;
+                font-weight: 400;
+                font-size: 14px;
+                color: #fff;
+                a {
+                    color: #fff;
+                    text-decoration: none;
+                }
+            }
+        }
+    }
+}
+
+.LinkActive {
+    opacity: 1;
+    border-bottom: 1px solid #fff;
+}

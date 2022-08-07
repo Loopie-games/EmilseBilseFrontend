@@ -28,7 +28,7 @@ const LoginPage = () => {
 
         if (userStore.loginResponse?.isValid) {
             setLoggedIn(true)
-            navigate('/home')
+            navigate('/')
         } else {
             setIncorrect(true)
             setUsername('')
