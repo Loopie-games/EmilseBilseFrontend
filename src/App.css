@@ -3,6 +3,7 @@
   flex-direction: column;
   height: 100vh;
   user-select: none;
+  background-color: #1b1f24;
 }
 
 /* Change the white to any color */
