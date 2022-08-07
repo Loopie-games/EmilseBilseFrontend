@@ -14,7 +14,7 @@ const HomePage = () =>{
     useEffect(()=>{
         getLoggedUser()
         getFriends()
-    })
+    }, [])
 
     const getLoggedUser = async () =>{
         let u = localStorage.getItem("userId")

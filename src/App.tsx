@@ -9,13 +9,14 @@ import Navbar from './components/shared/navbar/Navbar';
 import TestPage from './pages/test/testPage';
 import { useStore } from './stores/store';
 import RequireAuth from './components/shared/requireAuth/RequireAuth';
+import { observer } from 'mobx-react-lite';
 
 function App() {
   const routes = [
     { path: "/", element: <LandingPage /> },
     { path: "/register", element: <RegisterPage /> },
     { path: "/login", element: <LoginPage /> },
-    { path: "/home", element: <RequireAuth><HomePage /></RequireAuth> },
+    { path: "/home", element: <><RequireAuth><HomePage /></RequireAuth></> },
     { path: "*", element: < div style={{ color: 'white', width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}> 404 </div> }
   ];
 
@@ -46,4 +47,4 @@ function App() {
   );
 }
 
-export default App;
+export default observer(App);
