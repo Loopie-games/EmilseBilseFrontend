@@ -8,7 +8,7 @@ class UserService{
     }
 
     async createUser(data: any){
-        return http.post("/User/CreateUser", data)
+        return http.post(decodeURI("/User/CreateUser"), data)
     }
 
     async login(data: any) {
