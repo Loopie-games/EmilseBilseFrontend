@@ -8,27 +8,37 @@ const HomePage = () =>{
 
     const [loggedUser, setLoggedUser] = useState(false);
     const [friendsLoaded, setLoadedFriends] = useState(false);
+    const [tilesLoaded, setTilesLoaded] = useState(false);
 
-    const {userStore, friendshipStore} = useStore();
+    const {userStore, friendshipStore, tileStore} = useStore();
 
     useEffect(()=>{
         getLoggedUser()
         getFriends()
+        getTiles()
     }, [])
 
     const getLoggedUser = async () =>{
         let u = localStorage.getItem("userId")
         if(u !== null){
             await userStore.getById(u)
+            if(userStore.user !== undefined){
+                setLoggedUser(true)
+            }
         }
     }
 
     const getFriends = async () => {
         if(userStore.user !== undefined){
-            setLoggedUser(true)
-
             await friendshipStore.getFriendList(userStore.user.id)
             setLoadedFriends(true);
+        }
+    }
+
+    const getTiles = async() => {
+        if(userStore.user !== undefined){
+            await tileStore.getAboutUserById_TileForUser(userStore.user.id)
+            setTilesLoaded(true);
         }
     }
 
@@ -56,6 +66,23 @@ const HomePage = () =>{
                         <li key = {friend.id}>
                             {friend.nickname}
                         </li>
+                        )}</ul>
+                        <br/>
+                    </div>
+                }
+                {tilesLoaded === false ?
+                    <div>
+                        tiles Loading
+                    </div>
+                    :
+                    <div>
+                        <br/>
+                        Tiles About you:
+                        <ul>{tileStore.tilesAboutUser!.map((tile) =>
+                            <li key = {tile.id}>
+                                Action = "{tile.action}", 
+                                Added by {tile.addedByNickname}
+                            </li>
                         )}</ul>
                         <br/>
                     </div>
