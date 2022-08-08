@@ -12,7 +12,7 @@ pipeline {
             steps{
                 sh "echo '[Frontend] Building...'"
                 sh "npm install"
-                sh "npm run build"
+                sh "CI=False npm run build"
             }
             post {
                 success {
