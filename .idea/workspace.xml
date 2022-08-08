@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="95ab0aca-e3bd-4f58-a05b-c1aa8ae3437f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/landingPage/landingPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/landingPage/landingPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/registerPage/registerPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/registerPage/registerPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/userService.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/userService.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,7 +34,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.fileTypes" />
-    <property name="ts.external.directory.path" value="D:\Webstorm\WebStorm 2021.2.3\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
+    <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\WebStorm 2021.2.2\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
