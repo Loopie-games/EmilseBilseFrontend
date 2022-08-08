@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
 import { useStore } from '../../stores/store';
-import {CreateUserDTO } from "../../models/user/userInterface";
+import { CreateUserDTO } from "../../models/user/userInterface";
 import securityService from '../../services/securityService';
 import { Link } from 'react-router-dom';
 import Icon from '../../components/shared/icon/Icon';
@@ -37,7 +37,10 @@ const RegisterPage = () => {
             setNicknameError(true)
         }
         if (!usernameError || !passwordError || !repeatPasswordError || !nicknameError) {
-            let user: CreateUserDTO = { username, password, nickname };
+            console.log('====================================');
+            console.log(password);
+            console.log('====================================');
+            let user: CreateUserDTO = { userName: username, password: password, nickName: nickname, salt: '', profilePicUrl: '' };
             await userStore.create(user)
             console.log(userStore.user)
         }

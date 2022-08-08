@@ -1,5 +1,5 @@
 import { action, makeAutoObservable, observable } from "mobx";
-import {CreateUserDTO, LoginDTO, LoginResponseDTO, UserDTO} from "../models/user/userInterface";
+import { CreateUserDTO, LoginDTO, LoginResponseDTO, UserDTO } from "../models/user/userInterface";
 import securityService from "../services/securityService";
 import userService from "../services/userService";
 
@@ -14,30 +14,30 @@ export class UserStore {
     }
 
     @action
-    create = async (data: CreateUserDTO) =>{
-        data.salt = securityService.generateSalt();
-        data.password = securityService.hashPassword(data.password, data.salt);
+    create = async (data: CreateUserDTO) => {
+        data.salt = await securityService.generateSalt();;
+        data.password = await securityService.hashPassword(data.password, data.salt);
+
         console.log(data);
-        
-        //@TODO, reImplement when salt is implemented in backend table
-        //const response = await userService.createUser(data)
-        //this.user = response.data
+
+        let response = await userService.createUser(data)
+        this.user = response.data
     }
 
     @action
-    getById = async (userId: string) =>{
+    getById = async (userId: string) => {
         const response = await userService.getById(userId)
         this.user = response.data
         console.log(this.user);
-        
+
     }
 
     @action
-    login = async(data: LoginDTO) => {
+    login = async (data: LoginDTO) => {
         const response = await userService.login(data)
         this.loginResponse = response.data;
         console.log(this.loginResponse)
-        if(this.loginResponse?.isValid){
+        if (this.loginResponse?.isValid) {
             localStorage.setItem("userId", this.loginResponse.userId);
             this.getById(this.loginResponse.userId)
         }
