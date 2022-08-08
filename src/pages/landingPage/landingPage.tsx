@@ -1,5 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
+
 import { useStore } from '../../stores/store';
 import './landingPage.scss'
 
@@ -7,29 +9,35 @@ const LandingPage = () => {
     const [loaded, setLoaded] = useState(false);
     const [hasPin, setHasPin] = useState(false);
     const [pinValue, setPinValue] = useState('');
+    const navigate = useNavigate();
     /**
      * Example of how to use the store context
      */
-    const { authStore } = useStore();
+    const { userStore } = useStore();
 
     useEffect(() => {
-        loadTestData();
-    });
-
-    const loadTestData = async () => {
-        setLoaded(false);
-        await authStore.test();
         setLoaded(true);
-    }
+    }, []);
 
     const handlePinChange = (e: any) => {
         setPinValue(e.target.value);
         console.log(pinValue);
-
     }
 
     const checkPinLength = () => {
         setHasPin(pinValue.length > 0);
+    }
+
+    const handleJoinClick = () => {
+        if (userStore.user === undefined) {
+            navigate('/login');
+        }
+    }
+
+    const handleHostClick = () => {
+        if (userStore.user === undefined) {
+            navigate('/login');
+        }
     }
 
     return (
@@ -40,14 +48,14 @@ const LandingPage = () => {
                     <div className='LandingPage-Wrapper'>
                         <div className='LandingPage-JoinWrapper'>
                             <div className='LandingPage-JoinLabel'>
-                                Join Room {authStore.t !== undefined ? authStore.t[0].username : ''}
+                                Join Room
                             </div>
                             <div className={`LandingPage-JoinInput ${hasPin ? "active" : ""}`} >
                                 <input type="text" placeholder='Pin Code' maxLength={5} onChange={(e) => handlePinChange(e)} onKeyUp={() => checkPinLength()} />
                             </div>
-                            <div className='LandingPage-JoinButton' onClick={loadTestData}>Join</div>
+                            <div className='LandingPage-JoinButton' onClick={() => handleJoinClick()}>Join</div>
                         </div>
-                        <div className='LandingPage-CreateRoom'>
+                        <div className='LandingPage-CreateRoom' onClick={() => handleHostClick()}>
                             Create Room
                         </div>
                     </div>
