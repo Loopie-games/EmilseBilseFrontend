@@ -16,7 +16,7 @@ const HomePage = () =>{
         getLoggedUser()
         getFriends()
         getTiles()
-    })
+    }, [])
 
     const getLoggedUser = async () =>{
         let u = localStorage.getItem("userId")
