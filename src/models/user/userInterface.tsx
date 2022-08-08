@@ -5,19 +5,20 @@ export interface UserDTO {
     profilePicture?: string
 }
 
-export interface CreateUserDTO{
-    username: string
+export interface CreateUserDTO {
+    userName: string
+    nickName: string
     password: string
     salt: string
-    nickname: string
+    profilePicUrl?: string
 }
 
-export interface LoginDTO{
+export interface LoginDTO {
     username: string
     password: string
 }
 
-export interface LoginResponseDTO{
+export interface LoginResponseDTO {
     isValid: boolean
     userId: string
 }
