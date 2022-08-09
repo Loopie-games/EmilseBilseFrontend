@@ -7,4 +7,4 @@ services:
     image: "localhost:7002/ebb-frontend-test_api:${IMAGE_TAG}"
     container_name: "${CONT_NAME}"
     ports:
-      - "${PORT}:3000"
+      - "${PORT}:80"
