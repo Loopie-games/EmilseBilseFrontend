@@ -13,7 +13,7 @@ const LandingPage = () => {
     /**
      * Example of how to use the store context
      */
-    const { userStore, gameStore } = useStore();
+    const { userStore } = useStore();
 
     useEffect(() => {
         setLoaded(true);
@@ -28,22 +28,16 @@ const LandingPage = () => {
         setHasPin(pinValue.length > 0);
     }
 
-    const handleJoinClick = async () => {
+    const handleJoinClick = () => {
         if (userStore.user === undefined) {
             navigate('/login');
         }
-        console.log(pinValue);
-
-        gameStore.createHubConnection();
-        gameStore.joinLobby(pinValue);
     }
 
     const handleHostClick = () => {
         if (userStore.user === undefined) {
             navigate('/login');
         }
-        gameStore.createHubConnection()
-        gameStore.createLobby();
     }
 
     return (
