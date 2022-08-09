@@ -50,7 +50,4 @@
     "@types/bcrypt": "^5.0.0",
     "@types/react-router-dom": "^5.3.3"
   },
-  "resolve.fallback": { "crypto": false }
-
-
 }
