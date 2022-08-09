@@ -37,12 +37,8 @@ const RegisterPage = () => {
             setNicknameError(true)
         }
         if (!usernameError || !passwordError || !repeatPasswordError || !nicknameError) {
-            console.log('====================================');
-            console.log(password);
-            console.log('====================================');
             let user: CreateUserDTO = { userName: username, password: password, nickName: nickname, salt: '', profilePicUrl: 'asdasd' };
             await userStore.create(user)
-
         }
     }
 
