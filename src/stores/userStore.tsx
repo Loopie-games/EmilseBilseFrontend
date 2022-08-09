@@ -27,6 +27,7 @@ export class UserStore {
     getById = async (userId: string) => {
         const response = await userService.getById(userId)
         this.user = response.data
+
         console.log(this.user);
 
     }
