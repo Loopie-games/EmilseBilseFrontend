@@ -1,0 +1,10 @@
+version: "3.9"
+
+services:
+  frontend:
+    build:
+      context: ""
+    image: "localhost:7002/ebb-dev-frontend-test_api:${IMAGE_TAG}"
+    container_name: "${CONT_NAME}"
+    ports:
+      - "${PORT}:3000"
