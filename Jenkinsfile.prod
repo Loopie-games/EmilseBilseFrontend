@@ -8,8 +8,8 @@ pipeline {
     stages {
         stage('Deploy to prod') {
             steps {
-                sh "docker compose --env-file ./config/prod.env pull"
-                sh "docker compose --env-file ./config/prod.env up -d"
+                sh "docker compose -f docker-compose.prod.yml --env-file ./config/prod.env pull"
+                sh "docker compose -f docker-compose.prod.yml --env-file ./config/prod.env up -d"
             }
         }
     }
