@@ -4,3 +4,9 @@ export interface TileForUser{
     action: string
     addedByNickname: string
 }
+
+export interface TileNewFromUser{
+    addedByUserId: string
+    action: string
+    aboutUsername: string
+}
