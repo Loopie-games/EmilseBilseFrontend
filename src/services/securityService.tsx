@@ -1,12 +1,12 @@
 
 const bcrypt = require('bcryptjs');
 class SecurityService {
-    generateSalt = () => {
-        return bcrypt.genSaltSync(10);
+    generateSalt = async () => {
+        return await bcrypt.genSalt(10);
     }
 
-    hashPassword = (password: string, salt: string) => {
-        return bcrypt.hashSync(password, salt);
+    hashPassword = async (password: string, salt: string) => {
+        return await bcrypt.hash(password, salt);
     }
 
     comparePassword = async (password: string, hash: string) => {

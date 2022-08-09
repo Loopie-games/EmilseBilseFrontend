@@ -1,13 +1,31 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useStore } from '../../stores/store';
 import './testPage.scss'
 
 const TestPage = () => {
-  return (
-    <div className='test'>
-        <div className='test2'>
+  const [tile, setTile] = useState('');
+  const { tileStore, friendshipStore, userStore } = useStore();
 
-        </div>
-    </div>
+  const handleCreateTile = (username: string) => {
+    let addedByUserId = userStore.user?.id !== undefined ? userStore.user?.id : '';
+    tileStore.createNewTile_User({ addedByUserId: addedByUserId, action: tile, aboutUsername: username });
+  }
+
+  const loadFriends = async () => {
+    await friendshipStore.getFriendList(userStore.user?.id ? userStore.user.id : '');
+  }
+  useEffect(() => {
+    loadFriends();
+    console.log("asdasdasd");
+
+    console.log(friendshipStore._friendlist);
+
+  }, [])
+
+  return (
+    <>
+      <div> ASDASDASD</div>
+    </>
   )
 }
 

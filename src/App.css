@@ -24,5 +24,5 @@ input {
 
 @font-face {
   font-family: Caviar Dreams;
-  src: url('./assets/Fonts/caviarDreams/CaviarDreams.ttf');
+  src: url(./assets/fonts/caviarDreams/CaviarDreams.ttf);
 }

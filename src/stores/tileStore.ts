@@ -4,7 +4,7 @@ import tileService from "../services/tileService";
 
 export class TileStore {
     @observable tilesAboutUser: TileForUser[] | undefined;
-    @observable createdTile: TileForUser | undefined;
+    @observable createdtile: TileForUser | undefined
 
     constructor() {
         makeAutoObservable(this);
@@ -19,5 +19,7 @@ export class TileStore {
     @action
     createNewTile_User = async (tile: TileNewFromUser) => {
         const response = await tileService.createTile(tile)
+        this.createdtile = response.data
     }
+
 }

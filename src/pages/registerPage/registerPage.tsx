@@ -40,9 +40,9 @@ const RegisterPage = () => {
             console.log('====================================');
             console.log(password);
             console.log('====================================');
-            let user: CreateUserDTO = { userName: username, password: password, nickName: nickname, salt: '', profilePicUrl: 'asdasd' };
+            let user: CreateUserDTO = { userName: username, password: password, nickName: nickname, salt: '', profilePicUrl: '' };
             await userStore.create(user)
-
+            console.log(userStore.user)
         }
     }
 
