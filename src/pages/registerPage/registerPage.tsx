@@ -2,9 +2,9 @@ import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
 import { useStore } from '../../stores/store';
 import { CreateUserDTO } from "../../models/user/userInterface";
-import securityService from '../../services/securityService';
+import securityService from "../../services/securityService";
 import { Link } from 'react-router-dom';
-import Icon from '../../components/shared/icon/Icon';
+import Icon from "../../components/shared/icon/Icon";
 import './registerPage.scss'
 
 const RegisterPage = () => {

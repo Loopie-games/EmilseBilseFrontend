@@ -7,8 +7,8 @@ class UserService {
         return http.get("/User/" + userId)
     }
 
-    async createUser(data: CreateUserDTO) {
-        return http.post("/User/CreateUser", data)
+    async createUser(data: any) {
+        return http.post(decodeURI("/User/CreateUser"), data)
     }
 
     async login(data: any) {

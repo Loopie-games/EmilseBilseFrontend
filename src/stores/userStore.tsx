@@ -15,14 +15,11 @@ export class UserStore {
 
     @action
     create = async (data: CreateUserDTO) => {
-        data.salt = securityService.generateSalt();
-
-        data.password = securityService.hashPassword(data.password, data.salt);
-
-
-        console.log(data);
-
-        let response = await userService.createUser({ userName: data.userName, password: "A2aA10AmhCEuZ4W8u7MjhfM7pGMVA3RnEkyELF8AlvTUtodmBXd84TlnQdwi", nickName: data.nickName, salt: "A2aA10A0YOUdCiJ74ApkJ3iS71Xgu", profilePicUrl: "A2aA10AmhCEuZ4W8u7MjhfM7pGMVA3RnEkyELF8AlvTUtodmBXd84TlnQdwi" })
+        data.salt = decodeURIComponent(await securityService.generateSalt());
+        data.password = decodeURIComponent(await securityService.hashPassword(data.password, data.salt));
+        console.log(data)
+        let response = await userService.createUser(data)
+        console.log(response)
         this.user = response.data
     }
 
