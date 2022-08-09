@@ -15,8 +15,6 @@ const LoggedInNavbar = () => {
     }
 
     const getProfilePic = () => {
-        console.log(userStore.user?.profilePicture !== undefined ? userStore.user?.profilePicture : defaultPic);
-
         return userStore.user?.profilePicture !== undefined ? userStore.user?.profilePicture : defaultPic;
     }
 
