@@ -14,12 +14,18 @@ export default class GameStore {
 
     createHubConnection = () => {
         this.hubConnection = new HubConnectionBuilder()
-            .withUrl(process.env.REACT_GAME_SOCKET !== undefined ? process.env.REACT_GAME_SOCKET : "http://localhost:5000/game")
+            .withUrl(process.env.REACT_GAME_SOCKET !== undefined ? process.env.REACT_GAME_SOCKET : "http://localhost:5121/game")
             .withAutomaticReconnect()
             .configureLogging(LogLevel.Information)
             .build();
 
-        this.hubConnection.start().catch(error => { });
+        this.hubConnection.start().catch(error => { console.log(error) });
+
+        this.hubConnection.on("onConnect", (connectionString: string) => {
+            runInAction(() => {
+                console.log(connectionString);
+            })
+        } )
 
         this.hubConnection.on('server_StartGame', (game) => {
             runInAction(() => {

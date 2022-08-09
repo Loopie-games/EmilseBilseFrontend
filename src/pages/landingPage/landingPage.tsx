@@ -13,7 +13,7 @@ const LandingPage = () => {
     /**
      * Example of how to use the store context
      */
-    const { userStore } = useStore();
+    const { userStore, gameStore } = useStore();
 
     useEffect(() => {
         setLoaded(true);
@@ -32,6 +32,8 @@ const LandingPage = () => {
         if (userStore.user === undefined) {
             navigate('/login');
         }
+        console.log("establishing connection");
+        gameStore.createHubConnection();
     }
 
     const handleHostClick = () => {
