@@ -14,10 +14,6 @@ const LoggedInNavbar = () => {
         userStore.logout();
     }
 
-    const getProfilePic = () => {
-        return userStore.user?.profilePicture !== undefined ? userStore.user?.profilePicture : defaultPic;
-    }
-
     return (
         <>
             <Link className={`LoggedInNavbar-Link ${location.pathname === '/' ? 'LinkActive' : ''}`} to={'/'}>Home</Link>
@@ -30,9 +26,7 @@ const LoggedInNavbar = () => {
                 <div className='LoggedInNavbar-UserWrapper'>
                     <div className='LoggedInNavbar-UserNickName'>{userStore.user?.nickname}</div>
                     <div onClick={() => setIsOpen(!isOpen)} style={{ display: 'flex', flexDirection: 'row', gap: '5px' }}>
-                        <div className='LoggedInNavbar-UserAvatarContainer'>
-                            <img className='LoggedInUser-UserProfilePic' src={getProfilePic()} alt="Profile pic"></img>
-                        </div>
+                        <div className='LoggedInNavbar-UserAvatarContainer'><img className='LoggedInUser-UserProfilePic' src={defaultPic}></img></div>
                         <div className='LoggedInNavbar-UserDropdownContainer'><Icon name="dropdown-arrow" /></div>
                     </div>
                 </div>
