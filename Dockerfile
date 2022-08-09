@@ -1,12 +1,8 @@
-FROM node:14.9.0 AS build-step
+# pull official base image
+FROM node:16
 
-WORKDIR /build
-COPY package.json package-lock.json ./
+WORKDIR /app
+COPY package.json ./
 RUN npm install
-
 COPY . .
-RUN npm run build
-
-FROM nginx:1.18-alpine
-COPY nginx.conf /etc/nginx/nginx.conf
-COPY --from=build-step /build/build /frontend/build
+CMD ["npm", "run", "start"]
