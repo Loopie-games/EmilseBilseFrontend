@@ -24,7 +24,7 @@ pipeline {
             steps{
                 script {
                     try {
-                        sh "docker compose --env-file config/test.env down"
+                        sh "docker compose -f docker-compose.dev.yml --env-file config/dev.env down"
                     }
                     finally {}
                 }
@@ -32,13 +32,13 @@ pipeline {
         }
         stage("Deploy containers") {
             steps {
-                sh "docker compose --env-file config/test.env up -d --build"
+                sh "docker compose -f docker-compose.dev.yml --env-file config/dev.env -d --build"
             }
         }
 
         stage("Push image to remote register"){
             steps {
-                sh "docker compose --env-file config/test.env push"
+                sh "docker compose -f docker-compose.dev.yml --env-file config/dev.env push"
             }
         }
     }
