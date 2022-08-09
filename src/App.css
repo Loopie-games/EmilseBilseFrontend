@@ -21,8 +21,3 @@ input:-webkit-autofill {
 input {
   color: #fff;
 }
-
-@font-face {
-  font-family: Caviar Dreams;
-  src: url('./assets/Fonts/caviarDreams/CaviarDreams.ttf');
-}
