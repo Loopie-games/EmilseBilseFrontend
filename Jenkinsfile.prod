@@ -1,15 +1,32 @@
 pipeline {
     agent any
 
-    parameters {
-        run filter: 'SUCCESSFUL', name: 'PROMOTED_BUILD', projectName: 'EBB-frontend-test'
-    }
-
     stages {
-        stage('Deploy to prod') {
+        stage('Building') {
+            steps{
+                sh "echo '[Frontend] Building...'"
+                sh "npm install"
+                sh "CI=False npm run build" 
+            }
+            post {
+                success {
+                    sh "echo 'Frontend built successfully'"
+                }
+            }
+        }
+        stage("Reset containers"){
+            steps{
+                script {
+                    try {
+                        sh "docker compose -f docker-compose.prod.yml --env-file config/prod.env down"
+                    }
+                    finally {}
+                }
+            }
+        }
+        stage("Deploy containers") {
             steps {
-                sh "docker compose -f docker-compose.prod.yml --env-file ./config/prod.env pull"
-                sh "docker compose -f docker-compose.prod.yml --env-file ./config/prod.env up -d"
+                sh "docker compose -f docker-compose.prod.yml --env-file config/prod.env up -d --build"
             }
         }
     }
