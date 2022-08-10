@@ -18,7 +18,7 @@ function App() {
     { path: "/register", element: <RegisterPage /> },
     { path: "/login", element: <LoginPage /> },
     { path: "/home", element: <><RequireAuth><HomePage /></RequireAuth></> },
-    { path: "/Lobby/:pin", element: <LobbyPage /> },
+    { path: "/Lobby", element: <LobbyPage /> },
     { path: "*", element: < div style={{ color: 'white', width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}> 404 </div> }
   ];
 

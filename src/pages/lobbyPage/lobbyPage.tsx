@@ -3,6 +3,7 @@ import UserComponent from '../../components/Lobby/userComponent/userComponent';
 import './lobbyPage.scss'
 import { useStore } from '../../stores/store'
 import { UserDTO } from '../../models/user/userInterface';
+import { observer } from 'mobx-react-lite';
 
 const LobbyPage = () => {
     const { gameStore } = useStore();
@@ -29,12 +30,12 @@ const LobbyPage = () => {
                 </div>
                 <div className='Lobby_InputContainer'>
                     <div className='Lobby_PinCode' >
-                        <input type="text" placeholder='Pin Code' maxLength={5} readOnly onClick={() => savePinToClipboard()} value={"69420"} />
+                        <input type="text" placeholder='Pin Code' maxLength={5} readOnly onClick={() => savePinToClipboard()} value={gameStore.lobby?.pin} />
                     </div>
                     <div className='Lobby_StartButton'> Start</div>
                 </div>
                 <div className='Lobby_PlayerContainer'>
-                    {testData?.map((player) => (
+                    {gameStore.lobby?.players?.map((player) => (
                         <UserComponent user={player} />
                     ))}
                 </div>
@@ -43,4 +44,4 @@ const LobbyPage = () => {
     )
 }
 
-export default LobbyPage
+export default observer(LobbyPage)

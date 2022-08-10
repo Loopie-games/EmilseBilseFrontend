@@ -2,6 +2,7 @@ import { observable, makeAutoObservable, runInAction, toJS, action } from "mobx"
 import { HubConnection, HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { GameRoom, Lobby } from "../models/game/gameInterfaces";
 import { UserDTO } from "../models/user/userInterface";
+import { useNavigate } from 'react-router-dom';
 
 export default class GameStore {
     @observable gameRoom: GameRoom | undefined;
@@ -12,20 +13,18 @@ export default class GameStore {
         makeAutoObservable(this);
     }
 
-    createHubConnection = () => {
+    createHubConnection = async () => {
         this.hubConnection = new HubConnectionBuilder()
             .withUrl(process.env.REACT_GAME_SOCKET !== undefined ? process.env.REACT_GAME_SOCKET : "http://localhost:5121/game")
             .withAutomaticReconnect()
             .configureLogging(LogLevel.Information)
             .build();
 
-        this.hubConnection.start().catch(error => { console.log(error) });
-
-        this.hubConnection.on("onConnect", (connectionString: string) => {
-            runInAction(() => {
-                console.log(connectionString);
-            })
-        })
+        await this.hubConnection.start()
+            .then(result => console.log("connected"))
+            .catch(error => {
+                console.log(error)
+            });
 
         this.hubConnection.on('server_StartGame', (game) => {
             runInAction(() => {
@@ -38,12 +37,6 @@ export default class GameStore {
                 this.lobby = lobby;
             });
         });
-
-        this.hubConnection.on('receiveLobby', (lobby) => {
-            runInAction(() => {
-                this.lobby = lobby;
-            });
-        });
     }
 
     stopHubConnection = () => {
@@ -51,7 +44,13 @@ export default class GameStore {
     }
 
     createLobby = async (userId: string) => {
-        this.hubConnection?.invoke('client_CreateLobby', userId);
+        this.hubConnection?.invoke('CreateLobby', userId);
+        this.hubConnection?.on('receiveLobby', async (lobby) => {
+            runInAction(async () => {
+                this.lobby = await lobby;
+                console.log(this.lobby);
+            });
+        });
     }
 
     startGame = async (user: UserDTO) => {
