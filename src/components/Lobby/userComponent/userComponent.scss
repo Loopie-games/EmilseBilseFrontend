@@ -1,5 +1,5 @@
 .UserComponent-Container{
-    width: 240px;
+    width: 270px;
     height: 100px;
     background-color: #24292f;
     border-radius: 10px;
@@ -26,25 +26,28 @@
     }
     .UserComponent-KickContainer{
         position: absolute;
-        top: 5px;
-        right: 5px;
+        top: 10px;
+        right: 10px;
         cursor: pointer;
         img{
-            width: 12px;
-            height: 12px;
+            width: 14px;
+            height: 14px;
         }
     }
     .UserComponent-UserDetails{
         flex: 1;
         display: flex;
         flex-direction: column;
+        gap: 5px;
         .UserComponent-UserNickName{
-            display: flex;
-            align-items: center;
+            max-width: 140px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
             font-family: "Caviar Dreams";
             font-style: normal;
-            font-weight: 400;
-            font-size: 16px;
+            font-weight: 700;
+            font-size: 18px;
             color: #fff;
         }
         .UserComponent-UserUsername{
@@ -53,8 +56,12 @@
             font-family: "Caviar Dreams";
             font-style: normal;
             font-weight: 400;
-            font-size: 12px;
-            color: #8694A4;
+            font-size: 16px;
+            color: #8694A4; 
+            max-width: 140px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
     }
 }

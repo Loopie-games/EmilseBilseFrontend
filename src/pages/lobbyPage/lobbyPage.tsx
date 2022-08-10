@@ -6,7 +6,9 @@ import { UserDTO } from '../../models/user/userInterface';
 
 const LobbyPage = () => {
     const { gameStore } = useStore();
-    const user = { id: '1', username: 'Test', nickname: 'Hovedskov' }
+    const user = {
+        id: '1', username: 'Test', nickname: 'Hovedskovasddasdas'
+    }
     const [testData, setTestData] = useState<UserDTO[]>();
     const [Pin, setPin] = useState('');
     useEffect(() => {

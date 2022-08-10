@@ -1,4 +1,4 @@
-import { observable, makeAutoObservable, runInAction, toJS } from "mobx";
+import { observable, makeAutoObservable, runInAction, toJS, action } from "mobx";
 import { HubConnection, HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { GameRoom, Lobby } from "../models/game/gameInterfaces";
 import { UserDTO } from "../models/user/userInterface";
@@ -64,5 +64,10 @@ export default class GameStore {
         }).catch(error => {
             console.log(error);
         });
+    }
+
+    kickPlayer = async (userId: string) => {
+        console.log(userId);
+
     }
 }
