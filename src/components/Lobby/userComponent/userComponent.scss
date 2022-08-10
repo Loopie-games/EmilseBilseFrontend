@@ -1,0 +1,73 @@
+.UserComponent-Container{
+    width: 240px;
+    height: 100px;
+    background-color: #24292f;
+    border-radius: 10px;
+    display: flex;
+    position: relative;
+    align-items: center;
+    box-shadow: 0 0 0 1px #101316, 0 30px 30px rgba(0, 0, 0, 0.07), 0 15px 15px rgba(0, 0, 0, 0.06),
+        0 10px 8px rgba(0, 0, 0, 0.05), 0 4px 4px rgba(0, 0, 0, 0.04), 0 2px 2px rgba(0, 0, 0, 0.03);
+    .UserComponent-ImageContainer{
+        height: 80px;
+        width: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        border: 2px solid #8694A4;
+        margin-left: 15px;
+        margin-right: 10px;
+        img {
+            border-radius: 50%;
+            width: 100%;
+            height: 100%;
+        }
+    }
+    .UserComponent-KickContainer{
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        cursor: pointer;
+        img{
+            width: 12px;
+            height: 12px;
+        }
+    }
+    .UserComponent-UserDetails{
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        .UserComponent-UserNickName{
+            display: flex;
+            align-items: center;
+            font-family: "Caviar Dreams";
+            font-style: normal;
+            font-weight: 400;
+            font-size: 16px;
+            color: #fff;
+        }
+        .UserComponent-UserUsername{
+            display: flex;
+            align-items: center;
+            font-family: "Caviar Dreams";
+            font-style: normal;
+            font-weight: 400;
+            font-size: 12px;
+            color: #8694A4;
+        }
+    }
+}
+
+.UserComponent-Container::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    content: "";
+    border-radius: inherit;
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}

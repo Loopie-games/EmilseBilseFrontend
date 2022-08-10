@@ -1,26 +1,38 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import UserComponent from '../../components/Lobby/userComponent/userComponent';
 import './lobbyPage.scss'
 import { useStore } from '../../stores/store'
+import { UserDTO } from '../../models/user/userInterface';
 
 const LobbyPage = () => {
     const { gameStore } = useStore();
+    const user = { id: '1', username: 'Test', nickname: 'Hovedskov' }
+    const [testData, setTestData] = useState<UserDTO[]>();
+    const [Pin, setPin] = useState('');
+    useEffect(() => {
+        setPin('69420');
+        setTestData([user, user, user, user, user, user, user, user, user, user, user, user, user, user, user, user, user, user, user, user]);
+    }, [])
 
+    const savePinToClipboard = () => {
+        navigator.clipboard.writeText(Pin);
+    }
 
     return (
-        <div>
-            <div>
-                <div>
+        <div className='Lobby_Container'>
+            <div className='Lobby_NavBackground'></div>
+            <div className='Lobby_Wrapper'>
+                <div className='Lobby_Title'>
                     Lobby
                 </div>
-                <div>
-                    <div className={`LandingPage-JoinInput`} >
-                        <input type="text" placeholder='Pin Code' maxLength={5} readOnly value={gameStore.lobby?.pin} />
+                <div className='Lobby_InputContainer'>
+                    <div className='Lobby_PinCode' >
+                        <input type="text" placeholder='Pin Code' maxLength={5} readOnly onClick={() => savePinToClipboard()} value={"69420"} />
                     </div>
+                    <div className='Lobby_StartButton'> Start</div>
                 </div>
-                <div> Start</div>
-                <div>
-                    {gameStore.lobby?.players.map((player) => (
+                <div className='Lobby_PlayerContainer'>
+                    {testData?.map((player) => (
                         <UserComponent user={player} />
                     ))}
                 </div>

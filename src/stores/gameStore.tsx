@@ -25,7 +25,7 @@ export default class GameStore {
             runInAction(() => {
                 console.log(connectionString);
             })
-        } )
+        })
 
         this.hubConnection.on('server_StartGame', (game) => {
             runInAction(() => {
