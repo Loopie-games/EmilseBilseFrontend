@@ -35,11 +35,5 @@ pipeline {
                 sh "docker compose --env-file config/test.env up -d"
             }
         }
-
-        stage("Push image to remote register"){
-            steps {
-                sh "docker compose --env-file config/test.env push"
-            }
-        }
     }
 }
