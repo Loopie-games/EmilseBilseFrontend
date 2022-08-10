@@ -39,7 +39,7 @@ export default class GameStore {
             });
         });
 
-        this.hubConnection.on('server_CreateLobby', (lobby) => {
+        this.hubConnection.on('receiveLobby', (lobby) => {
             runInAction(() => {
                 this.lobby = lobby;
             });
@@ -50,8 +50,8 @@ export default class GameStore {
         this.hubConnection?.stop().catch(error => { });
     }
 
-    createLobby = async () => {
-        this.hubConnection?.invoke('client_CreateLobby');
+    createLobby = async (userId: string) => {
+        this.hubConnection?.invoke('client_CreateLobby', userId);
     }
 
     startGame = async (user: UserDTO) => {

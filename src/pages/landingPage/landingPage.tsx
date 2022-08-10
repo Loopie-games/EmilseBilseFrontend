@@ -43,6 +43,10 @@ const LandingPage = () => {
         if (userStore.user === undefined) {
             navigate('/login');
         }
+        gameStore.createHubConnection();
+        let userId = userStore.user?.id !== undefined ? userStore.user.id : '';
+        gameStore.createLobby(userId);
+        navigate(`/lobby/${gameStore.lobby?.pin}`);
     }
 
     return (
