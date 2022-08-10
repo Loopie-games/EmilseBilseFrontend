@@ -17,6 +17,9 @@ const LandingPage = () => {
 
     useEffect(() => {
         setLoaded(true);
+        console.log('====================================');
+        console.log(`${process.env.NODE_ENV}`);
+        console.log('====================================');
     }, []);
 
     const handlePinChange = (e: any) => {
