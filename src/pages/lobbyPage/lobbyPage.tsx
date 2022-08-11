@@ -35,7 +35,7 @@ const LobbyPage = () => {
                     <div className='Lobby_StartButton'> Start</div>
                 </div>
                 <div className='Lobby_PlayerContainer'>
-                    {gameStore.lobby?.players?.map((player) => (
+                    {gameStore.lobbyPlayers.map((player) => (
                         <UserComponent user={player} />
                     ))}
                 </div>
