@@ -1,18 +1,21 @@
 import { CreateUserDTO } from "../models/user/userInterface";
 import http from "../http-common"
 
-class UserService{
-
-    getById(userId: string) {
-        return http.get("/User/"+ userId)
+class UserService {
+    getSaltByUsername(username: string) {
+        return http.get("/User/GetSalt/" + username)
     }
 
-    async createUser(data: any){
+    getById(userId: string) {
+        return http.get("/User/" + userId)
+    }
+
+    async createUser(data: any) {
         return http.post(decodeURI("/User/CreateUser"), data)
     }
 
     async login(data: any) {
-        return http.post("/User/Login", data)
+        return http.post("/Auth", data)
     }
 }
 export default new UserService();

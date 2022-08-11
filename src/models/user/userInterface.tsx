@@ -19,6 +19,6 @@ export interface LoginDTO {
 }
 
 export interface LoginResponseDTO {
-    isValid: boolean
+    token: string
     userId: string
 }
