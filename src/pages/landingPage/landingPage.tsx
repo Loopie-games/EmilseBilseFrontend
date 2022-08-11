@@ -27,7 +27,6 @@ const LandingPage = () => {
 
     const handlePinChange = (e: any) => {
         setPinValue(e.target.value);
-        console.log(pinValue);
     }
 
     const checkPinLength = () => {
@@ -39,7 +38,6 @@ const LandingPage = () => {
             navigate('/login');
         }
         else {
-            console.log(userStore.user!.id + " " + pinValue)
             await gameStore.joinLobby(userStore.user!.id, pinValue)
             navigate('/lobby');
         }

@@ -1,14 +1,13 @@
 import { observable, makeAutoObservable, runInAction, toJS, action } from "mobx";
 import { HubConnection, HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { GameRoom, Lobby } from "../models/game/gameInterfaces";
-import { UserDTO } from "../models/user/userInterface";
+import { UserDTO, SimpleUser } from "../models/user/userInterface";
 import { useNavigate } from 'react-router-dom';
-import { lobbyPlayer } from "../models/player/playerInterface";
 
 export default class GameStore {
     @observable gameRoom: GameRoom | undefined;
     @observable lobby: Lobby | undefined;
-    @observable lobbyPlayers: lobbyPlayer[] = [];
+    @observable lobbyPlayers: SimpleUser[] = [];
     hubConnection: HubConnection | null = null;
 
     constructor() {
@@ -40,7 +39,7 @@ export default class GameStore {
             });
         });
 
-        this.hubConnection.on('lobbyPlayerListUpdate', (players :lobbyPlayer[]) =>{
+        this.hubConnection.on('lobbyPlayerListUpdate', (players :SimpleUser[]) =>{
             runInAction(() => {
                 this.lobbyPlayers = players;
             });
