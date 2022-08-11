@@ -20,6 +20,9 @@ const LandingPage = () => {
         console.log('====================================');
         console.log(`${process.env.NODE_ENV}`);
         console.log('====================================');
+
+        gameStore.createHubConnection();
+
     }, []);
 
     const handlePinChange = (e: any) => {
@@ -36,13 +39,16 @@ const LandingPage = () => {
             navigate('/login');
         }
         console.log("establishing connection");
-        gameStore.createHubConnection();
     }
 
-    const handleHostClick = () => {
+    const handleHostClick = async () => {
         if (userStore.user === undefined) {
             navigate('/login');
+        } else {
+            await gameStore.createLobby(userStore.user.id);
+            navigate('/lobby/');
         }
+        return
     }
 
     return (

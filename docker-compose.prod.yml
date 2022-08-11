@@ -5,7 +5,6 @@ services:
     build:
       context: ""
       dockerfile: Dockerfile.prod
-    image: "localhost:7002/ebb-frontend-prod_api:${IMAGE_TAG}"
     container_name: "${CONT_NAME}"
     ports:
       - "${PORT}:80"

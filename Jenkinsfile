@@ -24,7 +24,7 @@ pipeline {
             steps{
                 script {
                     try {
-                        sh "docker compose --env-file config/test.env down"
+                        sh "docker compose -f docker-compose.yml --env-file config/test.env down"
                     }
                     finally {}
                 }
@@ -32,7 +32,7 @@ pipeline {
         }
         stage("Deploy containers") {
             steps {
-                sh "docker compose --env-file config/test.env up -d"
+                sh "docker compose -f docker-compose.yml --env-file config/test.env up -d"
             }
         }
     }
