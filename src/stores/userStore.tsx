@@ -43,9 +43,9 @@ export class UserStore {
         this.loginResponse = response.data;
         console.log(this.loginResponse)
         if (this.loginResponse !== undefined) {
-            localStorage.setItem("Token", this.loginResponse?.token);
-            localStorage.setItem("userId", this.loginResponse.userId);
-            this.getById(this.loginResponse.userId)
+            localStorage.setItem("Token", this.loginResponse?.jwt);
+            localStorage.setItem("userId", this.loginResponse.uuid);
+            this.getById(this.loginResponse.uuid)
         }
     }
 

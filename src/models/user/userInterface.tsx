@@ -26,6 +26,6 @@ export interface LoginDTO {
 }
 
 export interface LoginResponseDTO {
-    token: string
-    userId: string
+    jwt: string
+    uuid: string
 }
