@@ -20,7 +20,9 @@ const LandingPage = () => {
         console.log('====================================');
         console.log(`${process.env.NODE_ENV}`);
         console.log('====================================');
+
         gameStore.createHubConnection();
+
     }, []);
 
     const handlePinChange = (e: any) => {
