@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react-lite'
 import React, { useState } from 'react'
+import Board from '../../components/gameBoard/board/board';
 import './gameboardPage.scss'
 
 const GameboardPage = () => {
@@ -27,7 +28,9 @@ const GameboardPage = () => {
                 </div>
 
                 <div className='Gameboard_GameboardContainer'>
-                    <div className='Gameboard_GameboardWrapper'>GAMEBOARD</div>
+                    <div className='Gameboard_GameboardWrapper'>
+                        <Board />
+                    </div>
                 </div>
                 <div className='test3'>
                     <div className='test4'></div>

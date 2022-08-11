@@ -1,21 +1,21 @@
-.Gameboard_Container{
+.Gameboard_Container {
     display: flex;
     flex: 1;
     align-items: center;
     user-select: none;
     background: #1b1f24;
     flex-direction: column;
-    .Gameboard_NavBackground{
+    .Gameboard_NavBackground {
         width: 100%;
         height: 100px;
         background-color: #24292f;
     }
-    .Gameboard_Wrapper{
+    .Gameboard_Wrapper {
         width: 100%;
         height: 100%;
         display: flex;
         flex-direction: row;
-        .Gameboard_TracklistContainer{
+        .Gameboard_TracklistContainer {
             width: 50px;
             height: 100%;
             display: flex;
@@ -23,20 +23,26 @@
             transition: width 0.2s ease-in-out;
             background-color: #24292f;
             border-radius: 0 0 15px 0;
-            &.shown{
+            &.shown {
                 width: 320px;
             }
-        }   
-        
-        .Gameboard_GameboardContainer{
+        }
+
+        .Gameboard_GameboardContainer {
             flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            .Gameboard_GameboardWrapper {
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
         }
 
-        .Gameboard_PlayersContainer{
+        .Gameboard_PlayersContainer {
             min-width: 50px;
             height: 100%;
             display: flex;
@@ -44,43 +50,43 @@
             transition: all 0.2s ease-in-out;
             background-color: #24292f;
             border-radius: 0 0 15px 0;
-            &.shown{
+            &.shown {
                 min-width: 320px;
             }
         }
     }
 }
 
-.test{
+.test {
     position: relative;
     width: 15px;
     height: 15px;
     background-color: #24292f;
 
-    .test2{
+    .test2 {
         position: absolute;
         top: 0;
         left: 0;
         height: 30px;
         width: 30px;
-        border-radius:50%;
+        border-radius: 50%;
         background-color: #1b1f24;
     }
 }
 
-.test3{
+.test3 {
     position: relative;
     width: 15px;
     height: 15px;
     background-color: #24292f;
 
-    .test4{
+    .test4 {
         position: absolute;
         top: 0;
         left: -100%;
         height: 30px;
         width: 30px;
-        border-radius:50%;
+        border-radius: 50%;
         background-color: #1b1f24;
     }
 }
