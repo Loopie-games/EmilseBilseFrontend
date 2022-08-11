@@ -34,11 +34,16 @@ const LandingPage = () => {
         setHasPin(pinValue.length > 0);
     }
 
-    const handleJoinClick = () => {
+    const handleJoinClick = async () => {
         if (userStore.user === undefined) {
             navigate('/login');
         }
-        console.log("establishing connection");
+        else {
+            console.log(userStore.user!.id + " " + pinValue)
+            await gameStore.joinLobby(userStore.user!.id, pinValue)
+            navigate('/lobby');
+        }
+        return
     }
 
     const handleHostClick = async () => {

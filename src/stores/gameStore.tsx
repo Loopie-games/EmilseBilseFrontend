@@ -3,10 +3,12 @@ import { HubConnection, HubConnectionBuilder, LogLevel } from "@microsoft/signal
 import { GameRoom, Lobby } from "../models/game/gameInterfaces";
 import { UserDTO } from "../models/user/userInterface";
 import { useNavigate } from 'react-router-dom';
+import { lobbyPlayer } from "../models/player/playerInterface";
 
 export default class GameStore {
     @observable gameRoom: GameRoom | undefined;
     @observable lobby: Lobby | undefined;
+    @observable lobbyPlayers: lobbyPlayer[] = [];
     hubConnection: HubConnection | null = null;
 
     constructor() {
@@ -37,6 +39,12 @@ export default class GameStore {
                 this.lobby = lobby;
             });
         });
+
+        this.hubConnection.on('lobbyPlayerListUpdate', (players :lobbyPlayer[]) =>{
+            runInAction(() => {
+                this.lobbyPlayers = players;
+            });
+        })
     }
 
     stopHubConnection = () => {
@@ -58,10 +66,13 @@ export default class GameStore {
         this.hubConnection?.invoke('client_StartGame')
     }
 
-    joinLobby = async (LobbyPin: string) => {
-        this.hubConnection?.invoke('client_JoinLobby', LobbyPin).then(() => {
-        }).catch(error => {
-            console.log(error);
+    joinLobby = async (userId: string, lobbyPin: string) => {
+        this.hubConnection?.invoke('JoinLobby', userId, lobbyPin)
+        this.hubConnection?.on('receiveLobby', async (lobby) => {
+            runInAction(async () => {
+                this.lobby = await lobby;
+                console.log(this.lobby);
+            });
         });
     }
 

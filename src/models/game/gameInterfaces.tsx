@@ -3,7 +3,6 @@ import { UserDTO } from "../user/userInterface";
 
 export interface Lobby {
     host: UserDTO
-    players: UserDTO[]
     inProgress: boolean
     settings: Settings
     tiles: TileForUser[]

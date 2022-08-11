@@ -5,6 +5,7 @@ services:
     build:
       context: ""
       dockerfile: Dockerfile
+    image: "localhost:7002/ebb-${IMAGE_TYPE}-frontend_api:${IMAGE_TAG}"
     container_name: "${CONT_NAME}"
     ports:
       - "${PORT}:3000"
