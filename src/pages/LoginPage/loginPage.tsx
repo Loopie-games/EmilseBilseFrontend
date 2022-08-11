@@ -26,7 +26,7 @@ const LoginPage = () => {
         let user: LoginDTO = { username, password };
         await userStore.login(user)
 
-        if (userStore.loginResponse?.isValid) {
+        if (localStorage.getItem("token") !== null) {
             setLoggedIn(true)
             navigate('/')
         } else {
