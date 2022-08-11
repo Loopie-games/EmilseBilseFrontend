@@ -58,10 +58,13 @@ export default class GameStore {
         this.hubConnection?.invoke('client_StartGame')
     }
 
-    joinLobby = async (LobbyPin: string) => {
-        this.hubConnection?.invoke('client_JoinLobby', LobbyPin).then(() => {
-        }).catch(error => {
-            console.log(error);
+    joinLobby = async (userId: string, lobbyPin: string) => {
+        this.hubConnection?.invoke('JoinLobby', userId, lobbyPin)
+        this.hubConnection?.on('receiveLobby', async (lobby) => {
+            runInAction(async () => {
+                this.lobby = await lobby;
+                console.log(this.lobby);
+            });
         });
     }
 
