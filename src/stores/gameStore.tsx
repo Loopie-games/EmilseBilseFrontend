@@ -16,7 +16,7 @@ export default class GameStore {
 
     createHubConnection = async () => {
         this.hubConnection = new HubConnectionBuilder()
-            .withUrl(process.env.REACT_GAME_SOCKET !== undefined ? process.env.REACT_GAME_SOCKET : "http://localhost:5121/game")
+            .withUrl(process.env.GAME_SOCKET !== undefined ? process.env.GAME_SOCKET : "http://localhost:5121/game")
             .withAutomaticReconnect()
             .configureLogging(LogLevel.Information)
             .build();
