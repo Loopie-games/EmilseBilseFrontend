@@ -12,7 +12,12 @@ const LobbyPage = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-
+        /*
+        return () => {
+            gameStore.leaveLobby(gameStore.lobby!.id, userStore.user!.id)
+        }
+        
+         */
     }, [])
 
     const savePinToClipboard = () => {
@@ -20,8 +25,11 @@ const LobbyPage = () => {
     }
 
     const handleCloseLobby = async () => {
-        await gameStore.closeLobby(gameStore.lobby!.id, userStore.user!.id)
+
+        await gameStore.leaveLobby(gameStore.lobby!.id, userStore.user!.id)
         navigate('/')
+
+
     }
 
     return (
