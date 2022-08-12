@@ -34,6 +34,14 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
+            .Lobby_ButtonsContainer{
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                gap: 20px;
+                align-items: center;
+                width: 100%;
+            }
             .Lobby_PinCode{
                 width: 280px;
                 height: 40px;

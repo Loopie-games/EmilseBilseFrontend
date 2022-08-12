@@ -21,6 +21,10 @@ const LobbyPage = () => {
         navigator.clipboard.writeText(Pin);
     }
 
+    const handleCloseLobby = () => {
+
+    }
+
     return (
         <div className='Lobby_Container'>
             <div className='Lobby_NavBackground'></div>
@@ -32,7 +36,10 @@ const LobbyPage = () => {
                     <div className='Lobby_PinCode' >
                         <input type="text" placeholder='Pin Code' maxLength={5} readOnly onClick={() => savePinToClipboard()} value={gameStore.lobby?.pin} />
                     </div>
-                    <div className='Lobby_StartButton'> Start</div>
+                    <div className='Lobby_ButtonsContainer'>
+                        <div className='Lobby_StartButton'> Start</div>
+                        <div className='Lobby_StartButton' onClick={handleCloseLobby}> Close my lobby</div>
+                    </div>
                 </div>
                 <div className='Lobby_PlayerContainer'>
                     {gameStore.lobbyPlayers.map((player) => (
