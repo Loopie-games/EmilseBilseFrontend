@@ -29,10 +29,10 @@ const LoginPage = () => {
                     console.log('jwt: ' + localStorage.getItem("token"))
                     setLoggedIn(true)
                     navigate('/')
+                    return
                 } else {
                     setIncorrect(true)
-                    setUsername('')
-                    setPassword('')
+                    return;
                 }
             }
         )

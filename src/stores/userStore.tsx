@@ -35,6 +35,8 @@ export class UserStore {
     @action
     login = async (data: LoginDTO) => {
         localStorage.removeItem("token")
+        await localStorage.removeItem("userId");
+
         const salt = await (await userService.getSaltByUsername(data.username)).data;
         if(salt === null){
             return
