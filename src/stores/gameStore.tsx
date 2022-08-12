@@ -1,6 +1,6 @@
 import { observable, makeAutoObservable, runInAction, toJS, action } from "mobx";
 import { HubConnection, HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
-import { GameRoom, Lobby, CloseLobbyDto } from "../models/game/gameInterfaces";
+import { GameRoom, Lobby, CloseLobbyDto, LeaveLobbyDto } from "../models/game/gameInterfaces";
 import { UserDTO, SimpleUser } from "../models/user/userInterface";
 import { useNavigate } from 'react-router-dom';
 
@@ -88,6 +88,11 @@ export default class GameStore {
     kickPlayer = async (userId: string) => {
         console.log(userId);
 
+    }
+
+    leaveLobby = async (lobbyId: string, userId:string) => {
+        let ll: LeaveLobbyDto = {lobbyID: lobbyId, userID: userId}
+        this.hubConnection?.invoke('LeaveLobby', ll)
     }
 
 }
