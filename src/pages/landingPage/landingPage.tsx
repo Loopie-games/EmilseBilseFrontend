@@ -20,7 +20,6 @@ const LandingPage = () => {
         console.log('====================================');
         console.log(`${process.env.NODE_ENV}`);
         console.log('====================================');
-
         gameStore.createHubConnection();
 
     }, []);
@@ -38,8 +37,8 @@ const LandingPage = () => {
             navigate('/login');
         }
         else {
-            await gameStore.joinLobby(userStore.user!.id, pinValue)
-            navigate('/lobby');
+            await gameStore.joinLobby(userStore.user!.id, pinValue,
+                ()=>{navigate('/lobby')});
         }
         return
     }
@@ -48,8 +47,8 @@ const LandingPage = () => {
         if (userStore.user === undefined) {
             navigate('/login');
         } else {
-            await gameStore.createLobby(userStore.user.id);
-            navigate('/lobby/');
+            await gameStore.createLobby(userStore.user.id,
+                () => {navigate('/lobby')});
         }
         return
     }

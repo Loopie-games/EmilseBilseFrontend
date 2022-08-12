@@ -4,25 +4,24 @@ import './lobbyPage.scss'
 import { useStore } from '../../stores/store'
 import { UserDTO } from '../../models/user/userInterface';
 import { observer } from 'mobx-react-lite';
+import { useNavigate } from 'react-router-dom';
 
 const LobbyPage = () => {
-    const { gameStore } = useStore();
-    const user = {
-        id: '1', username: 'Test', nickname: 'Hovedskovasddasdas'
-    }
-    const [testData, setTestData] = useState<UserDTO[]>();
-    const [Pin, setPin] = useState('');
+    const { gameStore, userStore } = useStore();
+
+    const navigate = useNavigate();
+
     useEffect(() => {
-        setPin('69420');
-        setTestData([user, user, user, user, user, user, user, user, user, user, user, user, user, user, user, user, user, user, user, user]);
+
     }, [])
 
     const savePinToClipboard = () => {
-        navigator.clipboard.writeText(Pin);
+        navigator.clipboard.writeText(gameStore.lobby!.pin);
     }
 
-    const handleCloseLobby = () => {
-
+    const handleCloseLobby = async () => {
+        await gameStore.closeLobby(gameStore.lobby!.id, userStore.user!.id)
+        navigate('/')
     }
 
     return (

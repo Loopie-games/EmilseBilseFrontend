@@ -1,6 +1,6 @@
 import { observable, makeAutoObservable, runInAction, toJS, action } from "mobx";
 import { HubConnection, HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
-import { GameRoom, Lobby } from "../models/game/gameInterfaces";
+import { GameRoom, Lobby, CloseLobbyDto } from "../models/game/gameInterfaces";
 import { UserDTO, SimpleUser } from "../models/user/userInterface";
 import { useNavigate } from 'react-router-dom';
 
@@ -44,18 +44,25 @@ export default class GameStore {
                 this.lobbyPlayers = players;
             });
         })
+
+        this.hubConnection.on('lobbyClosed', () => {
+            runInAction(async () => {
+                this.lobby = undefined;
+                console.log('lobby is Closed');
+            });
+        });
     }
 
     stopHubConnection = () => {
         this.hubConnection?.stop().catch(error => { });
     }
 
-    createLobby = async (userId: string) => {
+    createLobby = async (userId: string, func: Function) => {
         this.hubConnection?.invoke('CreateLobby', userId);
         this.hubConnection?.on('receiveLobby', async (lobby) => {
             runInAction(async () => {
                 this.lobby = await lobby;
-                console.log(this.lobby);
+                func()
             });
         });
     }
@@ -65,18 +72,22 @@ export default class GameStore {
         this.hubConnection?.invoke('client_StartGame')
     }
 
-    joinLobby = async (userId: string, lobbyPin: string) => {
+    joinLobby = async (userId: string, lobbyPin: string, func: Function) => {
         this.hubConnection?.invoke('JoinLobby', userId, lobbyPin)
-        this.hubConnection?.on('receiveLobby', async (lobby) => {
-            runInAction(async () => {
-                this.lobby = await lobby;
-                console.log(this.lobby);
-            });
+        this.hubConnection?.on('receiveLobby', async (lobby: Lobby)=>{
+            this.lobby = await lobby;
+            func();
         });
+    }
+
+    closeLobby = async (lobbyId: string, hostId:string) => {
+        let cl: CloseLobbyDto = {lobbyID: lobbyId, hostID: hostId}
+        this.hubConnection?.invoke('CloseLobby', cl)
     }
 
     kickPlayer = async (userId: string) => {
         console.log(userId);
 
     }
+
 }

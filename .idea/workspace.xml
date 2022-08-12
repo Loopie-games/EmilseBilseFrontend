@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="95ab0aca-e3bd-4f58-a05b-c1aa8ae3437f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/http-common.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/http-common.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/landingPage/landingPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/landingPage/landingPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/gameStore.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/gameStore.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,14 +32,18 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/components/shared/requireAuth" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.fileTypes" />
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\WebStorm 2021.2.2\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\cecil\Github\EMilseBilseBingo\EmilseBilseFrontend\src\components\shared\requireAuth" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\cecil\Github\EMilseBilseBingo\EmilseBilseFrontend\src\components\shared\requireLobby" />
       <recent name="D:\Cecilie\Kode projekter\EmilseBilseBingo\2.0\Frontend\EmilseBilseFrontend\src\pages\registerPage" />
     </key>
   </component>
