@@ -25,7 +25,8 @@ const LoginPage = () => {
     const onLogin = async () => {
         let user: LoginDTO = { username, password };
         await userStore.login(user).then( res => {
-                if (localStorage.getItem("token") !== null) {
+                if (localStorage.getItem("token") !== null && localStorage.getItem("token") !== undefined) {
+                    console.log('jwt: ' + localStorage.getItem("token"))
                     setLoggedIn(true)
                     navigate('/')
                 } else {

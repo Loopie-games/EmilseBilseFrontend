@@ -34,7 +34,11 @@ export class UserStore {
 
     @action
     login = async (data: LoginDTO) => {
+        localStorage.removeItem("token")
         const salt = await (await userService.getSaltByUsername(data.username)).data;
+        if(salt === null){
+            return
+        }
         const password = await securityService.hashPassword(data.password, salt);
 
         data.password = password;
