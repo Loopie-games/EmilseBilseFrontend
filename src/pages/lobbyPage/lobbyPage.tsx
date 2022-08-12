@@ -4,32 +4,21 @@ import './lobbyPage.scss'
 import { useStore } from '../../stores/store'
 import { UserDTO } from '../../models/user/userInterface';
 import { observer } from 'mobx-react-lite';
-import { useNavigate } from 'react-router-dom';
 
 const LobbyPage = () => {
-    const { gameStore, userStore } = useStore();
-
-    const navigate = useNavigate();
-
+    const { gameStore } = useStore();
+    const user = {
+        id: '1', username: 'Test', nickname: 'Hovedskovasddasdas'
+    }
+    const [testData, setTestData] = useState<UserDTO[]>();
+    const [Pin, setPin] = useState('');
     useEffect(() => {
-        /*
-        return () => {
-            gameStore.leaveLobby(gameStore.lobby!.id, userStore.user!.id)
-        }
-        
-         */
+        setPin('69420');
+        setTestData([user, user, user, user, user, user, user, user, user, user, user, user, user, user, user, user, user, user, user, user]);
     }, [])
 
     const savePinToClipboard = () => {
-        navigator.clipboard.writeText(gameStore.lobby!.pin);
-    }
-
-    const handleCloseLobby = async () => {
-
-        await gameStore.leaveLobby(gameStore.lobby!.id, userStore.user!.id)
-        navigate('/')
-
-
+        navigator.clipboard.writeText(Pin);
     }
 
     return (
@@ -43,10 +32,7 @@ const LobbyPage = () => {
                     <div className='Lobby_PinCode' >
                         <input type="text" placeholder='Pin Code' maxLength={5} readOnly onClick={() => savePinToClipboard()} value={gameStore.lobby?.pin} />
                     </div>
-                    <div className='Lobby_ButtonsContainer'>
-                        <div className='Lobby_StartButton'> Start</div>
-                        <div className='Lobby_StartButton' onClick={handleCloseLobby}> Close my lobby</div>
-                    </div>
+                    <div className='Lobby_StartButton'> Start</div>
                 </div>
                 <div className='Lobby_PlayerContainer'>
                     {gameStore.lobbyPlayers.map((player) => (

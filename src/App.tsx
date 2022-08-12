@@ -11,27 +11,22 @@ import { useStore } from './stores/store';
 import RequireAuth from './components/shared/requireAuth/RequireAuth';
 import { observer } from 'mobx-react-lite';
 import LobbyPage from './pages/lobbyPage/lobbyPage';
-import GameboardPage from './pages/gameboardPage/gameboardPage';
-import RequireLobby from './components/shared/requireLobby/RequireLobby';
 
 function App() {
   const routes = [
     { path: "/", element: <LandingPage /> },
     { path: "/register", element: <RegisterPage /> },
     { path: "/login", element: <LoginPage /> },
-    { path: "/home", element: <RequireAuth><HomePage /></RequireAuth> },
-    { path: "/Lobby", element: <RequireLobby><LobbyPage /></RequireLobby> },
-    { path: "/game", element: <GameboardPage /> },
+    { path: "/home", element: <><RequireAuth><HomePage /></RequireAuth></> },
+    { path: "/Lobby", element: <LobbyPage /> },
     { path: "*", element: < div style={{ color: 'white', width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}> 404 </div> }
   ];
 
   const { userStore } = useStore();
   useEffect(() => {
-    /*
     if (localStorage.getItem('userId') !== null) {
       userStore.getById(localStorage.getItem('userId') ?? '');
     }
-        */
   }, [])
 
 

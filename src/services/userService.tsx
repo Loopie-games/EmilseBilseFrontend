@@ -15,6 +15,8 @@ class UserService {
     }
 
     async login(data: any) {
+        console.log("Hello World");
+        
         return http.post("/Auth", data)
     }
 }
