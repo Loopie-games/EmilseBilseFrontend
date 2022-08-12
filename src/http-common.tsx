@@ -1,6 +1,6 @@
 import axios from "axios";
 export default axios.create({
-    baseURL: "http://localhost:5121/",
+    baseURL: process.env.APP_API !== undefined ? process.env.APP_API : "http://localhost:5121/game",
     headers: {
         "Content-type": "application/json"
     }
