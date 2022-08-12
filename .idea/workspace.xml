@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="95ab0aca-e3bd-4f58-a05b-c1aa8ae3437f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/src/http-common.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/http-common.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/userService.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/userService.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,7 +55,7 @@
       <workItem from="1659651360818" duration="2607000" />
       <workItem from="1659798125872" duration="2241000" />
       <workItem from="1660199044170" duration="4315000" />
-      <workItem from="1660287945828" duration="442000" />
+      <workItem from="1660287945828" duration="965000" />
     </task>
     <servers />
   </component>
