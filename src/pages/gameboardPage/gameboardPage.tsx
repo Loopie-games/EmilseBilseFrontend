@@ -21,7 +21,12 @@ const GameboardPage = () => {
         <div className='Gameboard_Container'>
             <div className='Gameboard_NavBackground'></div>
             <div className='Gameboard_Wrapper'>
-                <div className={`Gameboard_TracklistContainer ${tasklistShown ? 'shown' : ''}`} onClick={() => toggleTasklist()}>TRACKLIST</div>
+                <div className={`Gameboard_TracklistContainer ${tasklistShown ? 'shown' : ''}`} onClick={() => toggleTasklist()}>
+                    <div className={`Gameboard_TracklistTitle ${tasklistShown ? 'shown' : ''}`}>{tasklistShown ? 'Tasklist' : 'T'}</div>
+                    <div className={`Gameboard_TracklistComponentContainer ${tasklistShown ? 'shown' : ''}`}>
+
+                    </div>
+                </div>
 
                 <div className='test'>
                     <div className='test2'></div>
