@@ -10,14 +10,8 @@ pipeline {
     stages {
 	    stage('Building') {
             steps{
-                sh "echo '[Frontend] Building...'"
                 sh "npm install"
                 sh "CI=False npm run build"
-            }
-            post {
-                success {
-                    sh "echo 'Frontend built successfully'"
-                }
             }
         }
         stage("Reset containers"){
