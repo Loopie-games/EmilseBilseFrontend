@@ -38,8 +38,9 @@ const LandingPage = () => {
             navigate('/login');
         }
         else {
-            await gameStore.joinLobby(userStore.user!.id, pinValue)
-            navigate('/lobby');
+            await gameStore.joinLobby(userStore.user!.id, pinValue, async ()=>{
+                navigate('/lobby')});
+
         }
         return
     }
@@ -49,7 +50,10 @@ const LandingPage = () => {
             navigate('/login');
         } else {
             await gameStore.createLobby(userStore.user.id);
-            navigate('/lobby/');
+            await gameStore.hubConnection?.on('receiveLobby', async (lobby) => {
+                gameStore.lobby = await lobby;
+                navigate('/lobby');
+            });
         }
         return
     }
