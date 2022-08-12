@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite'
 import React, { useState } from 'react'
 import Board from '../../components/gameBoard/board/board';
+import Tiles from '../../components/gameBoard/tiles/tiles';
 import './gameboardPage.scss'
 
 const GameboardPage = () => {
@@ -14,6 +15,8 @@ const GameboardPage = () => {
         setPlayersShown(!playersShown);
     }
 
+    const [testTasks, setTestTasks] = useState([{ id: 1, action: 'test action', to: 'test to', by: 'test by', shown: false }]);
+
 
 
 
@@ -24,7 +27,9 @@ const GameboardPage = () => {
                 <div className={`Gameboard_TracklistContainer ${tasklistShown ? 'shown' : ''}`} onClick={() => toggleTasklist()}>
                     <div className={`Gameboard_TracklistTitle ${tasklistShown ? 'shown' : ''}`}>{tasklistShown ? 'Tasklist' : 'T'}</div>
                     <div className={`Gameboard_TracklistComponentContainer ${tasklistShown ? 'shown' : ''}`}>
-
+                        {testTasks.map((task: any) => (
+                            <Tiles tile={task} />
+                        ))}
                     </div>
                 </div>
 
