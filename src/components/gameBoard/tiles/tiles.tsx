@@ -15,7 +15,6 @@ const Tiles = ({ tile }: any) => {
         tile.shown = !tile.shown;
     }
 
-
     return (
         <div className={`Tile_Container ${tile.shown ? 'shown' : ''}`} onClick={handleShow}>
             <div className='Tile_IndicatorContainer'>
