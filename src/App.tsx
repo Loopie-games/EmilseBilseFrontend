@@ -11,6 +11,7 @@ import { useStore } from './stores/store';
 import RequireAuth from './components/shared/requireAuth/RequireAuth';
 import { observer } from 'mobx-react-lite';
 import LobbyPage from './pages/lobbyPage/lobbyPage';
+import GameboardPage from './pages/gameboardPage/gameboardPage';
 
 function App() {
   const routes = [
@@ -19,6 +20,7 @@ function App() {
     { path: "/login", element: <LoginPage /> },
     { path: "/home", element: <><RequireAuth><HomePage /></RequireAuth></> },
     { path: "/Lobby", element: <LobbyPage /> },
+    { path: "/game", element: <GameboardPage /> },
     { path: "*", element: < div style={{ color: 'white', width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}> 404 </div> }
   ];
 
