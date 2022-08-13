@@ -24,21 +24,22 @@ const LoginPage = () => {
 
     const onLogin = async () => {
         let user: LoginDTO = { username, password };
-        await userStore.login(user).then( res => {
-                if (localStorage.getItem("token") !== null && localStorage.getItem("token") !== undefined) {
-                    console.log('jwt: ' + localStorage.getItem("token"))
-                    setLoggedIn(true)
-                    navigate('/')
-                    return
-                } else {
-                    setIncorrect(true)
-                    return;
-                }
+        await userStore.login(user).then(res => {
+            console.log(res)
+            if (localStorage.getItem("token") !== null && localStorage.getItem("token") !== undefined) {
+                console.log('jwt: ' + localStorage.getItem("token"))
+                setLoggedIn(true)
+                navigate('/')
+                return
             }
-        )
+        }
+        ).catch(err => {
+            setIncorrect(true)
+            return;
+        });
+
+        setIncorrect(true)
     }
-
-
 
     return (
         <>
