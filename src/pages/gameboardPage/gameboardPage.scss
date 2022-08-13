@@ -17,7 +17,7 @@
         height: 100%;
         display: flex;
         flex-direction: row;
-
+        overflow: hidden;
         .Gameboard_TracklistContainer {
             width: 50px;
             height: 100%;
@@ -50,9 +50,9 @@
                 color: #fff;
                 transition: all 0.2s ease-in-out;
                 width: 40px;
-                cursor: po;
-                
-                &.shown{
+                cursor: pointer;
+
+                &.shown {
                     width: 280px;
                     font-weight: 700;
                 }
@@ -95,16 +95,63 @@
         }
 
         .Gameboard_PlayersContainer {
-            min-width: 50px;
+            width: 50px;
             height: 100%;
             display: flex;
             flex-direction: column;
-            transition: all 0.2s ease-in-out;
+            transition: width 0.2s ease-in-out;
             background-color: #24292f;
             border-radius: 0 0 15px 0;
+            align-items: center;
+            justify-content: center;
 
             &.shown {
-                min-width: 320px;
+                width: 320px;
+            }
+
+            .Gameboard_PlayersTitle {
+                height: 40px;
+                background: rgba(255, 255, 255, 0.05);
+                backdrop-filter: blur(5px);
+                border-radius: 5px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border: 2px solid rgba(0, 0, 0, 0.5);
+                font-family: "Caviar Dreams";
+                font-style: normal;
+                font-weight: 700;
+                font-size: 20px;
+                line-height: 0%;
+                color: #fff;
+                transition: all 0.2s ease-in-out;
+                width: 40px;
+                cursor: pointer;
+
+                &.shown {
+                    width: 280px;
+                    font-weight: 700;
+                }
+            }
+
+            .Gameboard_PlayersComponentContainer {
+                width: 50px;
+                opacity: 0;
+                transition: all 0.2s ease-in-out;
+                height: 100%;
+                margin: 20px 0;
+                align-items: center;
+                overflow-y: auto;
+                padding: 0 5px;
+                &.shown {
+                    width: 280px;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+                    overflow-y: auto;
+                    overflow-x: hidden;
+                    opacity: 100%;
+                }
             }
         }
     }

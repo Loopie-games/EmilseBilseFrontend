@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite'
 import React, { useState } from 'react'
 import Board from '../../components/gameBoard/board/board';
+import Player from '../../components/gameBoard/player/player';
 import Tiles from '../../components/gameBoard/tiles/tiles';
 import { useStore } from '../../stores/store';
 import './gameboardPage.scss'
@@ -42,7 +43,14 @@ const GameboardPage = () => {
                 <div className='test3'>
                     <div className='test4'></div>
                 </div>
-                <div className={`Gameboard_PlayersContainer ${playersShown ? 'shown' : ''}`} onClick={() => togglePlayers()}>PLAYERS</div>
+                <div className={`Gameboard_PlayersContainer ${playersShown ? 'shown' : ''}`}>
+                    <div onClick={() => togglePlayers()} className={`Gameboard_PlayersTitle ${playersShown ? 'shown' : ''}`}>{playersShown ? 'Players' : 'P'}</div>
+                    <div className={`Gameboard_PlayersComponentContainer ${playersShown ? 'shown' : ''}`}>
+                        {gameStore.players.map((player: any) => (
+                            <Player player={player} />
+                        ))}
+                    </div>
+                </div>
             </div>
         </div>
     )
