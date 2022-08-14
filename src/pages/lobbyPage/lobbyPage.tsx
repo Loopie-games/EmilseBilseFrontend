@@ -4,21 +4,32 @@ import './lobbyPage.scss'
 import { useStore } from '../../stores/store'
 import { UserDTO } from '../../models/user/userInterface';
 import { observer } from 'mobx-react-lite';
+import { useNavigate } from 'react-router-dom';
 
 const LobbyPage = () => {
-    const { gameStore } = useStore();
-    const user = {
-        id: '1', username: 'Test', nickname: 'Hovedskovasddasdas'
-    }
-    const [testData, setTestData] = useState<UserDTO[]>();
-    const [Pin, setPin] = useState('');
+    const { gameStore, userStore } = useStore();
+
+    const navigate = useNavigate();
+
     useEffect(() => {
-        setPin('69420');
-        setTestData([user, user, user, user, user, user, user, user, user, user, user, user, user, user, user, user, user, user, user, user]);
+        /*
+        return () => {
+            gameStore.leaveLobby(gameStore.lobby!.id, userStore.user!.id)
+        }
+        
+         */
     }, [])
 
     const savePinToClipboard = () => {
-        navigator.clipboard.writeText(Pin);
+        navigator.clipboard.writeText(gameStore.lobby!.pin);
+    }
+
+    const handleCloseLobby = async () => {
+
+        await gameStore.leaveLobby(gameStore.lobby!.id, userStore.user!.id)
+        navigate('/')
+
+
     }
 
     return (
@@ -32,10 +43,13 @@ const LobbyPage = () => {
                     <div className='Lobby_PinCode' >
                         <input type="text" placeholder='Pin Code' maxLength={5} readOnly onClick={() => savePinToClipboard()} value={gameStore.lobby?.pin} />
                     </div>
-                    <div className='Lobby_StartButton'> Start</div>
+                    <div className='Lobby_ButtonsContainer'>
+                        <div className='Lobby_StartButton'> Start</div>
+                        <div className='Lobby_StartButton' onClick={handleCloseLobby}> Close my lobby</div>
+                    </div>
                 </div>
                 <div className='Lobby_PlayerContainer'>
-                    {gameStore.lobby?.players?.map((player) => (
+                    {gameStore.lobbyPlayers.map((player) => (
                         <UserComponent user={player} />
                     ))}
                 </div>

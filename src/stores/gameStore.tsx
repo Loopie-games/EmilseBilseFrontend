@@ -1,7 +1,7 @@
 import { observable, makeAutoObservable, runInAction, toJS, action } from "mobx";
 import { HubConnection, HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
-import { GameRoom, Lobby } from "../models/game/gameInterfaces";
-import { UserDTO } from "../models/user/userInterface";
+import { GameRoom, Lobby, CloseLobbyDto, LeaveLobbyDto } from "../models/game/gameInterfaces";
+import { UserDTO, SimpleUser } from "../models/user/userInterface";
 import { useNavigate } from 'react-router-dom';
 
 export default class GameStore {
@@ -9,6 +9,7 @@ export default class GameStore {
     @observable lobby: Lobby | undefined;
     @observable tiles: any[] = [{ id: 1, action: 'test action', to: 'test to', by: 'test by', shown: false }]
     @observable players: any[] = [{ username: 'Test', nickname: 'Hovedskovasddasdas' }]
+    @observable lobbyPlayers: SimpleUser[] = [];
     hubConnection: HubConnection | null = null;
 
     constructor() {
@@ -17,7 +18,7 @@ export default class GameStore {
 
     createHubConnection = async () => {
         this.hubConnection = new HubConnectionBuilder()
-            .withUrl(process.env.REACT_GAME_SOCKET !== undefined ? process.env.REACT_GAME_SOCKET : "http://localhost:5121/game")
+            .withUrl(process.env.REACT_APP_GAME_SOCKET !== undefined ? process.env.REACT_APP_GAME_SOCKET : "http://localhost:5121/")
             .withAutomaticReconnect()
             .configureLogging(LogLevel.Information)
             .build();
@@ -39,18 +40,31 @@ export default class GameStore {
                 this.lobby = lobby;
             });
         });
+
+        this.hubConnection.on('lobbyPlayerListUpdate', (players :SimpleUser[]) =>{
+            runInAction(() => {
+                this.lobbyPlayers = players;
+            });
+        })
+
+        this.hubConnection.on('lobbyClosed', () => {
+            runInAction(async () => {
+                this.lobby = undefined;
+                console.log('lobby is Closed');
+            });
+        });
     }
 
     stopHubConnection = () => {
         this.hubConnection?.stop().catch(error => { });
     }
 
-    createLobby = async (userId: string) => {
+    createLobby = async (userId: string, func: Function) => {
         this.hubConnection?.invoke('CreateLobby', userId);
         this.hubConnection?.on('receiveLobby', async (lobby) => {
             runInAction(async () => {
                 this.lobby = await lobby;
-                console.log(this.lobby);
+                func()
             });
         });
     }
@@ -60,15 +74,27 @@ export default class GameStore {
         this.hubConnection?.invoke('client_StartGame')
     }
 
-    joinLobby = async (LobbyPin: string) => {
-        this.hubConnection?.invoke('client_JoinLobby', LobbyPin).then(() => {
-        }).catch(error => {
-            console.log(error);
+    joinLobby = async (userId: string, lobbyPin: string, func: Function) => {
+        this.hubConnection?.invoke('JoinLobby', userId, lobbyPin)
+        this.hubConnection?.on('receiveLobby', async (lobby: Lobby)=>{
+            this.lobby = await lobby;
+            func();
         });
+    }
+
+    closeLobby = async (lobbyId: string, hostId:string) => {
+        let cl: CloseLobbyDto = {lobbyID: lobbyId, hostID: hostId}
+        this.hubConnection?.invoke('CloseLobby', cl)
     }
 
     kickPlayer = async (userId: string) => {
         console.log(userId);
 
     }
+
+    leaveLobby = async (lobbyId: string, userId:string) => {
+        let ll: LeaveLobbyDto = {lobbyID: lobbyId, userID: userId}
+        this.hubConnection?.invoke('LeaveLobby', ll)
+    }
+
 }

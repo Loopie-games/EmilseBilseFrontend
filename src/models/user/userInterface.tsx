@@ -5,6 +5,13 @@ export interface UserDTO {
     profilePicture?: string
 }
 
+export interface SimpleUser {
+    id?: string
+    username: string
+    nickname?: string
+    profilePicture?: string
+}
+
 export interface CreateUserDTO {
     userName: string
     nickName: string
@@ -19,6 +26,6 @@ export interface LoginDTO {
 }
 
 export interface LoginResponseDTO {
-    isValid: boolean
-    userId: string
+    jwt: string
+    uuid: string
 }

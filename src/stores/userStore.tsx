@@ -34,13 +34,26 @@ export class UserStore {
 
     @action
     login = async (data: LoginDTO) => {
-        const response = await userService.login(data)
-        this.loginResponse = response.data;
-        console.log(this.loginResponse)
-        if (this.loginResponse?.isValid) {
-            localStorage.setItem("userId", this.loginResponse.userId);
-            this.getById(this.loginResponse.userId)
+        localStorage.removeItem("token")
+        await localStorage.removeItem("userId");
+
+        const salt = await (await userService.getSaltByUsername(data.username)).data;
+        if(salt === null){
+            return
         }
+        const password = await securityService.hashPassword(data.password, salt);
+
+        data.password = password;
+
+        const response = await userService.login({ username: data.username, password: data.password });
+        this.loginResponse =  await response.data;
+        console.log(this.loginResponse)
+        if (this.loginResponse !== undefined) {
+            await localStorage.setItem("token", this.loginResponse?.jwt);
+            await localStorage.setItem("userId", this.loginResponse.uuid);
+            await this.getById(this.loginResponse.uuid)
+        }
+        return this.loginResponse;
     }
 
     @action
