@@ -41,6 +41,12 @@ const LoginPage = () => {
         setIncorrect(true)
     }
 
+    const handleOnKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            onLogin()
+        }
+    }
+
     return (
         <>
             <div className='Login-Container'>
@@ -57,14 +63,14 @@ const LoginPage = () => {
                                 </div>
                                 <div className={`Login-InputFieldWrapper ${username.length > 0 ? 'active' : ''}`}>
                                     <div className='Login-InputIcon'><Icon name="username" /></div>
-                                    <input className='Login-InputInput' placeholder='Username' onClick={() => setIncorrect(false)} onChange={(e) => { setUsername(e.target.value); if (e.target.value.length <= 1) { setIncorrect(false) } }} type="text" />
+                                    <input className='Login-InputInput' placeholder='Username' onKeyUp={(e) => handleOnKeyUp(e)} onClick={() => setIncorrect(false)} onChange={(e) => { setUsername(e.target.value); if (e.target.value.length <= 1) { setIncorrect(false) } }} type="text" />
                                 </div>
                             </div>
                             <div className='Login-InputWrapper'>
                                 <div className='Login-InputTitle'>Password</div>
                                 <div className={`Login-InputFieldWrapper ${password.length > 0 ? 'active' : ''}`}>
                                     <div className='Login-InputIcon'><Icon name="password" /></div>
-                                    <input className='Login-InputInput' placeholder='Password' onClick={() => setIncorrect(false)} onChange={(e) => { setPassword(e.target.value); if (e.target.value.length <= 1) { setIncorrect(false) } }} type="Password" />
+                                    <input className='Login-InputInput' placeholder='Password' onKeyUp={(e) => handleOnKeyUp(e)} onClick={() => setIncorrect(false)} onChange={(e) => { setPassword(e.target.value); if (e.target.value.length <= 1) { setIncorrect(false) } }} type="Password" />
                                 </div>
                             </div>
                             <div className='Login-Button' onClick={() => onLogin()}>
