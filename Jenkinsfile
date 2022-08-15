@@ -14,6 +14,15 @@ pipeline {
                 sh "CI=False npm run build"
             }
         }
+
+        stage("Testing"){
+            steps {
+                sh "npm install testcafe testcafe-reporter-xunit"
+                sh "node_modules/.bin/testcafe firefox:headless tests/**/* -r xunit:res.xml"
+                junit 'res.xml'
+            }
+        }
+
         stage("Reset containers"){
             steps{
                 script {
