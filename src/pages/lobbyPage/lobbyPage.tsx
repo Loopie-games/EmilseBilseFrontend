@@ -25,11 +25,8 @@ const LobbyPage = () => {
     }
 
     const handleCloseLobby = async () => {
-
         await gameStore.leaveLobby(gameStore.lobby!.id, userStore.user!.id)
         navigate('/')
-
-
     }
 
     return (

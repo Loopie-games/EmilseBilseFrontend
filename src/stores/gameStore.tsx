@@ -51,9 +51,9 @@ export default class GameStore {
             runInAction(async () => {
                 this.lobby = undefined;
                 console.log('lobby is Closed');
-                return;
             });
         });
+        return;
     }
 
     stopHubConnection = () => {
@@ -73,7 +73,6 @@ export default class GameStore {
     startGame = async (user: UserDTO) => {
         if (this.lobby?.host.id !== user.id) { return }
         this.hubConnection?.invoke('client_StartGame')
-        return true;
     }
 
     joinLobby = async (userId: string, lobbyPin: string, func: Function) => {
@@ -82,24 +81,20 @@ export default class GameStore {
             this.lobby = await lobby;
             func();
         });
-        return true;
     }
 
     closeLobby = async (lobbyId: string, hostId: string) => {
         let cl: CloseLobbyDto = { lobbyID: lobbyId, hostID: hostId }
         this.hubConnection?.invoke('CloseLobby', cl)
-        return true;
     }
 
     kickPlayer = async (userId: string) => {
         console.log(userId);
-        return true;
     }
 
     leaveLobby = async (lobbyId: string, userId: string) => {
         let ll: LeaveLobbyDto = { lobbyID: lobbyId, userID: userId }
         this.hubConnection?.invoke('LeaveLobby', ll)
-        return true;
     }
 
 }
