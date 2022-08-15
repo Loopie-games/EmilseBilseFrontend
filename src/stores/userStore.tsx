@@ -1,4 +1,5 @@
 import { action, makeAutoObservable, observable } from "mobx";
+import { useHref } from "react-router-dom";
 import { CreateUserDTO, LoginDTO, LoginResponseDTO, UserDTO } from "../models/user/userInterface";
 import securityService from "../services/securityService";
 import userService from "../services/userService";
@@ -17,19 +18,16 @@ export class UserStore {
     create = async (data: CreateUserDTO) => {
         data.salt = decodeURIComponent(await securityService.generateSalt());
         data.password = decodeURIComponent(await securityService.hashPassword(data.password, data.salt));
-        console.log(data)
         let response = await userService.createUser(data)
-        console.log(response)
         this.user = response.data
+        return response.data;
     }
 
     @action
     getById = async (userId: string) => {
         const response = await userService.getById(userId)
         this.user = response.data
-
-        console.log(this.user);
-
+        return response.data;
     }
 
     @action
@@ -38,7 +36,7 @@ export class UserStore {
         await localStorage.removeItem("userId");
 
         const salt = await (await userService.getSaltByUsername(data.username)).data;
-        if(salt === null){
+        if (salt === null) {
             return
         }
         const password = await securityService.hashPassword(data.password, salt);
@@ -46,8 +44,7 @@ export class UserStore {
         data.password = password;
 
         const response = await userService.login({ username: data.username, password: data.password });
-        this.loginResponse =  await response.data;
-        console.log(this.loginResponse)
+        this.loginResponse = await response.data;
         if (this.loginResponse !== undefined) {
             await localStorage.setItem("token", this.loginResponse?.jwt);
             await localStorage.setItem("userId", this.loginResponse.uuid);
@@ -60,5 +57,6 @@ export class UserStore {
     logout() {
         localStorage.removeItem("userId");
         this.user = undefined;
+
     }
 }

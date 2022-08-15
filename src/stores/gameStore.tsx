@@ -41,7 +41,7 @@ export default class GameStore {
             });
         });
 
-        this.hubConnection.on('lobbyPlayerListUpdate', (players :SimpleUser[]) =>{
+        this.hubConnection.on('lobbyPlayerListUpdate', (players: SimpleUser[]) => {
             runInAction(() => {
                 this.lobbyPlayers = players;
             });
@@ -51,6 +51,7 @@ export default class GameStore {
             runInAction(async () => {
                 this.lobby = undefined;
                 console.log('lobby is Closed');
+                return;
             });
         });
     }
@@ -72,29 +73,33 @@ export default class GameStore {
     startGame = async (user: UserDTO) => {
         if (this.lobby?.host.id !== user.id) { return }
         this.hubConnection?.invoke('client_StartGame')
+        return true;
     }
 
     joinLobby = async (userId: string, lobbyPin: string, func: Function) => {
         this.hubConnection?.invoke('JoinLobby', userId, lobbyPin)
-        this.hubConnection?.on('receiveLobby', async (lobby: Lobby)=>{
+        this.hubConnection?.on('receiveLobby', async (lobby: Lobby) => {
             this.lobby = await lobby;
             func();
         });
+        return true;
     }
 
-    closeLobby = async (lobbyId: string, hostId:string) => {
-        let cl: CloseLobbyDto = {lobbyID: lobbyId, hostID: hostId}
+    closeLobby = async (lobbyId: string, hostId: string) => {
+        let cl: CloseLobbyDto = { lobbyID: lobbyId, hostID: hostId }
         this.hubConnection?.invoke('CloseLobby', cl)
+        return true;
     }
 
     kickPlayer = async (userId: string) => {
         console.log(userId);
-
+        return true;
     }
 
-    leaveLobby = async (lobbyId: string, userId:string) => {
-        let ll: LeaveLobbyDto = {lobbyID: lobbyId, userID: userId}
+    leaveLobby = async (lobbyId: string, userId: string) => {
+        let ll: LeaveLobbyDto = { lobbyID: lobbyId, userID: userId }
         this.hubConnection?.invoke('LeaveLobby', ll)
+        return true;
     }
 
 }
