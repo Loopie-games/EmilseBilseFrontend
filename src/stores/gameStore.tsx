@@ -7,6 +7,8 @@ import { useNavigate } from 'react-router-dom';
 export default class GameStore {
     @observable gameRoom: GameRoom | undefined;
     @observable lobby: Lobby | undefined;
+    @observable tiles: any[] = [{ id: 1, action: 'test action', to: 'test to', by: 'test by', shown: false }]
+    @observable players: any[] = [{ username: 'Test', nickname: 'Hovedskovasddasdas' }]
     @observable lobbyPlayers: SimpleUser[] = [];
     hubConnection: HubConnection | null = null;
 

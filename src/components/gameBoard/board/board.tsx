@@ -3,6 +3,7 @@ import { useStore } from '../../../stores/store';
 import logo from '../../../assets/Shared/EmilseBilseBingo_Logo.png'
 import { observer } from 'mobx-react-lite';
 import './board.scss'
+import gameboardPage from '../../../pages/gameboardPage/gameboardPage';
 
 const Board = () => {
 
@@ -10,7 +11,7 @@ const Board = () => {
     const [testData, setTestData] = useState<any[]>([{ id: 1, completed: false }, { id: 2, completed: false }, { id: 3, completed: false }, { id: 4, completed: false }, { id: 5, completed: false }, { id: 6, completed: false }, { id: 7, completed: false }, { id: 8, completed: false }, { id: 9, completed: false }, { id: 10, completed: false }, { id: 11, completed: false }, { id: 12, completed: false }, { id: 13, completed: false }, { id: 14, completed: false }, { id: 15, completed: false }, { id: 16, completed: false }, { id: 17, completed: false }, { id: 18, completed: false }, { id: 19, completed: false }, { id: 20, completed: false }, { id: 21, completed: false }, { id: 22, completed: false }, { id: 23, completed: false }, { id: 24, completed: false },]);
     const [counter, setCounter] = useState(0);
     let triggerTime: number;
-    let longPressTime = 1000;
+    let longPressTime = 200;
     useEffect(() => {
     }, [])
 
@@ -22,8 +23,12 @@ const Board = () => {
 
     }
 
+    const test = (tile: any) => {
+        gameStore.tiles[0].shown = !gameStore.tiles[0].shown;
+    }
+
     const handleClick = (e: any) => {
-        triggerTime > longPressTime ? console.log('long press') : completeTile(e);
+        triggerTime > longPressTime ? test(e) : completeTile(e);
     }
 
     const handleTouchStart = (e: any) => {
