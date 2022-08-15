@@ -1,6 +1,7 @@
 import { action, makeAutoObservable, observable } from "mobx";
 import { useHref } from "react-router-dom";
 import { CreateUserDTO, LoginDTO, LoginResponseDTO, UserDTO } from "../models/user/userInterface";
+import cloudinaryService from "../services/cloudinaryService";
 import securityService from "../services/securityService";
 import userService from "../services/userService";
 
@@ -58,5 +59,16 @@ export class UserStore {
         localStorage.removeItem("userId");
         this.user = undefined;
 
+    }
+
+    @action
+    updateProfilePic = async (file: File) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', 'profileImage');
+        let newProfilePicURL = await cloudinaryService.uploadProfilePic(formData);
+        console.log('====================================');
+        console.log(newProfilePicURL);
+        console.log('====================================');
     }
 }
