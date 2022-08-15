@@ -21,7 +21,7 @@ test("Test login redirects", async t => {
     await t.click(Selector('a.Navbar-Button:nth-child(2)')).expect(getLocation()).contains('http://185.51.76.204:9090/login')
 })
 
-test("Test Logo redicects to index", async t => {
+test("Test Logo redirects to index", async t => {
     await t.click(Selector('html body div#root div.App div.Navbar-Container div.Navbar-Wrapper div.Navbar-Logo a')).expect(getLocation()).contains('http://185.51.76.204:9090/')
 })
 
