@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="95ab0aca-e3bd-4f58-a05b-c1aa8ae3437f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/LoginPage/loginPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/LoginPage/loginPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stores/userStore.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/userStore.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/game/gameInterfaces.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/game/gameInterfaces.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/lobbyPage/lobbyPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/lobbyPage/lobbyPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/gameStore.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/gameStore.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,7 +72,9 @@
       <workItem from="1659798125872" duration="2241000" />
       <workItem from="1660199044170" duration="4315000" />
       <workItem from="1660287945828" duration="965000" />
-      <workItem from="1660341437600" duration="4150000" />
+      <workItem from="1660341437600" duration="4753000" />
+      <workItem from="1660545517924" duration="2006000" />
+      <workItem from="1660643713364" duration="1624000" />
     </task>
     <servers />
   </component>

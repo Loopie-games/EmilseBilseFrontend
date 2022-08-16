@@ -1,6 +1,6 @@
 import { observable, makeAutoObservable, runInAction, toJS, action } from "mobx";
 import { HubConnection, HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
-import { GameRoom, Lobby, CloseLobbyDto, LeaveLobbyDto } from "../models/game/gameInterfaces";
+import { GameRoom, Lobby, CloseLobbyDto, LeaveLobbyDto, StartGameDto } from "../models/game/gameInterfaces";
 import { UserDTO, SimpleUser } from "../models/user/userInterface";
 import { useNavigate } from 'react-router-dom';
 
@@ -70,9 +70,15 @@ export default class GameStore {
         });
     }
 
-    startGame = async (user: UserDTO) => {
-        if (this.lobby?.host.id !== user.id) { return }
-        this.hubConnection?.invoke('client_StartGame')
+    startGame = async (sg: StartGameDto, callBack: Function) => {
+        console.log("game store")
+        this.hubConnection?.invoke('StartGame', sg)
+        this.hubConnection?.on('gameStarting', async() => {
+            runInAction( async() => {
+                callBack()
+            })
+        })
+        return
     }
 
     joinLobby = async (userId: string, lobbyPin: string, func: Function) => {

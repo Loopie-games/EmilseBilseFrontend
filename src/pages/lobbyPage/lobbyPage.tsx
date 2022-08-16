@@ -5,6 +5,7 @@ import { useStore } from '../../stores/store'
 import { UserDTO } from '../../models/user/userInterface';
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
+import { StartGameDto } from '../../models/game/gameInterfaces';
 
 const LobbyPage = () => {
     const { gameStore, userStore } = useStore();
@@ -16,7 +17,6 @@ const LobbyPage = () => {
         return () => {
             gameStore.leaveLobby(gameStore.lobby!.id, userStore.user!.id)
         }
-        
          */
     }, [])
 
@@ -27,6 +27,14 @@ const LobbyPage = () => {
     const handleCloseLobby = async () => {
         await gameStore.leaveLobby(gameStore.lobby!.id, userStore.user!.id)
         navigate('/')
+    }
+
+    const handleStartGame = async () => {
+        console.log("handle start game")
+        let sg: StartGameDto = {userId: userStore.user!.id, lobbyId: gameStore.lobby!.id}
+        await gameStore.startGame(sg, ()=>{
+           navigate('/game')
+        })
     }
 
     return (
@@ -41,7 +49,7 @@ const LobbyPage = () => {
                         <input type="text" placeholder='Pin Code' maxLength={5} readOnly onClick={() => savePinToClipboard()} value={gameStore.lobby?.pin} />
                     </div>
                     <div className='Lobby_ButtonsContainer'>
-                        <div className='Lobby_StartButton'> Start</div>
+                        <div className='Lobby_StartButton' onClick={handleStartGame}> Start</div>
                         <div className='Lobby_StartButton' onClick={handleCloseLobby}> Close my lobby</div>
                     </div>
                 </div>
