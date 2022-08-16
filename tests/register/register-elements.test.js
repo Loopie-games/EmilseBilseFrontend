@@ -3,7 +3,7 @@ import { Selector } from 'testcafe'
 
 
 // eslint-disable-next-line no-undef
-fixture`Testing elements on index`.page("http://185.51.76.204:9090/register")
+fixture`Testing elements on register`.page("http://185.51.76.204:9090/register")
 
 /**
  * Tests for elements existance
