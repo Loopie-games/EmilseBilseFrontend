@@ -38,3 +38,7 @@ test("Test login submit-button exists", async t => {
 test("Test sign up text exists", async t => {
     await t.expect(Selector('.Login-NeedAccountButton > a:nth-child(1)').exists).eql(true)
 })
+
+test("Test error message empty fields", async t => {
+    await t.click(Selector(".Login-Button")).expect(Selector(".Login-Component > div:nth-child(2)").innerText).eql("Incorrect username or password")
+})
