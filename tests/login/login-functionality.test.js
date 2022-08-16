@@ -1,14 +1,11 @@
 /* eslint-disable testing-library/await-async-utils */
 /* eslint-disable jest/valid-title */
-import { Selector, ClientFunction } from "testcafe";
+import { Selector } from "testcafe";
+import { GetLocation } from "../util/util";
 
 // eslint-disable-next-line no-undef
 fixture`Testing functionality on/from login-page`.page("http://185.51.76.204:9090/login")
 
-/**
- * Constant variables and anonymous variables
- */
-const getLocation = ClientFunction(() => document.location.href);
 
 /**
  * Tests
@@ -19,7 +16,7 @@ test("Test login with correct information redirects and logs in", async t => {
         .typeText(Selector('div.Login-InputWrapper:nth-child(2) > div:nth-child(2) > input:nth-child(2)'), "GULLEROD4")
         .click(Selector(".Login-Button"))
         .wait(10000)    //Needed because it takes 2387 days to redirect, for some reason
-        .expect(getLocation())
+        .expect(GetLocation())
         .eql("http://185.51.76.204:9090/")
 })
 
