@@ -30,7 +30,6 @@ const LobbyPage = () => {
     }
 
     const handleStartGame = async () => {
-        console.log("handle start game")
         let sg: StartGameDto = {userId: userStore.user!.id, lobbyId: gameStore.lobby!.id}
         await gameStore.startGame(sg, ()=>{
            navigate('/game')

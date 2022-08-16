@@ -71,7 +71,6 @@ export default class GameStore {
     }
 
     startGame = async (sg: StartGameDto, callBack: Function) => {
-        console.log("game store")
         this.hubConnection?.invoke('StartGame', sg)
         this.hubConnection?.on('gameStarting', async() => {
             runInAction( async() => {
