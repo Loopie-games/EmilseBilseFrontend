@@ -18,10 +18,12 @@ export default class GameStore {
 
     createHubConnection = async () => {
         this.hubConnection = new HubConnectionBuilder()
-            .withUrl(process.env.REACT_APP_GAME_SOCKET !== undefined ? process.env.REACT_APP_GAME_SOCKET : "http://localhost:5121/")
+            .withUrl(process.env.REACT_APP_GAME_SOCKET !== undefined ? process.env.REACT_APP_GAME_SOCKET : "http://localhost:5121/", {accessTokenFactory: () => localStorage.getItem("token")!.toString()})
             .withAutomaticReconnect()
             .configureLogging(LogLevel.Information)
             .build();
+
+
 
         await this.hubConnection.start()
             .then(result => console.log("connected"))
