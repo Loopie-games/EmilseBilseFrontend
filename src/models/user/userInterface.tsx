@@ -5,11 +5,10 @@ export interface UserDTO {
     profilePicture?: string
 }
 
-export interface SimpleUser {
-    id?: string
+export interface SimpleUserDTO {
     username: string
-    nickname?: string
-    profilePicture?: string
+    nickname: string
+    profilePicUrl?: string
 }
 
 export interface CreateUserDTO {

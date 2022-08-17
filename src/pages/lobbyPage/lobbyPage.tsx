@@ -13,12 +13,19 @@ const LobbyPage = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        listenForGameStarting()
         /*
         return () => {
             gameStore.leaveLobby(gameStore.lobby!.id, userStore.user!.id)
         }
          */
     }, [])
+
+    const listenForGameStarting = async() => {
+        await gameStore.gameStarting(()=>{
+            navigate('/game')
+        });
+    }
 
     const savePinToClipboard = () => {
         navigator.clipboard.writeText(gameStore.lobby!.pin);
@@ -54,7 +61,7 @@ const LobbyPage = () => {
                 </div>
                 <div className='Lobby_PlayerContainer'>
                     {gameStore.lobbyPlayers.map((player) => (
-                        <UserComponent user={player} />
+                        <UserComponent {...player} />
                     ))}
                 </div>
             </div>
