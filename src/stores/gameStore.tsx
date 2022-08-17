@@ -11,6 +11,7 @@ export default class GameStore {
     @observable tiles: any[] = [{ id: 1, action: 'test action', to: 'test to', by: 'test by', shown: false }]
     @observable players: any[] = [{ username: 'Test', nickname: 'Hovedskovasddasdas' }]
     @observable lobbyPlayers: pendingPlayerDto[] = [];
+    @observable gameId: string | undefined;
     hubConnection: HubConnection | null = null;
 
     constructor() {
@@ -92,9 +93,11 @@ export default class GameStore {
     }
 
     gameStarting = async(gameStarting: Function) => {
-        this.hubConnection?.on('gameStarting', async() => {
+        this.hubConnection?.on('gameStarting', async(gameId: string) => {
             runInAction( async() => {
+                this.gameId = await gameId;
                 gameStarting()
+                return
             })
         })
         return

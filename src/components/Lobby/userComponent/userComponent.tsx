@@ -14,7 +14,6 @@ const UserComponent = (user: pendingPlayerDto) => {
     }
 
     useEffect(() =>{
-        console.log(user)
     },[])
 
     return (
