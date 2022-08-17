@@ -1,38 +1,40 @@
 import { observer } from 'mobx-react-lite';
 import React, { useEffect, useState } from 'react'
+import { BoardTileDTO } from '../../../models/tile/tileInterface';
 import colorLookupService from '../../../services/colorLookupService';
 import { useStore } from '../../../stores/store';
 import './tiles.scss'
 
-const Tiles = ({ tile }: any) => {
+const Tiles = (tile: BoardTileDTO)  => {
     const { gameStore } = useStore();
     const [color, setColor] = useState('');
+    const [isShown, setIsShown] = useState(false)
     useEffect(() => {
         setColor(colorLookupService.generateRandomAppropriateColor());
     }, [])
 
     const handleShow = () => {
-        tile.shown = !tile.shown;
+        setIsShown(!isShown)
     }
 
     return (
-        <div className={`Tile_Container ${tile.shown ? 'shown' : ''}`} onClick={handleShow}>
+        <div className={`Tile_Container ${isShown ? 'shown' : ''}`} onClick={handleShow}>
             <div className='Tile_IndicatorContainer'>
                 <div className='Tile_Indicator' style={{ backgroundColor: color }}>
-                    {tile.id}
+                    {tile.position}
                 </div>
             </div>
             <div className='Tile_ActionContainer'>
-                <div className={`Tile_Action ${tile.shown ? 'shown' : ''}`}>
-                    {tile.action}
+                <div className={`Tile_Action ${isShown ? 'shown' : ''}`}>
+                    {tile.tile.user.nickname} {tile.tile.action}
                 </div>
-                {tile.shown ?
+                {isShown ?
                     <>
                         <div className='Tile_ActionTo'>
-                            To whoom: {tile.to}
+                            To whoom: {tile.tile.user.username}
                         </div>
                         <div className='Tile_ActionBy'>
-                            by whoom: {tile.by}
+                            by whoom: {tile.tile.addedBy.nickname}
                         </div>
                     </>
                     : null}

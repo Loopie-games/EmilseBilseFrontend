@@ -4,11 +4,14 @@ import { GameRoom, Lobby, CloseLobbyDto, LeaveLobbyDto, StartGameDto } from "../
 import { UserDTO } from "../models/user/userInterface";
 import { useNavigate } from 'react-router-dom';
 import { pendingPlayerDto } from "../models/player/playerInterface";
+import boardService from "../services/boardService";
+import { BoardTileDTO } from "../models/tile/tileInterface";
 
 export default class GameStore {
+
     @observable gameRoom: GameRoom | undefined;
     @observable lobby: Lobby | undefined;
-    @observable tiles: any[] = [{ id: 1, action: 'test action', to: 'test to', by: 'test by', shown: false }]
+    @observable tiles: BoardTileDTO[] = [];
     @observable players: any[] = [{ username: 'Test', nickname: 'Hovedskovasddasdas' }]
     @observable lobbyPlayers: pendingPlayerDto[] = [];
     @observable gameId: string | undefined;
@@ -17,7 +20,6 @@ export default class GameStore {
     constructor() {
         makeAutoObservable(this);
     }
-
     createHubConnection = async () => {
         this.hubConnection = new HubConnectionBuilder()
             .withUrl(process.env.REACT_APP_GAME_SOCKET !== undefined ? process.env.REACT_APP_GAME_SOCKET : "http://localhost:5121/", {accessTokenFactory: () => localStorage.getItem("token")!.toString()})
@@ -32,6 +34,10 @@ export default class GameStore {
             .catch(error => {
                 console.log(error)
             });
+
+        this.listenForBoardReady(()=>{
+            console.log("boardReady")
+        })
 
         this.hubConnection.on('server_StartGame', (game) => {
             runInAction(() => {
@@ -76,11 +82,7 @@ export default class GameStore {
 
     startGame = async (sg: StartGameDto, callBack: Function) => {
         this.hubConnection?.invoke('StartGame', sg)
-        this.hubConnection?.on('gameStarting', async() => {
-            runInAction( async() => {
-                callBack()
-            })
-        })
+        await this.gameStarting(callBack);
         return
     }
 
@@ -100,6 +102,9 @@ export default class GameStore {
                 return
             })
         })
+        this.listenForBoardReady(()=>{
+            console.log("boardReady2")
+        })
         return
     }
 
@@ -115,6 +120,23 @@ export default class GameStore {
     leaveLobby = async (lobbyId: string, userId: string) => {
         let ll: LeaveLobbyDto = { lobbyID: lobbyId, userID: userId }
         this.hubConnection?.invoke('LeaveLobby', ll)
+    }
+
+    listenForBoardReady = async(callback: Function) =>{
+        this.hubConnection?.on('boardReady', async(boardId)=>{
+            await this.getByBoardId(await boardId)
+            console.log(boardId)
+            callback
+            return
+        })
+        return
+    }
+
+    @action
+    getByBoardId = async (boardId: string) => {
+        const response = await boardService.getByBoardId(boardId)
+        this.tiles = await response.data
+        return response;
     }
 
 }

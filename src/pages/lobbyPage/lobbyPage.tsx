@@ -23,7 +23,6 @@ const LobbyPage = () => {
 
     const listenForGameStarting = async() => {
         await gameStore.gameStarting(()=>{
-            console.log(gameStore.gameId)
             navigate('/game')
         });
     }
