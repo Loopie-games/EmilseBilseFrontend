@@ -8,12 +8,12 @@ import './friendsPage.scss'
 const FriendsPage = () => {
     const t2 = [{ r1: "asd", a2: "asd" }, { r1: "a123", a2: "123" }]
 
-    const [filteredList, setFilteredList] = useState(t2);
+    const { friendshipStore } = useStore();
+    const [filteredList, setFilteredList] = useState(friendshipStore._friendlist);
     const [search, setSearch] = useState('');
     const [loading, setLoading] = useState(true);
     const params = useParams();
     const navigate = useNavigate()
-    const { friendshipStore } = useStore();
 
 
     useEffect(() => {
@@ -22,6 +22,9 @@ const FriendsPage = () => {
         const loadData = async () => {
             await friendshipStore.getFriendList(params.id!);
             setLoading(false);
+            console.log('====================================');
+            console.log(friendshipStore._friendlist);
+            console.log('====================================');
         }
 
         params.id !== undefined ? loadData() : setLoading(false);
@@ -29,13 +32,13 @@ const FriendsPage = () => {
 
     const handleSearch = (e: any) => {
         const search = e.target.value;
-        const filtered = t2.filter(t => t.r1.includes(search) || t.a2.includes(search));
-        setFilteredList(search.length > 0 ? filtered : t2);
+        const filtered = friendshipStore._friendlist!.filter(t => t.username.toLowerCase().includes(search.toLowerCase()) || t.nickname.toLowerCase().includes(search.toLowerCase()));
+        setFilteredList(search.length > 0 ? filtered : friendshipStore._friendlist!);
         setSearch(search);
     }
 
     const handleClearSearch = () => {
-        setFilteredList(t2);
+        setFilteredList(friendshipStore._friendlist!);
         setSearch('');
     }
 
@@ -55,7 +58,7 @@ const FriendsPage = () => {
                         </div>
                     </div>
                     <div className='FriendsPage-FriendsContainer'>
-                        <Friends />
+                        {filteredList?.map((t, i) => <Friends key={i} {...t} />)}
                     </div>
                 </div>
             }

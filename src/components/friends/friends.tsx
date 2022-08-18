@@ -1,14 +1,20 @@
 import { useState } from 'react'
+import { Friend } from '../../models/friendship/friendInterface';
+import { TileNewFromUser } from '../../models/tile/tileInterface';
+import { useStore } from '../../stores/store';
 import Icon from '../shared/icon/Icon';
 import './friends.scss'
 
-const Friends = () => {
+const Friends = (friend: Friend) => {
     const [addShown, setAddShown] = useState(false);
     const [expanded, setExpanded] = useState(false);
+    const [action, setAction] = useState('');
     const defaultPic = 'https://as2.ftcdn.net/v2/jpg/02/15/84/43/1000_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg'
-
+    const { tileStore } = useStore();
 
     const handleAddClick = () => {
+        const data: TileNewFromUser = { action: action, aboutId: friend.id }
+        tileStore.createNewTile_User(data);
         setAddShown(false);
     }
     const handleExpand = () => {
@@ -31,15 +37,14 @@ const Friends = () => {
         return '60px';
     }
 
-
     return (
         <div className='Friends-Container' style={{ "height": getHeight() }}>
             <div className='Friends-Wrapper'>
                 <div className='Friends-ChevronContainer' onClick={handleExpand} style={{ 'animation': expanded ? 'openChevron 0.2s forwards ease-in' : 'closeChevron 0.2s forwards ease-out' }}><Icon name="dropdown-arrow" /></div>
                 <div className='Friends-ProfilePicContainer'><img className='LoggedInUser-UserProfilePic' src={defaultPic} /></div>
                 <div className='Friends-UserInfoContainer'>
-                    <div className='Friends-UserInfoNickname'>nickname</div>
-                    <div className='Friends-UserInfoUsername'>username</div>
+                    <div className='Friends-UserInfoNickname'>{friend.nickname}</div>
+                    <div className='Friends-UserInfoUsername'>{friend.username}</div>
                 </div>
                 <div className='Friends-IconContainer' onClick={() => setAddShown(!addShown)} style={{ 'animation': addShown ? 'openAdd 0.2s forwards ease-in' : 'closeAdd 0.2s forwards ease-out' }}> <Icon name="add-circle" /> </div>
                 <div className='Friends-IconContainer'> <Icon name="cross-blue" /> </div>
@@ -49,7 +54,7 @@ const Friends = () => {
                     <div className='Friends-AddTileTitle'>Add title</div>
                     <div className='Friends-AddTileInputContainer'>
                         <div className='Friends-AddTileInput'>
-                            <input type="text" />
+                            <input type="text" onChange={(e) => setAction(e.target.value)} />
                         </div>
                         <div className='Friends-AddTileButton' onClick={handleAddClick}>Add</div>
                     </div>

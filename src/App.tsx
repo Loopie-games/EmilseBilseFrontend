@@ -30,11 +30,9 @@ function App() {
 
   const { userStore } = useStore();
   useEffect(() => {
-    /*
     if (localStorage.getItem('userId') !== null) {
       userStore.getById(localStorage.getItem('userId') ?? '');
     }
-        */
   }, [])
 
 
