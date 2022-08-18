@@ -13,7 +13,7 @@ const Friends = (friend: Friend) => {
     const { tileStore } = useStore();
 
     const handleAddClick = () => {
-        const data: TileNewFromUser = { action: action, aboutId: friend.id }
+        const data: TileNewFromUser = { action: action, aboutUserId: friend.id }
         tileStore.createNewTile_User(data);
         setAddShown(false);
     }

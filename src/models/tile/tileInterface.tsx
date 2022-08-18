@@ -1,6 +1,6 @@
 import { SimpleUserDTO } from "../user/userInterface";
 
-export interface TileForUser{
+export interface TileForUser {
     id: string
     userNickname: string
     action: string
@@ -9,7 +9,7 @@ export interface TileForUser{
 
 export interface TileNewFromUser {
     action: string
-    aboutUsername: string
+    aboutUserId: string
 }
 
 export interface TileDto {
