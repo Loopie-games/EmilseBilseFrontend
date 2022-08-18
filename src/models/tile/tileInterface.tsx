@@ -7,8 +7,7 @@ export interface TileForUser{
     addedByNickname: string
 }
 
-export interface TileNewFromUser{
-    addedByUserId: string
+export interface TileNewFromUser {
     action: string
     aboutUsername: string
 }

@@ -14,6 +14,7 @@ import LobbyPage from './pages/lobbyPage/lobbyPage';
 import GameboardPage from './pages/gameboardPage/gameboardPage';
 import RequireLobby from './components/shared/requireLobby/RequireLobby';
 import PageNotFound from './pages/pageNotFound/pageNotFound';
+import FriendsPage from './pages/friendsPage/friendsPage';
 
 function App() {
   const routes = [
@@ -23,16 +24,15 @@ function App() {
     { path: "/home", element: <RequireAuth><HomePage /></RequireAuth> },
     { path: "/Lobby", element: <RequireLobby><LobbyPage /></RequireLobby> },
     { path: "/game", element: <GameboardPage /> },
+    { path: "/user/friendlist/:id", element: <FriendsPage /> },
     { path: "*", element: <PageNotFound /> }
   ];
 
   const { userStore } = useStore();
   useEffect(() => {
-    /*
     if (localStorage.getItem('userId') !== null) {
       userStore.getById(localStorage.getItem('userId') ?? '');
     }
-        */
   }, [])
 
 
