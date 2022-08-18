@@ -28,6 +28,7 @@ const LoggedInNavbar = () => {
 
     const handleLogout = () => {
         userStore.logout();
+        navigate('/');
     }
 
     return (

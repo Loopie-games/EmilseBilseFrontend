@@ -24,7 +24,7 @@ const Board = () => {
     }
 
     const test = (tile: any) => {
-        gameStore.tiles[0].shown = !gameStore.tiles[0].shown;
+        gameStore.tiles![0].isActivated = !gameStore.tiles![0].isActivated;
     }
 
     const handleClick = (e: any) => {
