@@ -10,19 +10,16 @@ pipeline {
     stages {
 	    stage('Building') {
             steps{
+                sh "echo '[Frontend] Building...'"
                 sh "npm install"
                 sh "CI=False npm run build"
             }
-        }
-
-        stage("Testing"){
-            steps {
-                sh "npm install testcafe testcafe-reporter-xunit"
-                sh "node_modules/.bin/testcafe firefox:headless tests/**/* -r xunit:res.xml"
-                junit 'res.xml'
+            post {
+                success {
+                    sh "echo 'Frontend built successfully'"
+                }
             }
         }
-
         stage("Reset containers"){
             steps{
                 script {

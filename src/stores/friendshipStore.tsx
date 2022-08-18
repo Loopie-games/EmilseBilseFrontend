@@ -9,13 +9,12 @@ export class FriendshipStore {
     getFriendList = async (userId: string) => {
         const response = await FriendshipService.getFriendsByUserId(userId)
         this._friendlist = response.data;
-        return response.data;
     }
 
     @action
     setFriends = (friends: Friend[]) => {
         this._friendlist = friends
-    }
+}
 
 
     constructor() {

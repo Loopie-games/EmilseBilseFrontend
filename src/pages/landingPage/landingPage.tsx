@@ -20,10 +20,14 @@ const LandingPage = () => {
         console.log('====================================');
         console.log(`${process.env.NODE_ENV}`);
         console.log('====================================');
+
+        gameStore.createHubConnection();
+
     }, []);
 
     const handlePinChange = (e: any) => {
         setPinValue(e.target.value);
+        console.log(pinValue);
     }
 
     const checkPinLength = () => {
@@ -35,9 +39,9 @@ const LandingPage = () => {
             navigate('/login');
         }
         else {
-            await gameStore.createHubConnection();
-            await gameStore.joinLobby(userStore.user!.id, pinValue,
-                () => { navigate('/lobby') });
+            console.log(userStore.user!.id + " " + pinValue)
+            await gameStore.joinLobby(userStore.user!.id, pinValue)
+            navigate('/lobby');
         }
         return
     }
@@ -46,9 +50,8 @@ const LandingPage = () => {
         if (userStore.user === undefined) {
             navigate('/login');
         } else {
-            await gameStore.createHubConnection();
-            await gameStore.createLobby(userStore.user.id,
-                () => { navigate('/lobby') });
+            await gameStore.createLobby(userStore.user.id);
+            navigate('/lobby/');
         }
         return
     }

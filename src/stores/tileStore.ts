@@ -11,17 +11,15 @@ export class TileStore {
     }
 
     @action
-    getAboutUserById_TileForUser = async (userId: string) => {
+    getAboutUserById_TileForUser = async (userId: string) =>{
         const response = await tileService.getAboutUserById_TileForUser(userId)
         this.tilesAboutUser = response.data
-        return response;
     }
 
     @action
     createNewTile_User = async (tile: TileNewFromUser) => {
         const response = await tileService.createTile(tile)
         this.createdtile = response.data
-        return response;
     }
 
 }
