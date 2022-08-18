@@ -6,6 +6,7 @@ import RegisterPage from './pages/registerPage/registerPage';
 import LoginPage from './pages/LoginPage/loginPage';
 import HomePage from './pages/homePage/homePage';
 import Navbar from './components/shared/navbar/Navbar';
+import TestPage from './pages/test/testPage';
 import { useStore } from './stores/store';
 import RequireAuth from './components/shared/requireAuth/RequireAuth';
 import { observer } from 'mobx-react-lite';
@@ -27,9 +28,11 @@ function App() {
 
   const { userStore } = useStore();
   useEffect(() => {
+    /*
     if (localStorage.getItem('userId') !== null) {
       userStore.getById(localStorage.getItem('userId') ?? '');
     }
+        */
   }, [])
 
 
