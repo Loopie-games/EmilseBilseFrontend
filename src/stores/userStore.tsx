@@ -1,5 +1,7 @@
 import { action, makeAutoObservable, observable } from "mobx";
+import { useHref } from "react-router-dom";
 import { CreateUserDTO, LoginDTO, LoginResponseDTO, UserDTO } from "../models/user/userInterface";
+import cloudinaryService from "../services/cloudinaryService";
 import securityService from "../services/securityService";
 import userService from "../services/userService";
 
@@ -17,41 +19,56 @@ export class UserStore {
     create = async (data: CreateUserDTO) => {
         data.salt = decodeURIComponent(await securityService.generateSalt());
         data.password = decodeURIComponent(await securityService.hashPassword(data.password, data.salt));
-        console.log(data)
         let response = await userService.createUser(data)
-        console.log(response)
         this.user = response.data
+        return response.data;
     }
 
     @action
     getById = async (userId: string) => {
         const response = await userService.getById(userId)
         this.user = response.data
-
-        console.log(this.user);
-
+        return response.data;
     }
 
     @action
     login = async (data: LoginDTO) => {
+        localStorage.removeItem("token")
+        await localStorage.removeItem("userId");
+
         const salt = await (await userService.getSaltByUsername(data.username)).data;
+        if (salt === null) {
+            return
+        }
         const password = await securityService.hashPassword(data.password, salt);
 
         data.password = password;
 
         const response = await userService.login({ username: data.username, password: data.password });
-        this.loginResponse = response.data;
-        console.log(this.loginResponse)
+        this.loginResponse = await response.data;
         if (this.loginResponse !== undefined) {
-            localStorage.setItem("Token", this.loginResponse?.token);
-            localStorage.setItem("userId", this.loginResponse.userId);
-            this.getById(this.loginResponse.userId)
+            await localStorage.setItem("token", this.loginResponse?.jwt);
+            await localStorage.setItem("userId", this.loginResponse.uuid);
+            await this.getById(this.loginResponse.uuid)
         }
+        return this.loginResponse;
     }
 
     @action
     logout() {
         localStorage.removeItem("userId");
         this.user = undefined;
+
+    }
+
+    @action
+    updateProfilePic = async (file: File) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', 'profileImage');
+        let newProfilePicURL = await cloudinaryService.uploadProfilePic(formData);
+        console.log('====================================');
+        console.log(newProfilePicURL);
+        console.log('====================================');
     }
 }
