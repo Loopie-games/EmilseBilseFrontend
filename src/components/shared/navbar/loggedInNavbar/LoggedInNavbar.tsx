@@ -44,7 +44,7 @@ const LoggedInNavbar = () => {
                             <Icon name="friendslist" />
                         </div>
                         <div className='LoggedInNavbar-DropDownItemText'>
-                            <Link to={'/user/friendslist'}>Friendslist</Link>
+                            <Link to={`/user/friendlist/${userStore.user?.id}`}>Friendslist</Link>
                         </div>
                     </div>
                     <div className='LoggedInNavbar-DropDownItem'>
