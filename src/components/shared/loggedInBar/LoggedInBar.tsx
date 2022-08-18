@@ -1,6 +1,8 @@
+import { wait } from '@testing-library/user-event/dist/utils';
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useStore } from '../../../stores/store';
+import Icon from '../icon/Icon';
 import './LoggedInBar.scss'
 
 const LoggedInBar = () => {
@@ -16,28 +18,31 @@ const LoggedInBar = () => {
 
 
     const checkIfBlacklistedRoute = (path: string) => {
-        console.log('====================================');
-        console.log(barBlacklistRoutes.some(route => route === path));
-        console.log('====================================');
         return barBlacklistRoutes.some(route => route === path);
     }
+
 
     return (
         <>
             {checkIfBlacklistedRoute(window.location.pathname) ? null :
                 <>
                     <div className={`LoggedInBar-Container ${isShown ? 'shown' : ''}`} onClick={() => setIsShown(!isShown)}>
-                        <div className='LoggedInBar-Wrapper'>
-                            <div className='LoggedInBar-ComponentTitle'>Profile</div>
-                            <div className='LoggedInBar-ComponentContainer'>
-                                {profileSubLinks.map((subLink, index) => {
-                                    return (
-                                        <div className='LoggedInBar-Component' key={index} onClick={() => navigate(subLink.link)}>
-                                            <div>Icon</div>
-                                            <div>{subLink.name}</div>
-                                        </div>
-                                    )
-                                })}
+                        <div className={`LoggedInBar-Wrapper ${isShown ? 'asdasdasd ' : ''}`}>
+                            <div className={`LoggedInBar-ComponentTitle ${isShown ? 'shown' : ''}`}>
+                                <div className='LoggedInBar-ComponentTitleIcon'><Icon name="profile" /></div>
+                                <div className='LoggedInBar-ComponentTitleText shown'>Profile</div>
+                            </div>
+                            <div className={`LoggedInBar-ComponentContainer ${isShown ? 'asdasd' : ''}`}>
+                                {
+                                    profileSubLinks.map((subLink, index) => {
+                                        return (
+                                            <div className={`LoggedInBar-ComponentTitle ${isShown ? 'shown' : ''}`} key={index} onClick={() => navigate(subLink.link)}>
+                                                <div className='LoggedInBar-ComponentTitleIcon'><Icon name="profile" /></div>
+                                                <div className='LoggedInBar-ComponentTitleText shown'>{subLink.name}</div>
+                                            </div>
+                                        )
+                                    })
+                                }
                             </div>
                         </div>
                         <div>FriendList</div>
