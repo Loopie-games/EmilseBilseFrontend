@@ -56,9 +56,8 @@ export class UserStore {
 
     @action
     logout() {
-        localStorage.removeItem("userId");
+        localStorage.clear();
         this.user = undefined;
-
     }
 
     @action

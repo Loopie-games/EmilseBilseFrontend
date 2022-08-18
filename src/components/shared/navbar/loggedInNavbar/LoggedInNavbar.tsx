@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useStore } from '../../../../stores/store';
 import Icon from '../../icon/Icon';
 import './LoggedInNavbar.scss'
 const LoggedInNavbar = () => {
     const location = useLocation();
+    const navigate = useNavigate();
     const { userStore } = useStore();
     const defaultPic = 'https://as2.ftcdn.net/v2/jpg/02/15/84/43/1000_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg'
 
@@ -12,6 +13,7 @@ const LoggedInNavbar = () => {
 
     const handleLogout = () => {
         userStore.logout();
+        navigate('/');
     }
 
     return (
