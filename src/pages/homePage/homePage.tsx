@@ -64,7 +64,7 @@ const HomePage = () =>{
                         Friends:
                         <ul>{friendshipStore._friendlist!.map((friend) =>
                         <li key = {friend.id}>
-                            {friend.nickname}
+                            {friend.user.nickname}
                         </li>
                         )}</ul>
                         <br/>

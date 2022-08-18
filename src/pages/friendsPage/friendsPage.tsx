@@ -32,7 +32,7 @@ const FriendsPage = () => {
 
     const handleSearch = (e: any) => {
         const search = e.target.value;
-        const filtered = friendshipStore._friendlist!.filter(t => t.username.toLowerCase().includes(search.toLowerCase()) || t.nickname.toLowerCase().includes(search.toLowerCase()));
+        const filtered = friendshipStore._friendlist!.filter(t => t.user.username.toLowerCase().includes(search.toLowerCase()) || t.user.nickname.toLowerCase().includes(search.toLowerCase()));
         setFilteredList(search.length > 0 ? filtered : friendshipStore._friendlist!);
         setSearch(search);
     }

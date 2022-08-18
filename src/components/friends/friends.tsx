@@ -13,7 +13,7 @@ const Friends = (friend: Friend) => {
     const { tileStore } = useStore();
 
     const handleAddClick = () => {
-        const data: TileNewFromUser = { action: action, aboutUserId: friend.id }
+        const data: TileNewFromUser = { action: action, aboutUserId: friend.user.id!}
         tileStore.createNewTile_User(data);
         setAddShown(false);
     }
@@ -43,8 +43,8 @@ const Friends = (friend: Friend) => {
                 <div className='Friends-ChevronContainer' onClick={handleExpand} style={{ 'animation': expanded ? 'openChevron 0.2s forwards ease-in' : 'closeChevron 0.2s forwards ease-out' }}><Icon name="dropdown-arrow" /></div>
                 <div className='Friends-ProfilePicContainer'><img className='LoggedInUser-UserProfilePic' src={defaultPic} /></div>
                 <div className='Friends-UserInfoContainer'>
-                    <div className='Friends-UserInfoNickname'>{friend.nickname}</div>
-                    <div className='Friends-UserInfoUsername'>{friend.username}</div>
+                    <div className='Friends-UserInfoNickname'>{friend.user.nickname}</div>
+                    <div className='Friends-UserInfoUsername'>{friend.user.username}</div>
                 </div>
                 <div className='Friends-IconContainer' onClick={() => setAddShown(!addShown)} style={{ 'animation': addShown ? 'openAdd 0.2s forwards ease-in' : 'closeAdd 0.2s forwards ease-out' }}> <Icon name="add-circle" /> </div>
                 <div className='Friends-IconContainer'> <Icon name="cross-blue" /> </div>
