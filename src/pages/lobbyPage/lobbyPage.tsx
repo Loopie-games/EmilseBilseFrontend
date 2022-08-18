@@ -45,7 +45,6 @@ const LobbyPage = () => {
 
     return (
         <div className='Lobby_Container'>
-            <div className='Lobby_NavBackground'></div>
             <div className='Lobby_Wrapper'>
                 <div className='Lobby_Title'>
                     Lobby
