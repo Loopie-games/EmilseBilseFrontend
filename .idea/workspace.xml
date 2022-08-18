@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="95ab0aca-e3bd-4f58-a05b-c1aa8ae3437f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/friends/friends.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/friends/friends.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/http-common.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/http-common.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/friendship/friendInterface.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/friendship/friendInterface.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/friendsPage/friendsPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/friendsPage/friendsPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/homePage/homePage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/homePage/homePage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/user/userInterface.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/user/userInterface.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

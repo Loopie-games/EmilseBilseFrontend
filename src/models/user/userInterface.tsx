@@ -6,7 +6,7 @@ export interface UserDTO {
 }
 
 export interface SimpleUserDTO {
-    id?: string
+    id: string
     username: string
     nickname: string
     profilePicUrl?: string
