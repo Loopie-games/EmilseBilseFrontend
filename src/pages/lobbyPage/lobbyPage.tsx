@@ -35,12 +35,8 @@ const LobbyPage = () => {
     }
 
     const handleCloseLobby = async () => {
-
         await gameStore.leaveLobby(gameStore.lobby!.id, userStore.user!.id)
         navigate('/')
-        console.log('====================================');
-        console.log(gameStore.lobby?.host);
-        console.log('====================================');
     }
 
     const handleStartGame = async () => {
@@ -63,7 +59,7 @@ const LobbyPage = () => {
                     <div className='Lobby_ButtonsContainer'>
                         {gameStore.lobby?.host === userStore.user!.id ?
                             <div className='Lobby_StartButton' onClick={handleStartGame}> Start</div> : null}
-                        <div className='Lobby_StartButton' onClick={handleCloseLobby}> Close my lobby</div>
+                        <div className='Lobby_StartButton' onClick={handleCloseLobby}>{`${gameStore.lobby?.host === userStore.user?.id ? 'Close Lobby' : 'Leave Lobby'}`}</div>
                     </div>
                 </div>
                 <div className='Lobby_PlayerContainer'>
