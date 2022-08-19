@@ -44,7 +44,6 @@ const FriendsPage = () => {
 
     return (
         <div className='FriendsPage-Container'>
-            <div className='FriendsPage-NavBackground'></div>
             {loading ? <div className='FriendsPage-Loading'>Loading...</div> :
                 <div className='FriendsPage-Wrapper'>
                     <div className='FriendsPage-Title'>Friendlist</div>
