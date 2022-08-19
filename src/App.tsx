@@ -17,6 +17,7 @@ import PageNotFound from './pages/pageNotFound/pageNotFound';
 import LoggedInBar from './components/shared/loggedInBar/LoggedInBar';
 
 function App() {
+  const { userStore } = useStore()
   const routes = [
     { path: "/", element: <LandingPage /> },
     { path: "/register", element: <RegisterPage /> },
@@ -26,8 +27,7 @@ function App() {
     { path: "/game", element: <GameboardPage /> },
     { path: "*", element: <PageNotFound /> }
   ];
-
-  const { userStore } = useStore();
+  ;
   useEffect(() => {
     if (localStorage.getItem('userId') !== null) {
       userStore.getById(localStorage.getItem('userId') ?? '');
