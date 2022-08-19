@@ -1,5 +1,7 @@
+import { SimpleUserDTO } from "../user/userInterface";
+
 export interface Friend {
     id: string
-    username: string
-    nickname: string
+    user: SimpleUserDTO
+    isAccepted: boolean
 }

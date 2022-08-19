@@ -8,7 +8,6 @@ const TestPage = () => {
 
   const handleCreateTile = (username: string) => {
     let addedByUserId = userStore.user?.id !== undefined ? userStore.user?.id : '';
-    tileStore.createNewTile_User({ addedByUserId: addedByUserId, action: tile, aboutUsername: username });
   }
 
   const loadFriends = async () => {

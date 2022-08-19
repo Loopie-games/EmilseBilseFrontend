@@ -26,6 +26,11 @@ export interface LeaveLobbyDto{
     userID: string
 }
 
+export interface StartGameDto{
+    lobbyId:string
+    userId: string
+}
+
 export interface Board {
     owner: UserDTO
     tiles: GameTile[]
