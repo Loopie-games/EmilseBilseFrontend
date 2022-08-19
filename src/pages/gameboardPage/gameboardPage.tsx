@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import React, {useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Board from '../../components/gameBoard/board/board';
 import Player from '../../components/gameBoard/player/player';
 import Tiles from '../../components/gameBoard/tiles/tiles';
@@ -12,12 +12,12 @@ const GameboardPage = () => {
     const [playersShown, setPlayersShown] = useState(false);
     const { gameStore } = useStore();
 
-    useEffect(()=>{
+    useEffect(() => {
         waitForBoard()
     }, [])
 
-    const waitForBoard = async() =>{
-        await gameStore.listenForBoardReady(()=>{
+    const waitForBoard = async () => {
+        await gameStore.listenForBoardReady(() => {
             console.log(gameStore.tiles[0])
         });
     }
@@ -31,7 +31,6 @@ const GameboardPage = () => {
 
     return (
         <div className='Gameboard_Container'>
-            <div className='Gameboard_NavBackground'></div>
             <div className='Gameboard_Wrapper'>
                 <div className={`Gameboard_TracklistContainer ${tasklistShown ? 'shown' : ''}`}>
                     <div onClick={() => toggleTasklist()} className={`Gameboard_TracklistTitle ${tasklistShown ? 'shown' : ''}`}>{tasklistShown ? 'Tasklist' : 'T'}</div>

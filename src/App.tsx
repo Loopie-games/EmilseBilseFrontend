@@ -14,9 +14,11 @@ import LobbyPage from './pages/lobbyPage/lobbyPage';
 import GameboardPage from './pages/gameboardPage/gameboardPage';
 import RequireLobby from './components/shared/requireLobby/RequireLobby';
 import PageNotFound from './pages/pageNotFound/pageNotFound';
+import LoggedInBar from './components/shared/loggedInBar/LoggedInBar';
 import FriendsPage from './pages/friendsPage/friendsPage';
 
 function App() {
+  const { userStore } = useStore()
   const routes = [
     { path: "/", element: <LandingPage /> },
     { path: "/register", element: <RegisterPage /> },
@@ -27,15 +29,12 @@ function App() {
     { path: "/user/friendlist/:id", element: <FriendsPage /> },
     { path: "*", element: <PageNotFound /> }
   ];
-
-  const { userStore } = useStore();
+  ;
   useEffect(() => {
     if (localStorage.getItem('userId') !== null) {
       userStore.getById(localStorage.getItem('userId') ?? '');
     }
   }, [])
-
-
 
   return (
     <div className="App">
@@ -45,7 +44,11 @@ function App() {
             <Route key={index} path={route.path} element={
               <>
                 <Navbar />
-                {route.element}
+                <div style={{ "height": "70px", "width": "100%", "backgroundColor": "#24292f" }}></div>
+                <div style={{ "display": "flex", "flexDirection": "row", "flex": "1" }}>
+                  {userStore.user !== undefined ? <LoggedInBar /> : null}
+                  {route.element}
+                </div>
               </>
             } />
           ))}
