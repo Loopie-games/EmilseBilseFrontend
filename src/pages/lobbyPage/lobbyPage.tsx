@@ -6,6 +6,7 @@ import { UserDTO } from '../../models/user/userInterface';
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
 import { StartGameDto } from '../../models/game/gameInterfaces';
+import { observe } from 'mobx';
 
 const LobbyPage = () => {
     const { gameStore, userStore } = useStore();
@@ -19,10 +20,12 @@ const LobbyPage = () => {
             gameStore.leaveLobby(gameStore.lobby!.id, userStore.user!.id)
         }
          */
+
+
     }, [])
 
-    const listenForGameStarting = async() => {
-        await gameStore.gameStarting(()=>{
+    const listenForGameStarting = async () => {
+        await gameStore.gameStarting(() => {
             navigate('/game')
         });
     }
@@ -32,14 +35,18 @@ const LobbyPage = () => {
     }
 
     const handleCloseLobby = async () => {
+
         await gameStore.leaveLobby(gameStore.lobby!.id, userStore.user!.id)
         navigate('/')
+        console.log('====================================');
+        console.log(gameStore.lobby?.host);
+        console.log('====================================');
     }
 
     const handleStartGame = async () => {
-        let sg: StartGameDto = {userId: userStore.user!.id, lobbyId: gameStore.lobby!.id}
-        await gameStore.startGame(sg, ()=>{
-           navigate('/game')
+        let sg: StartGameDto = { userId: userStore.user!.id, lobbyId: gameStore.lobby!.id }
+        await gameStore.startGame(sg, () => {
+            navigate('/game')
         })
     }
 
@@ -54,7 +61,8 @@ const LobbyPage = () => {
                         <input type="text" placeholder='Pin Code' maxLength={5} readOnly onClick={() => savePinToClipboard()} value={gameStore.lobby?.pin} />
                     </div>
                     <div className='Lobby_ButtonsContainer'>
-                        <div className='Lobby_StartButton' onClick={handleStartGame}> Start</div>
+                        {gameStore.lobby?.host === userStore.user!.id ?
+                            <div className='Lobby_StartButton' onClick={handleStartGame}> Start</div> : null}
                         <div className='Lobby_StartButton' onClick={handleCloseLobby}> Close my lobby</div>
                     </div>
                 </div>

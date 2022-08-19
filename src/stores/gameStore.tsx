@@ -1,4 +1,4 @@
-import { observable, makeAutoObservable, runInAction, toJS, action } from "mobx";
+import { observable, makeAutoObservable, runInAction, toJS, action, observe, when } from "mobx";
 import { HubConnection, HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { GameRoom, Lobby, CloseLobbyDto, LeaveLobbyDto, StartGameDto } from "../models/game/gameInterfaces";
 import { UserDTO } from "../models/user/userInterface";
@@ -20,9 +20,11 @@ export default class GameStore {
     constructor() {
         makeAutoObservable(this);
     }
+
+
     createHubConnection = async () => {
         this.hubConnection = new HubConnectionBuilder()
-            .withUrl(process.env.REACT_APP_GAME_SOCKET !== undefined ? process.env.REACT_APP_GAME_SOCKET : "http://localhost:5121/", {accessTokenFactory: () => localStorage.getItem("token")!.toString()})
+            .withUrl(process.env.REACT_APP_GAME_SOCKET !== undefined ? process.env.REACT_APP_GAME_SOCKET : "http://localhost:5121/", { accessTokenFactory: () => localStorage.getItem("token")!.toString() })
             .withAutomaticReconnect()
             .configureLogging(LogLevel.Information)
             .build();
@@ -35,7 +37,7 @@ export default class GameStore {
                 console.log(error)
             });
 
-        this.listenForBoardReady(()=>{
+        this.listenForBoardReady(() => {
             console.log("boardReady")
         })
 
@@ -94,15 +96,15 @@ export default class GameStore {
         });
     }
 
-    gameStarting = async(gameStarting: Function) => {
-        this.hubConnection?.on('gameStarting', async(gameId: string) => {
-            runInAction( async() => {
+    gameStarting = async (gameStarting: Function) => {
+        this.hubConnection?.on('gameStarting', async (gameId: string) => {
+            runInAction(async () => {
                 this.gameId = await gameId;
                 gameStarting()
                 return
             })
         })
-        this.listenForBoardReady(()=>{
+        this.listenForBoardReady(() => {
             console.log("boardReady2")
         })
         return
@@ -122,8 +124,8 @@ export default class GameStore {
         this.hubConnection?.invoke('LeaveLobby', ll)
     }
 
-    listenForBoardReady = async(callback: Function) =>{
-        this.hubConnection?.on('boardReady', async(boardId)=>{
+    listenForBoardReady = async (callback: Function) => {
+        this.hubConnection?.on('boardReady', async (boardId) => {
             await this.getByBoardId(await boardId)
             console.log(boardId)
             callback
@@ -138,5 +140,7 @@ export default class GameStore {
         this.tiles = await response.data
         return response;
     }
+
+
 
 }
