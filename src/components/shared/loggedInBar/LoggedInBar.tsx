@@ -22,7 +22,7 @@ const LoggedInBar = () => {
     const settingsSubLinks: any[] = [];
     const logoutSublinks: any[] = [];
 
-    const barBlacklistRoutes = ['/register', '/login', '/lobby'];
+    const barBlacklistRoutes = ['/register', '/login', '/lobby', '/game'];
 
 
     const checkIfBlacklistedRoute = (path: string) => {
