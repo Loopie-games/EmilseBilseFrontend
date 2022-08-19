@@ -11,6 +11,21 @@ const LoggedInNavbar = () => {
 
     const [isOpen, setIsOpen] = useState(false);
 
+    const handleProfile = () => {
+        setIsOpen(false);
+        navigate(`/user/profile/${userStore.user?.id}`)
+    }
+
+    const handleFriendList = () => {
+        setIsOpen(false);
+        navigate(`/user/friendlist/${userStore.user?.id}`)
+    }
+
+    const handleSettings = () => {
+        setIsOpen(false);
+        navigate(`/user/settings/${userStore.user?.id}`)
+    }
+
     const handleLogout = () => {
         userStore.logout();
         navigate('/');
@@ -34,27 +49,27 @@ const LoggedInNavbar = () => {
                 </div>
                 <div className={`LoggedInNavbar-DropDownContainer ${isOpen ? 'show' : ''}`}>
                     <div className='LoggedInNavbar-DropDownItem'>
-                        <div className='LoggedInNavbar-DropDownItemIcon'>
+                        <div className='LoggedInNavbar-DropDownItemIcon' onClick={() => handleProfile()}>
                             <Icon name="profile" />
                         </div>
                         <div className='LoggedInNavbar-DropDownItemText'>
-                            <Link to={`/user/profile/${userStore.user?.id}`}>Profile</Link>
+                            Profile
                         </div>
                     </div>
-                    <div className='LoggedInNavbar-DropDownItem'>
+                    <div className='LoggedInNavbar-DropDownItem' onClick={() => handleFriendList()}>
                         <div className='LoggedInNavbar-DropDownItemIcon'>
                             <Icon name="friendslist" />
                         </div>
                         <div className='LoggedInNavbar-DropDownItemText'>
-                            <Link to={'/user/friendslist'}>Friendslist</Link>
+                            Friendslist
                         </div>
                     </div>
-                    <div className='LoggedInNavbar-DropDownItem'>
+                    <div className='LoggedInNavbar-DropDownItem' onClick={() => handleSettings()}>
                         <div className='LoggedInNavbar-DropDownItemIcon'>
                             <Icon name="settings" />
                         </div>
                         <div className='LoggedInNavbar-DropDownItemText'>
-                            <Link to={'/user/settings'}>Settings</Link>
+                            Settings
                         </div>
                     </div>
                     <div className='LoggedInNavbar-DropDownItem' onClick={() => handleLogout()}>

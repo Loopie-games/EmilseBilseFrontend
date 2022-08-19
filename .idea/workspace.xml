@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="95ab0aca-e3bd-4f58-a05b-c1aa8ae3437f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/gameBoard/board/board.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/gameBoard/board/board.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/gameBoard/tiles/tiles.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/gameBoard/tiles/tiles.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/tile/tileInterface.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/tile/tileInterface.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/gameboardPage/gameboardPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/gameboardPage/gameboardPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/lobbyPage/lobbyPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/lobbyPage/lobbyPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stores/gameStore.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/gameStore.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/user/userInterface.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/user/userInterface.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

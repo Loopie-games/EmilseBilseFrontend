@@ -1,16 +1,15 @@
 import { SimpleUserDTO } from "../user/userInterface";
 
-export interface TileForUser{
+export interface TileForUser {
     id: string
     userNickname: string
     action: string
     addedByNickname: string
 }
 
-export interface TileNewFromUser{
-    addedByUserId: string
+export interface TileNewFromUser {
     action: string
-    aboutUsername: string
+    aboutUserId: string
 }
 
 export interface TileDto {

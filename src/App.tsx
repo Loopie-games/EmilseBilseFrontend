@@ -15,6 +15,7 @@ import GameboardPage from './pages/gameboardPage/gameboardPage';
 import RequireLobby from './components/shared/requireLobby/RequireLobby';
 import PageNotFound from './pages/pageNotFound/pageNotFound';
 import LoggedInBar from './components/shared/loggedInBar/LoggedInBar';
+import FriendsPage from './pages/friendsPage/friendsPage';
 
 function App() {
   const { userStore } = useStore()
@@ -25,6 +26,7 @@ function App() {
     { path: "/home", element: <RequireAuth><HomePage /></RequireAuth> },
     { path: "/Lobby", element: <RequireLobby><LobbyPage /></RequireLobby> },
     { path: "/game", element: <GameboardPage /> },
+    { path: "/user/friendlist/:id", element: <FriendsPage /> },
     { path: "*", element: <PageNotFound /> }
   ];
   ;
