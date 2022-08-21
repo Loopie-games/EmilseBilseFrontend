@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import Friends from '../../components/friends/friends';
 import Icon from '../../components/shared/icon/Icon';
 import { useStore } from '../../stores/store';
-import './friendsPage.scss'
+import './addFriendPage.scss'
 
 const AddFriendPage = () => {
     const t2 = [{ r1: "asd", a2: "asd" }, { r1: "a123", a2: "123" }]

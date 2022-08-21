@@ -22,12 +22,11 @@ const FriendsPage = () => {
         const loadData = async () => {
             await friendshipStore.getFriendList(params.id!);
             setLoading(false);
-            console.log('====================================');
-            console.log(friendshipStore._friendlist);
-            console.log('====================================');
+            setFilteredList(friendshipStore._friendlist!);
         }
 
         params.id !== undefined ? loadData() : setLoading(false);
+
     }, [])
 
     const handleSearch = (e: any) => {
