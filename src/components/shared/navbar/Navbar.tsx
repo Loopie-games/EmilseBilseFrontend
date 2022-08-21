@@ -5,6 +5,7 @@ import './Navbar.scss'
 import { useStore } from '../../../stores/store'
 import { observer } from 'mobx-react-lite'
 import LoggedInNavbar from './loggedInNavbar/LoggedInNavbar'
+import Loader from '../loader/loader'
 
 const Navbar = () => {
     const [loaded, setLoaded] = useState(false)
@@ -42,7 +43,7 @@ const Navbar = () => {
                         </div>
                     </div>
                 </div>
-                : null}
+                : <Loader />}
         </>
     )
 }
