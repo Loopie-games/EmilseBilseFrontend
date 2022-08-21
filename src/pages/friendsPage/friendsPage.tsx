@@ -1,3 +1,4 @@
+import { observer } from 'mobx-react-lite';
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import Friends from '../../components/friendsPages/friends/friends';
@@ -64,4 +65,4 @@ const FriendsPage = () => {
     )
 }
 
-export default FriendsPage
+export default observer(FriendsPage)

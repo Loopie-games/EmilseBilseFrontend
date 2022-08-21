@@ -5,6 +5,8 @@ import FriendshipService from "../services/friendshipService";
 export class FriendshipStore {
 
     @observable _friendlist: Friend[] | undefined;
+    @observable _friendRequests: Friend[] | undefined;
+    @observable _searchResults: Friend[] | undefined;    
 
     @action
     getFriendList = async (userId: string) => {
@@ -24,6 +26,12 @@ export class FriendshipStore {
         throw new Error('Method not implemented.');
     }
 
+    //todo: Send Request to User
+    @action
+    addFriend = async (friendId: string) => {
+        throw new Error('Method not implemented.');
+    }
+
     //todo: Remove friend from your friendlist
     @action
     removeFriend = async (userId: string) => {
@@ -39,6 +47,12 @@ export class FriendshipStore {
     //todo: Decline friend request
     @action
     declineFriendRequest = async (userId: string) => {
+        throw new Error('Method not implemented.');
+    }
+
+    //todo: get friendrequests
+    @action
+    getFriendRequests = async (userId: string) => {
         throw new Error('Method not implemented.');
     }
 

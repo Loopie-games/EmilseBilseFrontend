@@ -1,7 +1,10 @@
+import { observer } from 'mobx-react-lite';
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import AddFriend from '../../components/friendsPages/addFriends/addFriends';
 import Friends from '../../components/friendsPages/friends/friends';
 import Icon from '../../components/shared/icon/Icon';
+import { Friend } from '../../models/friendship/friendInterface';
 import { useStore } from '../../stores/store';
 import './addFriendPage.scss'
 
@@ -9,11 +12,9 @@ const AddFriendPage = () => {
     const t2 = [{ r1: "asd", a2: "asd" }, { r1: "a123", a2: "123" }]
 
     const { friendshipStore } = useStore();
-    const [filteredList, setFilteredList] = useState(friendshipStore._friendlist);
+    const [filteredList, setFilteredList] = useState<Friend[]>([]);
     const [search, setSearch] = useState('');
     const [loading, setLoading] = useState(true);
-    const params = useParams();
-    const navigate = useNavigate()
 
 
     useEffect(() => {
@@ -21,7 +22,7 @@ const AddFriendPage = () => {
         const debouncedSearch = setTimeout(async () => {
             console.log(search);
             await friendshipStore.searchForUsers(search);
-            setFilteredList(friendshipStore._friendlist);
+            setFilteredList(friendshipStore._friendlist!);
         }, 500);
         return () => {
             clearTimeout(debouncedSearch);
@@ -31,7 +32,7 @@ const AddFriendPage = () => {
 
 
     const handleClearSearch = () => {
-        setFilteredList(friendshipStore._friendlist!);
+        setFilteredList([]);
         setSearch('');
     }
 
@@ -50,7 +51,7 @@ const AddFriendPage = () => {
                         </div>
                     </div>
                     <div className='FriendsPage-FriendsContainer'>
-                        {filteredList?.map((t, i) => <Friends key={i} {...t} />)}
+                        {filteredList.map((t, i) => <AddFriend key={i} {...t} />)}
                     </div>
                 </div>
             }
@@ -58,4 +59,4 @@ const AddFriendPage = () => {
     )
 }
 
-export default AddFriendPage
+export default observer(AddFriendPage)
