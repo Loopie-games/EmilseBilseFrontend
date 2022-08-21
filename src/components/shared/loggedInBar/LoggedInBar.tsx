@@ -77,6 +77,16 @@ const LoggedInBar = () => {
         navigate('/');
     }
 
+    const handleCloseAll = () => {
+        setIsShown(false);
+        setProfileShown(false);
+        setFriendsShown(false);
+        setTilesShown(false);
+        setSettingsShown(false);
+        setLogOutShown(false);
+    }
+
+
     return (
         <>
             {checkIfBlacklistedRoute(url) ? null :
@@ -168,7 +178,7 @@ const LoggedInBar = () => {
                     <div className='InvertedCornerQ1'>
                     </div>
                     {isShown ?
-                        <div className='closeOverlay' onClick={() => setIsShown(false)}>
+                        <div className='closeOverlay' onClick={handleCloseAll}>
 
                         </div>
                         : null}
