@@ -111,23 +111,6 @@
     width: 300px;
 }
 
-.InvertedCornerQ1 {
-    position: relative;
-    background-color: #24292f;
-    z-index: 9999;
-
-    &::before{
-        content: "";
-        top: 0px;
-        left: 0;
-        position: absolute;
-        height: 30px;
-        width: 15px;
-        background-color: transparent;
-        border-top-left-radius: 15px;
-        box-shadow: #24292f 0px -15px 0px 0px;
-    }
-}
 
 .closeOverlay {
     z-index: 99;
