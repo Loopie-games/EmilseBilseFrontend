@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import Loader from '../../components/shared/loader/loader';
 import { useStore } from '../../stores/store';
 import './testPage.scss'
 
@@ -23,7 +24,7 @@ const TestPage = () => {
 
   return (
     <>
-      <div> ASDASDASD</div>
+      <Loader />
     </>
   )
 }
