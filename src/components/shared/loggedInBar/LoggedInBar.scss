@@ -69,7 +69,7 @@
         font-weight: 700;
     }
 
-    &.activated{     
+    &.activated {
         box-shadow: rgb(255 255 255) 0 0 0 2px inset;
     }
 
@@ -99,7 +99,7 @@
 
         font-family: "Caviar Dreams";
         font-style: normal;
-        font-weight: 700;
+        font-weight: 400;
         font-size: 20px;
         line-height: 0%;
         color: #fff;
@@ -111,19 +111,42 @@
     width: 300px;
 }
 
-.test1 {
+.InvertedCornerQ1 {
     position: relative;
-    width: 15px;
-    height: 15px;
     background-color: #24292f;
+    z-index: 9999;
 
-    .test2 {
-        position: absolute;
-        top: 0;
+    &::before{
+        content: "";
+        top: 0px;
         left: 0;
+        position: absolute;
         height: 30px;
-        width: 30px;
-        border-radius: 50%;
-        background-color: #1b1f24;
+        width: 15px;
+        background-color: transparent;
+        border-top-left-radius: 15px;
+        box-shadow: #24292f 0px -15px 0px 0px;
+    }
+}
+
+.closeOverlay {
+    z-index: 99;
+    opacity: 0;
+    background-color: rgba($color: #000000, $alpha: 0.5);
+    flex: 1;
+    position: absolute;
+    top: 70px;
+    left: 300px;
+    height: calc(100% - 70px);
+    width: calc(100% - 300px);
+    animation: fadeIn 0.2s 0.2s forwards ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
     }
 }

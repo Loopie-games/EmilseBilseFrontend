@@ -30,7 +30,7 @@ const LoggedInBar = () => {
     }
 
     const handleProfileClick = () => {
-        setIsShown(true);
+        !isShown ? setIsShown(true) : () => { };
         setProfileShown(!profileShown);
         setFriendsShown(false);
         setTilesShown(false);
@@ -38,7 +38,7 @@ const LoggedInBar = () => {
         setLogOutShown(false);
     }
     const handleFriendsClick = () => {
-        setIsShown(true);
+        !isShown ? setIsShown(true) : () => { };
         setFriendsShown(!friendsShown);
         setProfileShown(false);
         setTilesShown(false);
@@ -46,8 +46,7 @@ const LoggedInBar = () => {
         setLogOutShown(false);
     }
     const handleTilesClick = () => {
-
-        setIsShown(true);
+        !isShown ? setIsShown(true) : () => { };
         setTilesShown(!tilesShown);
         setProfileShown(false);
         setFriendsShown(false);
@@ -55,7 +54,7 @@ const LoggedInBar = () => {
         setLogOutShown(false);
     }
     const handleSettingsClick = () => {
-        setIsShown(true);
+        !isShown ? setIsShown(true) : () => { };
         setSettingsShown(!settingsShown);
         setProfileShown(false);
         setFriendsShown(false);
@@ -66,7 +65,7 @@ const LoggedInBar = () => {
         navigate('/user/settings')
     }
     const handleLogOutClick = () => {
-        setIsShown(true);
+        !isShown ? setIsShown(true) : () => { };
         setLogOutShown(!logOutShown);
         setProfileShown(false);
         setFriendsShown(false);
@@ -92,7 +91,7 @@ const LoggedInBar = () => {
                                 {
                                     profileSubLinks.map((subLink, index) => {
                                         return (
-                                            <div className={`LoggedInBar-ComponentTitle ${profileShown ? 'shown' : ''} ${url === subLink.link ? 'activated' : ''}`} key={index} onClick={() => navigate(subLink.link)}>
+                                            <div className={`LoggedInBar-ComponentTitle ${profileShown ? 'shown' : ''} ${url === subLink.link ? 'activated' : ''}`} key={index} onClick={() => { setIsShown(!isShown); navigate(subLink.link); console.log(isShown) }}>
                                                 <div className='LoggedInBar-ComponentTitleIcon'><Icon name={subLink.iconName} /></div>
                                                 <div className='LoggedInBar-ComponentTitleText shown'>{subLink.name}</div>
                                             </div>
@@ -110,7 +109,7 @@ const LoggedInBar = () => {
                                 {
                                     friendlistSubLinks.map((subLink, index) => {
                                         return (
-                                            <div className={`LoggedInBar-ComponentTitle ${friendsShown ? 'shown' : ''} ${url === subLink.link ? 'activated' : ''}`} key={index} onClick={() => navigate(subLink.link)}>
+                                            <div className={`LoggedInBar-ComponentTitle ${friendsShown ? 'shown' : ''} ${url === subLink.link ? 'activated' : ''}`} key={index} onClick={() => { navigate(subLink.link); setIsShown(false) }}>
                                                 <div className='LoggedInBar-ComponentTitleIcon'><Icon name={subLink.iconName} /></div>
                                                 <div className='LoggedInBar-ComponentTitleText shown'>{subLink.name}</div>
                                             </div>
@@ -128,7 +127,7 @@ const LoggedInBar = () => {
                                 {
                                     tileSubLinks.map((subLink, index) => {
                                         return (
-                                            <div className={`LoggedInBar-ComponentTitle ${tilesShown ? 'shown' : ''} ${url === subLink.link ? 'activated' : ''}`} key={index} onClick={() => navigate(subLink.link)}>
+                                            <div className={`LoggedInBar-ComponentTitle ${tilesShown ? 'shown' : ''} ${url === subLink.link ? 'activated' : ''}`} key={index} onClick={() => { navigate(subLink.link); setIsShown(false) }}>
                                                 <div className='LoggedInBar-ComponentTitleIcon'><Icon name={subLink.iconName} /></div>
                                                 <div className='LoggedInBar-ComponentTitleText shown'>{subLink.name}</div>
                                             </div>
@@ -146,7 +145,7 @@ const LoggedInBar = () => {
                                 {
                                     settingsSubLinks.map((subLink, index) => {
                                         return (
-                                            <div className={`LoggedInBar-ComponentTitle ${settingsShown ? 'shown' : ''} ${url === subLink.link ? 'activated' : ''}`} key={index} onClick={() => navigate(subLink.link)}>
+                                            <div className={`LoggedInBar-ComponentTitle ${settingsShown ? 'shown' : ''} ${url === subLink.link ? 'activated' : ''}`} key={index} onClick={() => { navigate(subLink.link); setIsShown(false) }}>
                                                 <div className='LoggedInBar-ComponentTitleIcon'><Icon name="profile" /></div>
                                                 <div className='LoggedInBar-ComponentTitleText shown'>{subLink.name}</div>
                                             </div>
@@ -166,9 +165,13 @@ const LoggedInBar = () => {
                         </div>
                         <div className='LoggedInBar-CloseContainer' onClick={() => setIsShown(!isShown)}></div>
                     </div>
-                    <div className='test1'>
-                        <div className='test2'></div>
+                    <div className='InvertedCornerQ1'>
                     </div>
+                    {isShown ?
+                        <div className='closeOverlay' onClick={() => setIsShown(false)}>
+
+                        </div>
+                        : null}
                 </>
             }
         </>
