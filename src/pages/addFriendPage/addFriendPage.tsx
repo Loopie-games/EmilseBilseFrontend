@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import Friends from '../../components/friends/friends';
+import Friends from '../../components/friendsPages/friends/friends';
 import Icon from '../../components/shared/icon/Icon';
 import { useStore } from '../../stores/store';
 import './addFriendPage.scss'
@@ -17,14 +17,16 @@ const AddFriendPage = () => {
 
 
     useEffect(() => {
-        console.log(params);
-
-        const loadData = async () => {
-            await friendshipStore.getFriendList(params.id!);
-            setLoading(false);
+        setLoading(false);  
+        const debouncedSearch = setTimeout(async () => {
+            console.log(search);
+            await friendshipStore.searchForUsers(search);
+            setFilteredList(friendshipStore._friendlist);
+        }, 500);
+        return () => {
+            clearTimeout(debouncedSearch);
         }
-
-    }, [])
+    }, [ search ])
 
 
 
@@ -37,10 +39,10 @@ const AddFriendPage = () => {
         <div className='FriendsPage-Container'>
             {loading ? <div className='FriendsPage-Loading'>Loading...</div> :
                 <div className='FriendsPage-Wrapper'>
-                    <div className='FriendsPage-Title'>Friendlist</div>
+                    <div className='FriendsPage-Title'>Add Friend</div>
                     <div className='FriendsPage-Searchbar'>
                         <div className={`FriendsPage-SearchbarContainer ${search.length > 0 ? 'active' : ''}`}>
-                            <div className='FriendsPage-SearchbarIcon'><Icon name="filter" /></div>
+                            <div className='FriendsPage-SearchbarIcon'><Icon name="search_blue" /></div>
                             <div className='FriendsPage-SearchbarInput'>
                                 <input type="text" onKeyUp={e => { }} onChange={e => setSearch(e.target.value)} value={search} placeholder="Filter for friends" />
                             </div>

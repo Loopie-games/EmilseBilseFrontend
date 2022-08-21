@@ -3,6 +3,7 @@ import { Friend } from "../models/friendship/friendInterface";
 import FriendshipService from "../services/friendshipService";
 
 export class FriendshipStore {
+
     @observable _friendlist: Friend[] | undefined;
 
     @action
@@ -17,6 +18,29 @@ export class FriendshipStore {
         this._friendlist = friends
     }
 
+    //todo: implement search for users
+    @action
+    searchForUsers = async (search: string) => {
+        throw new Error('Method not implemented.');
+    }
+
+    //todo: Remove friend from your friendlist
+    @action
+    removeFriend = async (userId: string) => {
+        throw new Error('Method not implemented.');
+    }
+
+    //todo: accept friend request
+    @action
+    acceptFriendRequest = async (userId: string) => {
+        throw new Error('Method not implemented.');
+    }
+
+    //todo: Decline friend request
+    @action
+    declineFriendRequest = async (userId: string) => {
+        throw new Error('Method not implemented.');
+    }
 
     constructor() {
         makeAutoObservable(this);

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import Friends from '../../components/friends/friends';
+import Friends from '../../components/friendsPages/friends/friends';
 import Icon from '../../components/shared/icon/Icon';
 import { useStore } from '../../stores/store';
 import './friendsPage.scss'
