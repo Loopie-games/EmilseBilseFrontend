@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import FriendRequest from '../../components/friendsPages/friendRequests/friendRequests';
 import Friends from '../../components/friendsPages/friends/friends';
 import Icon from '../../components/shared/icon/Icon';
 import { useStore } from '../../stores/store';
@@ -57,7 +58,7 @@ const FriendRequestPage = () => {
                         </div>
                     </div>
                     <div className='FriendsPage-FriendsContainer'>
-                        {filteredList?.map((t, i) => <Friends key={i} {...t} />)}
+                        {filteredList?.map((t, i) => <FriendRequest key={i} {...t} />)}
                     </div>
                 </div>
             }
