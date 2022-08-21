@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useStore } from '../../../stores/store';
 import Icon from '../icon/Icon';
+import InvertedCornerQ1 from '../invertedCorners/invertedCornerQ1';
 import './LoggedInBar.scss'
 
 const LoggedInBar = () => {
@@ -165,8 +166,7 @@ const LoggedInBar = () => {
                         </div>
                         <div className='LoggedInBar-CloseContainer' onClick={() => setIsShown(!isShown)}></div>
                     </div>
-                    <div className='InvertedCornerQ1'>
-                    </div>
+                    <InvertedCornerQ1 />
                     {isShown ?
                         <div className='closeOverlay' onClick={() => setIsShown(false)}>
 
