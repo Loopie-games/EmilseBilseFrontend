@@ -40,10 +40,15 @@ const LobbyPage = () => {
     }
 
     const handleStartGame = async () => {
-        let sg: StartGameDto = { userId: userStore.user!.id, lobbyId: gameStore.lobby!.id }
-        await gameStore.startGame(sg, () => {
-            navigate('/game')
-        })
+        if(gameStore.lobbyPlayers.length >= 2){
+            let sg: StartGameDto = {userId: userStore.user!.id, lobbyId: gameStore.lobby!.id}
+            await gameStore.startGame(sg, ()=>{
+                navigate('/game')
+            })
+        }
+
+        // TODO error message
+        console.log("you need to be at least 2 players to start a game")
     }
 
     return (
