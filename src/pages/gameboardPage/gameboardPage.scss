@@ -89,7 +89,9 @@
             align-items: center;
 
             .Gameboard_GameboardWrapper {
-                height: 100%;
+                width: 100%;
+                max-width: 70%;
+                flex: 1;
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -103,7 +105,7 @@
             flex-direction: column;
             transition: width 0.2s ease-in-out;
             background-color: #24292f;
-            border-radius: 0 0 15px 0;
+            border-radius: 0 0 0 15px;
             align-items: center;
             justify-content: center;
 
@@ -165,6 +167,8 @@
     position: relative;
     width: 15px;
     height: 15px;
+    min-width: 15px;
+    min-height: 15px;
     background-color: #24292f;
 
     .test2 {
@@ -182,6 +186,8 @@
     position: relative;
     width: 15px;
     height: 15px;
+    min-width: 15px;
+    min-height: 15px;
     background-color: #24292f;
 
     .test4 {
