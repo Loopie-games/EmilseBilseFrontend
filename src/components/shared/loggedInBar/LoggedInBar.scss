@@ -105,6 +105,19 @@
         color: #fff;
         white-space: nowrap;
     }
+
+    .LoggedInBar-SubComponentTitleText {
+        width: 100%;
+        display: flex;
+
+        font-family: "Caviar Dreams";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 0%;
+        color: #fff;
+        white-space: nowrap;
+    }
 }
 
 .shown {

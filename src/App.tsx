@@ -16,6 +16,8 @@ import RequireLobby from './components/shared/requireLobby/RequireLobby';
 import PageNotFound from './pages/pageNotFound/pageNotFound';
 import LoggedInBar from './components/shared/loggedInBar/LoggedInBar';
 import FriendsPage from './pages/friendsPage/friendsPage';
+import FriendRequestPage from './pages/friendRequestPage/friendRequestPage';
+import AddFriendPage from './pages/addFriendPage/addFriendPage';
 
 function App() {
   const { userStore } = useStore()
@@ -28,6 +30,8 @@ function App() {
     { path: "/game", element: <GameboardPage /> },
     { path: "/user/friendlist/:id", element: <FriendsPage /> },
     { path: "/test", element: <TestPage /> },
+    { path: "/user/addfriend/", element: <AddFriendPage /> },
+    { path: "/user/friendRequests", element: <FriendRequestPage /> },
     { path: "*", element: <PageNotFound /> }
   ];
   ;

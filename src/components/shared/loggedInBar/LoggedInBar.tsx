@@ -78,6 +78,16 @@ const LoggedInBar = () => {
         navigate('/');
     }
 
+    const handleCloseAll = () => {
+        setIsShown(false);
+        setProfileShown(false);
+        setFriendsShown(false);
+        setTilesShown(false);
+        setSettingsShown(false);
+        setLogOutShown(false);
+    }
+
+
     return (
         <>
             {checkIfBlacklistedRoute(url) ? null :
@@ -94,7 +104,7 @@ const LoggedInBar = () => {
                                         return (
                                             <div className={`LoggedInBar-ComponentTitle ${profileShown ? 'shown' : ''} ${url === subLink.link ? 'activated' : ''}`} key={index} onClick={() => { setIsShown(!isShown); navigate(subLink.link); console.log(isShown) }}>
                                                 <div className='LoggedInBar-ComponentTitleIcon'><Icon name={subLink.iconName} /></div>
-                                                <div className='LoggedInBar-ComponentTitleText shown'>{subLink.name}</div>
+                                                <div className='LoggedInBar-SubComponentTitleText shown'>{subLink.name}</div>
                                             </div>
                                         )
                                     })
@@ -112,7 +122,7 @@ const LoggedInBar = () => {
                                         return (
                                             <div className={`LoggedInBar-ComponentTitle ${friendsShown ? 'shown' : ''} ${url === subLink.link ? 'activated' : ''}`} key={index} onClick={() => { navigate(subLink.link); setIsShown(false) }}>
                                                 <div className='LoggedInBar-ComponentTitleIcon'><Icon name={subLink.iconName} /></div>
-                                                <div className='LoggedInBar-ComponentTitleText shown'>{subLink.name}</div>
+                                                <div className='LoggedInBar-SubComponentTitleText shown'>{subLink.name}</div>
                                             </div>
                                         )
                                     })
@@ -130,7 +140,7 @@ const LoggedInBar = () => {
                                         return (
                                             <div className={`LoggedInBar-ComponentTitle ${tilesShown ? 'shown' : ''} ${url === subLink.link ? 'activated' : ''}`} key={index} onClick={() => { navigate(subLink.link); setIsShown(false) }}>
                                                 <div className='LoggedInBar-ComponentTitleIcon'><Icon name={subLink.iconName} /></div>
-                                                <div className='LoggedInBar-ComponentTitleText shown'>{subLink.name}</div>
+                                                <div className='LoggedInBar-SubComponentTitleText shown'>{subLink.name}</div>
                                             </div>
                                         )
                                     })
@@ -148,7 +158,7 @@ const LoggedInBar = () => {
                                         return (
                                             <div className={`LoggedInBar-ComponentTitle ${settingsShown ? 'shown' : ''} ${url === subLink.link ? 'activated' : ''}`} key={index} onClick={() => { navigate(subLink.link); setIsShown(false) }}>
                                                 <div className='LoggedInBar-ComponentTitleIcon'><Icon name="profile" /></div>
-                                                <div className='LoggedInBar-ComponentTitleText shown'>{subLink.name}</div>
+                                                <div className='LoggedInBar-SubComponentTitleText shown'>{subLink.name}</div>
                                             </div>
                                         )
                                     })
@@ -168,7 +178,7 @@ const LoggedInBar = () => {
                     </div>
                     <InvertedCornerQ1 />
                     {isShown ?
-                        <div className='closeOverlay' onClick={() => setIsShown(false)}>
+                        <div className='closeOverlay' onClick={handleCloseAll}>
 
                         </div>
                         : null}
