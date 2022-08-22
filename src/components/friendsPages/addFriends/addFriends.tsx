@@ -8,7 +8,7 @@ import './addFriends.scss'
 const AddFriend = (friend: Friend) => {
     const defaultPic = 'https://as2.ftcdn.net/v2/jpg/02/15/84/43/1000_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg'
     const { friendshipStore } = useStore();
-    const [added, setAdded] = useState(friend.id != null);
+    const [added, setAdded] = useState((friend.id !== null && friend.id !== ''));
 
     const handleAddClick = async () => {
         if(!added){
