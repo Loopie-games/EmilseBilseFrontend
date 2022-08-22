@@ -1,4 +1,4 @@
-.Tile_Container{
+.UserCreatedTile_Container{
     width: calc(100% - 4px);
     height: 60px;
     border-radius: 5px;
@@ -14,13 +14,13 @@
     div{
         margin: 0 20px;
     }
-    .Tile_TileInfoContainer{
+    .UserCreatedTile_TileInfoContainer{
         flex: 1;
         display: flex;
         flex-direction: column;
         justify-content: center;
         gap: 5px;
-        .Tile_TileInfo{
+        .UserCreatedTile_TileInfo{
             max-width: 180px;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -40,7 +40,7 @@
             color: #94A3B5; 
         }
     }
-    .Tile_TileInfoIcon{
+    .UserCreatedTile_TileInfoIcon{
         width: 40px;
         height: 100%;
         display: flex;
