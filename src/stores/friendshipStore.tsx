@@ -23,7 +23,9 @@ export class FriendshipStore {
     //todo: implement search for users
     @action
     searchForUsers = async (search: string) => {
-        throw new Error('Method not implemented.');
+        const response = await FriendshipService.searchUsers(search)
+        this._searchResults = response.data;
+        return response.data
     }
 
     //todo: Send Request to User
