@@ -3,7 +3,7 @@ import { UserDTO } from "../user/userInterface";
 
 export interface Lobby {
     id: string
-    host: UserDTO
+    host: string
     inProgress: boolean
     settings: Settings
     tiles: TileForUser[]
@@ -16,14 +16,19 @@ export interface GameRoom {
     lobby: Lobby
 }
 
-export interface CloseLobbyDto{
+export interface CloseLobbyDto {
     lobbyID: string
     hostID: string
 }
 
-export interface LeaveLobbyDto{
+export interface LeaveLobbyDto {
     lobbyID: string
     userID: string
+}
+
+export interface StartGameDto {
+    lobbyId: string
+    userId: string
 }
 
 export interface Board {

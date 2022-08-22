@@ -1,0 +1,333 @@
+.Friends-Container {
+    max-height: 350px;
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(5px);
+    border-radius: 5px;
+    border: 2px solid rgba(0, 0, 0, 0.5);
+    color: #fff;
+    transition: height 0.2s ease-in-out;
+    align-items: center;
+    overflow: hidden;
+
+    .Friends-Wrapper {
+        width: 100%;
+        height: 60px;
+        min-height: 60px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        .Friends-ChevronContainer {
+            height: 100%;
+            width: 46px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            cursor: pointer;
+
+            img {
+                height: 16px;
+                width: 16px;
+            }
+        }
+
+        .Friends-ProfilePicContainer {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #fff;
+            border: 3px solid #8694a4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 10px;
+
+            img {
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                user-select: none;
+                -webkit-user-drag: none;
+            }
+        }
+
+        .Friends-UserInfoContainer {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+
+            .Friends-UserInfoNickName {
+                font-family: "Caviar Dreams";
+                font-style: normal;
+                font-weight: 400;
+                font-size: 16px;
+                color: #fff;
+            }
+
+            .Friends-UserInfoUsername {
+                font-family: "Caviar Dreams";
+                font-style: normal;
+                font-weight: 400;
+                font-size: 14px;
+                color: #94A3B5;
+            }
+        }
+
+        .Friends-IconContainer {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+
+            img {
+                height: 24px;
+                width: 24px;
+            }
+        }
+    }
+
+    .Friends-AddTileContainer {
+        width: 350px;
+        height: 60px;
+        min-height: 60px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-top: 10px;
+        margin-bottom: 15px;
+        .Friends-AddTileTitle {
+            font-family: "Caviar Dreams";
+            font-style: normal;
+            font-weight: 400;
+            font-size: 16px;
+            color: #94A3B5;
+            flex: 1;
+        }
+
+        .Friends-AddTileInputContainer {
+            flex: 1;
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            .Friends-AddTileInput {
+                padding-left: 10px;
+                flex: 1;
+                height: 30px;
+                background: rgba(255, 255, 255, 0.05);
+                backdrop-filter: blur(5px);
+                border-radius: 5px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border: 2px solid rgba(0, 0, 0, 0.5);
+                transition: box-shadow 0.2s, outline 0.2s ease;
+
+                input {
+                    width: 100%;
+                    height: 100%;
+                    background-color: transparent;
+                    outline: none;
+                    border: 0;
+                    font-style: normal;
+                    font-weight: 400;
+                    font-size: 16px;
+                    line-height: 0%;
+                    color: #fff;
+
+                    &::placeholder {
+                        color: #999;
+                    }
+                }
+
+                &:hover {
+                    box-shadow: rgb(255 255 255) 0 0 0 2px inset;
+                }
+            }
+
+            .Friends-AddTileButton{
+                width: 80px;
+                height: 30px;
+                background: rgba(255, 255, 255, 0.05);
+                backdrop-filter: blur(5px);
+                border-radius: 5px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border: 2px solid rgba(0, 0, 0, 0.5);
+                transition: box-shadow 0.2s, outline 0.2s ease;
+                cursor: pointer;
+                &:hover {
+                    box-shadow: rgb(255 255 255) 0 0 0 2px inset;
+                }
+            }
+        }
+    }
+    
+    .Friends-TilesMadeContainer{
+        flex: 1;
+        min-height: 170px;
+        width: 100%;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        border-top: 2px dashed rgba(0,0,0,0.5);
+        padding-top: 15px;
+        gap: 20px;
+        display: flex;
+
+
+        .Friends-TilesMadeTitle {
+            font-family: "Caviar Dreams";
+            font-style: normal;
+            font-weight: 700;
+            font-size: 20px;
+            color: #fff;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .Friends-TilesMadeGrid{
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            width: 100%;
+            flex: 1;
+            justify-content: center;
+            align-items: center;
+            .Friends-TilesMadeTile{
+                background: rgba(255, 255, 255, 0.05);
+                backdrop-filter: blur(5px);
+                border-radius: 5px;
+                display: flex;
+                align-items: center;
+                height: 35px;
+                border: 2px solid rgba(0, 0, 0, 0.5);
+                transition: box-shadow 0.2s, outline 0.2s ease;
+                &:hover {
+                    box-shadow: rgb(255 255 255) 0 0 0 2px inset;
+                }
+                &:first-of-type{
+                    margin-left: 15px;
+                }
+                &:last-of-type{
+                    margin-right: 15px;
+                }
+                .Friends-TilesMadeAction{
+                    font-family: "Caviar Dreams";
+                    font-style: normal;
+                    font-weight: 400;
+                    font-size: 16px;
+                    color: #fff;
+                    flex: 1;
+                    padding-left: 15px;
+                }
+                .Friends-TilesMadeDelete{
+                    height: 32px;
+                    width: 32px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    cursor: pointer;
+                    img {
+                        height: 16px;
+                        width: 16px;
+                    }
+                }   
+            }
+        }
+        .Friends-TilesMadeShowAll{
+            width: 150px;
+            height: 30px;
+            background: rgba(255, 255, 255);
+            backdrop-filter: blur(5px);
+            border-radius: 5px;
+            border: 2px solid #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: "Caviar Dreams";
+            font-style: normal;
+            font-weight: 400;
+            font-size: 20px;
+            line-height: 0%;
+            color: #000;
+            cursor: pointer;
+            margin-bottom: 25px;
+        }
+    }
+}
+
+@keyframes openChevron {
+    from {
+        transform: rotate(-90deg);
+    }
+
+    to {
+        transform: rotate(0deg);
+    }
+}
+
+@keyframes closeChevron {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(-90deg);
+    }
+}
+
+@keyframes openAdd {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(-45deg);
+    }
+}
+
+@keyframes closeAdd {
+    from {
+        transform: rotate(-45deg);
+    }
+
+    to {
+        transform: rotate(0deg);
+    }
+}
+
+@keyframes test {
+    from {
+        visibility: hidden;
+        opacity: 0;
+    }
+
+    to {
+        visibility: visible;
+        opacity: 1;
+    }
+    
+}
+
+@keyframes test2 {
+    from {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    to {
+        visibility: hidden;
+        opacity: 0;
+    }
+    
+    
+}

@@ -6,6 +6,9 @@ import securityService from "../services/securityService";
 import userService from "../services/userService";
 
 export class UserStore {
+    deleteTile(id: string) {
+        throw new Error('Method not implemented.');
+    }
 
 
     @observable user: UserDTO | undefined;
@@ -28,6 +31,12 @@ export class UserStore {
     getById = async (userId: string) => {
         const response = await userService.getById(userId)
         this.user = response.data
+        return response.data;
+    }
+
+    @action
+    getUserById = async (userId: string) => {
+        const response = await userService.getById(userId)
         return response.data;
     }
 
@@ -56,10 +65,15 @@ export class UserStore {
 
     @action
     logout() {
-        localStorage.removeItem("userId");
+        localStorage.clear();
         this.user = undefined;
-
     }
+
+    @action
+    search = async(searchstr: string) =>{
+        const response = await userService.search(searchstr)
+        return response.data
+}
 
     @action
     updateProfilePic = async (file: File) => {

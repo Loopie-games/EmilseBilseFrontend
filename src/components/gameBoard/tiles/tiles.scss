@@ -12,7 +12,7 @@
     font-style: normal;
     color: #fff;
 
-    &.shown {
+    &.tileShown {
         height: 100px;
     }
 
@@ -59,8 +59,8 @@
             color: #fff;
             display: flex;
             align-items: center;
-            &.shown {
-                white-space: wrap;
+            &.tileActionShown {
+                white-space: normal;
 
             }
         }

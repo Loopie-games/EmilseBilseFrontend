@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import Loader from '../../components/shared/loader/loader';
 import { useStore } from '../../stores/store';
 import './testPage.scss'
 
@@ -8,7 +9,6 @@ const TestPage = () => {
 
   const handleCreateTile = (username: string) => {
     let addedByUserId = userStore.user?.id !== undefined ? userStore.user?.id : '';
-    tileStore.createNewTile_User({ addedByUserId: addedByUserId, action: tile, aboutUsername: username });
   }
 
   const loadFriends = async () => {
@@ -24,7 +24,7 @@ const TestPage = () => {
 
   return (
     <>
-      <div> ASDASDASD</div>
+      <Loader />
     </>
   )
 }
