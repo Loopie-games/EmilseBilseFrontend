@@ -31,7 +31,7 @@ const AddFriendPage = () => {
         else {
             setFilteredList([]);
         }
-    }, [ search ])
+    }, [friendshipStore, search])
 
 
 
