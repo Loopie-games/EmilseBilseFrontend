@@ -1,4 +1,4 @@
-import { CreateUserDTO } from "../models/user/userInterface";
+import { CreateUserDTO, SimpleUserDTO } from "../models/user/userInterface";
 import http from "../http-common"
 
 class UserService {
@@ -12,6 +12,10 @@ class UserService {
 
     async createUser(data: any) {
         return http.post(decodeURI("/User/CreateUser"), data)
+    }
+
+    async search(searchStr: string){
+        return http.get<SimpleUserDTO[]>("User/Search/" + searchStr)
     }
 
     async login(data: any) {

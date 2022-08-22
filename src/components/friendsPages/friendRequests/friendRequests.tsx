@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import {useEffect, useState } from 'react'
 import { Friend } from '../../../models/friendship/friendInterface';
 import { TileNewFromUser } from '../../../models/tile/tileInterface';
 import { useStore } from '../../../stores/store';
@@ -10,11 +10,15 @@ const FriendRequest = (friend: Friend) => {
     const { friendshipStore } = useStore();
 
     const handleAddClick = () => {
-        friendshipStore.acceptFriendRequest(friend.user.id!);
+        friendshipStore.acceptFriendRequest(friend.id!);
+        let ff = friendshipStore._friendRequests!.findIndex((f)=>{
+            f.id == friend.id
+        })
+        friendshipStore._friendRequests!.splice(ff,1)
     }
 
     const handleDeclineClick = () => {
-        friendshipStore.declineFriendRequest(friend.user.id!);
+        friendshipStore.declineFriendRequest(friend.id!);
     }
 
     return (

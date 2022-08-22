@@ -18,14 +18,18 @@ const AddFriendPage = () => {
 
 
     useEffect(() => {
-        setLoading(false);  
-        const debouncedSearch = setTimeout(async () => {
-            console.log(search);
-            await friendshipStore.searchForUsers(search);
-            setFilteredList(friendshipStore._friendlist!);
-        }, 500);
-        return () => {
-            clearTimeout(debouncedSearch);
+        setLoading(false);
+        if(search.length > 2){
+            const debouncedSearch = setTimeout(async () => {
+                await friendshipStore.searchForUsers(search);
+                setFilteredList(friendshipStore._searchResults!);
+            }, 500);
+            return () => {
+                clearTimeout(debouncedSearch);
+            }
+        }
+        else {
+            setFilteredList([]);
         }
     }, [ search ])
 

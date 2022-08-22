@@ -20,16 +20,18 @@ export class FriendshipStore {
         this._friendlist = friends
     }
 
-    //todo: implement search for users
+    
     @action
     searchForUsers = async (search: string) => {
-        throw new Error('Method not implemented.');
+        const response = await FriendshipService.searchUsers(search)
+        this._searchResults = response.data;
+        return response.data
     }
 
-    //todo: Send Request to User
     @action
     addFriend = async (friendId: string) => {
-        throw new Error('Method not implemented.');
+        const response = await FriendshipService.sendFriendRequest(friendId)
+        return response.data
     }
 
     //todo: Remove friend from your friendlist
@@ -38,10 +40,11 @@ export class FriendshipStore {
         throw new Error('Method not implemented.');
     }
 
-    //todo: accept friend request
+
     @action
-    acceptFriendRequest = async (userId: string) => {
-        throw new Error('Method not implemented.');
+    acceptFriendRequest = async (friendshipId: string) => {
+        const response = await  FriendshipService.acceptFriendRequest(friendshipId)
+        return response.data;
     }
 
     //todo: Decline friend request
@@ -50,10 +53,13 @@ export class FriendshipStore {
         throw new Error('Method not implemented.');
     }
 
-    //todo: get friendrequests
+
     @action
-    getFriendRequests = async (userId: string) => {
-        throw new Error('Method not implemented.');
+    getFriendRequests = async () => {
+        this._friendRequests = [];
+        const response = await FriendshipService.getFriendRequests()
+        this._friendRequests = response.data
+        return this._friendRequests;
     }
 
     constructor() {
