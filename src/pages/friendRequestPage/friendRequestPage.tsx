@@ -17,7 +17,7 @@ const FriendRequestPage = () => {
     useEffect(() => {
 
         const loadData = async () => {
-            await friendshipStore.getFriendRequests(userStore.user!.id);
+            await friendshipStore.getFriendRequests();
             setLoading(false);
         }
 

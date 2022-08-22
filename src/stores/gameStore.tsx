@@ -127,7 +127,6 @@ export default class GameStore {
     listenForBoardReady = async (callback: Function) => {
         this.hubConnection?.on('boardReady', async (boardId) => {
             await this.getByBoardId(await boardId)
-            console.log(boardId)
             callback
             return
         })

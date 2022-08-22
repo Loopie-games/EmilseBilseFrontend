@@ -18,9 +18,9 @@ const GameboardPage = () => {
         waitForBoard()
     }, [])
 
-    const waitForBoard = async () => {
-        await gameStore.listenForBoardReady(() => {
-            console.log(gameStore.tiles[0])
+
+    const waitForBoard = async() =>{
+        await gameStore.listenForBoardReady(()=>{
         });
     }
 
