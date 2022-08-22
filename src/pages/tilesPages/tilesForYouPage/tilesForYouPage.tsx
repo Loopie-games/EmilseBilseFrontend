@@ -1,16 +1,10 @@
-import { observer } from 'mobx-react-lite';
-import { useState, useEffect } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
-import AddFriend from '../../components/friendsPages/addFriends/addFriends';
-import Friends from '../../components/friendsPages/friends/friends';
-import Icon from '../../components/shared/icon/Icon';
-import { Friend } from '../../models/friendship/friendInterface';
-import { useStore } from '../../stores/store';
-import './addFriendPage.scss'
+import React, { useEffect, useState } from 'react'
+import AddFriend from '../../../components/friendsPages/addFriends/addFriends';
+import Icon from '../../../components/shared/icon/Icon';
+import { Friend } from '../../../models/friendship/friendInterface';
+import { useStore } from '../../../stores/store';
 
-const AddFriendPage = () => {
-    const t2 = [{ r1: "asd", a2: "asd" }, { r1: "a123", a2: "123" }]
-
+const TilesForYouPage = () => {
     const { friendshipStore } = useStore();
     const [filteredList, setFilteredList] = useState<Friend[]>([]);
     const [search, setSearch] = useState('');
@@ -36,6 +30,7 @@ const AddFriendPage = () => {
         setSearch('');
     }
 
+
     return (
         <div className='FriendsPage-Container'>
             {loading ? <div className='FriendsPage-Loading'>Loading...</div> :
@@ -59,4 +54,4 @@ const AddFriendPage = () => {
     )
 }
 
-export default observer(AddFriendPage)
+export default TilesForYouPage

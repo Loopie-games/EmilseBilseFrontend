@@ -18,6 +18,8 @@ import LoggedInBar from './components/shared/loggedInBar/LoggedInBar';
 import FriendsPage from './pages/friendsPage/friendsPage';
 import FriendRequestPage from './pages/friendRequestPage/friendRequestPage';
 import AddFriendPage from './pages/addFriendPage/addFriendPage';
+import TilesForYouPage from './pages/tilesPages/tilesForYouPage/tilesForYouPage';
+import TilesMadeByYouPage from './pages/tilesPages/tilesMadeByYouPage/tilesMadeByYouPage';
 
 function App() {
   const { userStore } = useStore()
@@ -32,6 +34,8 @@ function App() {
     { path: "/test", element: <TestPage /> },
     { path: "/user/addfriend/", element: <AddFriendPage /> },
     { path: "/user/friendRequests", element: <FriendRequestPage /> },
+    { path: "/user/tiles/:id", element: <TilesForYouPage /> },
+    { path: "/user/tilesby/:id", element: <TilesMadeByYouPage /> },
     { path: "*", element: <PageNotFound /> }
   ];
   ;
