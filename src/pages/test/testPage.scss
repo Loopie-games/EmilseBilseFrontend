@@ -1,5 +1,21 @@
 $defaultEasing: cubic-bezier(0.4, 0, 0.2, 1);
 
+
+.testasdasd2{
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.testasdasd{
+    display: grid; 
+    grid-template: repeat(2, 15px) / repeat(2, 15px);
+    gap: 30px;
+
+}
+
 .Login-Container {
     display: flex;
     flex: 1;

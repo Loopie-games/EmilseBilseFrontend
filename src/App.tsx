@@ -29,6 +29,7 @@ function App() {
     { path: "/Lobby", element: <RequireLobby><LobbyPage /></RequireLobby> },
     { path: "/game", element: <GameboardPage /> },
     { path: "/user/friendlist/:id", element: <FriendsPage /> },
+    { path: "/test", element: <TestPage /> },
     { path: "/user/addfriend/", element: <AddFriendPage /> },
     { path: "/user/friendRequests", element: <FriendRequestPage /> },
     { path: "*", element: <PageNotFound /> }
