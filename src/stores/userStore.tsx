@@ -61,6 +61,12 @@ export class UserStore {
     }
 
     @action
+    search = async(searchstr: string) =>{
+        const response = await userService.search(searchstr)
+        return response.data
+}
+
+    @action
     updateProfilePic = async (file: File) => {
         const formData = new FormData();
         formData.append('file', file);
