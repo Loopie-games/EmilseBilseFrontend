@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import Friends from '../../components/friendsPages/friends/friends';
 import Icon from '../../components/shared/icon/Icon';
+import Loader from '../../components/shared/loader/loader';
 import { useStore } from '../../stores/store';
 import './friendsPage.scss'
 
@@ -44,7 +45,7 @@ const FriendsPage = () => {
 
     return (
         <div className='FriendsPage-Container'>
-            {loading ? <div className='FriendsPage-Loading'>Loading...</div> :
+            {loading ? <Loader /> :
                 <div className='FriendsPage-Wrapper'>
                     <div className='FriendsPage-Title'>Friendlist</div>
                     <div className='FriendsPage-Searchbar'>

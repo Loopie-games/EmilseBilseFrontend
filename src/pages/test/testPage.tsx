@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import InvertedCornerQ1 from '../../components/shared/invertedCorners/invertedCornerQ1';
-import InvertedCornerQ2 from '../../components/shared/invertedCorners/invertedCornerQ2';
-import InvertedCornerQ3 from '../../components/shared/invertedCorners/invertedCornerQ3';
-import InvertedCornerQ4 from '../../components/shared/invertedCorners/invertedCornerQ4';
+import Loader from '../../components/shared/loader/loader';
 import { useStore } from '../../stores/store';
 import './testPage.scss'
 
@@ -27,14 +24,7 @@ const TestPage = () => {
 
   return (
     <>
-      <div className='testasdasd2'>
-        <div className='testasdasd'>
-          <InvertedCornerQ1 />
-          <InvertedCornerQ2 />
-          <InvertedCornerQ3 />
-          <InvertedCornerQ4 />
-        </div>
-      </div>
+      <Loader />
     </>
   )
 }
