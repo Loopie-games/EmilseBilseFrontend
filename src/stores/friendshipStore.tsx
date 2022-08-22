@@ -28,7 +28,6 @@ export class FriendshipStore {
         return response.data
     }
 
-    //todo: Send Request to User
     @action
     addFriend = async (friendId: string) => {
         const response = await FriendshipService.sendFriendRequest(friendId)
@@ -55,8 +54,10 @@ export class FriendshipStore {
 
     //todo: get friendrequests
     @action
-    getFriendRequests = async (userId: string) => {
-        throw new Error('Method not implemented.');
+    getFriendRequests = async () => {
+        const response = await FriendshipService.getFriendRequests()
+        this._friendRequests = response.data
+        return this._friendRequests;
     }
 
     constructor() {
