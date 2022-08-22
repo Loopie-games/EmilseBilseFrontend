@@ -1,10 +1,11 @@
 import { observable, makeAutoObservable, runInAction, toJS, action, observe, when } from "mobx";
 import { HubConnection, HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { GameRoom, Lobby, CloseLobbyDto, LeaveLobbyDto, StartGameDto } from "../models/game/gameInterfaces";
-import { UserDTO } from "../models/user/userInterface";
+import {SimpleUserDTO, UserDTO } from "../models/user/userInterface";
 import { useNavigate } from 'react-router-dom';
 import { pendingPlayerDto } from "../models/player/playerInterface";
 import boardService from "../services/boardService";
+import gameService from "../services/gameService";
 import { BoardTileDTO } from "../models/tile/tileInterface";
 
 export default class GameStore {
@@ -12,7 +13,7 @@ export default class GameStore {
     @observable gameRoom: GameRoom | undefined;
     @observable lobby: Lobby | undefined;
     @observable tiles: BoardTileDTO[] = [];
-    @observable players: any[] = [{ username: 'Test', nickname: 'Hovedskovasddasdas' }]
+    @observable players: SimpleUserDTO[] = [{id: '0', username: 'Test', nickname: 'Hovedskovasddasdas' }]
     @observable lobbyPlayers: pendingPlayerDto[] = [];
     @observable gameId: string | undefined;
     hubConnection: HubConnection | null = null;
@@ -137,8 +138,17 @@ export default class GameStore {
     getByBoardId = async (boardId: string) => {
         const response = await boardService.getByBoardId(boardId)
         this.tiles = await response.data
-        return response;
+        return response.data;
     }
+
+    @action
+    getPlayers = async() =>{
+        const response = await gameService.getPlayers(this.gameId!);
+        this.players = await response.data
+        return response.data
+    }
+
+
 
 
 
