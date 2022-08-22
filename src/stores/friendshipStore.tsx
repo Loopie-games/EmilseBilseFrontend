@@ -31,7 +31,8 @@ export class FriendshipStore {
     //todo: Send Request to User
     @action
     addFriend = async (friendId: string) => {
-        throw new Error('Method not implemented.');
+        const response = await FriendshipService.sendFriendRequest(friendId)
+        return response.data
     }
 
     //todo: Remove friend from your friendlist

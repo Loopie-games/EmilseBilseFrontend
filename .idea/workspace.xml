@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="95ab0aca-e3bd-4f58-a05b-c1aa8ae3437f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/addFriendPage/addFriendPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/addFriendPage/addFriendPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/friendsPages/addFriends/addFriends.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/friendsPages/addFriends/addFriends.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/friendship/friendInterface.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/friendship/friendInterface.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/services/friendshipService.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/friendshipService.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/stores/friendshipStore.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/friendshipStore.tsx" afterDir="false" />
     </list>
@@ -75,7 +76,7 @@
       <workItem from="1660545517924" duration="2006000" />
       <workItem from="1660643713364" duration="4195000" />
       <workItem from="1660719274670" duration="12730000" />
-      <workItem from="1661151507109" duration="3871000" />
+      <workItem from="1661151507109" duration="5993000" />
     </task>
     <servers />
   </component>

@@ -10,5 +10,9 @@ class FriendshipService {
     async searchUsers(searchstr: string){
         return http.get<Friend[]>("Friendship/SearchUsers/" + searchstr)
     }
+
+    async sendFriendRequest(userId: string){
+        return http.post<Friend>("Friendship/SendFriendRequest?toUserId=" + userId)
+    }
 }
 export default new FriendshipService();
