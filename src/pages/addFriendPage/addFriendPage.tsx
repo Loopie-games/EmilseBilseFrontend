@@ -1,64 +1,57 @@
 import { observer } from 'mobx-react-lite';
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import AddFriend from '../../components/friendsPages/addFriends/addFriends';
 import Friends from '../../components/friendsPages/friends/friends';
 import Icon from '../../components/shared/icon/Icon';
-import Loader from '../../components/shared/loader/loader';
+import { Friend } from '../../models/friendship/friendInterface';
 import { useStore } from '../../stores/store';
-import './friendsPage.scss'
+import './addFriendPage.scss'
 
-const FriendsPage = () => {
+const AddFriendPage = () => {
     const t2 = [{ r1: "asd", a2: "asd" }, { r1: "a123", a2: "123" }]
 
     const { friendshipStore } = useStore();
-    const [filteredList, setFilteredList] = useState(friendshipStore._friendlist);
+    const [filteredList, setFilteredList] = useState<Friend[]>([]);
     const [search, setSearch] = useState('');
     const [loading, setLoading] = useState(true);
-    const params = useParams();
-    const navigate = useNavigate()
 
 
     useEffect(() => {
-        console.log(params);
-
-        const loadData = async () => {
-            await friendshipStore.getFriendList(params.id!);
-            setLoading(false);
+        setLoading(false);  
+        const debouncedSearch = setTimeout(async () => {
+            console.log(search);
+            await friendshipStore.searchForUsers(search);
             setFilteredList(friendshipStore._friendlist!);
+        }, 500);
+        return () => {
+            clearTimeout(debouncedSearch);
         }
+    }, [ search ])
 
-        params.id !== undefined ? loadData() : setLoading(false);
 
-    }, [])
-
-    const handleSearch = (e: any) => {
-        const search = e.target.value;
-        const filtered = friendshipStore._friendlist!.filter(t => t.user.username.toLowerCase().includes(search.toLowerCase()) || t.user.nickname.toLowerCase().includes(search.toLowerCase()));
-        setFilteredList(search.length > 0 ? filtered : friendshipStore._friendlist!);
-        setSearch(search);
-    }
 
     const handleClearSearch = () => {
-        setFilteredList(friendshipStore._friendlist!);
+        setFilteredList([]);
         setSearch('');
     }
 
     return (
         <div className='FriendsPage-Container'>
-            {loading ? <Loader /> :
+            {loading ? <div className='FriendsPage-Loading'>Loading...</div> :
                 <div className='FriendsPage-Wrapper'>
-                    <div className='FriendsPage-Title'>Friendlist</div>
+                    <div className='FriendsPage-Title'>Add Friend</div>
                     <div className='FriendsPage-Searchbar'>
                         <div className={`FriendsPage-SearchbarContainer ${search.length > 0 ? 'active' : ''}`}>
-                            <div className='FriendsPage-SearchbarIcon'><Icon name="filter" /></div>
+                            <div className='FriendsPage-SearchbarIcon'><Icon name="search_blue" /></div>
                             <div className='FriendsPage-SearchbarInput'>
-                                <input type="text" onKeyUp={e => handleSearch(e)} onChange={e => setSearch(e.target.value)} value={search} placeholder="Filter for friends" />
+                                <input type="text" onKeyUp={e => { }} onChange={e => setSearch(e.target.value)} value={search} placeholder="Filter for friends" />
                             </div>
                             {search.length > 0 ? <div className='FriendsPage-SearchbarIcon' onClick={handleClearSearch}><Icon name="cross" /></div> : null}
                         </div>
                     </div>
                     <div className='FriendsPage-FriendsContainer'>
-                        {filteredList?.map((t, i) => <Friends key={i} {...t} />)}
+                        {filteredList.map((t, i) => <AddFriend key={i} {...t} />)}
                     </div>
                 </div>
             }
@@ -66,4 +59,4 @@ const FriendsPage = () => {
     )
 }
 
-export default observer(FriendsPage)
+export default observer(AddFriendPage)

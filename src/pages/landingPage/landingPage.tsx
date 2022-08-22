@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import Loader from '../../components/shared/loader/loader';
 
 import { useStore } from '../../stores/store';
 import './landingPage.scss'
@@ -55,7 +56,7 @@ const LandingPage = () => {
 
     return (
         <>
-            {!loaded ? <div>Loading...</div> :
+            {!loaded ? <Loader /> :
                 <div className='LandingPage-Container '>
                     <img src='https://github.githubassets.com/images/modules/site/codespaces/glow.png' alt={"glow img"}></img>
                     <div className='LandingPage-Wrapper'>
