@@ -3,18 +3,26 @@ import { TileForUser, TileNewFromUser } from "../models/tile/tileInterface";
 import tileService from "../services/tileService";
 
 export class TileStore {
+    deleteTile(id: string) {
+        throw new Error('Method not implemented.');
+    }
     @observable tilesAboutUser: TileForUser[] | undefined;
-    @observable createdtile: TileForUser | undefined
+    @observable createdTiles: TileForUser[] | undefined
+    @observable createdtile: TileForUser | undefined;
 
     constructor() {
         makeAutoObservable(this);
     }
 
     @action
-    getAboutUserById_TileForUser = async (userId: string) => {
-        const response = await tileService.getAboutUserById_TileForUser(userId)
-        this.tilesAboutUser = response.data
-        return response;
+    getTilesAboutUser = async (userId: string) => {
+        const response = await (await tileService.getTilesAboutUser(userId));
+        this.tilesAboutUser = response.data;
+    }
+    @action
+    getCreatedTiles = async (userId: string) => {
+        const response = await tileService.getCreatedTiles(userId);
+        this.createdTiles = response.data;
     }
 
     @action

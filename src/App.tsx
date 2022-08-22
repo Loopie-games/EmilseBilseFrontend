@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/landingPage/landingPage';
 import RegisterPage from './pages/registerPage/registerPage';
 import LoginPage from './pages/LoginPage/loginPage';
-import HomePage from './pages/homePage/homePage';
 import Navbar from './components/shared/navbar/Navbar';
 import TestPage from './pages/test/testPage';
 import { useStore } from './stores/store';
@@ -27,7 +26,6 @@ function App() {
     { path: "/", element: <LandingPage /> },
     { path: "/register", element: <RegisterPage /> },
     { path: "/login", element: <LoginPage /> },
-    { path: "/home", element: <RequireAuth><HomePage /></RequireAuth> },
     { path: "/Lobby", element: <RequireLobby><LobbyPage /></RequireLobby> },
     { path: "/game", element: <GameboardPage /> },
     { path: "/user/friendlist/:id", element: <FriendsPage /> },
