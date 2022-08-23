@@ -16,14 +16,13 @@ const GameboardPage = () => {
 
     useEffect(() => {
         waitForBoard()
-        
+
     }, [])
 
 
     const waitForBoard = async() =>{
-        await gameStore.listenForBoardReady(()=>{
-        });
         await gameStore.getPlayers();
+        await gameStore.getBoardByGameId();
     }
 
     const toggleTasklist = () => {
