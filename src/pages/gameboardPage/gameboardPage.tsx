@@ -20,10 +20,10 @@ const GameboardPage = () => {
     }, [])
 
 
-    const waitForBoard = async () => {
-        await gameStore.listenForBoardReady(() => {
-        });
+
+    const waitForBoard = async() =>{
         await gameStore.getPlayers();
+        await gameStore.getBoardByGameId();
     }
 
     const toggleTasklist = () => {

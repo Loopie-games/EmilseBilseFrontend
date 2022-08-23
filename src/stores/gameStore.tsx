@@ -38,10 +38,6 @@ export default class GameStore {
                 console.log(error)
             });
 
-        this.listenForBoardReady(() => {
-            console.log("boardReady")
-        })
-
         this.hubConnection.on('server_StartGame', (game) => {
             runInAction(() => {
                 this.gameRoom = game;
@@ -105,9 +101,6 @@ export default class GameStore {
                 return
             })
         })
-        this.listenForBoardReady(() => {
-            console.log("boardReady2")
-        })
         return
     }
 
@@ -125,18 +118,15 @@ export default class GameStore {
         this.hubConnection?.invoke('LeaveLobby', ll)
     }
 
-    listenForBoardReady = async (callback: Function) => {
-        this.hubConnection?.on('boardReady', async (boardId) => {
-            await this.getByBoardId(await boardId)
-            callback
-            return
-        })
-        return
-    }
-
     @action
     getByBoardId = async (boardId: string) => {
         const response = await boardService.getByBoardId(boardId)
+        this.tiles = await response.data
+        return response.data;
+    }
+    @action
+    getBoardByGameId = async () => {
+        const response = await boardService.getBoard(this.gameId!)
         this.tiles = await response.data
         return response.data;
     }

@@ -45,6 +45,7 @@ const LobbyPage = () => {
             await gameStore.startGame(sg, ()=>{
                 navigate('/game')
             })
+            return
         }
 
         // TODO error message
