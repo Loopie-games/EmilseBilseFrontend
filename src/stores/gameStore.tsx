@@ -1,10 +1,11 @@
-import { observable, makeAutoObservable, runInAction, toJS, action } from "mobx";
+import { observable, makeAutoObservable, runInAction, toJS, action, observe, when } from "mobx";
 import { HubConnection, HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { GameRoom, Lobby, CloseLobbyDto, LeaveLobbyDto, StartGameDto } from "../models/game/gameInterfaces";
-import { UserDTO } from "../models/user/userInterface";
+import {SimpleUserDTO, UserDTO } from "../models/user/userInterface";
 import { useNavigate } from 'react-router-dom';
 import { pendingPlayerDto } from "../models/player/playerInterface";
 import boardService from "../services/boardService";
+import gameService from "../services/gameService";
 import { BoardTileDTO } from "../models/tile/tileInterface";
 
 export default class GameStore {
@@ -12,7 +13,7 @@ export default class GameStore {
     @observable gameRoom: GameRoom | undefined;
     @observable lobby: Lobby | undefined;
     @observable tiles: BoardTileDTO[] = [];
-    @observable players: any[] = [{ username: 'Test', nickname: 'Hovedskovasddasdas' }]
+    @observable players: SimpleUserDTO[] = [{id: '0', username: 'Test', nickname: 'Hovedskovasddasdas' }]
     @observable lobbyPlayers: pendingPlayerDto[] = [];
     @observable gameId: string | undefined;
     hubConnection: HubConnection | null = null;
@@ -20,9 +21,11 @@ export default class GameStore {
     constructor() {
         makeAutoObservable(this);
     }
+
+
     createHubConnection = async () => {
         this.hubConnection = new HubConnectionBuilder()
-            .withUrl(process.env.REACT_APP_GAME_SOCKET !== undefined ? process.env.REACT_APP_GAME_SOCKET : "http://localhost:5121/", {accessTokenFactory: () => localStorage.getItem("token")!.toString()})
+            .withUrl(process.env.REACT_APP_GAME_SOCKET !== undefined ? process.env.REACT_APP_GAME_SOCKET : "http://localhost:5121/", { accessTokenFactory: () => localStorage.getItem("token")!.toString() })
             .withAutomaticReconnect()
             .configureLogging(LogLevel.Information)
             .build();
@@ -34,10 +37,6 @@ export default class GameStore {
             .catch(error => {
                 console.log(error)
             });
-
-        this.listenForBoardReady(()=>{
-            console.log("boardReady")
-        })
 
         this.hubConnection.on('server_StartGame', (game) => {
             runInAction(() => {
@@ -94,16 +93,13 @@ export default class GameStore {
         });
     }
 
-    gameStarting = async(gameStarting: Function) => {
-        this.hubConnection?.on('gameStarting', async(gameId: string) => {
-            runInAction( async() => {
+    gameStarting = async (gameStarting: Function) => {
+        this.hubConnection?.on('gameStarting', async (gameId: string) => {
+            runInAction(async () => {
                 this.gameId = await gameId;
                 gameStarting()
                 return
             })
-        })
-        this.listenForBoardReady(()=>{
-            console.log("boardReady2")
         })
         return
     }
@@ -122,20 +118,28 @@ export default class GameStore {
         this.hubConnection?.invoke('LeaveLobby', ll)
     }
 
-    listenForBoardReady = async(callback: Function) =>{
-        this.hubConnection?.on('boardReady', async(boardId)=>{
-            await this.getByBoardId(await boardId)
-            callback
-            return
-        })
-        return
-    }
-
     @action
     getByBoardId = async (boardId: string) => {
         const response = await boardService.getByBoardId(boardId)
         this.tiles = await response.data
-        return response;
+        return response.data;
     }
+    @action
+    getBoardByGameId = async () => {
+        const response = await boardService.getBoard(this.gameId!)
+        this.tiles = await response.data
+        return response.data;
+    }
+
+    @action
+    getPlayers = async() =>{
+        const response = await gameService.getPlayers(this.gameId!);
+        this.players = await response.data
+        return response.data
+    }
+
+
+
+
 
 }
