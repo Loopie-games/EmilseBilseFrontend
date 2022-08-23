@@ -6,7 +6,6 @@ import { UserDTO } from '../../models/user/userInterface';
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
 import { StartGameDto } from '../../models/game/gameInterfaces';
-import { observe } from 'mobx';
 
 const LobbyPage = () => {
     const { gameStore, userStore } = useStore();
@@ -20,12 +19,10 @@ const LobbyPage = () => {
             gameStore.leaveLobby(gameStore.lobby!.id, userStore.user!.id)
         }
          */
-
-
     }, [])
 
-    const listenForGameStarting = async () => {
-        await gameStore.gameStarting(() => {
+    const listenForGameStarting = async() => {
+        await gameStore.gameStarting(()=>{
             navigate('/game')
         });
     }
@@ -45,7 +42,6 @@ const LobbyPage = () => {
             await gameStore.startGame(sg, ()=>{
                 navigate('/game')
             })
-            return
         }
 
         // TODO error message
@@ -54,6 +50,7 @@ const LobbyPage = () => {
 
     return (
         <div className='Lobby_Container'>
+            <div className='Lobby_NavBackground'></div>
             <div className='Lobby_Wrapper'>
                 <div className='Lobby_Title'>
                     Lobby
@@ -63,9 +60,8 @@ const LobbyPage = () => {
                         <input type="text" placeholder='Pin Code' maxLength={5} readOnly onClick={() => savePinToClipboard()} value={gameStore.lobby?.pin} />
                     </div>
                     <div className='Lobby_ButtonsContainer'>
-                        {gameStore.lobby?.host === userStore.user!.id ?
-                            <div className='Lobby_StartButton' onClick={handleStartGame}> Start</div> : null}
-                        <div className='Lobby_StartButton' onClick={handleCloseLobby}>{`${gameStore.lobby?.host === userStore.user?.id ? 'Close Lobby' : 'Leave Lobby'}`}</div>
+                        <div className='Lobby_StartButton' onClick={handleStartGame}> Start</div>
+                        <div className='Lobby_StartButton' onClick={handleCloseLobby}> Close my lobby</div>
                     </div>
                 </div>
                 <div className='Lobby_PlayerContainer'>

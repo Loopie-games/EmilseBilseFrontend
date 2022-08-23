@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import { Friend } from '../../../models/friendship/friendInterface';
-import { TileNewFromUser } from '../../../models/tile/tileInterface';
-import { useStore } from '../../../stores/store';
-import Icon from '../../shared/icon/Icon';
+import { Friend } from '../../models/friendship/friendInterface';
+import { TileNewFromUser } from '../../models/tile/tileInterface';
+import { useStore } from '../../stores/store';
+import Icon from '../shared/icon/Icon';
 import './friends.scss'
 
 const Friends = (friend: Friend) => {
