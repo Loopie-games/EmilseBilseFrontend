@@ -12,7 +12,7 @@ export interface TileNewFromUser {
     aboutUserId: string
 }
 
-export interface TileDto {
+export interface TileDTO {
     id: string
     user: SimpleUserDTO
     action: string
@@ -23,7 +23,7 @@ export interface TileDto {
 export interface BoardTileDTO {
     id: string
     boardId: string
-    tile: TileDto
+    tile: TileDTO
     position: number
     isActivated: boolean
 }
