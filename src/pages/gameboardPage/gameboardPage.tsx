@@ -20,6 +20,7 @@ const GameboardPage = () => {
     }, [])
 
 
+
     const waitForBoard = async() =>{
         await gameStore.getPlayers();
         await gameStore.getBoardByGameId();
@@ -47,6 +48,7 @@ const GameboardPage = () => {
                 <InvertedCornerQ1 />
 
                 <div className='Gameboard_GameboardContainer'>
+                    <img className='backgroundImage' src='https://github.githubassets.com/images/modules/site/codespaces/glow.png'></img>
                     <div className='Gameboard_GameboardWrapper'>
                         <Board />
                     </div>

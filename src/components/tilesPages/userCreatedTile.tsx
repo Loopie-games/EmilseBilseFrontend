@@ -20,13 +20,13 @@ const UserCreatedTile = (tile: TileForUser) => {
     }
 
     return (
-        <div className='Tile_Container'>
-            <div className='Tile_TileInfoContainer'>
-                <div className='Tile_TileInfo Action'>{tile.action}</div>
-                <div className='Tile_TileInfo NickName'>Added by: {tile.addedByNickname}</div>
+        <div className='UserCreatedTile_Container'>
+            <div className='UserCreatedTile_TileInfoContainer'>
+                <div className='UserCreatedTile_TileInfo Action'>{tile.action}</div>
+                <div className='UserCreatedTile_TileInfo NickName'>Added by: {tile.addedByNickname}</div>
             </div>
             {isLoggedInUser ?
-                <div className='Tile_TileInfoIcon' onClick={deleteTile}><Icon name="cross" /></div>
+                <div className='UserCreatedTile_TileInfoIcon' onClick={deleteTile}><Icon name="cross" /></div>
                 : null}
         </div>
     )
