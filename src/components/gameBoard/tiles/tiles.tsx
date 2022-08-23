@@ -5,7 +5,7 @@ import colorLookupService from '../../../services/colorLookupService';
 import { useStore } from '../../../stores/store';
 import './tiles.scss'
 
-const Tiles = (tile: BoardTileDTO) => {
+const Tiles = (tile: BoardTileDTO)  => {
     const { gameStore } = useStore();
     const [color, setColor] = useState('');
     const [isShown, setIsShown] = useState(false)
@@ -18,14 +18,14 @@ const Tiles = (tile: BoardTileDTO) => {
     }
 
     return (
-        <div className={`Tile_Container ${isShown ? 'tileShown' : ''}`} onClick={handleShow}>
+        <div className={`Tile_Container ${isShown ? 'shown' : ''}`} onClick={handleShow}>
             <div className='Tile_IndicatorContainer'>
                 <div className='Tile_Indicator' style={{ backgroundColor: color }}>
                     {tile.position}
                 </div>
             </div>
             <div className='Tile_ActionContainer'>
-                <div className={`Tile_Action ${isShown ? 'tileActionShown' : ''}`}>
+                <div className={`Tile_Action ${isShown ? 'shown' : ''}`}>
                     {tile.tile.user.nickname} {tile.tile.action}
                 </div>
                 {isShown ?

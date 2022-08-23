@@ -2,7 +2,6 @@ import { observer } from 'mobx-react-lite';
 import React, { useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom';
 import { useStore } from '../../../stores/store';
-import Loader from '../loader/loader';
 
 const RequireAuth = ({ children }: any) => {
     const { userStore } = useStore();
@@ -35,7 +34,7 @@ const RequireAuth = ({ children }: any) => {
                 <>
                     {isLoggedIn ? children : <Navigate to='/login' />}
                 </>
-                : <Loader />}
+                : null}
         </>
     )
 }

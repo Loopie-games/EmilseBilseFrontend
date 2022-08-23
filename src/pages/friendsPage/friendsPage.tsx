@@ -1,9 +1,7 @@
-import { observer } from 'mobx-react-lite';
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import Friends from '../../components/friendsPages/friends/friends';
+import Friends from '../../components/friends/friends';
 import Icon from '../../components/shared/icon/Icon';
-import Loader from '../../components/shared/loader/loader';
 import { useStore } from '../../stores/store';
 import './friendsPage.scss'
 
@@ -24,11 +22,12 @@ const FriendsPage = () => {
         const loadData = async () => {
             await friendshipStore.getFriendList(params.id!);
             setLoading(false);
-            setFilteredList(friendshipStore._friendlist!);
+            console.log('====================================');
+            console.log(friendshipStore._friendlist);
+            console.log('====================================');
         }
 
         params.id !== undefined ? loadData() : setLoading(false);
-
     }, [])
 
     const handleSearch = (e: any) => {
@@ -45,7 +44,8 @@ const FriendsPage = () => {
 
     return (
         <div className='FriendsPage-Container'>
-            {loading ? <Loader /> :
+            <div className='FriendsPage-NavBackground'></div>
+            {loading ? <div className='FriendsPage-Loading'>Loading...</div> :
                 <div className='FriendsPage-Wrapper'>
                     <div className='FriendsPage-Title'>Friendlist</div>
                     <div className='FriendsPage-Searchbar'>
@@ -66,4 +66,4 @@ const FriendsPage = () => {
     )
 }
 
-export default observer(FriendsPage)
+export default FriendsPage
