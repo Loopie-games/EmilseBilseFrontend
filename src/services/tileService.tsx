@@ -7,7 +7,7 @@ class tileService {
         return await http.get<TileDTO[]>(`Tile/GetAboutUserById?id=${userId}`)
     }
     getCreatedTiles = async (userId: string) => {
-        return await http.get<TileDTO[]>(`/Tile/GetCreatedTiles/${userId}`)
+        return await http.get<TileDTO[]>(`Tile/GetMadeByUserId?userId=${userId}`)
     }
     createTile = async (tile: TileNewFromUser) => {
         return await http.post<TileDTO>(`/Tile/Create`, tile)

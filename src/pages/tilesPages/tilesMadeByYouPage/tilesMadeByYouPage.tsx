@@ -17,15 +17,20 @@ const TilesMadeByYouPage = () => {
 
     useEffect(() => {
         setLoading(false);
-        tileStore.getCreatedTiles;
+        getTiles()
 
+
+    }, [tileStore, search, params.id, tileStore.createdTiles!])
+
+    const getTiles = async () =>{
+        await tileStore.getCreatedTiles(params.id!);
         const debouncedSearch = setTimeout(async () => {
             setFilteredList(tileStore.createdTiles!.filter(t => t.action.toLowerCase().includes(search.toLowerCase()) || t.user.username.toLowerCase().includes(search.toLowerCase())));
         }, 500);
         return () => {
             clearTimeout(debouncedSearch);
         }
-    }, [tileStore, search, params.id, tileStore.createdTiles!])
+    }
 
 
 
