@@ -1,15 +1,19 @@
 import http from "../http-common"
-import { TileForUser, TileNewFromUser } from "../models/tile/tileInterface";
+import {TileDTO, TileForUser, TileNewFromUser } from "../models/tile/tileInterface";
 
 class tileService {
 
-    async getAboutUserById_TileForUser(userId: string) {
-        return http.get<TileForUser[]>("/Tile/GetAboutUserById_TileForUser?id=" + userId);
+    getTilesAboutUser = async (userId: string) => {
+        return await http.get<TileDTO[]>(`Tile/GetAboutUserById?id=${userId}`)
     }
-
-
-    async createTile(tile: TileNewFromUser) {
-        return http.post<TileForUser>("/Tile/Create", tile)
+    getCreatedTiles = async (userId: string) => {
+        return await http.get<TileDTO[]>(`Tile/GetMadeByUserId?userId=${userId}`)
+    }
+    createTile = async (tile: TileNewFromUser) => {
+        return await http.post<TileDTO>(`/Tile/Create`, tile)
+    }
+    deleteTile = async (tileId: string) => {
+        return await http.delete(`/Tile/Delete/${tileId}`)
     }
 }
 export default new tileService();
