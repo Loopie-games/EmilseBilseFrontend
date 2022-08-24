@@ -1,0 +1,22 @@
+.AboutUs_Container{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    
+
+    img{
+        position: absolute;
+        &:first-of-type{
+            top: -75px;
+            left: -75px;
+            z-index: 1;
+        }
+        &:last-of-type{
+            bottom: 0;
+            right: 0;
+        }
+    }
+}
