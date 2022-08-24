@@ -13,3 +13,5 @@ services:
     image: certbot/certbot:latest
     volumes:
       - ./certbot/www/:/var/www/certbot/:rw
+    depends_on:
+      - "frontend"
