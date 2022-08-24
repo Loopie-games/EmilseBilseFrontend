@@ -7,3 +7,9 @@ services:
     container_name: "${CONT_NAME}"
     ports:
       - "${PORT}:80"
+    volumes:
+      - ./certbot/www/:/var/www/certbot/:rw
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - ./certbot/www/:/var/www/certbot/:rw
