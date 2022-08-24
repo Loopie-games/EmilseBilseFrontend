@@ -21,12 +21,6 @@ pipeline {
             }
         }
 
-        stage("Certbot") {
-            steps {
-                sh "docker compose -f docker-compose.prod.yml run --rm certbot certonly --webroot -m skupi1234@gmail.com --webroot-path /var/www/certbot/ --dry-run -d loopiegame.com --agree-tos"
-            }
-        }
-
         stage("Deploy containers") {
             steps {
                 sh "docker compose -f docker-compose.prod.yml --env-file config/prod.env up -d --build"
