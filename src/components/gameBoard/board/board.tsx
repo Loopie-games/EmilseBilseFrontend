@@ -41,6 +41,7 @@ const Board = () => {
 
     return (
         <div className='GameBoard_Container'>
+            <div className='GameBoard_Title'><img src={logo} alt="Logo"></img></div>
             <div className='GameBoard_TileContainer'>
                 {testData.map((tile, index) => (
                     <div className={`GameBoard_Tile ${tile.completed ? 'active' : ''}`} key={index}

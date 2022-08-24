@@ -1,28 +1,20 @@
 import { action, makeAutoObservable, observable } from "mobx";
-import {TileDTO, TileForUser, TileNewFromUser } from "../models/tile/tileInterface";
+import { TileForUser, TileNewFromUser } from "../models/tile/tileInterface";
 import tileService from "../services/tileService";
 
 export class TileStore {
-    deleteTile(id: string) {
-        throw new Error('Method not implemented.');
-    }
-    @observable tilesAboutUser: TileDTO[] | undefined;
-    @observable createdTiles: TileDTO[] | undefined;
-    @observable createdtile: TileDTO | undefined;
+    @observable tilesAboutUser: TileForUser[] | undefined;
+    @observable createdtile: TileForUser | undefined
 
     constructor() {
         makeAutoObservable(this);
     }
 
     @action
-    getTilesAboutUser = async (userId: string) => {
-        const response = await (await tileService.getTilesAboutUser(userId));
-        this.tilesAboutUser = response.data;
-    }
-    @action
-    getCreatedTiles = async (userId: string) => {
-        const response = await tileService.getCreatedTiles(userId);
-        this.createdTiles = response.data;
+    getAboutUserById_TileForUser = async (userId: string) => {
+        const response = await tileService.getAboutUserById_TileForUser(userId)
+        this.tilesAboutUser = response.data
+        return response;
     }
 
     @action
