@@ -15,6 +15,7 @@ import GameboardPage from './pages/gameboardPage/gameboardPage';
 import RequireLobby from './components/shared/requireLobby/RequireLobby';
 import PageNotFound from './pages/pageNotFound/pageNotFound';
 import FriendsPage from './pages/friendsPage/friendsPage';
+import AboutUsPage from './pages/aboutUsPage/aboutUsPage';
 
 function App() {
   const routes = [
@@ -25,6 +26,7 @@ function App() {
     { path: "/Lobby", element: <RequireLobby><LobbyPage /></RequireLobby> },
     { path: "/game", element: <GameboardPage /> },
     { path: "/user/friendlist/:id", element: <FriendsPage /> },
+    { path: "/aboutUs", element: <AboutUsPage /> },
     { path: "*", element: <PageNotFound /> }
   ];
 
