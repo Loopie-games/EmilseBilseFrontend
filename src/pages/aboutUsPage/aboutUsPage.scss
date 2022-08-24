@@ -1,0 +1,128 @@
+.AboutUs_Container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    .teast {
+        position: absolute;
+
+        &:first-of-type {
+            top: -75px;
+            left: -75px;
+            z-index: 1;
+        }
+
+        &:last-of-type {
+            bottom: 0;
+            right: 0;
+            z-index: 1;
+        }
+    }
+
+    .AboutUs_Wrapper {
+        max-width: 60%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100%;
+
+        .AboutUs_Title {
+            font-family: "Caviar Dreams";
+            font-style: normal;
+            font-weight: 700;
+            font-size: 24px;
+            color: #fff;
+            white-space: nowrap;
+            margin-bottom: 20px;
+            width: 100%;
+            margin-top: 50px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .AboutUs_TextContainer {
+            color: #fff;
+            white-space: wrap;
+            flex-grow: 1;
+            flex-basis: 0;
+            margin-top: 20px;
+            font-family: "Caviar Dreams";
+            font-style: normal;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            overflow-x: hidden;
+            overflow-y: auto;
+            z-index: 2;
+
+
+            section {
+                width: 100%;
+                margin-bottom: 25px;
+                display: flex;
+                gap: 25px;
+                margin-left: 10px;
+
+                .AboutUs_Info {
+                    width: 60%;
+                    border-bottom: 1px solid rgba($color: #fff, $alpha: .5);
+
+                    .AboutUs_SubTitle {
+                        font-weight: 700;
+                        font-size: 18px;
+                        margin-bottom: 10px;
+                    }
+
+                    .AboutUs_Text {
+                        font-weight: 400;
+                        font-size: 16px;
+                        text-align: justify;
+                        margin-bottom: 10px;
+                    }
+                }
+
+                .AboutUs_ImageContainer {
+                    flex: 1;
+                    display: flex;
+                    justify-content: end;
+
+                    img {
+                        max-height: 250px;
+                        margin-right: 20px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+section:nth-of-type(2n) {
+    justify-content: right;
+    align-self: end;
+    direction: rtl;
+
+    margin-right: 10px;
+
+    .AboutUs_Info {
+        direction: ltr;
+    }
+
+    .AboutUs_ImageContainer {
+        flex: 1;
+        display: flex;
+        justify-content: end;
+
+        img {
+            max-height: 250px;
+            margin-left: 20px;
+        }
+    }
+
+    z-index: 2;
+}
