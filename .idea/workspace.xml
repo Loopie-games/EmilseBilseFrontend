@@ -2,7 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="95ab0aca-e3bd-4f58-a05b-c1aa8ae3437f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Lobby/userComponent/userComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Lobby/userComponent/userComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/gameBoard/tiles/tiles.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/gameBoard/tiles/tiles.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/tilesPages/userCreatedTile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/tilesPages/userCreatedTile.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/game/gameInterfaces.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/game/gameInterfaces.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/tile/tileInterface.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/tile/tileInterface.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/gameboardPage/gameboardPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/gameboardPage/gameboardPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/tilesPages/tilesForYouPage/tilesForYouPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/tilesPages/tilesForYouPage/tilesForYouPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/tilesPages/tilesMadeByYouPage/tilesMadeByYouPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/tilesPages/tilesMadeByYouPage/tilesMadeByYouPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/boardService.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/boardService.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/services/tileService.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/tileService.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/gameStore.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/gameStore.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/tileStore.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/tileStore.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -1,19 +1,9 @@
-import { TileForUser } from "../tile/tileInterface";
-import { UserDTO } from "../user/userInterface";
+import {SimpleUserDTO, UserDTO } from "../user/userInterface";
 
-export interface Lobby {
+export interface Lobby{
     id: string
     host: string
-    inProgress: boolean
-    settings: Settings
-    tiles: TileForUser[]
     pin: string
-}
-
-export interface GameRoom {
-    boards: Board[]
-    status: boolean
-    lobby: Lobby
 }
 
 export interface CloseLobbyDto {
@@ -29,16 +19,6 @@ export interface LeaveLobbyDto {
 export interface StartGameDto {
     lobbyId: string
     userId: string
-}
-
-export interface Board {
-    owner: UserDTO
-    tiles: GameTile[]
-}
-
-export interface GameTile {
-    tile: TileForUser
-    completed: boolean
 }
 
 export interface Settings {
