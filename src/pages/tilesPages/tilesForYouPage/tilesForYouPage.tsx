@@ -4,31 +4,37 @@ import AddFriend from '../../../components/friendsPages/addFriends/addFriends';
 import Icon from '../../../components/shared/icon/Icon';
 import Loader from '../../../components/shared/loader/loader';
 import UserCreatedTile from '../../../components/tilesPages/userCreatedTile';
-import {UserTile} from '../../../models/tile/tileInterface';
+import { TileForUser } from '../../../models/tile/tileInterface';
 import { useStore } from '../../../stores/store';
 
 const TilesForYouPage = () => {
     const { tileStore, userStore } = useStore();
     const params = useParams();
-    const [filteredList, setFilteredList] = useState<UserTile[]>(tileStore.tilesAboutUser!);
+    const [filteredList, setFilteredList] = useState<TileForUser[]>(tileStore.tilesAboutUser!);
     const [search, setSearch] = useState('');
     const [loading, setLoading] = useState(true);
     const [isLoggedInUser, setIsLoggedInUser] = useState<Boolean>();
     const [user, setUser] = useState<any>();
+    const t: TileForUser[] = [{ id: '1', userNickname: 'asd', action: 'test', addedByNickname: 'asdasd' }];
 
     useEffect(() => {
         const load = async () => {
-            let u = await userStore.getUserById(params.id!)
-            setUser(u)
-            await  tileStore.getTilesAboutUser(params.id!)
+            //await tileStore.getTilesAboutUser(params.id!);
+            const user = await userStore.getUserById(params.id!);
+            setUser(user);
             setIsLoggedInUser(userStore.user?.id === params.id);
-            setFilteredList(tileStore.tilesAboutUser!);
+
+            setFilteredList(t)
+            //setFilteredList(tileStore.tilesAboutUser!);
             setLoading(false);
         }
         params.id ? load() : setLoading(false);
 
         const debouncedSearch = setTimeout(async () => {
-                        setFilteredList(tileStore.tilesAboutUser!.filter(t => t.action.toLowerCase().includes(search.toLowerCase()) || t.user.username.toLowerCase().includes(search.toLowerCase())));
+            console.log(search);
+
+            setFilteredList(t.filter(t => t.action.toLowerCase().trim().includes(search.toLowerCase().trim()) || t.addedByNickname.toLowerCase().trim().includes(search.toLowerCase().trim())));
+            //setFilteredList(tileStore.tilesAboutUser!.filter(t => t.action.toLowerCase().includes(search.toLowerCase()) || t.addedByNickname.toLowerCase().includes(search.toLowerCase())));
         }, 500);
         return () => {
             clearTimeout(debouncedSearch);
@@ -38,7 +44,7 @@ const TilesForYouPage = () => {
 
 
     const handleClearSearch = () => {
-        setFilteredList(tileStore.tilesAboutUser!);
+        setFilteredList(t);
         setSearch('');
     }
 

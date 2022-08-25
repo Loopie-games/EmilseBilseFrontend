@@ -3,39 +3,37 @@ import { useParams } from 'react-router-dom';
 import Icon from '../../../components/shared/icon/Icon';
 import Loader from '../../../components/shared/loader/loader';
 import UserCreatedTile from '../../../components/tilesPages/userCreatedTile';
-import {UserTile} from '../../../models/tile/tileInterface';
+import { TileForUser } from '../../../models/tile/tileInterface';
 import { useStore } from '../../../stores/store';
 import './tilesMadeByYouPage.scss'
 
 const TilesMadeByYouPage = () => {
     const { tileStore } = useStore();
+    const t: TileForUser[] = [{ id: '1', userNickname: 'asd', action: 'test', addedByNickname: 'test' }];
     const params = useParams();
-    const [filteredList, setFilteredList] = useState<UserTile[]>([]);
+    const [filteredList, setFilteredList] = useState<TileForUser[]>(t);
     const [search, setSearch] = useState('');
     const [loading, setLoading] = useState(true);
 
 
     useEffect(() => {
         setLoading(false);
-        getTiles()
 
-
-    }, [tileStore, search, params.id, tileStore.createdTiles!])
-
-    const getTiles = async () =>{
-        await tileStore.getCreatedTiles(params.id!);
         const debouncedSearch = setTimeout(async () => {
-            setFilteredList(tileStore.createdTiles!.filter(t => t.action.toLowerCase().includes(search.toLowerCase()) || t.user.username.toLowerCase().includes(search.toLowerCase())));
+            console.log(search);
+            setFilteredList(t.filter(t => t.action.toLowerCase().includes(search.toLowerCase()) || t.addedByNickname.toLowerCase().includes(search.toLowerCase())));
+
+            //setFilteredList(tileStore.createdTiles!.filter(t => t.action.toLowerCase().includes(search.toLowerCase()) || t.addedByNickname.toLowerCase().includes(search.toLowerCase())));
         }, 500);
         return () => {
             clearTimeout(debouncedSearch);
         }
-    }
+    }, [tileStore, search, params.id, t])
 
 
 
     const handleClearSearch = () => {
-        setFilteredList(tileStore.createdTiles!);
+        setFilteredList(t);
         setSearch('');
     }
 

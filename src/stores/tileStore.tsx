@@ -1,14 +1,14 @@
 import { action, makeAutoObservable, observable } from "mobx";
-import {UserTile, TileNewFromUser } from "../models/tile/tileInterface";
+import { TileForUser, TileNewFromUser } from "../models/tile/tileInterface";
 import tileService from "../services/tileService";
 
 export class TileStore {
     deleteTile(id: string) {
         throw new Error('Method not implemented.');
     }
-    @observable tilesAboutUser: UserTile[] | undefined;
-    @observable createdTiles: UserTile[] | undefined;
-    @observable createdtile: UserTile | undefined;
+    @observable tilesAboutUser: TileForUser[] | undefined;
+    @observable createdTiles: TileForUser[] | undefined
+    @observable createdtile: TileForUser | undefined;
 
     constructor() {
         makeAutoObservable(this);

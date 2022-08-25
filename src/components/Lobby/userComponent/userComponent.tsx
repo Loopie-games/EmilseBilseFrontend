@@ -14,7 +14,6 @@ const UserComponent = (user: pendingPlayerDto) => {
     }
 
     const isHost = () => {
-        console.log(gameStore.lobby)
         return gameStore.lobby?.host === user.player.id;
     }
 

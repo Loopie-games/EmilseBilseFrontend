@@ -1,6 +1,6 @@
 import { observable, makeAutoObservable, runInAction, toJS, action, observe, when } from "mobx";
 import { HubConnection, HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
-import { CloseLobbyDto, LeaveLobbyDto, Lobby, StartGameDto } from "../models/game/gameInterfaces";
+import { GameRoom, Lobby, CloseLobbyDto, LeaveLobbyDto, StartGameDto } from "../models/game/gameInterfaces";
 import {SimpleUserDTO, UserDTO } from "../models/user/userInterface";
 import { useNavigate } from 'react-router-dom';
 import { pendingPlayerDto } from "../models/player/playerInterface";
@@ -9,7 +9,9 @@ import gameService from "../services/gameService";
 import { BoardTileDTO } from "../models/tile/tileInterface";
 
 export default class GameStore {
-    @observable lobby: Lobby | undefined
+
+    @observable gameRoom: GameRoom | undefined;
+    @observable lobby: Lobby | undefined;
     @observable tiles: BoardTileDTO[] = [];
     @observable players: SimpleUserDTO[] = [{id: '0', username: 'Test', nickname: 'Hovedskovasddasdas' }]
     @observable lobbyPlayers: pendingPlayerDto[] = [];
@@ -36,6 +38,18 @@ export default class GameStore {
                 console.log(error)
             });
 
+        this.hubConnection.on('server_StartGame', (game) => {
+            runInAction(() => {
+                this.gameRoom = game;
+            });
+        });
+
+        this.hubConnection.on('server_JoinLobby', (lobby) => {
+            runInAction(() => {
+                this.lobby = lobby;
+            });
+        });
+
         this.hubConnection.on('lobbyPlayerListUpdate', (players: pendingPlayerDto[]) => {
             runInAction(() => {
                 this.lobbyPlayers = players;
@@ -44,7 +58,7 @@ export default class GameStore {
 
         this.hubConnection.on('lobbyClosed', () => {
             runInAction(async () => {
-                this.lobbyPlayers = [];
+                this.lobby = undefined;
                 console.log('lobby is Closed');
             });
         });
@@ -72,7 +86,7 @@ export default class GameStore {
     }
 
     joinLobby = async (userId: string, lobbyPin: string, lobbyrecieved: Function) => {
-        this.hubConnection?.invoke('JoinLobby', lobbyPin)
+        this.hubConnection?.invoke('JoinLobby', userId, lobbyPin)
         this.hubConnection?.on('receiveLobby', async (lobby: Lobby) => {
             this.lobby = await lobby;
             lobbyrecieved();

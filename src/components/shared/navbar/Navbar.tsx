@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import logo from '../../../assets/Shared/EmilseBilseBingo_Logo.png'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import './Navbar.scss'
 import { useStore } from '../../../stores/store'
 import { observer } from 'mobx-react-lite'
@@ -10,7 +10,7 @@ import Loader from '../loader/loader'
 const Navbar = () => {
     const [loaded, setLoaded] = useState(false)
     const [isLoggedIn, setIsLoggedIn] = useState(false)
-    const location = useLocation();
+
     const { userStore } = useStore();
     useEffect(() => {
         setLoaded(false);
@@ -33,14 +33,12 @@ const Navbar = () => {
                         </div>
                         <div className='Navbar-Button-Container'>
                             <div className='Navbar-Button-Wrapper'>
-                                <Link className={`LoggedInNavbar-Link ${location.pathname === '/aboutUs' ? 'LinkActive' : ''}`} to={'/aboutUs'}>About us</Link>
-
                                 {userStore.user?.id === undefined || userStore.user?.id === '' ?
                                     <>
-                                        <Link className='Navbar-Button' to={'/register'}>Sign Up</Link>
-                                        <Link className='Navbar-Button' to={'/login'}>Log In</Link>
+                                        <Link className='Navbar-Button' to={'/register'}>SIGN UP</Link>
+                                        <Link className='Navbar-Button' to={'/login'}>LOG IN</Link>
                                     </>
-                                    : <LoggedInNavbar />}
+                                    : <LoggedInNavbar/>}
                             </div>
                         </div>
                     </div>

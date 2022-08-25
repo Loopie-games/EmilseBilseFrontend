@@ -1,11 +1,18 @@
 import { SimpleUserDTO } from "../user/userInterface";
 
+export interface TileForUser {
+    id: string
+    userNickname: string
+    action: string
+    addedByNickname: string
+}
+
 export interface TileNewFromUser {
     action: string
     aboutUserId: string
 }
 
-export interface UserTile {
+export interface TileDto {
     id: string
     user: SimpleUserDTO
     action: string
@@ -13,22 +20,10 @@ export interface UserTile {
 
 }
 
-export interface Tile {
-    id: string
-    action: string
-
-}
-export interface Board{
-    id: string
-    gameId: string
-    userId: string
-}
-
 export interface BoardTileDTO {
     id: string
-    board: Board
-    tile: Tile
-    aboutUser: SimpleUserDTO
+    boardId: string
+    tile: TileDto
     position: number
     isActivated: boolean
 }
