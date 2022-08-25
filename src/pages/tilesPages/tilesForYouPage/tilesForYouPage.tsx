@@ -4,13 +4,13 @@ import AddFriend from '../../../components/friendsPages/addFriends/addFriends';
 import Icon from '../../../components/shared/icon/Icon';
 import Loader from '../../../components/shared/loader/loader';
 import UserCreatedTile from '../../../components/tilesPages/userCreatedTile';
-import {TileDTO, TileForUser } from '../../../models/tile/tileInterface';
+import {UserTile} from '../../../models/tile/tileInterface';
 import { useStore } from '../../../stores/store';
 
 const TilesForYouPage = () => {
     const { tileStore, userStore } = useStore();
     const params = useParams();
-    const [filteredList, setFilteredList] = useState<TileDTO[]>(tileStore.tilesAboutUser!);
+    const [filteredList, setFilteredList] = useState<UserTile[]>(tileStore.tilesAboutUser!);
     const [search, setSearch] = useState('');
     const [loading, setLoading] = useState(true);
     const [isLoggedInUser, setIsLoggedInUser] = useState<Boolean>();

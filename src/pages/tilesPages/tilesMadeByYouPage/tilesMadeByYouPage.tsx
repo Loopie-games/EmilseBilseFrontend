@@ -3,14 +3,14 @@ import { useParams } from 'react-router-dom';
 import Icon from '../../../components/shared/icon/Icon';
 import Loader from '../../../components/shared/loader/loader';
 import UserCreatedTile from '../../../components/tilesPages/userCreatedTile';
-import {TileDTO, TileForUser } from '../../../models/tile/tileInterface';
+import {UserTile} from '../../../models/tile/tileInterface';
 import { useStore } from '../../../stores/store';
 import './tilesMadeByYouPage.scss'
 
 const TilesMadeByYouPage = () => {
     const { tileStore } = useStore();
     const params = useParams();
-    const [filteredList, setFilteredList] = useState<TileDTO[]>([]);
+    const [filteredList, setFilteredList] = useState<UserTile[]>([]);
     const [search, setSearch] = useState('');
     const [loading, setLoading] = useState(true);
 

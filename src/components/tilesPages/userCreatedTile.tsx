@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-import {TileDTO} from '../../models/tile/tileInterface'
+import {UserTile} from '../../models/tile/tileInterface'
 import { useStore } from '../../stores/store';
 import Icon from '../shared/icon/Icon'
 import './userCreatedTile.scss'
 
-const UserCreatedTile = (tile: TileDTO) => {
+const UserCreatedTile = (tile: UserTile) => {
     const params = useParams();
     const { userStore, tileStore } = useStore();
     const [isLoggedInUser, setIsLoggedInUser] = useState(false);
