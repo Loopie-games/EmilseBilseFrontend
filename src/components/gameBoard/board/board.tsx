@@ -4,6 +4,7 @@ import logo from '../../../assets/Shared/EmilseBilseBingo_Logo.png'
 import { observer } from 'mobx-react-lite';
 import './board.scss'
 import gameboardPage from '../../../pages/gameboardPage/gameboardPage';
+import { BoardTileDTO, TileDTO } from '../../../models/tile/tileInterface';
 
 const Board = () => {
 
@@ -38,12 +39,22 @@ const Board = () => {
         triggerTime = Date.now() - triggerTime;
     }
 
+    const getColor = (tile: BoardTileDTO) => {
+        gameStore.players.forEach(player => {
+
+            if (player.id === tile.tile.user.id) {
+                return player.color;
+            }
+        })
+        return '#000000';
+    }
+
 
     return (
         <div className='GameBoard_Container'>
             <div className='GameBoard_TileContainer'>
-                {testData.map((tile, index) => (
-                    <div className={`GameBoard_Tile ${tile.completed ? 'active' : ''}`} key={index}
+                {gameStore.tiles.map((tile, index) => (
+                    <div style={{ "boxShadow": tile.isActivated ? `0px 0px 4px ${getColor(tile)};` : '' }} className={`GameBoard_Tile ${tile.isActivated ? 'active' : ''}`} key={index}
                         onClick={() => handleClick(tile)}
                         onMouseDown={handleTouchStart}
                         onMouseUp={handleTouchEnd}>

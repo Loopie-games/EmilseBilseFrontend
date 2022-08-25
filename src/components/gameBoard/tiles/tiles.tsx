@@ -10,7 +10,11 @@ const Tiles = (tile: BoardTileDTO) => {
     const [color, setColor] = useState('');
     const [isShown, setIsShown] = useState(false)
     useEffect(() => {
-        setColor(colorLookupService.generateRandomAppropriateColor());
+        gameStore.players.forEach((player: any) => {
+            if (tile.tile.user.id === player.id) {
+                setColor(player.color);
+            }
+        })
     }, [])
 
     const handleShow = () => {
