@@ -86,7 +86,7 @@ export default class GameStore {
     }
 
     joinLobby = async (userId: string, lobbyPin: string, lobbyrecieved: Function) => {
-        this.hubConnection?.invoke('JoinLobby', userId, lobbyPin)
+        this.hubConnection?.invoke('JoinLobby', lobbyPin)
         this.hubConnection?.on('receiveLobby', async (lobby: Lobby) => {
             this.lobby = await lobby;
             lobbyrecieved();
