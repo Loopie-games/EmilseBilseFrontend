@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import Icon from '../../../components/shared/icon/Icon';
 import Loader from '../../../components/shared/loader/loader';
 import UserCreatedTile from '../../../components/tilesPages/userCreatedTile';
-import {UserTile} from '../../../models/tile/tileInterface';
+import { UserTile } from '../../../models/tile/tileInterface';
 import { useStore } from '../../../stores/store';
 import './tilesMadeByYouPage.scss'
 
@@ -16,29 +16,26 @@ const TilesMadeByYouPage = () => {
 
 
     useEffect(() => {
-        setLoading(false);
         getTiles()
-
-
     }, [tileStore, search, params.id, tileStore.createdTiles!])
 
-    const getTiles = async () =>{
+    const getTiles = async () => {
         await tileStore.getCreatedTiles(params.id!);
         const debouncedSearch = setTimeout(async () => {
+            setLoading(true);
             setFilteredList(tileStore.createdTiles!.filter(t => t.action.toLowerCase().includes(search.toLowerCase()) || t.user.username.toLowerCase().includes(search.toLowerCase())));
+            setLoading(false);
         }, 500);
         return () => {
             clearTimeout(debouncedSearch);
         }
+
     }
-
-
 
     const handleClearSearch = () => {
         setFilteredList(tileStore.createdTiles!);
         setSearch('');
     }
-
 
     return (
         <div className='FriendsPage-Container'>
