@@ -5,15 +5,26 @@ export interface TileNewFromUser {
     aboutUserId: string
 }
 
-export interface UserTile {
+export interface UserTile extends ITile  {
     id: string
     user: SimpleUserDTO
     action: string
     addedBy: SimpleUserDTO
 
 }
+export interface TilePack {
+    id: string
+    name: string
+}
 
-export interface Tile {
+export interface PackTile extends ITile
+{
+    id: string
+    action: string
+    pack: TilePack
+
+}
+export interface ITile {
     id: string
     action: string
 
@@ -27,7 +38,7 @@ export interface Board{
 export interface BoardTileDTO {
     id: string
     board: Board
-    tile: Tile
+    tile: ITile
     aboutUser: SimpleUserDTO
     position: number
     isActivated: boolean
