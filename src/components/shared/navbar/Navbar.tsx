@@ -29,7 +29,6 @@ const Navbar = () => {
                         <div className='Navbar-Logo'>
                             <Link to='/' style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                                 <img src={logo} alt="Logo" />
-                                Loopie
                             </Link>
                         </div>
                         <div className='Navbar-Button-Container'>
