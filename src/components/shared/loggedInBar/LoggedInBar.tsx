@@ -19,7 +19,11 @@ const LoggedInBar = () => {
 
     const profileSubLinks = [{ name: 'Your Profile', link: `/user/profile/${userStore.user?.id}`, iconName: 'profile' }];
     const friendlistSubLinks = [{ name: 'Friendlist', link: `/user/friendlist/${userStore.user?.id}`, iconName: 'friendslist' }, { name: 'Add Friend', link: `/user/addfriend/`, iconName: 'add_friend' }, { name: 'Friend Requests', link: `/user/friendrequests/`, iconName: 'friend_requests' }];
-    const tileSubLinks = [{ name: 'Your Tiles', link: `/user/tiles/${userStore.user?.id}`, iconName: 'tiles_user' }, { name: 'Tiles created by you', link: `/user/tilesby/${userStore.user?.id}`, iconName: 'tiles_byUser' }];
+    const tileSubLinks = [
+        { name: 'Your Tiles', link: `/user/tiles/${userStore.user?.id}`, iconName: 'tiles_user' },
+        { name: 'Tiles created by you', link: `/user/tilesby/${userStore.user?.id}`, iconName: 'tiles_byUser' },
+        { name: 'Create Tilepack', link: `/admin/tilepackcreator/`, iconName: 'tilepack_creator' }
+    ];
     const settingsSubLinks: any[] = [];
     const logoutSublinks: any[] = [];
 

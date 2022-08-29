@@ -20,6 +20,8 @@ import AddFriendPage from './pages/addFriendPage/addFriendPage';
 import TilesForYouPage from './pages/tilesPages/tilesForYouPage/tilesForYouPage';
 import TilesMadeByYouPage from './pages/tilesPages/tilesMadeByYouPage/tilesMadeByYouPage';
 import AboutUsPage from './pages/aboutUsPage/aboutUsPage';
+import TilepackCreatorPage from './pages/tilesPages/tilepackCreatorPage/tilepackCreatorPage';
+import NewTilepackCreatorPage from './pages/tilesPages/tilepackCreatorPage/NewTilepackCreatorPage/newTilepackCreatorPage';
 
 function App() {
   const { userStore } = useStore()
@@ -35,6 +37,8 @@ function App() {
     { path: "/user/friendRequests", element: <FriendRequestPage /> },
     { path: "/user/tiles/:id", element: <TilesForYouPage /> },
     { path: "/user/tilesby/:id", element: <TilesMadeByYouPage /> },
+    { path: "/admin/tilepackcreator", element: <TilepackCreatorPage /> },
+    { path: "/admin/tilepackcreator/addnew", element: <NewTilepackCreatorPage /> },
     { path: "/AboutUs", element: <AboutUsPage /> },
     { path: "*", element: <PageNotFound /> }
   ];
@@ -53,7 +57,7 @@ function App() {
             <Route key={index} path={route.path} element={
               <>
                 <Navbar />
-                <div style={{ "zIndex": "2", "height": "70px", "width": "100%", "backgroundColor": "#24292f" }}></div>
+                <div style={{ "zIndex": "100", "height": "70px", "width": "100%", "backgroundColor": "#24292f" }}></div>
                 <div style={{ "display": "flex", "flexDirection": "row", "flex": "1" }}>
                   {userStore.user !== undefined ? <LoggedInBar /> : null}
                   {route.element}
