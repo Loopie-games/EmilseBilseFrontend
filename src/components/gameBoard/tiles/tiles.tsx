@@ -30,15 +30,12 @@ const Tiles = (tile: BoardTileDTO) => {
             </div>
             <div className='Tile_ActionContainer'>
                 <div className={`Tile_Action ${isShown ? 'tileActionShown' : ''}`}>
-                    {tile.tile.user.nickname} {tile.tile.action}
+                    {tile.aboutUser.nickname} {tile.tile.action}
                 </div>
                 {isShown ?
                     <>
                         <div className='Tile_ActionTo'>
-                            To whoom: {tile.tile.user.username}
-                        </div>
-                        <div className='Tile_ActionBy'>
-                            by whoom: {tile.tile.addedBy.nickname}
+                            To whoom: {tile.aboutUser.username}
                         </div>
                     </>
                     : null}

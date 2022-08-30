@@ -24,6 +24,7 @@ const GameboardPage = () => {
     const waitForBoard = async() =>{
         await gameStore.getPlayers();
         await gameStore.getBoardByGameId();
+        console.log(gameStore.tiles)
     }
 
     const toggleTasklist = () => {
