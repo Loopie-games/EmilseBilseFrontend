@@ -4,7 +4,7 @@ import logo from '../../../assets/Shared/EmilseBilseBingo_Logo.png'
 import { observer } from 'mobx-react-lite';
 import './board.scss'
 import gameboardPage from '../../../pages/gameboardPage/gameboardPage';
-import { BoardTileDTO, TileDTO } from '../../../models/tile/tileInterface';
+import { BoardTileDTO } from '../../../models/tile/tileInterface';
 
 const Board = () => {
 
@@ -52,7 +52,7 @@ const Board = () => {
         gameStore.players.forEach(player => {
 
 
-            if (player.id === tile.tile.user.id) {
+            if (player.id === tile.aboutUser.id) {
                 const t = player.color.substring(4, 17)
                 t.split(',')
                 const h = parseInt(t[0])
