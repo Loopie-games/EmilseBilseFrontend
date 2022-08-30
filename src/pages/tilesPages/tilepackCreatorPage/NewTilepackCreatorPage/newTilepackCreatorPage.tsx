@@ -1,11 +1,29 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Icon from '../../../../components/shared/icon/Icon'
+import NewTile from '../../../../components/tilepackCreator/newTilepackCreator/newTile'
 import './newTilepackCreatorPage.scss'
 
 const NewTilepackCreatorPage = () => {
     const [name, setName] = useState('')
     const [price, setPrice] = useState('')
     const [discount, setDiscount] = useState('')
+    const [availableTiles, setAvailableTiles] = useState([{id: '1', action: ''}])
+    const [selectedTiles, setSelectedTiles] = useState([])
+
+    const navigate = useNavigate();
+
+    const handleCancel = () => {
+        setName('')
+        setPrice('')
+        setDiscount('')
+        navigate('/admin/tilepackcreator')
+    }
+
+    const handleCreate = () => {
+
+        navigate('/admin/tilepackcreator')
+    }
 
     return (
         <div className='NewTilePack_Container'>
@@ -38,21 +56,34 @@ const NewTilepackCreatorPage = () => {
                         <div className='NewTilePack_TileContainer'>
                             <div className='NewTilePack_CreatorTitle'>Available tiles</div>
                             <div className='NewTilePack_CreatorActionContainer'>
-                                action container
-                                <div className='NewTilePack_NewTileButton'>
+                                {availableTiles.map((tile: any) => {
+                                    return (
+                                        <NewTile tile={tile}/>
+                                    )
+                                })}
+                                <div className='NewTilePack_NewTileButton' >
                                     <Icon name="plus" />
                                 </div>
                             </div>
                         </div>
                         <div className='NewTilePack_TileContainer'>
                             <div className='NewTilePack_CreatorTitle'>Selected tiles</div>
-                            <div className='NewTilePack_CreatorActionContainer'>action container</div>
+                            <div className='NewTilePack_CreatorActionContainer'>
+                                {selectedTiles.map((tile: any) => {
+                                    return (
+                                        <div className='NewTilePack_CreatorAction' key={tile.id}>
+                                            <div className='NewTilePack_CreatorActionImage'><img src={tile.image} alt={tile.name} /></div>
+                                            <div className='NewTilePack_CreatorActionName'>{tile.name}</div>
+                                        </div>
+                                    )
+                                })}
+                            </div>
                         </div>
                     </div>
                     <div className='NewTilePack_CreatorButtonContainer'>
                         <div className='NewTilePack_CreatorButtonWrapper'>
-                            <div className='NewTilePack_CancelButton'>Cancel</div>
-                            <div className='NewTilePack_CreatorButton'>Create</div>
+                            <div className='NewTilePack_CancelButton' onClick={handleCancel}>Cancel</div>
+                            <div className='NewTilePack_CreatorButton' onClick={handleCreate}>Create</div>
                         </div>
                     </div>
                 </div>

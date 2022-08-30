@@ -1,0 +1,42 @@
+.NewTile_Container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 40px;
+    background: #24292f;
+    border-radius: 5px;
+    overflow: hidden;
+    .NewTile_Ikon{
+        width: auto;
+        height: 100%;
+        padding: 0 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .NewTile_InputContainer{
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        input{
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: none;
+            outline: none;
+            font-family: "Caviar Dreams";
+            font-size: 16px;
+            font-weight: 400;
+            font-style: normal;
+            color: #fff;
+            &:disabled{
+                color: #c3c3c3;
+            }
+        }
+    }
+}
