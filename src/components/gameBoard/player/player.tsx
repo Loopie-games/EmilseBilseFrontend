@@ -4,13 +4,21 @@ import colorLookupService from '../../../services/colorLookupService';
 import { useStore } from '../../../stores/store';
 import './player.scss'
 
-const Player = ({player}:any) => {
+const Player = ({ player }: any) => {
     const { gameStore } = useStore();
-
     const [color, setColor] = useState('');
+
     useEffect(() => {
-        setColor(colorLookupService.generateRandomAppropriateColor());
+        gameStore.tiles.forEach((tile: any) => {
+            if (tile.aboutUser.id === player.id) {
+                setColor(tile.aboutUser.color!)
+            }
+        })
+
+        console.log(gameStore.testhashmap.get(player.id));
+        
     }, [])
+
     return (
         <div className='Player_Container'>
             <div className='Player_IndicatorContainer'>

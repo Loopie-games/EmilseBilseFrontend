@@ -10,11 +10,7 @@ const Tiles = (tile: BoardTileDTO) => {
     const [color, setColor] = useState('');
     const [isShown, setIsShown] = useState(false)
     useEffect(() => {
-        gameStore.players.forEach((player: any) => {
-            if (tile.aboutUser.id === player.id) {
-                setColor(player.color);
-            }
-        })
+        setColor(tile.aboutUser.color!)
     }, [])
 
     const handleShow = () => {

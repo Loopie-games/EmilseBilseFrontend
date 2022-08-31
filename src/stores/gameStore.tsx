@@ -1,7 +1,7 @@
 import { observable, makeAutoObservable, runInAction, toJS, action, observe, when } from "mobx";
 import { HubConnection, HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { CloseLobbyDto, LeaveLobbyDto, Lobby, StartGameDto } from "../models/game/gameInterfaces";
-import {SimpleUserDTO, UserDTO } from "../models/user/userInterface";
+import { SimplePlayerDTO, SimpleUserDTO, UserDTO } from "../models/user/userInterface";
 import { useNavigate } from 'react-router-dom';
 import { pendingPlayerDto } from "../models/player/playerInterface";
 import boardService from "../services/boardService";
@@ -12,10 +12,12 @@ import colorLookupService from "../services/colorLookupService";
 export default class GameStore {
     @observable lobby: Lobby | undefined
     @observable tiles: BoardTileDTO[] = [];
-    @observable players: SimpleUserDTO[] = [{ id: '0', username: 'Test', nickname: 'Hovedskovasddasdas', color: '#000000' }];
+    @observable players: SimpleUserDTO[] = [];
     @observable lobbyPlayers: pendingPlayerDto[] = [];
     @observable gameId: string | undefined;
     hubConnection: HubConnection | null = null;
+    testhashmap = new Map<string, string>();
+
 
     constructor() {
         makeAutoObservable(this);
@@ -75,7 +77,7 @@ export default class GameStore {
     joinLobby = async (userId: string, lobbyPin: string, lobbyrecieved: Function) => {
         this.hubConnection?.invoke('JoinLobby', lobbyPin)
         this.hubConnection?.on('receiveLobby', async (lobby: Lobby) => {
-            this.lobby = await lobby;
+            this.lobby = lobby;
             lobbyrecieved();
         });
     }
@@ -83,7 +85,7 @@ export default class GameStore {
     gameStarting = async (gameStarting: Function) => {
         this.hubConnection?.on('gameStarting', async (gameId: string) => {
             runInAction(async () => {
-                this.gameId = await gameId;
+                this.gameId = gameId;
                 gameStarting()
                 return
             })
@@ -108,23 +110,30 @@ export default class GameStore {
     @action
     getByBoardId = async (boardId: string) => {
         const response = await boardService.getByBoardId(boardId)
-        this.tiles = await response.data
+        this.tiles = response.data
         return response.data;
     }
     @action
     getBoardByGameId = async () => {
         const response = await boardService.getBoard(this.gameId!)
-        this.tiles = await response.data
+        this.tiles = response.data;
+        this.tiles.forEach(async (tile) => {
+            if(!this.testhashmap.has(tile.aboutUser.id)){
+                tile.aboutUser.color = colorLookupService.lookupColor(tile.position)
+                this.testhashmap.set(tile.aboutUser.id, tile.aboutUser.color)
+            } else {
+                tile.aboutUser.color = this.testhashmap.get(tile.aboutUser.id)
+            }
+
+        })
         return response.data;
     }
 
     @action
     getPlayers = async () => {
         const response = await gameService.getPlayers(this.gameId!);
-        this.players = await response.data
-        this.players.forEach(async (player) => {
-            player.color = colorLookupService.generateRandomAppropriateColor();
-        });
+        this.players = response.data
+
         return response.data
     }
 }

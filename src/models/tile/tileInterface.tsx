@@ -1,4 +1,4 @@
-import { SimpleUserDTO } from "../user/userInterface";
+import { SimplePlayerDTO, SimpleUserDTO } from "../user/userInterface";
 
 export interface TileNewFromUser {
     action: string
@@ -39,7 +39,7 @@ export interface BoardTileDTO {
     id: string
     board: Board
     tile: ITile
-    aboutUser: SimpleUserDTO
+    aboutUser: SimplePlayerDTO
     position: number
     isActivated: boolean
 }
