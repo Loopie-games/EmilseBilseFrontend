@@ -13,15 +13,16 @@ const GameboardPage = () => {
     const [tasklistShown, setTasklistShown] = useState(false);
     const [playersShown, setPlayersShown] = useState(false);
     const { gameStore, userStore } = useStore();
-
+    
     useEffect(() => {
         waitForBoard()
-
+        return () => {
+            console.log('unmounting')
+        }
     }, [])
 
 
-
-    const waitForBoard = async() =>{
+    const waitForBoard = async () => {
         await gameStore.getPlayers();
         await gameStore.getBoardByGameId();
         console.log(gameStore.tiles)
@@ -59,7 +60,7 @@ const GameboardPage = () => {
                     <div className={`Gameboard_PlayersComponentContainer ${playersShown ? 'shown' : ''}`}>
                         {gameStore.players.map((player: any) => (
                             <>
-                            {player.id !== userStore.user!.id ? <Player player={player} /> : null}
+                                {player.id !== userStore.user!.id ? <Player player={player} /> : null}
                             </>
                         ))}
                     </div>
