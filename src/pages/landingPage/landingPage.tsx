@@ -21,7 +21,12 @@ const LandingPage = () => {
         console.log('====================================');
         console.log(`${process.env.NODE_ENV}`);
         console.log('====================================');
+        return () => {
+            console.log("UNMOUNTING");
+        }
+            
     }, []);
+
 
     const handlePinChange = (e: any) => {
         setPinValue(e.target.value);

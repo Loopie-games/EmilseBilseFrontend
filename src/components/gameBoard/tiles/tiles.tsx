@@ -10,8 +10,7 @@ const Tiles = (tile: BoardTileDTO) => {
     const [color, setColor] = useState('');
     const [isShown, setIsShown] = useState(false)
     useEffect(() => {
-        console.log(tile)
-        setColor(colorLookupService.generateRandomAppropriateColor());
+        setColor(tile.aboutUser.color!)
     }, [])
 
     const handleShow = () => {

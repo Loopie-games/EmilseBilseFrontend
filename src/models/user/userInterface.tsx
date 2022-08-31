@@ -12,6 +12,14 @@ export interface SimpleUserDTO {
     profilePicUrl?: string
 }
 
+export interface SimplePlayerDTO extends SimpleUserDTO {
+    color?: string
+    id: string
+    username: string
+    nickname: string
+    profilePicUrl?: string
+}
+
 export interface CreateUserDTO {
     userName: string
     nickName: string
