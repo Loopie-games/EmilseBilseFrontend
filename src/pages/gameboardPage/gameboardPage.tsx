@@ -12,7 +12,7 @@ import './gameboardPage.scss'
 const GameboardPage = () => {
     const [tasklistShown, setTasklistShown] = useState(false);
     const [playersShown, setPlayersShown] = useState(false);
-    const { gameStore } = useStore();
+    const { gameStore, userStore } = useStore();
 
     useEffect(() => {
         waitForBoard()
@@ -58,7 +58,9 @@ const GameboardPage = () => {
                     <div onClick={() => togglePlayers()} className={`Gameboard_PlayersTitle ${playersShown ? 'shown' : ''}`}>{playersShown ? 'Players' : 'P'}</div>
                     <div className={`Gameboard_PlayersComponentContainer ${playersShown ? 'shown' : ''}`}>
                         {gameStore.players.map((player: any) => (
-                            <Player player={player} />
+                            <>
+                            {player.id !== userStore.user!.id ? <Player player={player} /> : null}
+                            </>
                         ))}
                     </div>
                 </div>
