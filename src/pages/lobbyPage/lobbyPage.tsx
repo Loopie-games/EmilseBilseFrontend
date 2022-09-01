@@ -16,17 +16,28 @@ const LobbyPage = () => {
     useEffect(() => {
         listenForGameStarting()
         listenForLobbyClosing()
+        window.addEventListener("beforeunload", (ev) => {
+            ev.preventDefault();
+            onExit()
+            return
+        });
         return () => {
-            if(gameStore.lobby?.id !== undefined){
-                if(gameStore.lobby.host === userStore.user!.id){
-                    handleCloseLobby()
-                }
-                else {
-                    handleLeaveLobby()
-                }
+            if(gameStore.gameId === undefined){
+                onExit()
             }
         }
     }, [])
+
+    const onExit = () => {
+        if(gameStore.lobby?.id !== undefined){
+            if(gameStore.lobby.host === userStore.user!.id){
+                handleCloseLobby()
+            }
+            else {
+                handleLeaveLobby()
+            }
+        }
+    }
 
     const listenForGameStarting = async () => {
         await gameStore.gameStarting(() => {
