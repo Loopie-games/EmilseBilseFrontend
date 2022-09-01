@@ -15,13 +15,12 @@ const LobbyPage = () => {
 
     useEffect(() => {
         listenForGameStarting()
-        /*
+        listenForLobbyClosing()
         return () => {
-            gameStore.leaveLobby(gameStore.lobby!.id, userStore.user!.id)
+            if(gameStore.lobby?.id !== undefined){
+                gameStore.leaveLobby(gameStore.lobby!.id)
+            }
         }
-         */
-
-
     }, [])
 
     const listenForGameStarting = async () => {
@@ -30,12 +29,23 @@ const LobbyPage = () => {
         });
     }
 
+    const listenForLobbyClosing = async () => {
+        await gameStore.lobbyClosing(()=>{
+            navigate('/')
+            return
+        })
+    }
+
     const savePinToClipboard = () => {
         navigator.clipboard.writeText(gameStore.lobby!.pin);
     }
 
     const handleCloseLobby = async () => {
-        await gameStore.leaveLobby(gameStore.lobby!.id, userStore.user!.id)
+        await gameStore.closeLobby(gameStore.lobby!.id)
+    }
+
+    const handleLeaveLobby = async () => {
+        await gameStore.leaveLobby(gameStore.lobby!.id)
         navigate('/')
     }
 
@@ -65,7 +75,7 @@ const LobbyPage = () => {
                     <div className='Lobby_ButtonsContainer'>
                         {gameStore.lobby?.host === userStore.user!.id ?
                             <div className='Lobby_StartButton' onClick={handleStartGame}> Start</div> : null}
-                        <div className='Lobby_StartButton' onClick={handleCloseLobby}>{`${gameStore.lobby?.host === userStore.user?.id ? 'Close Lobby' : 'Leave Lobby'}`}</div>
+                        <div className='Lobby_StartButton' onClick={gameStore.lobby?.host === userStore.user?.id ? handleCloseLobby : handleLeaveLobby}>{`${gameStore.lobby?.host === userStore.user?.id ? 'Close Lobby' : 'Leave Lobby'}`}</div>
                     </div>
                 </div>
                 <div className='Lobby_PlayerContainer'>

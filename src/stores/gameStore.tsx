@@ -45,12 +45,6 @@ export default class GameStore {
             });
         })
 
-        this.hubConnection.on('lobbyClosed', () => {
-            runInAction(async () => {
-                this.lobbyPlayers = [];
-                console.log('lobby is Closed');
-            });
-        });
         return;
     }
 
@@ -82,6 +76,17 @@ export default class GameStore {
         });
     }
 
+    lobbyClosing = async(callback: Function) =>{
+        this.hubConnection?.on('lobbyClosed', async () => {
+            runInAction(async () => {
+                await callback()
+                this.lobbyPlayers = [];
+                this.lobby = undefined;
+                return
+            });
+        });
+    }
+
     gameStarting = async (gameStarting: Function) => {
         this.hubConnection?.on('gameStarting', async (gameId: string) => {
             runInAction(async () => {
@@ -93,18 +98,16 @@ export default class GameStore {
         return
     }
 
-    closeLobby = async (lobbyId: string, hostId: string) => {
-        let cl: CloseLobbyDto = { lobbyID: lobbyId, hostID: hostId }
-        this.hubConnection?.invoke('CloseLobby', cl)
+    closeLobby = async (lobbyId: string) => {
+        this.hubConnection?.invoke('CloseLobby', lobbyId)
     }
 
     kickPlayer = async (userId: string) => {
         console.log(userId);
     }
 
-    leaveLobby = async (lobbyId: string, userId: string) => {
-        let ll: LeaveLobbyDto = { lobbyID: lobbyId, userID: userId }
-        this.hubConnection?.invoke('LeaveLobby', ll)
+    leaveLobby = async (lobbyId: string) => {
+        this.hubConnection?.invoke('LeaveLobby', lobbyId)
     }
 
     @action
