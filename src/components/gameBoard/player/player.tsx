@@ -9,15 +9,14 @@ const Player = ({ player }: any) => {
     const [color, setColor] = useState('');
 
     useEffect(() => {
-        gameStore.tiles.forEach((tile: any) => {
-            if (tile.aboutUser.id === player.id) {
                 setColor(tile.aboutUser.color!)
-            }
-        })
-
-        console.log(gameStore.testhashmap.get(player.id));
-        
+        getColor();
     }, [])
+
+    const getColor = async () => {
+        await setColor(gameStore.testhashmap.get(player.id)!);
+    }
+
 
     return (
         <div className='Player_Container'>
