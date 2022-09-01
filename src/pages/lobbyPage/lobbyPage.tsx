@@ -18,7 +18,12 @@ const LobbyPage = () => {
         listenForLobbyClosing()
         return () => {
             if(gameStore.lobby?.id !== undefined){
-                gameStore.leaveLobby(gameStore.lobby!.id)
+                if(gameStore.lobby.host === userStore.user!.id){
+                    handleCloseLobby()
+                }
+                else {
+                    handleLeaveLobby()
+                }
             }
         }
     }, [])
