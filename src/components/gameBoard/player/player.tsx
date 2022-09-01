@@ -9,7 +9,6 @@ const Player = ({ player }: any) => {
     const [color, setColor] = useState('');
 
     useEffect(() => {
-                setColor(tile.aboutUser.color!)
         getColor();
     }, [])
 
