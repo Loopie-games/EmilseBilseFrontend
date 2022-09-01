@@ -17,7 +17,7 @@ const GameboardPage = () => {
     useEffect(() => {
         waitForBoard()
         return () => {
-            console.log('unmounting')
+            gameStore.gameId = undefined;
         }
     }, [])
 

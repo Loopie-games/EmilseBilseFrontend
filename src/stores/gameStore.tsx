@@ -82,6 +82,7 @@ export default class GameStore {
                 await callback()
                 this.lobbyPlayers = [];
                 this.lobby = undefined;
+                this.hubConnection?.stop();
                 return
             });
         });
@@ -100,6 +101,7 @@ export default class GameStore {
 
     closeLobby = async (lobbyId: string) => {
         this.hubConnection?.invoke('CloseLobby', lobbyId)
+
     }
 
     kickPlayer = async (userId: string) => {
@@ -108,6 +110,8 @@ export default class GameStore {
 
     leaveLobby = async (lobbyId: string) => {
         this.hubConnection?.invoke('LeaveLobby', lobbyId)
+        this.lobby = undefined
+        this.hubConnection?.stop();
     }
 
     @action
