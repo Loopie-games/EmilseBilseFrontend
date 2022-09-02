@@ -46,12 +46,6 @@ export default class GameStore {
             });
         })
 
-        this.hubConnection.on('lobbyClosed', () => {
-            runInAction(async () => {
-                this.lobbyPlayers = [];
-                console.log('lobby is Closed');
-            });
-        });
         return;
     }
 
@@ -69,8 +63,8 @@ export default class GameStore {
         });
     }
 
-    startGame = async (sg: StartGameDto, callBack: Function) => {
-        this.hubConnection?.invoke('StartGame', sg)
+    startGame = async (lobbyId: string, callBack: Function) => {
+        this.hubConnection?.invoke('StartGame', lobbyId)
         await this.gameStarting(callBack);
         return
     }
@@ -80,6 +74,18 @@ export default class GameStore {
         this.hubConnection?.on('receiveLobby', async (lobby: Lobby) => {
             this.lobby = lobby;
             lobbyrecieved();
+        });
+    }
+
+    lobbyClosing = async(callback: Function) =>{
+        this.hubConnection?.on('lobbyClosed', async () => {
+            runInAction(async () => {
+                await callback()
+                this.lobbyPlayers = [];
+                this.lobby = undefined;
+                this.hubConnection?.stop();
+                return
+            });
         });
     }
 
@@ -94,18 +100,19 @@ export default class GameStore {
         return
     }
 
-    closeLobby = async (lobbyId: string, hostId: string) => {
-        let cl: CloseLobbyDto = { lobbyID: lobbyId, hostID: hostId }
-        this.hubConnection?.invoke('CloseLobby', cl)
+    closeLobby = async (lobbyId: string) => {
+        this.hubConnection?.invoke('CloseLobby', lobbyId)
+
     }
 
     kickPlayer = async (userId: string) => {
         console.log(userId);
     }
 
-    leaveLobby = async (lobbyId: string, userId: string) => {
-        let ll: LeaveLobbyDto = { lobbyID: lobbyId, userID: userId }
-        this.hubConnection?.invoke('LeaveLobby', ll)
+    leaveLobby = async (lobbyId: string) => {
+        this.hubConnection?.invoke('LeaveLobby', lobbyId)
+        this.lobby = undefined
+        this.hubConnection?.stop();
     }
 
     @action

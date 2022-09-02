@@ -3,7 +3,7 @@ class ColorLookupService {
     lookupColor(index: number): string {
         switch (index) {
             case 0:
-                return '#ffb624';
+                return '#FF01FF';
             case 1:
                 return '#00C5FF';
             case 2:
@@ -37,7 +37,7 @@ class ColorLookupService {
             case 16:
                 return '#FF0094';
             case 17:
-                return '#FF01FF';
+                return '#ffb624';
             case 18:
                 return '#E958FF';
             case 19:

@@ -17,14 +17,29 @@ const LobbyPage = () => {
 
     useEffect(() => {
         listenForGameStarting()
-        /*
+        listenForLobbyClosing()
+        window.addEventListener("beforeunload", (ev) => {
+            ev.preventDefault();
+            onExit()
+            return
+        });
         return () => {
-            gameStore.leaveLobby(gameStore.lobby!.id, userStore.user!.id)
+            if(gameStore.gameId === undefined){
+                onExit()
+            }
         }
-         */
-
-
     }, [])
+
+    const onExit = () => {
+        if(gameStore.lobby?.id !== undefined){
+            if(gameStore.lobby.host === userStore.user!.id){
+                handleCloseLobby()
+            }
+            else {
+                handleLeaveLobby()
+            }
+        }
+    }
 
     const listenForGameStarting = async () => {
         try {
@@ -36,6 +51,13 @@ const LobbyPage = () => {
         }
     }
 
+    const listenForLobbyClosing = async () => {
+        await gameStore.lobbyClosing(()=>{
+            navigate('/')
+            return
+        })
+    }
+
     const savePinToClipboard = () => {
         try {
             navigator.clipboard.writeText(gameStore.lobby!.pin);
@@ -45,14 +67,17 @@ const LobbyPage = () => {
     }
 
     const handleCloseLobby = async () => {
-        await gameStore.leaveLobby(gameStore.lobby!.id, userStore.user!.id)
+        await gameStore.closeLobby(gameStore.lobby!.id)
+    }
+
+    const handleLeaveLobby = async () => {
+        await gameStore.leaveLobby(gameStore.lobby!.id)
         navigate('/')
     }
 
     const handleStartGame = async () => {
-        if (gameStore.lobbyPlayers.length >= 2) {
-            let sg: StartGameDto = { userId: userStore.user!.id, lobbyId: gameStore.lobby!.id }
-            await gameStore.startGame(sg, () => {
+        if(gameStore.lobbyPlayers.length >= 2){
+            await gameStore.startGame(gameStore.lobby!.id, ()=>{
                 navigate('/game')
             })
             return
@@ -70,20 +95,10 @@ const LobbyPage = () => {
                     <div className='Lobby_Title'>
                         Lobby
                     </div>
-                    <div className='Lobby_InputContainer'>
-                        <div className='Lobby_PinCode' >
-                            <input type="text" placeholder='Pin Code' maxLength={5} readOnly onClick={() => savePinToClipboard()} value={gameStore.lobby?.pin} />
-                        </div>
-                        <div className='Lobby_ButtonsContainer'>
-                            {gameStore.lobby?.host === userStore.user!.id ?
-                                <div className='Lobby_StartButton' onClick={handleStartGame}> Start</div> : null}
-                            <div className='Lobby_StartButton' onClick={handleCloseLobby}>{`${gameStore.lobby?.host === userStore.user?.id ? 'Close Lobby' : 'Leave Lobby'}`}</div>
-                        </div>
-                    </div>
-                    <div className='Lobby_PlayerContainer'>
-                        {gameStore.lobbyPlayers.map((player) => (
-                            <UserComponent {...player} />
-                        ))}
+                    <div className='Lobby_ButtonsContainer'>
+                        {gameStore.lobby?.host === userStore.user!.id ?
+                            <div className='Lobby_StartButton' onClick={handleStartGame}> Start</div> : null}
+                        <div className='Lobby_StartButton' onClick={gameStore.lobby?.host === userStore.user?.id ? handleCloseLobby : handleLeaveLobby}>{`${gameStore.lobby?.host === userStore.user?.id ? 'Close Lobby' : 'Leave Lobby'}`}</div>
                     </div>
                 </div>
             </div>
