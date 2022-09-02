@@ -10,12 +10,17 @@ const Friends = (friend: Friend) => {
     const [expanded, setExpanded] = useState(false);
     const [action, setAction] = useState('');
     const defaultPic = 'https://as2.ftcdn.net/v2/jpg/02/15/84/43/1000_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg'
-    const { tileStore } = useStore();
+    const { tileStore, popupStore } = useStore();
 
     const handleAddClick = () => {
+        try {
         const data: TileNewFromUser = { action: action, aboutUserId: friend.user.id!}
         tileStore.createNewTile_User(data);
         setAddShown(false);
+        } catch (error: any) {
+            popupStore.setErrorMessage('Error ' + error.message);
+            popupStore.show();
+        }
     }
     const handleExpand = () => {
         setExpanded(!expanded);

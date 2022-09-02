@@ -12,8 +12,8 @@ import './gameboardPage.scss'
 const GameboardPage = () => {
     const [tasklistShown, setTasklistShown] = useState(false);
     const [playersShown, setPlayersShown] = useState(false);
-    const { gameStore, userStore } = useStore();
-    
+    const { gameStore, userStore, popupStore } = useStore();
+
     useEffect(() => {
         waitForBoard()
         return () => {
@@ -23,9 +23,14 @@ const GameboardPage = () => {
 
 
     const waitForBoard = async () => {
-        await gameStore.getPlayers();
-        await gameStore.getBoardByGameId();
-        console.log(gameStore.tiles)
+        try {
+            await gameStore.getPlayers();
+            await gameStore.getBoardByGameId();
+            console.log(gameStore.tiles)
+        } catch (e: any) {
+            popupStore.setErrorMessage(e.message);
+            popupStore.show();
+        }
     }
 
     const toggleTasklist = () => {

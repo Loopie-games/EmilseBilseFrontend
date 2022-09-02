@@ -5,7 +5,7 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: 90;
+    z-index: 1000;
 }
 
 .PopUp_Container {
@@ -19,7 +19,7 @@
     transform: translate(-50%, -50%);
     background-color: #24292f;
     border-radius: 15px;
-    z-index: 100;
+    z-index: 10001;
     display: flex;
     flex-direction: column;
     padding: 20px;
@@ -96,10 +96,12 @@
 
 .closing{
     animation: fadeout 0.2s forwards ease-in-out;
+    z-index: 1000;
 }
 
 .opening{
     animation: fadein 0.2s forwards ease-in-out;
+    z-index: 1000;
 }
 
 @keyframes fadeout {

@@ -7,11 +7,13 @@ import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
 import { StartGameDto } from '../../models/game/gameInterfaces';
 import { observe } from 'mobx';
+import Popup from '../../components/shared/popups/popup';
 
 const LobbyPage = () => {
-    const { gameStore, userStore } = useStore();
-
+    const { gameStore, userStore, popupStore } = useStore();
     const navigate = useNavigate();
+
+
 
     useEffect(() => {
         listenForGameStarting()
@@ -25,13 +27,21 @@ const LobbyPage = () => {
     }, [])
 
     const listenForGameStarting = async () => {
-        await gameStore.gameStarting(() => {
-            navigate('/game')
-        });
+        try {
+            await gameStore.gameStarting(() => {
+                navigate('/game')
+            });
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     const savePinToClipboard = () => {
-        navigator.clipboard.writeText(gameStore.lobby!.pin);
+        try {
+            navigator.clipboard.writeText(gameStore.lobby!.pin);
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     const handleCloseLobby = async () => {
@@ -40,41 +50,44 @@ const LobbyPage = () => {
     }
 
     const handleStartGame = async () => {
-        if(gameStore.lobbyPlayers.length >= 2){
-            let sg: StartGameDto = {userId: userStore.user!.id, lobbyId: gameStore.lobby!.id}
-            await gameStore.startGame(sg, ()=>{
+        if (gameStore.lobbyPlayers.length >= 2) {
+            let sg: StartGameDto = { userId: userStore.user!.id, lobbyId: gameStore.lobby!.id }
+            await gameStore.startGame(sg, () => {
                 navigate('/game')
             })
             return
         }
+    
+        popupStore.setErrorMessage('You need at least 2 players to start the game')
+        popupStore.show();
 
-        // TODO error message
-        console.log("you need to be at least 2 players to start a game")
     }
 
     return (
-        <div className='Lobby_Container'>
-            <div className='Lobby_Wrapper'>
-                <div className='Lobby_Title'>
-                    Lobby
-                </div>
-                <div className='Lobby_InputContainer'>
-                    <div className='Lobby_PinCode' >
-                        <input type="text" placeholder='Pin Code' maxLength={5} readOnly onClick={() => savePinToClipboard()} value={gameStore.lobby?.pin} />
+        <>
+            <div className='Lobby_Container'>
+                <div className='Lobby_Wrapper'>
+                    <div className='Lobby_Title'>
+                        Lobby
                     </div>
-                    <div className='Lobby_ButtonsContainer'>
-                        {gameStore.lobby?.host === userStore.user!.id ?
-                            <div className='Lobby_StartButton' onClick={handleStartGame}> Start</div> : null}
-                        <div className='Lobby_StartButton' onClick={handleCloseLobby}>{`${gameStore.lobby?.host === userStore.user?.id ? 'Close Lobby' : 'Leave Lobby'}`}</div>
+                    <div className='Lobby_InputContainer'>
+                        <div className='Lobby_PinCode' >
+                            <input type="text" placeholder='Pin Code' maxLength={5} readOnly onClick={() => savePinToClipboard()} value={gameStore.lobby?.pin} />
+                        </div>
+                        <div className='Lobby_ButtonsContainer'>
+                            {gameStore.lobby?.host === userStore.user!.id ?
+                                <div className='Lobby_StartButton' onClick={handleStartGame}> Start</div> : null}
+                            <div className='Lobby_StartButton' onClick={handleCloseLobby}>{`${gameStore.lobby?.host === userStore.user?.id ? 'Close Lobby' : 'Leave Lobby'}`}</div>
+                        </div>
                     </div>
-                </div>
-                <div className='Lobby_PlayerContainer'>
-                    {gameStore.lobbyPlayers.map((player) => (
-                        <UserComponent {...player} />
-                    ))}
+                    <div className='Lobby_PlayerContainer'>
+                        {gameStore.lobbyPlayers.map((player) => (
+                            <UserComponent {...player} />
+                        ))}
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     )
 }
 
