@@ -67,7 +67,6 @@ const LobbyPage = () => {
 
     const handleStartGame = async () => {
         if(gameStore.lobbyPlayers.length >= 2){
-            let sg: StartGameDto = {userId: userStore.user!.id, lobbyId: gameStore.lobby!.id}
             await gameStore.startGame(gameStore.lobby!.id, ()=>{
                 navigate('/game')
             })
