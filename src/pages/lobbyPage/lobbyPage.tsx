@@ -24,15 +24,15 @@ const LobbyPage = () => {
             return
         });
         return () => {
-            if(gameStore.gameId === undefined){
+            if (gameStore.gameId === undefined) {
                 onExit()
             }
         }
     }, [])
 
     const onExit = () => {
-        if(gameStore.lobby?.id !== undefined){
-            if(gameStore.lobby.host === userStore.user!.id){
+        if (gameStore.lobby?.id !== undefined) {
+            if (gameStore.lobby.host === userStore.user!.id) {
                 handleCloseLobby()
             }
             else {
@@ -52,7 +52,7 @@ const LobbyPage = () => {
     }
 
     const listenForLobbyClosing = async () => {
-        await gameStore.lobbyClosing(()=>{
+        await gameStore.lobbyClosing(() => {
             navigate('/')
             return
         })
@@ -76,15 +76,16 @@ const LobbyPage = () => {
     }
 
     const handleStartGame = async () => {
-        if(gameStore.lobbyPlayers.length >= 2){
-            await gameStore.startGame(gameStore.lobby!.id, ()=>{
+        if (gameStore.lobbyPlayers.length >= 2) {
+            await gameStore.startGame(gameStore.lobby!.id, () => {
                 navigate('/game')
             })
             return
+        } else {
+
+            popupStore.setErrorMessage('You need at least 2 players to start the game')
+            popupStore.show();
         }
-    
-        popupStore.setErrorMessage('You need at least 2 players to start the game')
-        popupStore.show();
 
     }
 
