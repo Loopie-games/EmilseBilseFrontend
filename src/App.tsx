@@ -20,9 +20,10 @@ import AddFriendPage from './pages/addFriendPage/addFriendPage';
 import TilesForYouPage from './pages/tilesPages/tilesForYouPage/tilesForYouPage';
 import TilesMadeByYouPage from './pages/tilesPages/tilesMadeByYouPage/tilesMadeByYouPage';
 import AboutUsPage from './pages/aboutUsPage/aboutUsPage';
+import Popup from './components/shared/popups/popup';
 
 function App() {
-  const { userStore } = useStore()
+  const { userStore, popupStore } = useStore()
   const routes = [
     { path: "/", element: <LandingPage /> },
     { path: "/register", element: <RegisterPage /> },
@@ -47,6 +48,7 @@ function App() {
 
   return (
     <div className="App">
+      {popupStore.isShown && <Popup isConfirmation={false} title="An Error Occured!" errorMessage={popupStore.errorMessage} handleClose={popupStore.hide} />}
       <Router>
         <Routes>
           {routes.map((route, index) => (

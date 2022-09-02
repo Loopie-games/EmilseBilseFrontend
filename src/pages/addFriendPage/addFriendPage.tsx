@@ -4,6 +4,8 @@ import { useParams, useNavigate } from 'react-router-dom'
 import AddFriend from '../../components/friendsPages/addFriends/addFriends';
 import Friends from '../../components/friendsPages/friends/friends';
 import Icon from '../../components/shared/icon/Icon';
+import Loader from '../../components/shared/loader/loader';
+import Popup from '../../components/shared/popups/popup';
 import { Friend } from '../../models/friendship/friendInterface';
 import { useStore } from '../../stores/store';
 import './addFriendPage.scss'
@@ -15,11 +17,9 @@ const AddFriendPage = () => {
     const [filteredList, setFilteredList] = useState<Friend[]>([]);
     const [search, setSearch] = useState('');
     const [loading, setLoading] = useState(true);
-
-
     useEffect(() => {
         setLoading(false);
-        if(search.length > 2){
+        if (search.length > 2) {
             const debouncedSearch = setTimeout(async () => {
                 await friendshipStore.searchForUsers(search);
                 setFilteredList(friendshipStore._searchResults!);
@@ -42,7 +42,7 @@ const AddFriendPage = () => {
 
     return (
         <div className='FriendsPage-Container'>
-            {loading ? <div className='FriendsPage-Loading'>Loading...</div> :
+            {loading ? <div className='FriendsPage-Loading'><Loader /></div> :
                 <div className='FriendsPage-Wrapper'>
                     <div className='FriendsPage-Title'>Add Friend</div>
                     <div className='FriendsPage-Searchbar'>

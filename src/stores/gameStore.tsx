@@ -36,6 +36,7 @@ export default class GameStore {
         await this.hubConnection.start()
             .then(result => console.log("connected"))
             .catch(error => {
+                
                 console.log(error)
             });
 
