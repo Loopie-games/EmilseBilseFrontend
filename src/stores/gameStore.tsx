@@ -62,8 +62,8 @@ export default class GameStore {
         });
     }
 
-    startGame = async (sg: StartGameDto, callBack: Function) => {
-        this.hubConnection?.invoke('StartGame', sg)
+    startGame = async (lobbyId: string, callBack: Function) => {
+        this.hubConnection?.invoke('StartGame', lobbyId)
         await this.gameStarting(callBack);
         return
     }
