@@ -53,7 +53,7 @@ const LandingPage = () => {
             navigate('/login');
         } else {
             await gameStore.createHubConnection();
-            await gameStore.createLobby(userStore.user.id,
+            await gameStore.createLobby(
                 () => { navigate('/lobby') });
         }
         return

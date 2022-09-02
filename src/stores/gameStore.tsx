@@ -52,8 +52,8 @@ export default class GameStore {
         this.hubConnection?.stop().catch(error => { });
     }
 
-    createLobby = async (userId: string, func: Function) => {
-        this.hubConnection?.invoke('CreateLobby', userId);
+    createLobby = async (func: Function) => {
+        this.hubConnection?.invoke('CreateLobby');
         this.hubConnection?.on('receiveLobby', async (lobby) => {
             runInAction(async () => {
                 this.lobby = await lobby;
