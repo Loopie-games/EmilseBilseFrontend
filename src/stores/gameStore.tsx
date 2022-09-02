@@ -63,9 +63,20 @@ export default class GameStore {
     }
 
     startGame = async (lobbyId: string, callBack: Function) => {
+        console.log("startgame")
         this.hubConnection?.invoke('StartGame', lobbyId)
         await this.gameStarting(callBack);
         return
+    }
+
+    connectToGame = async (gameId: string, callback: Function)=> {
+        this.hubConnection?.invoke('ConnectToGame', gameId)
+        this.hubConnection?.on('gameConnected', async (boardId: string) => {
+            this.gameId = gameId;
+            await this.getBoardByGameId();
+            await this.getPlayers()
+            callback()
+        });
     }
 
     joinLobby = async (userId: string, lobbyPin: string, lobbyrecieved: Function) => {

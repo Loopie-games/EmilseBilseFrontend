@@ -67,9 +67,7 @@ const LobbyPage = () => {
 
     const handleStartGame = async () => {
         if(gameStore.lobbyPlayers.length >= 2){
-            await gameStore.startGame(gameStore.lobby!.id, ()=>{
-                navigate('/game')
-            })
+            await gameStore.startGame(gameStore.lobby!.id, ()=>{})
             return
         }
 
