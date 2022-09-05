@@ -56,29 +56,24 @@ export default class GameStore {
     }
 
     createLobby = async (func: Function) => {
-        this.hubConnection?.invoke('CreateLobby');
         this.hubConnection?.on('receiveLobby', async (lobby) => {
             runInAction(async () => {
                 this.lobby = await lobby;
                 func()
             });
         });
+        this.hubConnection?.invoke('CreateLobby');
     }
 
     startGame = async (lobbyId: string, callBack: Function) => {
-        console.log("startgame")
         this.hubConnection?.invoke('StartGame', lobbyId);
         await this.gameStarting(callBack);
         return
     }
 
     connectToGame = async (gameId: string, callback: Function) => {
-        console.log(gameId);
-        
-        console.log("connect to game")
         this.hubConnection?.on('gameConnected', async () => {
             runInAction(async () => {
-                console.log("BBBBBBBBBB");
                 await this.getBoardByGameId();
                 await this.getPlayers()
                 await callback()
@@ -89,11 +84,11 @@ export default class GameStore {
     }
 
     joinLobby = async (userId: string, lobbyPin: string, lobbyrecieved: Function) => {
-        this.hubConnection?.invoke('JoinLobby', lobbyPin)
         this.hubConnection?.on('receiveLobby', async (lobby: Lobby) => {
             this.lobby = lobby;
             lobbyrecieved();
         });
+        this.hubConnection?.invoke('JoinLobby', lobbyPin)
     }
 
     lobbyClosing = async (callback: Function) => {
@@ -119,19 +114,32 @@ export default class GameStore {
         return
     }
 
+    //this
     turnTile = async (boardtileId: string, tileTurned: Function) => {
-        this.hubConnection?.invoke('TurnTile', boardtileId)
         this.hubConnection?.on('TileTurned', async (boardTile: BoardTileDTO) => {
             runInAction(async () => {
                 this.tiles.find((t: BoardTileDTO) => t.id === boardTile.id)!.isActivated = boardTile.isActivated
                 tileTurned()
             })
         })
+        this.hubConnection?.on('boardFilled', async (boardId: string) => {
+            runInAction(async () => {
+                console.log("boardfilled: " + boardId)
+                //todo pop up
+                // if confirmed by user use function claimWin
+                // else use function turnTile 
+            })
+        })
+        this.hubConnection?.invoke('TurnTile', boardtileId)
+    }
+
+    // or this
+    claimWin = async (boardId:string) => {
+        this.hubConnection?.invoke('ClaimWin', boardId)
     }
 
     closeLobby = async (lobbyId: string) => {
         this.hubConnection?.invoke('CloseLobby', lobbyId)
-
     }
 
     kickPlayer = async (userId: string) => {
