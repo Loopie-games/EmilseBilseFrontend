@@ -110,6 +110,16 @@ export default class GameStore {
         return
     }
 
+    turnTile = async (boardtileId: string, tileTurned:Function) =>{
+        this.hubConnection?.invoke('TurnTile', boardtileId)
+        this.hubConnection?.on('TileTurned', async (boardTile: BoardTileDTO) =>{
+            runInAction(async ()=>{
+                this.tiles.find((t: BoardTileDTO) => t.id === boardTile.id)!.isActivated = boardTile.isActivated
+                tileTurned()
+            })
+        })
+    }
+
     closeLobby = async (lobbyId: string) => {
         this.hubConnection?.invoke('CloseLobby', lobbyId)
 

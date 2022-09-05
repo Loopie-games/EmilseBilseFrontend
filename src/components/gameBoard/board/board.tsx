@@ -21,7 +21,9 @@ const Board = () => {
     }, [])
 
     const completeTile = (tile: BoardTileDTO) => {
-        gameStore.tiles.find((t: any) => t.id === tile.id)!.isActivated = !gameStore.tiles.find((t: any) => t.id === tile.id)?.isActivated;
+        gameStore.turnTile(tile.id, ()=>{
+
+        })
     }
 
     const test = (tile: any) => {
@@ -31,7 +33,7 @@ const Board = () => {
     const handleClick = (e: any) => {
         console.log(getPlayerColor(e.aboutUser.id));
 
-        triggerTime > longPressTime ? test(e) : completeTile(e);
+        triggerTime > longPressTime ? completeTile(e) : completeTile(e);
     }
 
     const handleTouchStart = (e: any) => {
