@@ -53,8 +53,8 @@ export default class GameStore {
         this.hubConnection?.stop().catch(error => { });
     }
 
-    createLobby = async (userId: string, func: Function) => {
-        this.hubConnection?.invoke('CreateLobby', userId);
+    createLobby = async (func: Function) => {
+        this.hubConnection?.invoke('CreateLobby');
         this.hubConnection?.on('receiveLobby', async (lobby) => {
             runInAction(async () => {
                 this.lobby = await lobby;
@@ -64,9 +64,20 @@ export default class GameStore {
     }
 
     startGame = async (lobbyId: string, callBack: Function) => {
+        console.log("startgame")
         this.hubConnection?.invoke('StartGame', lobbyId)
         await this.gameStarting(callBack);
         return
+    }
+
+    connectToGame = async (gameId: string, callback: Function)=> {
+        this.hubConnection?.invoke('ConnectToGame', gameId)
+        this.hubConnection?.on('gameConnected', async (boardId: string) => {
+            this.gameId = gameId;
+            await this.getBoardByGameId();
+            await this.getPlayers()
+            callback()
+        });
     }
 
     joinLobby = async (userId: string, lobbyPin: string, lobbyrecieved: Function) => {
@@ -98,6 +109,16 @@ export default class GameStore {
             })
         })
         return
+    }
+
+    turnTile = async (boardtileId: string, tileTurned:Function) =>{
+        this.hubConnection?.invoke('TurnTile', boardtileId)
+        this.hubConnection?.on('TileTurned', async (boardTile: BoardTileDTO) =>{
+            runInAction(async ()=>{
+                this.tiles.find((t: BoardTileDTO) => t.id === boardTile.id)!.isActivated = boardTile.isActivated
+                tileTurned()
+            })
+        })
     }
 
     closeLobby = async (lobbyId: string) => {

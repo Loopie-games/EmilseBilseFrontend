@@ -24,9 +24,9 @@ const GameboardPage = () => {
 
     const waitForBoard = async () => {
         try {
-            await gameStore.getPlayers();
-            await gameStore.getBoardByGameId();
-            console.log(gameStore.tiles)
+            await gameStore.connectToGame(gameStore.gameId!, ()=> {
+            
+        })
         } catch (e: any) {
             popupStore.setErrorMessage(e.message);
             popupStore.show();

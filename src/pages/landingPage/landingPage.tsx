@@ -59,7 +59,7 @@ const LandingPage = () => {
         } else {
             try{
             await gameStore.createHubConnection();
-            await gameStore.createLobby(userStore.user.id,
+            await gameStore.createLobby(
                 () => { navigate('/lobby') });
             } catch (e:any) {
                 popupStore.setErrorMessage(e.message);
