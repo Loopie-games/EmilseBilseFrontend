@@ -36,7 +36,7 @@ export default class GameStore {
         await this.hubConnection.start()
             .then(result => console.log("connected"))
             .catch(error => {
-                
+
                 console.log(error)
             });
 
@@ -45,6 +45,8 @@ export default class GameStore {
                 this.lobbyPlayers = players;
             });
         })
+
+        
 
         return;
     }
@@ -65,19 +67,25 @@ export default class GameStore {
 
     startGame = async (lobbyId: string, callBack: Function) => {
         console.log("startgame")
-        this.hubConnection?.invoke('StartGame', lobbyId)
+        this.hubConnection?.invoke('StartGame', lobbyId);
         await this.gameStarting(callBack);
         return
     }
 
-    connectToGame = async (gameId: string, callback: Function)=> {
-        this.hubConnection?.invoke('ConnectToGame', gameId)
-        this.hubConnection?.on('gameConnected', async (boardId: string) => {
-            this.gameId = gameId;
-            await this.getBoardByGameId();
-            await this.getPlayers()
-            callback()
+    connectToGame = async (gameId: string, callback: Function) => {
+        console.log(gameId);
+        
+        console.log("connect to game")
+        this.hubConnection?.on('gameConnected', async () => {
+            runInAction(async () => {
+                console.log("BBBBBBBBBB");
+                await this.getBoardByGameId();
+                await this.getPlayers()
+                await callback()
+                return
+            })
         });
+        await this.hubConnection?.invoke('ConnectToGame', gameId)
     }
 
     joinLobby = async (userId: string, lobbyPin: string, lobbyrecieved: Function) => {
@@ -88,7 +96,7 @@ export default class GameStore {
         });
     }
 
-    lobbyClosing = async(callback: Function) =>{
+    lobbyClosing = async (callback: Function) => {
         this.hubConnection?.on('lobbyClosed', async () => {
             runInAction(async () => {
                 await callback()
@@ -111,10 +119,10 @@ export default class GameStore {
         return
     }
 
-    turnTile = async (boardtileId: string, tileTurned:Function) =>{
+    turnTile = async (boardtileId: string, tileTurned: Function) => {
         this.hubConnection?.invoke('TurnTile', boardtileId)
-        this.hubConnection?.on('TileTurned', async (boardTile: BoardTileDTO) =>{
-            runInAction(async ()=>{
+        this.hubConnection?.on('TileTurned', async (boardTile: BoardTileDTO) => {
+            runInAction(async () => {
                 this.tiles.find((t: BoardTileDTO) => t.id === boardTile.id)!.isActivated = boardTile.isActivated
                 tileTurned()
             })
@@ -147,7 +155,7 @@ export default class GameStore {
         const response = await boardService.getBoard(this.gameId!)
         this.tiles = response.data;
         this.tiles.forEach(async (tile) => {
-            if(!this.testhashmap.has(tile.aboutUser.id)){
+            if (!this.testhashmap.has(tile.aboutUser.id)) {
                 tile.aboutUser.color = colorLookupService.lookupColor(tile.position)
                 this.testhashmap.set(tile.aboutUser.id, tile.aboutUser.color)
             } else {
