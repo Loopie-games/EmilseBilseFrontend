@@ -14,7 +14,7 @@ const LandingPage = () => {
     /**
      * Example of how to use the store context
      */
-    const { userStore, gameStore } = useStore();
+    const { userStore, gameStore, popupStore } = useStore();
 
     useEffect(() => {
         setLoaded(true);
@@ -41,9 +41,14 @@ const LandingPage = () => {
             navigate('/login');
         }
         else {
+            try{
             await gameStore.createHubConnection();
             await gameStore.joinLobby(userStore.user!.id, pinValue,
                 () => { navigate('/lobby') });
+            } catch (e:any) {
+                popupStore.setErrorMessage(e.message);
+                popupStore.show();
+            }
         }
         return
     }
@@ -52,9 +57,14 @@ const LandingPage = () => {
         if (userStore.user === undefined) {
             navigate('/login');
         } else {
+            try{
             await gameStore.createHubConnection();
             await gameStore.createLobby(
                 () => { navigate('/lobby') });
+            } catch (e:any) {
+                popupStore.setErrorMessage(e.message);
+                popupStore.show();
+            }
         }
         return
     }

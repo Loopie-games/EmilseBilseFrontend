@@ -7,14 +7,19 @@ import './friendRequests.scss'
 
 const FriendRequest = (friend: Friend) => {
     const defaultPic = 'https://as2.ftcdn.net/v2/jpg/02/15/84/43/1000_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg'
-    const { friendshipStore } = useStore();
+    const { friendshipStore, popupStore } = useStore();
 
     const handleAddClick = () => {
+        try{
         friendshipStore.acceptFriendRequest(friend.id!);
         let ff = friendshipStore._friendRequests!.findIndex((f)=>{
             f.id == friend.id
         })
         friendshipStore._friendRequests!.splice(ff,1)
+        }catch(error: any){
+            popupStore.setErrorMessage('Error '+ error.message);
+            popupStore.show();
+        }
     }
 
     const handleDeclineClick = () => {
