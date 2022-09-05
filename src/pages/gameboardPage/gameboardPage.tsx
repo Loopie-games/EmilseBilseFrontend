@@ -24,7 +24,7 @@ const GameboardPage = () => {
 
     const waitForBoard = async () => {
         await gameStore.connectToGame(gameStore.gameId!, ()=> {
-            console.log("måske")
+            
         })
     }
 
