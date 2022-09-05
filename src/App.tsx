@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/landingPage/landingPage';
@@ -21,6 +21,7 @@ import TilesForYouPage from './pages/tilesPages/tilesForYouPage/tilesForYouPage'
 import TilesMadeByYouPage from './pages/tilesPages/tilesMadeByYouPage/tilesMadeByYouPage';
 import AboutUsPage from './pages/aboutUsPage/aboutUsPage';
 import Popup from './components/shared/popups/popup';
+import MobileNav from './components/shared/navbar/mobileNavbar/mobileNav';
 
 function App() {
   const { userStore, popupStore } = useStore()
@@ -39,12 +40,26 @@ function App() {
     { path: "/AboutUs", element: <AboutUsPage /> },
     { path: "*", element: <PageNotFound /> }
   ];
-  ;
+
+  const [mobileNav, setMobileNav] = useState(false);
+  const [t, setT] = useState(0);
+
   useEffect(() => {
     if (localStorage.getItem('userId') !== null) {
       userStore.getById(localStorage.getItem('userId') ?? '');
     }
   }, [])
+
+  useEffect(() => {
+    setT(window.innerWidth)
+    if (window.innerWidth < 768) {
+      setMobileNav(true);
+    } else {
+      setMobileNav(false);
+    }
+
+  }, [])
+
 
   return (
     <div className="App">
@@ -54,12 +69,17 @@ function App() {
           {routes.map((route, index) => (
             <Route key={index} path={route.path} element={
               <>
-                <Navbar />
-                <div style={{ "zIndex": "2", "height": "70px", "width": "100%", "backgroundColor": "#24292f" }}></div>
+                {!mobileNav &&
+                  <>
+                    <Navbar />
+                    <div style={{ "zIndex": "2", "height": "70px", "width": "100%", "backgroundColor": "#24292f" }}></div>
+                  </>
+                }
                 <div style={{ "display": "flex", "flexDirection": "row", "flex": "1" }}>
-                  {userStore.user !== undefined ? <LoggedInBar /> : null}
+                  {userStore.user !== undefined && !mobileNav && <LoggedInBar />}
                   {route.element}
                 </div>
+                {mobileNav && <MobileNav />}
               </>
             } />
           ))}
