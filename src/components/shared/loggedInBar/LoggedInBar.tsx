@@ -27,7 +27,7 @@ const LoggedInBar = () => {
 
 
     const checkIfBlacklistedRoute = (path: string) => {
-        return barBlacklistRoutes.some(route => route === path);
+        return barBlacklistRoutes.some(route => !route.startsWith(path));
     }
 
     const handleProfileClick = () => {

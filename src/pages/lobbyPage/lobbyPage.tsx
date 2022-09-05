@@ -44,7 +44,7 @@ const LobbyPage = () => {
     const listenForGameStarting = async () => {
         try {
             await gameStore.gameStarting(() => {
-                navigate('/game')
+                navigate('/game/' + gameStore.gameId)
             });
         } catch (e) {
             console.log(e)
@@ -76,8 +76,8 @@ const LobbyPage = () => {
     }
 
     const handleStartGame = async () => {
-        if(gameStore.lobbyPlayers.length >= 2){
-            await gameStore.startGame(gameStore.lobby!.id, ()=>{})
+        if (gameStore.lobbyPlayers.length >= 2) {
+            await gameStore.startGame(gameStore.lobby!.id, () => { })
             return
         } else {
 
@@ -94,10 +94,20 @@ const LobbyPage = () => {
                     <div className='Lobby_Title'>
                         Lobby
                     </div>
-                    <div className='Lobby_ButtonsContainer'>
-                        {gameStore.lobby?.host === userStore.user!.id ?
-                            <div className='Lobby_StartButton' onClick={handleStartGame}> Start</div> : null}
-                        <div className='Lobby_StartButton' onClick={gameStore.lobby?.host === userStore.user?.id ? handleCloseLobby : handleLeaveLobby}>{`${gameStore.lobby?.host === userStore.user?.id ? 'Close Lobby' : 'Leave Lobby'}`}</div>
+                    <div className='Lobby_InputContainer'>
+                        <div className='Lobby_PinCode' >
+                            <input type="text" placeholder='Pin Code' maxLength={5} readOnly onClick={() => savePinToClipboard()} value={gameStore.lobby?.pin} />
+                        </div>
+                        <div className='Lobby_ButtonsContainer'>
+                            {gameStore.lobby?.host === userStore.user!.id ?
+                                <div className='Lobby_StartButton' onClick={handleStartGame}> Start</div> : null}
+                            <div className='Lobby_StartButton' onClick={gameStore.lobby?.host === userStore.user?.id ? handleCloseLobby : handleLeaveLobby}>{`${gameStore.lobby?.host === userStore.user?.id ? 'Close Lobby' : 'Leave Lobby'}`}</div>
+                        </div>
+                    </div>
+                    <div className='Lobby_PlayerContainer'>
+                        {gameStore.lobbyPlayers.map((player) => (
+                            <UserComponent {...player} />
+                        ))}
                     </div>
                 </div>
             </div>

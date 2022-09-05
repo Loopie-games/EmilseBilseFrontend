@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react-lite'
 import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom';
 import Board from '../../components/gameBoard/board/board';
 import Player from '../../components/gameBoard/player/player';
 import Tiles from '../../components/gameBoard/tiles/tiles';
@@ -13,8 +14,12 @@ const GameboardPage = () => {
     const [tasklistShown, setTasklistShown] = useState(false);
     const [playersShown, setPlayersShown] = useState(false);
     const { gameStore, userStore, popupStore } = useStore();
+    const params = useParams();
 
     useEffect(() => {
+        console.log('====================================');
+        console.log(params.id);
+        console.log('====================================');
         waitForBoard()
         return () => {
             gameStore.gameId = undefined;
@@ -23,14 +28,14 @@ const GameboardPage = () => {
 
 
     const waitForBoard = async () => {
-        try {
-            await gameStore.connectToGame(gameStore.gameId!, ()=> {
+            gameStore.gameId = params.id!
+            await gameStore.createHubConnection();
+            await gameStore.connectToGame(params.id!, ()=> {
+                console.log("AAAAAAAAAAAAAAAAAa");});
+
+
+        console.log(gameStore.hubConnection);
             
-        })
-        } catch (e: any) {
-            popupStore.setErrorMessage(e.message);
-            popupStore.show();
-        }
     }
 
     const toggleTasklist = () => {

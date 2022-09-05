@@ -29,7 +29,7 @@ function App() {
     { path: "/register", element: <RegisterPage /> },
     { path: "/login", element: <LoginPage /> },
     { path: "/Lobby", element: <RequireLobby><LobbyPage /></RequireLobby> },
-    { path: "/game", element: <GameboardPage /> },
+    { path: "/game/:id", element: <GameboardPage /> },
     { path: "/user/friendlist/:id", element: <FriendsPage /> },
     { path: "/test", element: <TestPage /> },
     { path: "/user/addfriend/", element: <AddFriendPage /> },
