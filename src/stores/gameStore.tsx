@@ -1,12 +1,12 @@
 import { observable, makeAutoObservable, runInAction, toJS, action, observe, when } from "mobx";
 import { HubConnection, HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
-import { CloseLobbyDto, LeaveLobbyDto, Lobby, StartGameDto } from "../models/game/gameInterfaces";
+import { CloseLobbyDto, GameDTO, LeaveLobbyDto, Lobby, StartGameDto } from "../models/game/gameInterfaces";
 import { SimplePlayerDTO, SimpleUserDTO, UserDTO } from "../models/user/userInterface";
 import { useNavigate } from 'react-router-dom';
 import { pendingPlayerDto } from "../models/player/playerInterface";
 import boardService from "../services/boardService";
 import gameService from "../services/gameService";
-import { BoardTileDTO } from "../models/tile/tileInterface";
+import {BoardDTO, BoardTileDTO } from "../models/tile/tileInterface";
 import colorLookupService from "../services/colorLookupService";
 
 export default class GameStore {
@@ -15,6 +15,7 @@ export default class GameStore {
     @observable players: SimpleUserDTO[] = [];
     @observable lobbyPlayers: pendingPlayerDto[] = [];
     @observable gameId: string | undefined;
+    @observable game: GameDTO| undefined;
     hubConnection: HubConnection | null = null;
     testhashmap = new Map<string, string>();
 
@@ -72,15 +73,24 @@ export default class GameStore {
     }
 
     connectToGame = async (gameId: string, callback: Function) => {
-        this.hubConnection?.on('gameConnected', async () => {
+        this.hubConnection?.on('gameConnected', async (boardId: string) => {
             runInAction(async () => {
+                this.game = await this.getGame(gameId);
                 await this.getBoardByGameId();
                 await this.getPlayers()
-                await callback()
+                await callback(boardId)
                 return
             })
         });
         await this.hubConnection?.invoke('ConnectToGame', gameId)
+    }
+
+    listenWinnerClaimed = async(callback: Function) =>{
+        this.hubConnection?.on('winnerClaimed', async (board: BoardDTO) => {
+            runInAction(async () => {
+                await callback(board)
+            })
+        });
     }
 
     joinLobby = async (userId: string, lobbyPin: string, lobbyrecieved: Function) => {
@@ -127,7 +137,8 @@ export default class GameStore {
                 console.log("boardfilled: " + boardId)
                 //todo pop up
                 // if confirmed by user use function claimWin
-                // else use function turnTile 
+                // else use function turnTile
+                await this.claimWin(boardId)
             })
         })
         this.hubConnection?.invoke('TurnTile', boardtileId)
@@ -136,6 +147,7 @@ export default class GameStore {
     // or this
     claimWin = async (boardId:string) => {
         this.hubConnection?.invoke('ClaimWin', boardId)
+        return
     }
 
     closeLobby = async (lobbyId: string) => {
@@ -181,4 +193,12 @@ export default class GameStore {
 
         return response.data
     }
+
+    @action
+    getGame = async (gameId: string) =>{
+        const response = await gameService.getById(gameId);
+        return response.data
+    }
+
+
 }
