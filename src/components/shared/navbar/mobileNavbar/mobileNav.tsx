@@ -1,3 +1,4 @@
+import { observer } from 'mobx-react-lite'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useStore } from '../../../../stores/store'
@@ -7,9 +8,17 @@ import './mobileNav.scss'
 const MobileNav = () => {
     const navigate = useNavigate()
     const url = window.location.pathname;
+
+    const { userStore } = useStore()
+
     const [showMenu, setShowMenu] = useState(false)
 
     const [linkShown, setLinkShown] = useState(false);
+    const [profileShown, setProfileShown] = useState(false);
+    const [friendsShown, setFriendsShown] = useState(false);
+    const [tilesShown, setTilesShown] = useState(false);
+    const [settingsShown, setSettingsShown] = useState(false);
+    const [logOutShown, setLogOutShown] = useState(false);
 
     const linkSublinks = [
         { name: 'Shop', link: `/shop`, iconName: 'link' },
@@ -20,6 +29,12 @@ const MobileNav = () => {
         { name: 'Privacy policy', link: `/privacy`, iconName: 'link' },
     ];
 
+    const profileSubLinks = [{ name: 'Your Profile', link: `/user/profile/${userStore.user?.id}`, iconName: 'profile' }];
+    const friendlistSubLinks = [{ name: 'Friendlist', link: `/user/friendlist/${userStore.user?.id}`, iconName: 'friendslist' }, { name: 'Add Friend', link: `/user/addfriend/`, iconName: 'add_friend' }, { name: 'Friend Requests', link: `/user/friendrequests/`, iconName: 'friend_requests' }];
+    const tileSubLinks = [{ name: 'Your Tiles', link: `/user/tiles/${userStore.user?.id}`, iconName: 'tiles_user' }, { name: 'Tiles created by you', link: `/user/tilesby/${userStore.user?.id}`, iconName: 'tiles_byUser' }];
+    const settingsSubLinks: any[] = [];
+    const logoutSublinks: any[] = [];
+
     const handleMenuClick = () => {
         setShowMenu(!showMenu)
         showMenu && handleHideAll();
@@ -28,11 +43,72 @@ const MobileNav = () => {
     const handleLinksClick = () => {
         !showMenu && setShowMenu(true);
         setLinkShown(!linkShown);
+        setFriendsShown(false);
+        setTilesShown(false);
+        setSettingsShown(false);
+        setLogOutShown(false);
+        setProfileShown(false);
+    }
+
+    const handleProfileClick = () => {
+        !showMenu && setShowMenu(true);
+        setProfileShown(!profileShown);
+        setLinkShown(false);
+        setFriendsShown(false);
+        setTilesShown(false);
+        setSettingsShown(false);
+        setLogOutShown(false);
+    }
+
+    const handleFriendsClick = () => {
+        !showMenu && setShowMenu(true);
+        setFriendsShown(!friendsShown);
+        setProfileShown(false);
+        setTilesShown(false);
+        setSettingsShown(false);
+        setLogOutShown(false);
+    }
+    const handleTilesClick = () => {
+        !showMenu && setShowMenu(true);
+        setTilesShown(!tilesShown);
+        setProfileShown(false);
+        setFriendsShown(false);
+        setSettingsShown(false);
+        setLogOutShown(false);
+    }
+    const handleSettingsClick = () => {
+        !showMenu && setShowMenu(true);
+        setSettingsShown(!settingsShown);
+        setProfileShown(false);
+        setFriendsShown(false);
+        setTilesShown(false);
+        setLogOutShown(false);
+    }
+    const handleSettings = () => {
+        navigate('/user/settings')
+    }
+    const handleLogOutClick = () => {
+        !showMenu && setShowMenu(true);
+        setLogOutShown(!logOutShown);
+        setProfileShown(false);
+        setFriendsShown(false);
+        setTilesShown(false);
+        setSettingsShown(false);
+    }
+    const handleLogOut = () => {
+
+        userStore.logout();
+        navigate('/');
     }
 
     const handleHideAll = () => {
         setShowMenu(false);
         setLinkShown(false);
+        setProfileShown(false);
+        setFriendsShown(false);
+        setTilesShown(false);
+        setSettingsShown(false);
+        setLogOutShown(false);
     }
 
     return (
@@ -41,20 +117,109 @@ const MobileNav = () => {
 
                 <div className="MobileNav_LinksContainer" >
                     <div className="MobileNav_LinksWrapper">
-                        <div className='MobileNav_MenuLinksContainer' onClick={handleLinksClick}>
+                        <div className={`MobileNav_MenuLinksContainer ${linkShown ? 'active' : ''}`} onClick={handleLinksClick}>
                             <div className='MobileNav_MenuLinksContainerIcon'><Icon name="link" /></div>
                             <div className='MobileNav_MenuLinksContainerTextTitle'>Links</div>
                         </div>
                         <div className={`MobileNav_MenuComponent ${linkShown ? 'asdasd' : ''}`}>
                             {linkSublinks.map((link, index) => {
                                 return (
-                                    <div className="MobileNav_MenuLinksContainer" key={index} onClick={() => { setShowMenu(!showMenu); navigate(link.link) }}>
+                                    <div className={`MobileNav_MenuLinksContainer ${url === link.link ? 'active' : ''}`} key={index} onClick={() => { setShowMenu(!showMenu); navigate(link.link) }}>
                                         <div className='MobileNav_MenuLinksContainerIcon'><Icon name={link.iconName} /></div>
                                         <div className='MobileNav_MenuLinksContainerText'>{link.name}</div>
                                     </div>
                                 )
                             })}
                         </div>
+                        {userStore.user &&
+                            <>
+                                {/** 
+                                 * Profile
+                                */}
+                                <div className={`MobileNav_MenuLinksContainer ${profileShown ? 'active' : ''}`} onClick={handleProfileClick}>
+                                    <div className='MobileNav_MenuLinksContainerIcon'><Icon name="profile" /></div>
+                                    <div className='MobileNav_MenuLinksContainerTextTitle'>Profile</div>
+                                </div>
+                                <div className={`MobileNav_MenuComponent ${profileShown ? 'asdasd' : ''}`}>
+                                    {profileSubLinks.map((link, index) => {
+                                        return (
+                                            <div className={`MobileNav_MenuLinksContainer ${url === link.link ? 'active' : ''}`} key={index} onClick={() => { setShowMenu(!showMenu); navigate(link.link) }}>
+                                                <div className='MobileNav_MenuLinksContainerIcon'><Icon name={link.iconName} /></div>
+                                                <div className='MobileNav_MenuLinksContainerText'>{link.name}</div>
+                                            </div>
+                                        )
+                                    })}
+                                </div>
+                                {/** 
+                                 * Friends
+                                */}
+                                <div className={`MobileNav_MenuLinksContainer ${friendsShown ? 'active' : ''}`} onClick={handleFriendsClick}>
+                                    <div className='MobileNav_MenuLinksContainerIcon'><Icon name="friendslist" /></div>
+                                    <div className='MobileNav_MenuLinksContainerTextTitle'>Friendslist</div>
+                                </div>
+                                <div className={`MobileNav_MenuComponent ${friendsShown ? 'asdasd' : ''}`}>
+                                    {friendlistSubLinks.map((link, index) => {
+                                        return (
+                                            <div className={`MobileNav_MenuLinksContainer ${url === link.link ? 'active' : ''}`} key={index} onClick={() => { setShowMenu(!showMenu); navigate(link.link) }}>
+                                                <div className='MobileNav_MenuLinksContainerIcon'><Icon name={link.iconName} /></div>
+                                                <div className='MobileNav_MenuLinksContainerText'>{link.name}</div>
+                                            </div>
+                                        )
+                                    })}
+                                </div>
+                                {/** 
+                                 * Tiles
+                                */}
+                                <div className={`MobileNav_MenuLinksContainer ${tilesShown ? 'active' : ''}`} onClick={handleTilesClick}>
+                                    <div className='MobileNav_MenuLinksContainerIcon'><Icon name="tiles" /></div>
+                                    <div className='MobileNav_MenuLinksContainerTextTitle'>Tiles</div>
+                                </div>
+                                <div className={`MobileNav_MenuComponent ${tilesShown ? 'asdasd' : ''}`}>
+                                    {tileSubLinks.map((link, index) => {
+                                        return (
+                                            <div className={`MobileNav_MenuLinksContainer ${url === link.link ? 'active' : ''}`} key={index} onClick={() => { setShowMenu(!showMenu); navigate(link.link) }}>
+                                                <div className='MobileNav_MenuLinksContainerIcon'><Icon name={link.iconName} /></div>
+                                                <div className='MobileNav_MenuLinksContainerText'>{link.name}</div>
+                                            </div>
+                                        )
+                                    })}
+                                </div>
+                                {/** 
+                                 * Settings
+                                */}
+                                <div className={`MobileNav_MenuLinksContainer ${settingsShown ? 'active' : ''}`} onClick={handleSettings}>
+                                    <div className='MobileNav_MenuLinksContainerIcon'><Icon name="settings" /></div>
+                                    <div className='MobileNav_MenuLinksContainerTextTitle'>Settings</div>
+                                </div>
+                                <div className={`MobileNav_MenuComponent ${settingsShown ? 'asdasd' : ''}`}>
+                                    {settingsSubLinks.map((link, index) => {
+                                        return (
+                                            <div className={`MobileNav_MenuLinksContainer ${url === link.link ? 'active' : ''}`} key={index} onClick={() => { setShowMenu(!showMenu); navigate(link.link) }}>
+                                                <div className='MobileNav_MenuLinksContainerIcon'><Icon name={link.iconName} /></div>
+                                                <div className='MobileNav_MenuLinksContainerText'>{link.name}</div>
+                                            </div>
+                                        )
+                                    })}
+                                </div>
+                                {/** 
+                                 * Logut
+                                */}
+                                <div className={`MobileNav_MenuLinksContainer ${logOutShown ? 'active' : ''}`} onClick={handleLogOut}>
+                                    <div className='MobileNav_MenuLinksContainerIcon'><Icon name="logout" /></div>
+                                    <div className='MobileNav_MenuLinksContainerTextTitle'>Log out</div>
+                                </div>
+                                <div className={`MobileNav_MenuComponent ${logOutShown ? 'asdasd' : ''}`}>
+                                    {logoutSublinks.map((link, index) => {
+                                        return (
+                                            <div className={`MobileNav_MenuLinksContainer ${url === link.link ? 'active' : ''}`} key={index} onClick={() => { setShowMenu(!showMenu); navigate(link.link) }}>
+                                                <div className='MobileNav_MenuLinksContainerIcon'><Icon name={link.iconName} /></div>
+                                                <div className='MobileNav_MenuLinksContainerText'>{link.name}</div>
+                                            </div>
+                                        )
+                                    })}
+                                </div>
+
+                            </>}
                     </div>
                 </div>
             }
@@ -73,10 +238,17 @@ const MobileNav = () => {
                         <div className='MobileNav_MenuLabel'>Menu</div>
                     </div>
                     <div className='MobileNav_Component'>
-                        <Link to={'/login'} onClick={handleHideAll}>
-                            <div className='MobileNav_Icon'><Icon name="login" /></div>
-                            <div className='MobileNav_Label'>Login</div>
-                        </Link>
+                        {userStore.user ?
+                            <Link to={'/Shop'} onClick={handleHideAll}>
+                                <div className='MobileNav_Icon'><Icon name="shop" /></div>
+                                <div className='MobileNav_Label'>Shop</div>
+                            </Link>
+                            :
+                            <Link to={'/login'} onClick={handleHideAll}>
+                                <div className='MobileNav_Icon'><Icon name="login" /></div>
+                                <div className='MobileNav_Label'>Login</div>
+                            </Link>
+                        }
                     </div>
                 </div>
             </div>
@@ -84,4 +256,4 @@ const MobileNav = () => {
     )
 }
 
-export default MobileNav
+export default observer(MobileNav)
