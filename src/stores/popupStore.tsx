@@ -42,12 +42,10 @@ export class PopupStore {
         this.setErrorMessage(message);
         this.setTitle(title);
         this.setOnConfirm(async () => {
-            console.log("confirmed");
             this.hide();
             onConfirm();
         })
         this.setOnCancel(async () => {
-            console.log("cancelled");
             this.hide();
             onCancel();
 

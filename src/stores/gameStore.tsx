@@ -8,6 +8,7 @@ import boardService from "../services/boardService";
 import gameService from "../services/gameService";
 import {BoardDTO, BoardTileDTO } from "../models/tile/tileInterface";
 import colorLookupService from "../services/colorLookupService";
+import {POPUP_STATES} from "../components/shared/popups/popup";
 
 export default class GameStore {
     @observable lobby: Lobby | undefined
@@ -16,7 +17,6 @@ export default class GameStore {
     @observable lobbyPlayers: pendingPlayerDto[] = [];
     @observable gameId: string | undefined;
     @observable game: GameDTO| undefined;
-    @observable needsConfirmation: boolean = false;
     hubConnection: HubConnection | null = null;
     testhashmap = new Map<string, string>();
 
@@ -134,9 +134,7 @@ export default class GameStore {
         })
         this.hubConnection?.on('boardFilled', async (boardId: string) => {
             runInAction(async () => {
-                console.log("boardfilled: " + boardId)
-                this.needsConfirmation = true;
-                tileTurned()
+                tileTurned(POPUP_STATES.confirmWinClaim)
             })
         })
         this.hubConnection?.invoke('TurnTile', boardtileId)

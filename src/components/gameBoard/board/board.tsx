@@ -5,6 +5,7 @@ import { observer } from 'mobx-react-lite';
 import './board.scss'
 import gameboardPage from '../../../pages/gameboardPage/gameboardPage';
 import { BoardTileDTO } from '../../../models/tile/tileInterface';
+import { POPUP_STATES } from '../../shared/popups/popup';
 
 const Board = () => {
 
@@ -16,18 +17,14 @@ const Board = () => {
     }, [])
 
     const completeTile = async (tile: BoardTileDTO) => {
-        await gameStore.turnTile(tile.id, () => {
-            const onConfirmWin = async () => {
-                await gameStore.claimWin(tile.board.id)
-            }
-            const onCancelWin = async () => {
-                console.log(tile.isActivated)
-                gameStore.needsConfirmation = false
-                await gameStore.turnTile(tile.id, () => {})
-                console.log(tile.isActivated)
-            }
-            gameStore.needsConfirmation ? console.log("needs confirmation") : console.log("no confirmation needed");
-            if (gameStore.needsConfirmation) {
+        await gameStore.turnTile(tile.id, (popup : POPUP_STATES| undefined) => {
+            if (popup === POPUP_STATES.confirmWinClaim) {
+                const onConfirmWin = async () => {
+                    await gameStore.claimWin(tile.board.id)
+                }
+                const onCancelWin = async () => {
+                    await gameStore.turnTile(tile.id, () => {})
+                }
                 popupStore.showConfirmation("Claim win", "You have filled the board. Are you sure, that you are done?", onConfirmWin, onCancelWin)
             }
             return
