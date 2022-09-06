@@ -8,7 +8,7 @@ import { BoardTileDTO } from '../../../models/tile/tileInterface';
 
 const Board = () => {
 
-    const { gameStore, userStore } = useStore();
+    const { gameStore, userStore,popupStore } = useStore();
     const [counter, setCounter] = useState(0);
     let triggerTime: number;
     let longPressTime = 200;
@@ -23,7 +23,22 @@ const Board = () => {
         gameStore.turnTile(tile.id, ()=>{
 
         })
-    }
+        gameStore.needsConfirmation ? console.log("needs confirmation") : console.log("no confirmation needed");
+        popupStore.setErrorMessage("Lorem Ipsum");
+        popupStore.setTitle("Lorem Ipsum");
+        popupStore.setOnConfirm(async () => {
+            console.log("confirmed");
+            popupStore.hide();
+            await gameStore.claimWin(tile.board.id)
+        })
+        popupStore.setOnCancel(async () => {
+            console.log("cancelled");
+            popupStore.hide();
+            await gameStore.turnTile(tile.id, () => {})
+        })
+        popupStore.setConfirmation(true);
+        popupStore.show();
+    }   
 
     const handleClick = (e: any) => {
         console.log(getPlayerColor(e.aboutUser.id));

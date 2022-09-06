@@ -16,6 +16,7 @@ export default class GameStore {
     @observable lobbyPlayers: pendingPlayerDto[] = [];
     @observable gameId: string | undefined;
     @observable game: GameDTO| undefined;
+    @observable needsConfirmation: boolean = false;
     hubConnection: HubConnection | null = null;
     testhashmap = new Map<string, string>();
 
@@ -129,6 +130,7 @@ export default class GameStore {
         this.hubConnection?.on('TileTurned', async (boardTile: BoardTileDTO) => {
             runInAction(async () => {
                 this.tiles.find((t: BoardTileDTO) => t.id === boardTile.id)!.isActivated = boardTile.isActivated
+                
                 tileTurned()
             })
         })
@@ -138,7 +140,7 @@ export default class GameStore {
                 //todo pop up
                 // if confirmed by user use function claimWin
                 // else use function turnTile
-                await this.claimWin(boardId)
+                this.needsConfirmation = true;
             })
         })
         this.hubConnection?.invoke('TurnTile', boardtileId)
