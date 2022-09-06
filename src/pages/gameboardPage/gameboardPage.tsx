@@ -1,12 +1,12 @@
 import { observer } from 'mobx-react-lite'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-import Board from '../../components/gameBoard/board/board';
+import Board  from '../../components/gameBoard/board/board';
 import Player from '../../components/gameBoard/player/player';
 import Tiles from '../../components/gameBoard/tiles/tiles';
 import InvertedCornerQ1 from '../../components/shared/invertedCorners/invertedCornerQ1';
 import InvertedCornerQ2 from '../../components/shared/invertedCorners/invertedCornerQ2';
-import { BoardTileDTO } from '../../models/tile/tileInterface';
+import { BoardTileDTO, BoardDTO } from '../../models/tile/tileInterface';
 import { useStore } from '../../stores/store';
 import './gameboardPage.scss'
 
@@ -30,12 +30,22 @@ const GameboardPage = () => {
     const waitForBoard = async () => {
             gameStore.gameId = params.id!
             await gameStore.createHubConnection();
-            await gameStore.connectToGame(params.id!, ()=> {
-                console.log("AAAAAAAAAAAAAAAAAa");});
+            await gameStore.connectToGame(params.id!, async (boardId: string) => {
+                if (gameStore.game!.host.id === userStore.user!.id) {
+                    //player is host
+                    await gameStore.listenWinnerClaimed(async (board:BoardDTO) => {
+                        let winner = await userStore.getUserById(board.userId)
+                        console.log("winnerClaim: " + winner.username)
+                        //todo popup to confirm win
+                        popupStore.showConfirmation("Confirm win claim", "check board of "+ winner.username + " and conirm or deny win", async () => {
+                            await gameStore.confirmWin(board.id);
+                        }, ()=>{
+                            //todo Deny win
+                        })
 
-
-        console.log(gameStore.hubConnection);
-            
+                    })
+                }
+            });
     }
 
     const toggleTasklist = () => {

@@ -29,7 +29,7 @@ export interface ITile {
     action: string
 
 }
-export interface Board{
+export interface BoardDTO{
     id: string
     gameId: string
     userId: string
@@ -37,7 +37,7 @@ export interface Board{
 
 export interface BoardTileDTO {
     id: string
-    board: Board
+    board: BoardDTO
     tile: ITile
     aboutUser: SimplePlayerDTO
     position: number

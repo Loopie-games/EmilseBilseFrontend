@@ -5,25 +5,34 @@ import { observer } from 'mobx-react-lite';
 import './board.scss'
 import gameboardPage from '../../../pages/gameboardPage/gameboardPage';
 import { BoardTileDTO } from '../../../models/tile/tileInterface';
+import { POPUP_STATES } from '../../shared/popups/popup';
 
 const Board = () => {
 
-    const { gameStore, userStore } = useStore();
+    const { gameStore, userStore,popupStore } = useStore();
     const [counter, setCounter] = useState(0);
     let triggerTime: number;
     let longPressTime = 200;
     useEffect(() => {
-        console.log(gameStore.tiles);
-        console.log(gameStore.players);
-
-
     }, [])
 
-    const completeTile = (tile: BoardTileDTO) => {
-        gameStore.turnTile(tile.id, ()=>{
-
+    const completeTile = async (tile: BoardTileDTO) => {
+        await gameStore.turnTile(tile.id, (popup : POPUP_STATES| undefined) => {
+            if (popup === POPUP_STATES.winClaim) {
+                const onConfirmWin = async () => {
+                    await gameStore.claimWin(tile.board.id)
+                }
+                const onCancelWin = async () => {
+                    await gameStore.turnTile(tile.id, () => {})
+                }
+                popupStore.showConfirmation("Claim win", "You have filled the board. Are you sure, that you are done?", onConfirmWin, onCancelWin)
+            }
+            return
         })
+        return
     }
+
+
 
     const handleClick = (e: any) => {
         console.log(getPlayerColor(e.aboutUser.id));
