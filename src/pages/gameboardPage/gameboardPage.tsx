@@ -33,11 +33,16 @@ const GameboardPage = () => {
             await gameStore.connectToGame(params.id!, async (boardId: string) => {
                 if (gameStore.game!.host.id === userStore.user!.id) {
                     //player is host
-                    console.log("host")
                     await gameStore.listenWinnerClaimed(async (board:BoardDTO) => {
                         let winner = await userStore.getUserById(board.userId)
                         console.log("winnerClaim: " + winner.username)
                         //todo popup to confirm win
+                        popupStore.showConfirmation("Confirm win claim", "check board of "+ winner.username + " and conirm or deny win", async () => {
+                            await gameStore.confirmWin(board.id);
+                        }, ()=>{
+                            //todo Deny win
+                        })
+
                     })
                 }
             });

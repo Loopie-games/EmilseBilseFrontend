@@ -18,7 +18,7 @@ const Board = () => {
 
     const completeTile = async (tile: BoardTileDTO) => {
         await gameStore.turnTile(tile.id, (popup : POPUP_STATES| undefined) => {
-            if (popup === POPUP_STATES.confirmWinClaim) {
+            if (popup === POPUP_STATES.winClaim) {
                 const onConfirmWin = async () => {
                     await gameStore.claimWin(tile.board.id)
                 }

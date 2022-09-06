@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import './popup.scss'
 
 export enum  POPUP_STATES {
-    confirmWinClaim,
+    winClaim,
+    ConfirmWin,
 }
 const Popup = ({ isConfirmation, title, errorMessage, handleClose, handleConfirm }: any) => {
     const [isClosing, setIsClosing] = useState(false);

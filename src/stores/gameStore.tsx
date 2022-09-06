@@ -38,7 +38,6 @@ export default class GameStore {
         await this.hubConnection.start()
             .then(result => console.log("connected"))
             .catch(error => {
-
                 console.log(error)
             });
 
@@ -134,7 +133,7 @@ export default class GameStore {
         })
         this.hubConnection?.on('boardFilled', async (boardId: string) => {
             runInAction(async () => {
-                tileTurned(POPUP_STATES.confirmWinClaim)
+                tileTurned(POPUP_STATES.winClaim)
             })
         })
         this.hubConnection?.invoke('TurnTile', boardtileId)
@@ -142,6 +141,11 @@ export default class GameStore {
 
     claimWin = async (boardId:string) => {
         this.hubConnection?.invoke('ClaimWin', boardId)
+        return
+    }
+
+    confirmWin = async (boardId:string) => {
+        this.hubConnection?.invoke('ConfirmWin', boardId)
         return
     }
 
