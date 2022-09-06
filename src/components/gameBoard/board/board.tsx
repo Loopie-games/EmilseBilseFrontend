@@ -13,32 +13,29 @@ const Board = () => {
     let triggerTime: number;
     let longPressTime = 200;
     useEffect(() => {
-        console.log(gameStore.tiles);
-        console.log(gameStore.players);
-
-
     }, [])
 
-    const completeTile = (tile: BoardTileDTO) => {
-        gameStore.turnTile(tile.id, ()=>{
+    const completeTile = async (tile: BoardTileDTO) => {
+        await gameStore.turnTile(tile.id, () => {
+            const onConfirmWin = async () => {
+                await gameStore.claimWin(tile.board.id)
+            }
+            const onCancelWin = async () => {
+                console.log(tile.isActivated)
+                gameStore.needsConfirmation = false
+                await gameStore.turnTile(tile.id, () => {})
+                console.log(tile.isActivated)
+            }
+            gameStore.needsConfirmation ? console.log("needs confirmation") : console.log("no confirmation needed");
+            if (gameStore.needsConfirmation) {
+                popupStore.showConfirmation("Claim win", "You have filled the board. Are you sure, that you are done?", onConfirmWin, onCancelWin)
+            }
+            return
+        })
+        return
+    }
 
-        })
-        gameStore.needsConfirmation ? console.log("needs confirmation") : console.log("no confirmation needed");
-        popupStore.setErrorMessage("Lorem Ipsum");
-        popupStore.setTitle("Lorem Ipsum");
-        popupStore.setOnConfirm(async () => {
-            console.log("confirmed");
-            popupStore.hide();
-            await gameStore.claimWin(tile.board.id)
-        })
-        popupStore.setOnCancel(async () => {
-            console.log("cancelled");
-            popupStore.hide();
-            await gameStore.turnTile(tile.id, () => {})
-        })
-        popupStore.setConfirmation(true);
-        popupStore.show();
-    }   
+
 
     const handleClick = (e: any) => {
         console.log(getPlayerColor(e.aboutUser.id));

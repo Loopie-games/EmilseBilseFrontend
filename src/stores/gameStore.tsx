@@ -125,28 +125,23 @@ export default class GameStore {
         return
     }
 
-    //this
     turnTile = async (boardtileId: string, tileTurned: Function) => {
         this.hubConnection?.on('TileTurned', async (boardTile: BoardTileDTO) => {
             runInAction(async () => {
                 this.tiles.find((t: BoardTileDTO) => t.id === boardTile.id)!.isActivated = boardTile.isActivated
-                
                 tileTurned()
             })
         })
         this.hubConnection?.on('boardFilled', async (boardId: string) => {
             runInAction(async () => {
                 console.log("boardfilled: " + boardId)
-                //todo pop up
-                // if confirmed by user use function claimWin
-                // else use function turnTile
                 this.needsConfirmation = true;
+                tileTurned()
             })
         })
         this.hubConnection?.invoke('TurnTile', boardtileId)
     }
 
-    // or this
     claimWin = async (boardId:string) => {
         this.hubConnection?.invoke('ClaimWin', boardId)
         return

@@ -48,7 +48,7 @@ function App() {
 
   return (
     <div className="App">
-      {popupStore.isShown && <Popup isConfirmation={popupStore.isConfirmation} title={popupStore.title} errorMessage={popupStore.errorMessage} handleClose={popupStore.hide} handleConfirm={popupStore.onConfirm} />}
+      {popupStore.isShown && <Popup isConfirmation={popupStore.isConfirmation} title={popupStore.title} errorMessage={popupStore.errorMessage} handleClose={popupStore.onCancel} handleConfirm={popupStore.onConfirm} />}
       <Router>
         <Routes>
           {routes.map((route, index) => (

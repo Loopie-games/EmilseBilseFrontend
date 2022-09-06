@@ -38,6 +38,24 @@ export class PopupStore {
         this.isConfirmation = isConfirmation;
     }
 
+    showConfirmation(title: string, message: string, onConfirm: Function, onCancel: Function){
+        this.setErrorMessage(message);
+        this.setTitle(title);
+        this.setOnConfirm(async () => {
+            console.log("confirmed");
+            this.hide();
+            onConfirm();
+        })
+        this.setOnCancel(async () => {
+            console.log("cancelled");
+            this.hide();
+            onCancel();
+
+        })
+        this.setConfirmation(true);
+        this.show();
+    }
+
     constructor() {
         makeAutoObservable(this);
     }
