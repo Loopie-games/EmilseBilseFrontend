@@ -9,7 +9,8 @@
     color: #fff;
     transition: height 0.2s ease-in-out;
     align-items: center;
-    overflow: hidden;
+    max-width: 450px;
+    width: 100%;
 
     .Friends-Wrapper {
         width: 100%;

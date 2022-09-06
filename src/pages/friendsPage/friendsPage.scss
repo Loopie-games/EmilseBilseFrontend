@@ -17,8 +17,16 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        max-width: 450px;
-        width: 450px;
+
+        @media screen and (min-width: 500px) {
+            width: 100% !important;
+            max-width: 100% !important;
+        }
+
+        @media screen and (max-width: 500px) {
+            width: 90% !important;
+        }
+
         height: 100%;
 
         .FriendsPage-Title {
@@ -36,9 +44,19 @@
         }
 
         .FriendsPage-Searchbar {
-            width: 100%;
             height: 40px;
-            margin-bottom: 40px;
+
+            @media screen and (max-width: 500px) {
+                margin-bottom: 20px !important;
+            }
+            @media screen and (min-width: 500px) {
+                margin-bottom: 40px !important;
+                max-width: 450px !important;
+                
+            }
+
+            width: 100% !important;
+
 
             .FriendsPage-SearchbarContainer {
                 width: 100%;
@@ -60,14 +78,15 @@
                     padding-left: 10px;
                 }
 
-                .FriendsPage-SearchbarIcon:last-of-type{
+                .FriendsPage-SearchbarIcon:last-of-type {
                     display: flex;
                     justify-content: center;
                     align-items: center;
                     padding-right: 10px;
                     animation: fadeIn 0.2s ease-in-out;
                     cursor: pointer;
-                    img{
+
+                    img {
                         height: 16px;
                         width: 16px;
                     }
@@ -75,6 +94,7 @@
 
                 .FriendsPage-SearchbarInput {
                     flex: 1;
+
                     input {
                         width: 100%;
                         height: 100%;
@@ -100,12 +120,23 @@
         }
 
         .FriendsPage-FriendsContainer {
-            flex: 1;
-            width: calc( 100% - 4px );
+            flex-grow: 1 !important;
+            flex-basis: 0 !important;
             display: flex;
             flex-direction: column;
-            overflow: auto;
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
+            padding: 4px;
             gap: 15px;
+            margin-bottom: 20px;
+
+            @media screen and (min-width: 500px) {
+                align-items: center;
+                width: 90% !important;
+            }
+            @media screen and (max-width: 500px) {
+                width: 100%;
+            }
         }
     }
 }
@@ -114,6 +145,7 @@
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
     }
