@@ -37,8 +37,8 @@ const GameboardPage = () => {
             await gameStore.listenGamePaused((board:BoardDTO) =>{
                 setPause(true)
             })
-            await gameStore.listenWinnerFound(async (game: GameDTO) => {
-                console.log(gameStore.game?.winner)
+            await gameStore.listenGameResume((board:BoardDTO)=>{
+                setPause(false)
             })
 
             if (gameStore.game!.host.id === userStore.user!.id) {
@@ -47,8 +47,8 @@ const GameboardPage = () => {
                     let winner = await userStore.getUserById(board.userId)
                     popupStore.showConfirmation("Confirm win claim", "check board of " + winner.username + " and conirm or deny win", async () => {
                         await gameStore.confirmWin(board.id);
-                    }, () => {
-                        //todo Deny win
+                    }, async () => {
+                        await gameStore.denyWin(board.id)
                     })
 
                 })
