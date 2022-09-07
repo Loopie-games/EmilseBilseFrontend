@@ -38,7 +38,7 @@ const Popup = ({ isConfirmation, title, errorMessage, handleClose, handleConfirm
                         }
                     </div>
                 </div>
-                <div className='PopUp_CloseBackground' onClick={close}></div>
+                <div className='PopUp_CloseBackground' onClick={!isConfirmation ? close : () => {} }></div>
             </div>
         </>
 
