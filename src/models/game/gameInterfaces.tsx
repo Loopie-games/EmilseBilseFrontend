@@ -9,7 +9,7 @@ export interface Lobby{
 export interface GameDTO{
     id: string
     host: SimpleUserDTO
-    WinnerId?: string
+    winner?: SimpleUserDTO
 }
 
 export interface CloseLobbyDto {

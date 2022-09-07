@@ -95,11 +95,16 @@ export default class GameStore {
     }
 
     listenWinnerFound = async(callback:Function) =>{
-        this.hubConnection?.on('winnerFound', async (board: BoardDTO) => {
+        this.hubConnection?.on('winnerFound', async (game: GameDTO) => {
             runInAction(async () => {
-                await callback(board)
+                this.game = game;
+                console.log(game)
+                await callback(game)
+                return
             })
+            return
         });
+        return
     }
 
     listenGamePaused = async(callback:Function)=>{

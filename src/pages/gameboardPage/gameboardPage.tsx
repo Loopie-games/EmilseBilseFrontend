@@ -6,6 +6,7 @@ import Player from '../../components/gameBoard/player/player';
 import Tiles from '../../components/gameBoard/tiles/tiles';
 import InvertedCornerQ1 from '../../components/shared/invertedCorners/invertedCornerQ1';
 import InvertedCornerQ2 from '../../components/shared/invertedCorners/invertedCornerQ2';
+import { GameDTO } from '../../models/game/gameInterfaces';
 import { BoardTileDTO, BoardDTO } from '../../models/tile/tileInterface';
 import { useStore } from '../../stores/store';
 import './gameboardPage.scss'
@@ -36,10 +37,8 @@ const GameboardPage = () => {
             await gameStore.listenGamePaused((board:BoardDTO) =>{
                 setPause(true)
             })
-            await gameStore.listenWinnerFound(async (board: BoardDTO) => {
-                let winner = await userStore.getUserById(board.userId)
-                gameStore.winner = winner
-                setWinnerFound(true)
+            await gameStore.listenWinnerFound(async (game: GameDTO) => {
+                console.log(gameStore.game?.winner)
             })
 
             if (gameStore.game!.host.id === userStore.user!.id) {
@@ -74,11 +73,11 @@ const GameboardPage = () => {
                     </div>
                 </div>
             }
-            { winnerFound &&
+            { gameStore.game?.winner != undefined &&
             <div className='Gameboard_WinnerClaim'>
                 <div className='Gameboard_WinnerClaimBox'>
                     <div className='Gameboard_WinnerClaimBoxTitle'>Game Ended!</div>
-                    <div className='Gameboard_WinnerClaimBoxContent'> {gameStore.winner!.username} has Won! </div>
+                    <div className='Gameboard_WinnerClaimBoxContent'> {gameStore.game?.winner.username} has Won! </div>
                 </div>
             </div>
             }
