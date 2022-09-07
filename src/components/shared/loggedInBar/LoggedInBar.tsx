@@ -27,11 +27,19 @@ const LoggedInBar = () => {
 
 
     const checkIfBlacklistedRoute = (path: string) => {
-        return barBlacklistRoutes.some(route => !route.startsWith(path));
+        let t = false;
+        barBlacklistRoutes.forEach((route) => {
+            if (path.includes(route)) {
+                t = true;
+                return t;
+            }
+        })
+        return t;
+    
     }
 
     const handleProfileClick = () => {
-        !isShown ? setIsShown(true) : () => { };
+        !isShown && setIsShown(true);
         setProfileShown(!profileShown);
         setFriendsShown(false);
         setTilesShown(false);
