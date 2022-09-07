@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.scss';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/landingPage/landingPage';
@@ -24,6 +24,7 @@ import Popup from './components/shared/popups/popup';
 
 function App() {
   const { userStore, popupStore } = useStore()
+  const [theme, setTheme] = useState('light');
   const routes = [
     { path: "/", element: <LandingPage /> },
     { path: "/register", element: <RegisterPage /> },
@@ -48,8 +49,11 @@ function App() {
     document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') ?? 'light');
   }, [])
 
+
+
   return (
     <div className="App">
+      <div style={{"zIndex": "99"}} onClick={() => {setTheme(theme === 'light' ? 'dark' : 'light'); document.documentElement.setAttribute('data-theme', theme); console.log(theme)}}>TOGGLE</div>
       {popupStore.isShown && <Popup isConfirmation={popupStore.isConfirmation} title={popupStore.title} errorMessage={popupStore.errorMessage} handleClose={popupStore.onCancel} handleConfirm={popupStore.onConfirm} />}
       <Router>
         <Routes>
