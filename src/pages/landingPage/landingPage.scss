@@ -1,10 +1,10 @@
 .LandingPage-Container {
     display: flex;
-    background-color: #1b1f24;
+    background-color: var(--color-background);
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    color: #fff;
+    color: var(--color-text);
     font-family: "Caviar Dreams" !important;
     user-select: none;
     flex: 1;
@@ -21,7 +21,7 @@
         width: 350px;
         height: 400px;
         border-radius: 15px;
-        background-color: #24292f;
+        background-color: var(--color-foreground);
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -66,23 +66,23 @@
                     font-weight: 400;
                     font-size: 16px;
                     line-height: 0%;
-                    color: #fff;
+                    color: var(--color-text);
 
                     &::placeholder {
                         color: #ccc;
                     }
                 }
                 &:hover {
-                    box-shadow: rgb(255 255 255) 0 0 0 2px inset;
+                    box-shadow: var(--color-highlighthover) 0 0 0 2px inset;
                 }
             }
             .LandingPage-JoinButton {
                 width: 280px;
                 height: 40px;
-                background: rgba(255, 255, 255);
+                background: var(--color-text);
                 backdrop-filter: blur(5px);
                 border-radius: 5px;
-                border: 2px solid #fff;
+                border: 2px solid var(--color-text);
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -91,7 +91,7 @@
                 font-weight: 400;
                 font-size: 20px;
                 line-height: 0%;
-                color: #000;
+                color: var(--color-jointext-color);
                 margin-bottom: 78px;
                 cursor: pointer;
             }
@@ -114,7 +114,7 @@
         }
         .LandingPage-CreateRoom:hover {
             cursor: pointer;
-            box-shadow: rgb(255 255 255) 0 0 0 2px inset;
+            box-shadow: var(--color-highlighthover) 0 0 0 2px inset;
         }
     }
 }
@@ -132,7 +132,7 @@
 }
 
 .active {
-    box-shadow: rgb(255 255 255) 0 0 0 2px inset !important;
+    box-shadow: var(--color-highlighthover) 0 0 0 2px inset !important;
 }
 
 @keyframes opacity {

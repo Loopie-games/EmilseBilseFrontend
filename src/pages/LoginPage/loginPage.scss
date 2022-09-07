@@ -6,7 +6,7 @@ $defaultEasing: cubic-bezier(0.4, 0, 0.2, 1);
     justify-content: center;
     align-items: center;
     user-select: none;
-    background: #1b1f24;
+    background: var(--color-background);
     .Login-Background {
         width: 50%;
         position: absolute;
@@ -24,7 +24,7 @@ $defaultEasing: cubic-bezier(0.4, 0, 0.2, 1);
         .Login-Component {
             width: 350px;
             height: 400px;
-            background-color: #24292f;
+            background-color: var(--color-foreground);
             border-radius: 15px;
             display: flex;
             position: relative;
@@ -43,7 +43,7 @@ $defaultEasing: cubic-bezier(0.4, 0, 0.2, 1);
                 font-style: normal;
                 font-weight: 400;
                 font-size: 32px;
-                color: #fff;
+                color: var(--color-text);
             }
 
             .Login-InputContainer {
@@ -60,7 +60,7 @@ $defaultEasing: cubic-bezier(0.4, 0, 0.2, 1);
                         font-style: normal;
                         font-weight: 400;
                         font-size: 16px;
-                        color: #8694a4;
+                        color: var(--color-highlighthover);
                     }
                     .Login-InputFieldWrapper {
                         width: 280px;
@@ -90,24 +90,24 @@ $defaultEasing: cubic-bezier(0.4, 0, 0.2, 1);
                             font-weight: 400;
                             font-size: 16px;
                             line-height: 0%;
-                            color: #fff;
+                            color: var(--color-text);
 
                             &::placeholder {
                                 color: #999;
                             }
                         }
                         &:hover {
-                            box-shadow: rgb(255 255 255) 0 0 0 2px inset;
+                            box-shadow: var(--color-highlighthover) 0 0 0 2px inset;
                         }
                     }
                 }
                 .Login-Button {
                     width: 280px;
                     height: 40px;
-                    background: rgba(255, 255, 255);
+                    background: var(--color-text);
                     backdrop-filter: blur(5px);
                     border-radius: 5px;
-                    border: 2px solid #fff;
+                    border: 2px solid var(--color-text);
                     display: flex;
                     justify-content: center;
                     align-items: center;
@@ -116,7 +116,7 @@ $defaultEasing: cubic-bezier(0.4, 0, 0.2, 1);
                     font-weight: 400;
                     font-size: 20px;
                     line-height: 0%;
-                    color: #000;
+                    color: var(--color-jointext-color);
                     cursor: pointer;
                 }
             }
@@ -133,7 +133,7 @@ $defaultEasing: cubic-bezier(0.4, 0, 0.2, 1);
                     font-style: normal;
                     font-weight: 400;
                     font-size: 13px;
-                    color: #94a3b5;
+                    color: var(--color-textSecondary);
                 }
                 .Login-NeedAccountButton {
                     font-family: "Caviar Dreams";
@@ -141,7 +141,7 @@ $defaultEasing: cubic-bezier(0.4, 0, 0.2, 1);
                     font-weight: 700;
                     font-size: 14px;
                     a {
-                        color: #ffffff;
+                        color: var(--color-text)fff;
                         text-decoration: none;
                     }
                 }
@@ -195,5 +195,5 @@ $defaultEasing: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .active {
-    box-shadow: rgb(255 255 255) 0 0 0 2px inset !important;
+    box-shadow: var(--color-highlighthover) 0 0 0 2px inset !important;
 }

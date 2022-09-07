@@ -10,7 +10,7 @@
     border: 2px solid rgba(0, 0, 0, 0.5);
     font-family: "Caviar Dreams";
     font-style: normal;
-    color: #fff;
+    color: var(--color-text);
     .Player_IndicatorContainer {
         width: 40px;
         height: 100%;
@@ -40,7 +40,7 @@
             font-style: normal;
             font-weight: 700;
             font-size: 16px;
-            color: #fff;
+            color: var(--color-text);
             display: flex;
         }
         .Player_InfoUsername{
@@ -52,7 +52,7 @@
             font-style: normal;
             font-weight: 400;
             font-size: 14px;
-            color: #94A3B5;
+            color: var(--color-textSecondary);
             display: flex;
         }
     }

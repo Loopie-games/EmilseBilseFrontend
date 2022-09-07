@@ -1,6 +1,6 @@
 .InvertedCornerQ1 {
     position: relative;
-    background-color: #24292f;
+    background-color: var(--color-foreground);
     z-index: 2;
 
     &::before{
@@ -12,13 +12,13 @@
         width: 15px;
         background-color: transparent;
         border-top-left-radius: 15px;
-        box-shadow: #24292f 0px -15px 0px 0px;
+        box-shadow: var(--color-foreground) 0px -15px 0px 0px;
     }
 }
 
 .InvertedCornerQ2 {
     position: relative;
-    background-color: #24292f;
+    background-color: var(--color-foreground);
     z-index: 2;
 
     &::before{
@@ -30,13 +30,13 @@
         width: 15px;
         background-color: transparent;
         border-top-right-radius: 15px;
-        box-shadow: #24292f 0px -15px 0px 0px;
+        box-shadow: var(--color-foreground) 0px -15px 0px 0px;
     }
 }
 
 .InvertedCornerQ3 {
     position: relative;
-    background-color: #24292f;
+    background-color: var(--color-foreground);
     z-index: 2;
     transform: rotateX(180deg);
 
@@ -49,13 +49,13 @@
         width: 15px;
         background-color: transparent;
         border-top-left-radius: 15px;
-        box-shadow: #24292f 0px -15px 0px 0px;
+        box-shadow: var(--color-foreground) 0px -15px 0px 0px;
     }
 }
 
 .InvertedCornerQ4 {
     position: relative;
-    background-color: #24292f;
+    background-color: var(--color-foreground);
     z-index: 2;
     transform: rotateX(180deg);
     
@@ -68,6 +68,6 @@
         width: 15px;
         background-color: transparent;
         border-top-right-radius: 15px;
-        box-shadow: #24292f 0px -15px 0px 0px;
+        box-shadow: var(--color-foreground) 0px -15px 0px 0px;
     }
 }

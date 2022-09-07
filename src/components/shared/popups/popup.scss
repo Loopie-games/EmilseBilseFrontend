@@ -17,7 +17,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #24292f;
+    background-color: var(--color-foreground);
     border-radius: 15px;
     z-index: 10001;
     display: flex;
@@ -32,14 +32,14 @@
         font-family: 'Caviar Dreams';
         font-size: 24px;
         font-weight: 700;
-        color: #fff;
+        color: var(--color-text);
         text-align: center;
     }
 
     .PopUp_Error {
         font-family: 'Caviar Dreams';
         font-size: 16px;
-        color: #fff;
+        color: var(--color-text);
         flex-grow: 1;
         flex-basis: 0;
         overflow-y: auto;
@@ -65,7 +65,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            color: #fff;
+            color: var(--color-text);
             border-radius: 5px;
             border: 2px solid rgba(0, 0, 0, 0.5);
             padding: 10px;
@@ -73,7 +73,7 @@
             transition: all 0.2s ease-in-out;
 
             &:hover {
-                box-shadow: rgb(255 255 255) 0 0 0 2px inset;
+                box-shadow: var(--color-highlighthover) 0 0 0 2px inset;
 
             }
 

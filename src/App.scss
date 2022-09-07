@@ -1,0 +1,86 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  user-select: none;
+  background-color: var(--color-background);
+}
+
+/* Change the white to any color */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+input:-webkit-autofill {
+  -webkit-text-fill-color: #fff !important;
+}
+
+input {
+  color: #fff;
+}
+
+@font-face {
+  font-family: Caviar Dreams;
+  src: url(./assets/fonts/caviarDreams/CaviarDreams.ttf);
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+  border-radius: 10px;
+  background-color: #24292f;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  border-radius: 10px;
+  background-color: #24292f;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #8694A4;
+  position: relative;
+}
+
+
+/* COLORS */
+$color-background-dark: #1b1f24;
+$color-foreground-dark: #24292f;
+$color-text-dark: #fff;
+$color-textSecondary-dark: #94a3b5;
+$color-jointext-color-dark: #000;
+$color-highlighthover-dark: #fff;
+$color-border-dark: #8694A4;
+
+$color-background-light: #D1D6DC;
+$color-foreground-light: #DCE0E5;
+$color-text-light: #000;
+$color-textSecondary-light: #49586A;
+$color-jointext-color-light: #fff;
+$color-highlighthover-light: #000;
+$color-border-light: #5C6A7A;
+
+
+[data-theme="dark"] {
+  --color-background: #{$color-background-dark};
+  --color-foreground: #{$color-foreground-dark};
+  --color-text:  #{$color-text-dark};
+  --color-jointext-color: #{$color-jointext-color-dark};
+  --color-highlighthover: #{$color-highlighthover-dark};
+  --color-border: #{$color-border-dark};
+  --color-textSecondary: #{$color-textSecondary-dark};
+}
+
+[data-theme="light"] {
+  --color-background: #{$color-background-light};
+  --color-foreground: #{$color-foreground-light};
+  --color-text: #{$color-text-light};
+  --color-jointext-color: #{$color-jointext-color-light};
+  --color-highlighthover: #{$color-highlighthover-light};
+  --color-border: #{$color-border-light};
+  --color-textSecondary: #{$color-textSecondary-light};
+}
+

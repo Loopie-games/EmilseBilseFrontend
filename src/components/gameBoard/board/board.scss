@@ -1,6 +1,6 @@
 .GameBoard_Container {
     border-radius: 15px;
-    background-color: #24292f;
+    background-color: var(--color-foreground);
     display: flex;
     width: 100%;
     flex-direction: column;
@@ -36,7 +36,7 @@
             position: relative;
             transition: box-shadow 0.2s, outline 0.2s ease;
             &:hover {
-                box-shadow: rgb(255 255 255) 0 0 0 2px inset !important;
+                box-shadow: var(--color-highlighthover) 0 0 0 2px inset !important;
             }
             .GameBoard_TileShadow{
                 position: absolute;
@@ -53,7 +53,7 @@
             grid-row-start: 3;
             grid-row-end: 3;
             font-size: 20px;
-            color: #fff;
+            color: var(--color-text);
         }
     }
 }

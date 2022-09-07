@@ -9,7 +9,7 @@
     border: 2px solid rgba(0, 0, 0, 0.5);
     font-family: "Caviar Dreams";
     font-style: normal;
-    color: #fff;
+    color: var(--color-text);
 
     div{
         margin: 0 20px;
@@ -33,11 +33,11 @@
         }
         .Action{
             font-size: 16px;   
-            color: #fff; 
+            color: var(--color-text); 
         }
         .NickName{
             font-size: 14px;   
-            color: #94A3B5; 
+            color: var(--color-textSecondary); 
         }
     }
     .UserCreatedTile_TileInfoIcon{

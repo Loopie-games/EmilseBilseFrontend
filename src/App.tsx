@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import './App.css';
+import './App.scss';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/landingPage/landingPage';
 import RegisterPage from './pages/registerPage/registerPage';
@@ -44,6 +44,8 @@ function App() {
     if (localStorage.getItem('userId') !== null) {
       userStore.getById(localStorage.getItem('userId') ?? '');
     }
+    localStorage.setItem('theme', 'light');
+    document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') ?? 'light');
   }, [])
 
   return (
@@ -55,7 +57,7 @@ function App() {
             <Route key={index} path={route.path} element={
               <>
                 <Navbar />
-                <div style={{ "zIndex": "2", "height": "70px", "width": "100%", "backgroundColor": "#24292f" }}></div>
+                <div style={{ "zIndex": "2", "height": "70px", "width": "100%", "backgroundColor": "var(--color-foreground)" }}></div>
                 <div style={{ "display": "flex", "flexDirection": "row", "flex": "1", "position": "relative" }}>
                   {userStore.user !== undefined ? <LoggedInBar /> : null}
                   {route.element}
