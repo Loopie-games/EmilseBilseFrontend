@@ -42,15 +42,19 @@ function App() {
   ];
 
   const [mobileNav, setMobileNav] = useState(false);
-  const [t, setT] = useState(0);
+  const [t, setT] = useState(window.innerWidth);
 
   useEffect(() => {
     if (localStorage.getItem('userId') !== null) {
       userStore.getById(localStorage.getItem('userId') ?? '');
     }
+    window.screen.orientation.lock('portrait');
+
   }, [])
 
   useEffect(() => {
+
+    window.addEventListener('resize', () => { setT(window.innerWidth) })
     setT(window.innerWidth)
     if (window.innerWidth < 768) {
       setMobileNav(true);
@@ -58,7 +62,8 @@ function App() {
       setMobileNav(false);
     }
 
-  }, [])
+    console.log(window.screen.orientation);
+  })
 
 
   return (
