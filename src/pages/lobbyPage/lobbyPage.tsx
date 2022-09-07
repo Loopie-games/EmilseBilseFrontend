@@ -24,12 +24,9 @@ const LobbyPage = () => {
             return
         });
         return () => {
-            /*
-            if (gameStore.game === undefined) {
+            if (gameStore.lobby != undefined) {
                 onExit()
             }
-           
-             */
         }
     }, [])
 
@@ -47,6 +44,7 @@ const LobbyPage = () => {
     const listenForGameStarting = async () => {
         try {
             await gameStore.gameStarting((gameId: string) => {
+                gameStore.lobby = undefined
                 navigate('/game/' + gameId)
             });
         } catch (e) {
