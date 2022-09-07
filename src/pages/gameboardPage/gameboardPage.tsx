@@ -13,7 +13,8 @@ import './gameboardPage.scss'
 const GameboardPage = () => {
     const [tasklistShown, setTasklistShown] = useState(false);
     const [playersShown, setPlayersShown] = useState(false);
-    const [pause, setPause] = useState(true);
+    const [pause, setPause] = useState(false);
+    const [winnerFound, setWinnerFound] = useState(false)
     const { gameStore, userStore, popupStore } = useStore();
     const params = useParams();
 
@@ -32,12 +33,19 @@ const GameboardPage = () => {
         gameStore.gameId = params.id!
         await gameStore.createHubConnection();
         await gameStore.connectToGame(params.id!, async (boardId: string) => {
+            await gameStore.listenGamePaused((board:BoardDTO) =>{
+                setPause(true)
+            })
+            await gameStore.listenWinnerFound(async (board: BoardDTO) => {
+                let winner = await userStore.getUserById(board.userId)
+                gameStore.winner = winner
+                setWinnerFound(true)
+            })
+
             if (gameStore.game!.host.id === userStore.user!.id) {
                 //player is host
                 await gameStore.listenWinnerClaimed(async (board: BoardDTO) => {
                     let winner = await userStore.getUserById(board.userId)
-                    console.log("winnerClaim: " + winner.username)
-                    //todo popup to confirm win
                     popupStore.showConfirmation("Confirm win claim", "check board of " + winner.username + " and conirm or deny win", async () => {
                         await gameStore.confirmWin(board.id);
                     }, () => {
@@ -65,6 +73,14 @@ const GameboardPage = () => {
                         <div className='Gameboard_WinnerClaimBoxContent'>The host i currently confirming a winner claim. Please wait</div>
                     </div>
                 </div>
+            }
+            { winnerFound &&
+            <div className='Gameboard_WinnerClaim'>
+                <div className='Gameboard_WinnerClaimBox'>
+                    <div className='Gameboard_WinnerClaimBoxTitle'>Game Ended!</div>
+                    <div className='Gameboard_WinnerClaimBoxContent'> {gameStore.winner!.username} has Won! </div>
+                </div>
+            </div>
             }
             <div className='Gameboard_Container'>
                 <div className='Gameboard_Wrapper'>

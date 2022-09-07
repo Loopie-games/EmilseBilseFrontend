@@ -17,6 +17,7 @@ export default class GameStore {
     @observable lobbyPlayers: pendingPlayerDto[] = [];
     @observable gameId: string | undefined;
     @observable game: GameDTO| undefined;
+    @observable winner: SimpleUserDTO | undefined;
     hubConnection: HubConnection | null = null;
     testhashmap = new Map<string, string>();
 
@@ -87,6 +88,22 @@ export default class GameStore {
 
     listenWinnerClaimed = async(callback: Function) =>{
         this.hubConnection?.on('winnerClaimed', async (board: BoardDTO) => {
+            runInAction(async () => {
+                await callback(board)
+            })
+        });
+    }
+
+    listenWinnerFound = async(callback:Function) =>{
+        this.hubConnection?.on('winnerFound', async (board: BoardDTO) => {
+            runInAction(async () => {
+                await callback(board)
+            })
+        });
+    }
+
+    listenGamePaused = async(callback:Function)=>{
+        this.hubConnection?.on('pauseGame', async (board: BoardDTO) => {
             runInAction(async () => {
                 await callback(board)
             })
