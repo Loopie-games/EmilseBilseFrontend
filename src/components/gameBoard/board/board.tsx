@@ -53,6 +53,7 @@ const Board = () => {
 
 
     return (
+        <>
         <div className='GameBoard_Container'>
             <div className='GameBoard_TileContainer'>
                 {gameStore.tiles.map((tile, index) => (
@@ -73,6 +74,7 @@ const Board = () => {
                 <div className='GameBoard_Tile active TileFree'> FREE </div>
             </div>
         </div>
+        </>
     )
 }
 
