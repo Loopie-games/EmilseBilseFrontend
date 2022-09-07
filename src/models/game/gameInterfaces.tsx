@@ -10,6 +10,12 @@ export interface GameDTO{
     id: string
     host: SimpleUserDTO
     winner?: SimpleUserDTO
+    state: State
+}
+
+export enum State {
+    Ongiong, Paused, Ended
+
 }
 
 export interface CloseLobbyDto {

@@ -15,7 +15,6 @@ export default class GameStore {
     @observable tiles: BoardTileDTO[] = [];
     @observable players: SimpleUserDTO[] = [];
     @observable lobbyPlayers: pendingPlayerDto[] = [];
-    @observable gameId: string | undefined;
     @observable game: GameDTO| undefined;
     hubConnection: HubConnection | null = null;
     testhashmap = new Map<string, string>();
@@ -33,8 +32,6 @@ export default class GameStore {
             .configureLogging(LogLevel.Information)
             .build();
 
-
-
         await this.hubConnection.start()
             .then(result => console.log("connected"))
             .catch(error => {
@@ -46,8 +43,6 @@ export default class GameStore {
                 this.lobbyPlayers = players;
             });
         })
-
-        
 
         return;
     }
@@ -76,7 +71,7 @@ export default class GameStore {
         this.hubConnection?.on('gameConnected', async (boardId: string) => {
             runInAction(async () => {
                 this.game = await this.getGame(gameId);
-                await this.listenWinnerFound();
+                await this.listenGameupdate()
                 await this.getBoardByGameId();
                 await this.getPlayers()
                 await callback(boardId)
@@ -86,35 +81,16 @@ export default class GameStore {
         await this.hubConnection?.invoke('ConnectToGame', gameId)
     }
 
+    listenGameupdate = async ()=>{
+        this.hubConnection?.on('updateGame', async (game: GameDTO) => {
+            runInAction(async () => {
+                this.game = game
+            })
+        });
+    }
+
     listenWinnerClaimed = async(callback: Function) =>{
         this.hubConnection?.on('winnerClaimed', async (board: BoardDTO) => {
-            runInAction(async () => {
-                await callback(board)
-            })
-        });
-    }
-
-    listenWinnerFound = async() =>{
-        this.hubConnection?.on('winnerFound', async (game: GameDTO) => {
-            runInAction(async () => {
-                this.game = game;
-                return
-            })
-            return
-        });
-        return
-    }
-
-    listenGamePaused = async(callback:Function)=>{
-        this.hubConnection?.on('pauseGame', async (board: BoardDTO) => {
-            runInAction(async () => {
-                await callback(board)
-            })
-        });
-    }
-
-    listenGameResume = async(callback:Function)=>{
-        this.hubConnection?.on('resumeGame', async (board: BoardDTO) => {
             runInAction(async () => {
                 await callback(board)
             })
@@ -144,8 +120,7 @@ export default class GameStore {
     gameStarting = async (gameStarting: Function) => {
         this.hubConnection?.on('gameStarting', async (gameId: string) => {
             runInAction(async () => {
-                this.gameId = gameId;
-                gameStarting()
+                gameStarting(gameId)
                 return
             })
         })
@@ -172,13 +147,13 @@ export default class GameStore {
         return
     }
 
-    confirmWin = async (boardId:string) => {
-        this.hubConnection?.invoke('ConfirmWin', boardId)
+    confirmWin = async () => {
+        this.hubConnection?.invoke('ConfirmWin', this.game!.id)
         return
     }
 
-    denyWin = async (boardId:string) => {
-        this.hubConnection?.invoke('DenyWin', boardId)
+    denyWin = async () => {
+        this.hubConnection?.invoke('DenyWin', this.game!.id)
         return
     }
 
@@ -204,7 +179,7 @@ export default class GameStore {
     }
     @action
     getBoardByGameId = async () => {
-        const response = await boardService.getBoard(this.gameId!)
+        const response = await boardService.getBoard(this.game!.id)
         this.tiles = response.data;
         this.tiles.forEach(async (tile) => {
             if (!this.testhashmap.has(tile.aboutUser.id)) {
@@ -220,7 +195,7 @@ export default class GameStore {
 
     @action
     getPlayers = async () => {
-        const response = await gameService.getPlayers(this.gameId!);
+        const response = await gameService.getPlayers(this.game!.id);
         this.players = response.data
 
         return response.data
