@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-import Board  from '../../components/gameBoard/board/board';
+import Board from '../../components/gameBoard/board/board';
 import Player from '../../components/gameBoard/player/player';
 import Tiles from '../../components/gameBoard/tiles/tiles';
 import InvertedCornerQ1 from '../../components/shared/invertedCorners/invertedCornerQ1';
@@ -13,6 +13,7 @@ import './gameboardPage.scss'
 const GameboardPage = () => {
     const [tasklistShown, setTasklistShown] = useState(false);
     const [playersShown, setPlayersShown] = useState(false);
+    const [pause, setPause] = useState(true);
     const { gameStore, userStore, popupStore } = useStore();
     const params = useParams();
 
@@ -28,24 +29,24 @@ const GameboardPage = () => {
 
 
     const waitForBoard = async () => {
-            gameStore.gameId = params.id!
-            await gameStore.createHubConnection();
-            await gameStore.connectToGame(params.id!, async (boardId: string) => {
-                if (gameStore.game!.host.id === userStore.user!.id) {
-                    //player is host
-                    await gameStore.listenWinnerClaimed(async (board:BoardDTO) => {
-                        let winner = await userStore.getUserById(board.userId)
-                        console.log("winnerClaim: " + winner.username)
-                        //todo popup to confirm win
-                        popupStore.showConfirmation("Confirm win claim", "check board of "+ winner.username + " and conirm or deny win", async () => {
-                            await gameStore.confirmWin(board.id);
-                        }, ()=>{
-                            //todo Deny win
-                        })
-
+        gameStore.gameId = params.id!
+        await gameStore.createHubConnection();
+        await gameStore.connectToGame(params.id!, async (boardId: string) => {
+            if (gameStore.game!.host.id === userStore.user!.id) {
+                //player is host
+                await gameStore.listenWinnerClaimed(async (board: BoardDTO) => {
+                    let winner = await userStore.getUserById(board.userId)
+                    console.log("winnerClaim: " + winner.username)
+                    //todo popup to confirm win
+                    popupStore.showConfirmation("Confirm win claim", "check board of " + winner.username + " and conirm or deny win", async () => {
+                        await gameStore.confirmWin(board.id);
+                    }, () => {
+                        //todo Deny win
                     })
-                }
-            });
+
+                })
+            }
+        });
     }
 
     const toggleTasklist = () => {
@@ -56,37 +57,47 @@ const GameboardPage = () => {
     }
 
     return (
-        <div className='Gameboard_Container'>
-            <div className='Gameboard_Wrapper'>
-                <div className={`Gameboard_TracklistContainer ${tasklistShown ? 'shown' : ''}`}>
-                    <div onClick={() => toggleTasklist()} className={`Gameboard_TracklistTitle ${tasklistShown ? 'shown' : ''}`}>{tasklistShown ? 'Tasklist' : 'T'}</div>
-                    <div className={`Gameboard_TracklistComponentContainer ${tasklistShown ? 'shown' : ''}`}>
-                        {gameStore.tiles?.map((tile: BoardTileDTO) => (
-                            <Tiles {...tile} />
-                        ))}
+        <>
+            {pause &&
+                <div className='Gameboard_WinnerClaim'>
+                    <div className='Gameboard_WinnerClaimBox'>
+                        <div className='Gameboard_WinnerClaimBoxTitle'>Game Paused!</div>
+                        <div className='Gameboard_WinnerClaimBoxContent'>The host i currently confirming a winner claim. Please wait</div>
                     </div>
                 </div>
-
-                <InvertedCornerQ1 />
-
-                <div className='Gameboard_GameboardContainer'>
-                    <div className='Gameboard_GameboardWrapper'>
-                        <Board />
+            }
+            <div className='Gameboard_Container'>
+                <div className='Gameboard_Wrapper'>
+                    <div className={`Gameboard_TracklistContainer ${tasklistShown ? 'shown' : ''}`}>
+                        <div onClick={() => toggleTasklist()} className={`Gameboard_TracklistTitle ${tasklistShown ? 'shown' : ''}`}>{tasklistShown ? 'Tasklist' : 'T'}</div>
+                        <div className={`Gameboard_TracklistComponentContainer ${tasklistShown ? 'shown' : ''}`}>
+                            {gameStore.tiles?.map((tile: BoardTileDTO) => (
+                                <Tiles {...tile} />
+                            ))}
+                        </div>
                     </div>
-                </div>
-                <InvertedCornerQ2 />
-                <div className={`Gameboard_PlayersContainer ${playersShown ? 'shown' : ''}`}>
-                    <div onClick={() => togglePlayers()} className={`Gameboard_PlayersTitle ${playersShown ? 'shown' : ''}`}>{playersShown ? 'Players' : 'P'}</div>
-                    <div className={`Gameboard_PlayersComponentContainer ${playersShown ? 'shown' : ''}`}>
-                        {gameStore.players.map((player: any) => (
-                            <>
-                                {player.id !== userStore.user!.id ? <Player player={player} /> : null}
-                            </>
-                        ))}
+
+                    <InvertedCornerQ1 />
+
+                    <div className='Gameboard_GameboardContainer'>
+                        <div className='Gameboard_GameboardWrapper'>
+                            <Board />
+                        </div>
+                    </div>
+                    <InvertedCornerQ2 />
+                    <div className={`Gameboard_PlayersContainer ${playersShown ? 'shown' : ''}`}>
+                        <div onClick={() => togglePlayers()} className={`Gameboard_PlayersTitle ${playersShown ? 'shown' : ''}`}>{playersShown ? 'Players' : 'P'}</div>
+                        <div className={`Gameboard_PlayersComponentContainer ${playersShown ? 'shown' : ''}`}>
+                            {gameStore.players.map((player: any) => (
+                                <>
+                                    {player.id !== userStore.user!.id ? <Player player={player} /> : null}
+                                </>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     )
 }
 

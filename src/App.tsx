@@ -56,7 +56,7 @@ function App() {
               <>
                 <Navbar />
                 <div style={{ "zIndex": "2", "height": "70px", "width": "100%", "backgroundColor": "#24292f" }}></div>
-                <div style={{ "display": "flex", "flexDirection": "row", "flex": "1" }}>
+                <div style={{ "display": "flex", "flexDirection": "row", "flex": "1", "position": "relative" }}>
                   {userStore.user !== undefined ? <LoggedInBar /> : null}
                   {route.element}
                 </div>
