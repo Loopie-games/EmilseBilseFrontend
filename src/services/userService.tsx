@@ -7,7 +7,7 @@ class UserService {
     }
 
     getById(userId: string) {
-        return http.get("/User/" + userId)
+        return http.get<SimpleUserDTO>("/User/" + userId)
     }
 
     async createUser(data: any) {

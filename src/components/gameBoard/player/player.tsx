@@ -14,9 +14,6 @@ const Player = ({ player }: any) => {
                 setColor(tile.aboutUser.color!)
             }
         })
-
-        console.log(gameStore.testhashmap.get(player.id));
-        
     }, [])
 
     return (

@@ -43,32 +43,31 @@ function App() {
 
   const [mobileNav, setMobileNav] = useState(false);
   const [t, setT] = useState(window.innerWidth);
+  const [isLocked, setIsLocked] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem('userId') !== null) {
       userStore.getById(localStorage.getItem('userId') ?? '');
     }
-    window.screen.orientation.lock('portrait');
 
   }, [])
 
   useEffect(() => {
 
-    window.addEventListener('resize', () => { setT(window.innerWidth) })
-    setT(window.innerWidth)
-    if (window.innerWidth < 768) {
+    if (window.screen.availWidth < 768) {
       setMobileNav(true);
     } else {
       setMobileNav(false);
     }
 
+
     console.log(window.screen.orientation);
   })
 
-
   return (
     <div className="App">
-      {popupStore.isShown && <Popup isConfirmation={false} title="An Error Occured!" errorMessage={popupStore.errorMessage} handleClose={popupStore.hide} />}
+
+      {popupStore.isShown && <Popup isConfirmation={popupStore.isConfirmation} title={popupStore.title} errorMessage={popupStore.errorMessage} handleClose={popupStore.onCancel} handleConfirm={popupStore.onConfirm} />}
       <Router>
         <Routes>
           {routes.map((route, index) => (
@@ -80,7 +79,7 @@ function App() {
                     <div style={{ "zIndex": "2", "height": "70px", "width": "100%", "backgroundColor": "#24292f" }}></div>
                   </>
                 }
-                <div style={{ "display": "flex", "flexDirection": "row", "flex": "1" }}>
+                <div style={{ "display": "flex", "flexDirection": "row", "flex": "1" , "overflow": "hidden", "background": `${isLocked ? 'red' : 'blue'}` }}>
                   {userStore.user !== undefined && !mobileNav && <LoggedInBar />}
                   {route.element}
                 </div>

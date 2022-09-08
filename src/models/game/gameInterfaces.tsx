@@ -6,6 +6,12 @@ export interface Lobby{
     pin: string
 }
 
+export interface GameDTO{
+    id: string
+    host: SimpleUserDTO
+    WinnerId?: string
+}
+
 export interface CloseLobbyDto {
     lobbyID: string
     hostID: string
