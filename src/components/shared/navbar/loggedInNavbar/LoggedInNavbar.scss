@@ -113,7 +113,7 @@
                 border: none;
             }
             &:hover {
-                background: rgba(255, 255, 255, 0.05);
+                background: var(--color-input-background);
             }
             .LoggedInNavbar-DropDownItemIcon {
                 width: 20px;

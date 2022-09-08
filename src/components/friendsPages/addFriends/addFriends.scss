@@ -2,10 +2,10 @@
     max-height: 350px;
     display: flex;
     flex-direction: column;
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--color-input-background);
     backdrop-filter: blur(5px);
     border-radius: 5px;
-    border: 2px solid rgba(0, 0, 0, 0.5);
+    border: 2px solid var(--color-input-border);
     color: var(--color-text);
     transition: height 0.2s ease-in-out;
     align-items: center;

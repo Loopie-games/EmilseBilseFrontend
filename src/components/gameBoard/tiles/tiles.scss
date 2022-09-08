@@ -4,10 +4,10 @@
     border-radius: 5px;
     display: flex;
     transition: height 0.2s ease-in-out;
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--color-input-background);
     backdrop-filter: blur(5px);
     border-radius: 5px;
-    border: 2px solid rgba(0, 0, 0, 0.5);
+    border: 2px solid var(--color-input-border);
     font-family: "Caviar Dreams";
     font-style: normal;
     color: var(--color-text);

@@ -65,13 +65,13 @@ $defaultEasing: cubic-bezier(0.4, 0, 0.2, 1);
                     .Login-InputFieldWrapper {
                         width: 280px;
                         height: 40px;
-                        background: rgba(255, 255, 255, 0.05);
+                        background: var(--color-input-background);
                         backdrop-filter: blur(5px);
                         border-radius: 5px;
                         display: flex;
                         justify-content: center;
                         align-items: center;
-                        border: 2px solid rgba(0, 0, 0, 0.5);
+                        border: 2px solid var(--color-input-border);
                         transition: box-shadow 0.2s, outline 0.2s ease;
                         gap: 10px;
                         .Login-InputIcon {
