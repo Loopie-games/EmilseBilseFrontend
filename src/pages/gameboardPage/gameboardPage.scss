@@ -104,7 +104,6 @@
             flex-direction: column;
             transition: width 0.2s ease-in-out;
             background-color: #24292f;
-            border-radius: 0 0 15px 0;
             align-items: center;
             justify-content: center;
             z-index: 4;
@@ -115,18 +114,18 @@
                 @media screen and (max-height: 414px) and (orientation: landscape) {
                     width: 30px;
                     height: 30px;
+                    font-size: 14px;
                     &.shown {
                         width: 140px;
-                        font-weight: 700;
                     }
                 }
 
                 @media screen and (min-height: 415px) {
                     width: 40px;
                     height: 40px;
+                    font-size: 20px;
                     &.shown {
                         width: 280px;
-                        font-weight: 700;
                     }
                 }
                 background: rgba(255, 255, 255, 0.05);
@@ -139,7 +138,6 @@
                 font-family: "Caviar Dreams";
                 font-style: normal;
                 font-weight: 700;
-                font-size: 20px;
                 line-height: 0%;
                 color: #fff;
                 transition: all 0.2s ease-in-out;
@@ -198,6 +196,20 @@
             background-repeat: no-repeat;
             background-size: cover;
             background-position: center;
+
+            .GameBoard_MobileBack{
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                color: #fff;
+                font-size: 12px;
+                cursor: pointer;
+                z-index: 5;
+                font-family: 'Caviar Dreams';
+                font-style: normal;
+                font-weight: 400;
+
+            }
 
             .backgroundImage {
                 width: 100%;
@@ -260,6 +272,7 @@
                 @media screen and (max-height: 414px) and (orientation: landscape) {
                     width: 30px;
                     height: 30px;
+                    font-size: 14px;
                     &.shown {
                         width: 140px;
                         font-weight: 700;
@@ -269,6 +282,7 @@
                 @media screen and (min-height: 415px) {
                     width: 40px;
                     height: 40px;
+                    font-size: 20px;
                     &.shown {
                         width: 280px;
                         font-weight: 700;
@@ -284,8 +298,6 @@
                 border: 2px solid rgba(0, 0, 0, 0.5);
                 font-family: "Caviar Dreams";
                 font-style: normal;
-                
-                font-size: 20px;
                 line-height: 0%;
                 color: #fff;
                 transition: all 0.2s ease-in-out;

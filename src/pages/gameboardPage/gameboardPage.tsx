@@ -1,11 +1,13 @@
 import { observer } from 'mobx-react-lite'
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Board from '../../components/gameBoard/board/board';
 import Player from '../../components/gameBoard/player/player';
 import Tiles from '../../components/gameBoard/tiles/tiles';
 import InvertedCornerQ1 from '../../components/shared/invertedCorners/invertedCornerQ1';
 import InvertedCornerQ2 from '../../components/shared/invertedCorners/invertedCornerQ2';
+import InvertedCornerQ3 from '../../components/shared/invertedCorners/invertedCornerQ3';
+import InvertedCornerQ4 from '../../components/shared/invertedCorners/invertedCornerQ4';
 import { BoardTileDTO, BoardDTO } from '../../models/tile/tileInterface';
 import { useStore } from '../../stores/store';
 import './gameboardPage.scss'
@@ -15,8 +17,9 @@ const GameboardPage = () => {
     const [playersShown, setPlayersShown] = useState(false);
     const [pause, setPause] = useState(false);
     const [winnerFound, setWinnerFound] = useState(false)
-    const { gameStore, userStore, popupStore } = useStore();
+    const { gameStore, userStore, popupStore, mobileStore } = useStore();
     const params = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
         console.log('====================================');
@@ -33,7 +36,7 @@ const GameboardPage = () => {
         gameStore.gameId = params.id!
         await gameStore.createHubConnection();
         await gameStore.connectToGame(params.id!, async (boardId: string) => {
-            await gameStore.listenGamePaused((board:BoardDTO) =>{
+            await gameStore.listenGamePaused((board: BoardDTO) => {
                 setPause(true)
             })
             await gameStore.listenWinnerFound(async (board: BoardDTO) => {
@@ -66,6 +69,7 @@ const GameboardPage = () => {
 
     return (
         <>
+
             {pause &&
                 <div className='Gameboard_WinnerClaim'>
                     <div className='Gameboard_WinnerClaimBox'>
@@ -74,13 +78,13 @@ const GameboardPage = () => {
                     </div>
                 </div>
             }
-            { winnerFound &&
-            <div className='Gameboard_WinnerClaim'>
-                <div className='Gameboard_WinnerClaimBox'>
-                    <div className='Gameboard_WinnerClaimBoxTitle'>Game Ended!</div>
-                    <div className='Gameboard_WinnerClaimBoxContent'> {gameStore.winner!.username} has Won! </div>
+            {winnerFound &&
+                <div className='Gameboard_WinnerClaim'>
+                    <div className='Gameboard_WinnerClaimBox'>
+                        <div className='Gameboard_WinnerClaimBoxTitle'>Game Ended!</div>
+                        <div className='Gameboard_WinnerClaimBoxContent'> {gameStore.winner!.username} has Won! </div>
+                    </div>
                 </div>
-            </div>
             }
             <div className='Gameboard_Container'>
                 <div className='Gameboard_Wrapper'>
@@ -94,13 +98,18 @@ const GameboardPage = () => {
                     </div>
 
                     <InvertedCornerQ1 />
+                    {mobileStore.isMobile && <InvertedCornerQ3 />}
 
                     <div className='Gameboard_GameboardContainer'>
+                        {mobileStore.isMobile && 
+                            <div className='GameBoard_MobileBack' onClick={() => navigate('/')}>← Back to home</div>
+                        }
                         <div className='Gameboard_GameboardWrapper'>
                             <Board />
                         </div>
                     </div>
                     <InvertedCornerQ2 />
+                    {mobileStore.isMobile && <InvertedCornerQ4 />}
                     <div className={`Gameboard_PlayersContainer ${playersShown ? 'shown' : ''}`}>
                         <div onClick={() => togglePlayers()} className={`Gameboard_PlayersTitle ${playersShown ? 'shown' : ''}`}>{playersShown ? 'Players' : 'P'}</div>
                         <div className={`Gameboard_PlayersComponentContainer ${playersShown ? 'shown' : ''}`}>

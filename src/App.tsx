@@ -24,7 +24,7 @@ import Popup from './components/shared/popups/popup';
 import MobileNav from './components/shared/navbar/mobileNavbar/mobileNav';
 
 function App() {
-  const { userStore, popupStore } = useStore()
+  const { userStore, popupStore, mobileStore } = useStore()
   const routes = [
     { path: "/", element: <LandingPage /> },
     { path: "/register", element: <RegisterPage /> },
@@ -41,28 +41,20 @@ function App() {
     { path: "*", element: <PageNotFound /> }
   ];
 
-  const [mobileNav, setMobileNav] = useState(false);
-  const [t, setT] = useState(window.innerWidth);
-  const [isLocked, setIsLocked] = useState(false);
-
   useEffect(() => {
     if (localStorage.getItem('userId') !== null) {
       userStore.getById(localStorage.getItem('userId') ?? '');
     }
 
-  }, [])
-
-  useEffect(() => {
 
     if (window.screen.availWidth < 768) {
-      setMobileNav(true);
+      mobileStore.setIsMobile(true);
     } else {
-      setMobileNav(false);
+      mobileStore.setIsMobile(false);
     }
 
 
-    console.log(window.screen.orientation);
-  })
+  }, [])
 
   return (
     <div className="App">
@@ -73,17 +65,17 @@ function App() {
           {routes.map((route, index) => (
             <Route key={index} path={route.path} element={
               <>
-                {!mobileNav &&
+                {!mobileStore.isMobile &&
                   <>
                     <Navbar />
                     <div style={{ "zIndex": "2", "height": "70px", "width": "100%", "backgroundColor": "#24292f" }}></div>
                   </>
                 }
-                <div style={{ "display": "flex", "flexDirection": "row", "flex": "1" , "overflow": "hidden", "background": `${isLocked ? 'red' : 'blue'}` }}>
-                  {userStore.user !== undefined && !mobileNav && <LoggedInBar />}
+                <div style={{ "display": "flex", "flexDirection": "row", "flex": "1" , "overflow": "hidden"}}>
+                  {userStore.user !== undefined && !mobileStore.isMobile && <LoggedInBar />}
                   {route.element}
                 </div>
-                {mobileNav && <MobileNav />}
+                {mobileStore.isMobile && <MobileNav />}
               </>
             } />
           ))}
