@@ -31,7 +31,7 @@ const Tiles = (tile: BoardTileDTO) => {
                 {isShown ?
                     <>
                         <div className='Tile_ActionTo'>
-                            To whoom: {tile.aboutUser.username}
+                            by: {tile.aboutUser.nickname}
                         </div>
                     </>
                     : null}
