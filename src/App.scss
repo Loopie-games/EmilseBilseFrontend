@@ -54,6 +54,9 @@ $color-textSecondary-dark: #94a3b5;
 $color-jointext-color-dark: #000;
 $color-highlighthover-dark: #fff;
 $color-border-dark: #8694A4;
+$color-icon-blue-dark: invert(64%) sepia(27%) saturate(212%) hue-rotate(172deg) brightness(86%) contrast(87%);
+$color-icon-dark: invert(94%) sepia(0%) saturate(7500%) hue-rotate(69deg) brightness(107%) contrast(107%);
+
 
 $color-background-light: #D1D6DC;
 $color-foreground-light: #DCE0E5;
@@ -62,6 +65,8 @@ $color-textSecondary-light: #49586A;
 $color-jointext-color-light: #fff;
 $color-highlighthover-light: #000;
 $color-border-light: #5C6A7A;
+$color-icon-blue-light: invert(41%) sepia(17%) saturate(467%) hue-rotate(172deg) brightness(93%) contrast(88%);;
+$color-icon-light: invert(0%) sepia(6%) saturate(24%) hue-rotate(189deg) brightness(92%) contrast(105%);
 
 
 [data-theme="dark"] {
@@ -72,6 +77,8 @@ $color-border-light: #5C6A7A;
   --color-highlighthover: #{$color-highlighthover-dark};
   --color-border: #{$color-border-dark};
   --color-textSecondary: #{$color-textSecondary-dark};
+  --color-icon-blue: #{$color-icon-blue-dark};
+  --color-icon: #{$color-icon-dark};
 }
 
 [data-theme="light"] {
@@ -82,5 +89,7 @@ $color-border-light: #5C6A7A;
   --color-highlighthover: #{$color-highlighthover-light};
   --color-border: #{$color-border-light};
   --color-textSecondary: #{$color-textSecondary-light};
+  --color-icon-blue: #{$color-icon-blue-light};
+  --color-icon: #{$color-icon-light};
 }
 

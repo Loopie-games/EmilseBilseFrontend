@@ -45,7 +45,6 @@ function App() {
     if (localStorage.getItem('userId') !== null) {
       userStore.getById(localStorage.getItem('userId') ?? '');
     }
-    localStorage.setItem('theme', 'light');
     document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') ?? 'light');
   }, [])
 

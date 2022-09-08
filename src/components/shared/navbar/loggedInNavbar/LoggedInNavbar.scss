@@ -37,7 +37,7 @@
             height: 40px;
             border-radius: 50%;
             background-color: var(--color-text);
-            border: 3px solid var(--color-highlighthover);
+            border: 3px solid var(--color-border);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -54,6 +54,7 @@
             flex-direction: row;
             align-items: center;
             justify-content: center;
+            filter: var(--color-icon-blue);
         }
     }
 
