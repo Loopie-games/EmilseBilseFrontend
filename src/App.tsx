@@ -24,7 +24,8 @@ import Popup from './components/shared/popups/popup';
 
 function App() {
   const { userStore, popupStore } = useStore()
-  const [theme, setTheme] = useState('light');
+  const [lightTheme, setLightTheme] = useState(true);
+
   const routes = [
     { path: "/", element: <LandingPage /> },
     { path: "/register", element: <RegisterPage /> },
@@ -45,14 +46,26 @@ function App() {
     if (localStorage.getItem('userId') !== null) {
       userStore.getById(localStorage.getItem('userId') ?? '');
     }
-    document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') ?? 'light');
+
+    setLightTheme(localStorage.getItem('theme') === 'light');
   }, [])
+
+  const toggleTheme = () => {
+    setLightTheme(!lightTheme);
+  }
+
+  useEffect(() => {
+
+    localStorage.setItem('theme', lightTheme ? 'light' : 'dark');
+    document.documentElement.setAttribute('data-theme', lightTheme ? 'light' : 'dark');
+  }, [lightTheme])
+
 
 
 
   return (
     <div className="App">
-      <div style={{"zIndex": "99"}} onClick={() => {setTheme(theme === 'light' ? 'dark' : 'light'); document.documentElement.setAttribute('data-theme', theme); console.log(theme)}}>TOGGLE</div>
+      <div style={{ "zIndex": "99" }} onClick={toggleTheme}>TOGGLE</div>
       {popupStore.isShown && <Popup isConfirmation={popupStore.isConfirmation} title={popupStore.title} errorMessage={popupStore.errorMessage} handleClose={popupStore.onCancel} handleConfirm={popupStore.onConfirm} />}
       <Router>
         <Routes>
