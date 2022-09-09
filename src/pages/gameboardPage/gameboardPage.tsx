@@ -18,7 +18,7 @@ const GameboardPage = () => {
     const [playersShown, setPlayersShown] = useState(false);
     const [winnerFound, setWinnerFound] = useState(false)
     //TODO: Remove after test and design
-    const [testWinner, setTestWinner] = useState(true);
+    const [testWinner, setTestWinner] = useState(false);
     const { gameStore, userStore, popupStore } = useStore();
     const params = useParams();
 
@@ -36,14 +36,7 @@ const GameboardPage = () => {
     const waitForBoard = async () => {
         await gameStore.createHubConnection();
         await gameStore.connectToGame(params.id!, async (boardId: string) => {
-            await gameStore.listenGamePaused((board: BoardDTO) => {
-                setPause(true)
-            })
-            await gameStore.listenWinnerFound(async (board: BoardDTO) => {
-                let winner = await userStore.getUserById(board.userId)
-                gameStore.winner = winner
-                setWinnerFound(true)
-            })
+            await gameStore.listenGameupdate()
 
             if (gameStore.game!.host.id === userStore.user!.id) {
                 //player is host
@@ -87,15 +80,6 @@ const GameboardPage = () => {
                     </div>
                 </div>
             }
-            {(gameStore.game?.winner != undefined && gameStore.game?.state == State.Ended) &&
-                <div className='Gameboard_WinnerClaim'>
-                    <div className='Gameboard_WinnerClaimBox'>
-                        <div className='Gameboard_WinnerClaimBoxTitle'>Game Ended!</div>
-                        <div className='Gameboard_WinnerClaimBoxContent'> {gameStore.game?.winner.username} has Won!
-                        </div>
-                    </div>
-                </div>
-            }
             <div className='Gameboard_Container'>
                 <div className='Gameboard_Wrapper'>
                     <div className={`Gameboard_TracklistContainer ${tasklistShown ? 'shown' : ''}`}>
@@ -110,7 +94,8 @@ const GameboardPage = () => {
 
                     <InvertedCornerQ1 />
 
-                    {testWinner ? <Winnerscreen /> :
+                    {(gameStore.game?.winner != undefined && gameStore.game?.state == State.Ended) ?
+                        <Winnerscreen /> :
                         <div className='Gameboard_GameboardContainer'>
                             <div className='Gameboard_GameboardWrapper'>
                                 <Board />
