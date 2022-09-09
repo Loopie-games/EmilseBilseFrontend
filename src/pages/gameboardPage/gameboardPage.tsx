@@ -4,6 +4,8 @@ import {useParams} from 'react-router-dom';
 import Board from '../../components/gameBoard/board/board';
 import Player from '../../components/gameBoard/player/player';
 import Tiles from '../../components/gameBoard/tiles/tiles';
+import Winnerscreen from '../../components/gameBoard/winnerscreen/winnerscreen';
+import winnerscreen from '../../components/gameBoard/winnerscreen/winnerscreen';
 import InvertedCornerQ1 from '../../components/shared/invertedCorners/invertedCornerQ1';
 import InvertedCornerQ2 from '../../components/shared/invertedCorners/invertedCornerQ2';
 import {GameDTO, State} from '../../models/game/gameInterfaces';
@@ -15,7 +17,9 @@ const GameboardPage = () => {
     const [tasklistShown, setTasklistShown] = useState(false);
     const [playersShown, setPlayersShown] = useState(false);
     const [winnerFound, setWinnerFound] = useState(false)
-    const {gameStore, userStore, popupStore} = useStore();
+    //TODO: Remove after test and design
+    const [testWinner, setTestWinner] = useState(true);
+    const { gameStore, userStore, popupStore } = useStore();
     const params = useParams();
 
     useEffect(() => {
@@ -32,6 +36,15 @@ const GameboardPage = () => {
     const waitForBoard = async () => {
         await gameStore.createHubConnection();
         await gameStore.connectToGame(params.id!, async (boardId: string) => {
+            await gameStore.listenGamePaused((board: BoardDTO) => {
+                setPause(true)
+            })
+            await gameStore.listenWinnerFound(async (board: BoardDTO) => {
+                let winner = await userStore.getUserById(board.userId)
+                gameStore.winner = winner
+                setWinnerFound(true)
+            })
+
             if (gameStore.game!.host.id === userStore.user!.id) {
                 //player is host
                 await gameStore.listenWinnerClaimed(async (board: BoardDTO) => {
@@ -81,7 +94,6 @@ const GameboardPage = () => {
                     <div className='Gameboard_WinnerClaimBoxContent'> {gameStore.game?.winner.username} has Won!
                     </div>
                 </div>
-            </div>
             }
             <div className='Gameboard_Container'>
                 <div className='Gameboard_Wrapper'>
@@ -97,12 +109,14 @@ const GameboardPage = () => {
 
                     <InvertedCornerQ1/>
 
-                    <div className='Gameboard_GameboardContainer'>
-                        <div className='Gameboard_GameboardWrapper'>
-                            <Board/>
+                    {testWinner ? <Winnerscreen /> :
+                        <div className='Gameboard_GameboardContainer'>
+                            <div className='Gameboard_GameboardWrapper'>
+                                <Board />
+                            </div>
                         </div>
-                    </div>
-                    <InvertedCornerQ2/>
+                    }
+                    <InvertedCornerQ2 />
                     <div className={`Gameboard_PlayersContainer ${playersShown ? 'shown' : ''}`}>
                         <div onClick={() => togglePlayers()}
                              className={`Gameboard_PlayersTitle ${playersShown ? 'shown' : ''}`}>{playersShown ? 'Players' : 'P'}</div>
