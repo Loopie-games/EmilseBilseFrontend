@@ -1,6 +1,6 @@
-import {observer} from 'mobx-react-lite'
-import React, {useEffect, useState} from 'react'
-import {useParams} from 'react-router-dom';
+import { observer } from 'mobx-react-lite'
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom';
 import Board from '../../components/gameBoard/board/board';
 import Player from '../../components/gameBoard/player/player';
 import Tiles from '../../components/gameBoard/tiles/tiles';
@@ -8,9 +8,9 @@ import Winnerscreen from '../../components/gameBoard/winnerscreen/winnerscreen';
 import winnerscreen from '../../components/gameBoard/winnerscreen/winnerscreen';
 import InvertedCornerQ1 from '../../components/shared/invertedCorners/invertedCornerQ1';
 import InvertedCornerQ2 from '../../components/shared/invertedCorners/invertedCornerQ2';
-import {GameDTO, State} from '../../models/game/gameInterfaces';
-import {BoardTileDTO, BoardDTO} from '../../models/tile/tileInterface';
-import {useStore} from '../../stores/store';
+import { GameDTO, State } from '../../models/game/gameInterfaces';
+import { BoardTileDTO, BoardDTO } from '../../models/tile/tileInterface';
+import { useStore } from '../../stores/store';
 import './gameboardPage.scss'
 
 const GameboardPage = () => {
@@ -78,20 +78,21 @@ const GameboardPage = () => {
     return (
         <>
             {(gameStore.game?.winner != undefined && gameStore.game?.state == State.Paused) &&
-            <div className='Gameboard_WinnerClaim'>
-                <div className='Gameboard_WinnerClaimBox'>
-                    <div className='Gameboard_WinnerClaimBoxTitle'>Game Paused!</div>
-                    <div className='Gameboard_WinnerClaimBoxContent'>The host i currently confirming a winner claim
-                        from {gameStore.game?.winner.username}. Please wait
+                <div className='Gameboard_WinnerClaim'>
+                    <div className='Gameboard_WinnerClaimBox'>
+                        <div className='Gameboard_WinnerClaimBoxTitle'>Game Paused!</div>
+                        <div className='Gameboard_WinnerClaimBoxContent'>The host i currently confirming a winner claim
+                            from {gameStore.game?.winner.username}. Please wait
+                        </div>
                     </div>
                 </div>
-            </div>
             }
             {(gameStore.game?.winner != undefined && gameStore.game?.state == State.Ended) &&
-            <div className='Gameboard_WinnerClaim'>
-                <div className='Gameboard_WinnerClaimBox'>
-                    <div className='Gameboard_WinnerClaimBoxTitle'>Game Ended!</div>
-                    <div className='Gameboard_WinnerClaimBoxContent'> {gameStore.game?.winner.username} has Won!
+                <div className='Gameboard_WinnerClaim'>
+                    <div className='Gameboard_WinnerClaimBox'>
+                        <div className='Gameboard_WinnerClaimBoxTitle'>Game Ended!</div>
+                        <div className='Gameboard_WinnerClaimBoxContent'> {gameStore.game?.winner.username} has Won!
+                        </div>
                     </div>
                 </div>
             }
@@ -99,7 +100,7 @@ const GameboardPage = () => {
                 <div className='Gameboard_Wrapper'>
                     <div className={`Gameboard_TracklistContainer ${tasklistShown ? 'shown' : ''}`}>
                         <div onClick={() => toggleTasklist()}
-                             className={`Gameboard_TracklistTitle ${tasklistShown ? 'shown' : ''}`}>{tasklistShown ? 'Tasklist' : 'T'}</div>
+                            className={`Gameboard_TracklistTitle ${tasklistShown ? 'shown' : ''}`}>{tasklistShown ? 'Tasklist' : 'T'}</div>
                         <div className={`Gameboard_TracklistComponentContainer ${tasklistShown ? 'shown' : ''}`}>
                             {gameStore.tiles?.map((tile: BoardTileDTO) => (
                                 <Tiles {...tile} />
@@ -107,7 +108,7 @@ const GameboardPage = () => {
                         </div>
                     </div>
 
-                    <InvertedCornerQ1/>
+                    <InvertedCornerQ1 />
 
                     {testWinner ? <Winnerscreen /> :
                         <div className='Gameboard_GameboardContainer'>
@@ -119,11 +120,11 @@ const GameboardPage = () => {
                     <InvertedCornerQ2 />
                     <div className={`Gameboard_PlayersContainer ${playersShown ? 'shown' : ''}`}>
                         <div onClick={() => togglePlayers()}
-                             className={`Gameboard_PlayersTitle ${playersShown ? 'shown' : ''}`}>{playersShown ? 'Players' : 'P'}</div>
+                            className={`Gameboard_PlayersTitle ${playersShown ? 'shown' : ''}`}>{playersShown ? 'Players' : 'P'}</div>
                         <div className={`Gameboard_PlayersComponentContainer ${playersShown ? 'shown' : ''}`}>
                             {gameStore.players.map((player: any) => (
                                 <>
-                                    {player.id !== userStore.user!.id ? <Player player={player}/> : null}
+                                    {player.id !== userStore.user!.id ? <Player player={player} /> : null}
                                 </>
                             ))}
                         </div>
