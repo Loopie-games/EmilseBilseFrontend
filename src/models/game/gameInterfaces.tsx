@@ -1,12 +1,12 @@
-import {SimpleUserDTO, UserDTO } from "../user/userInterface";
+import {SimpleUserDTO, UserDTO} from "../user/userInterface";
 
-export interface Lobby{
+export interface Lobby {
     id: string
     host: string
     pin: string
 }
 
-export interface GameDTO{
+export interface GameDTO {
     id: string
     host: SimpleUserDTO
     winner?: SimpleUserDTO
@@ -31,6 +31,13 @@ export interface LeaveLobbyDto {
 export interface StartGameDto {
     lobbyId: string
     userId: string
+}
+
+export interface TopPlayer {
+    id: string
+    gameId: string
+    user: SimpleUserDTO
+    turnedTiles: number
 }
 
 export interface Settings {
