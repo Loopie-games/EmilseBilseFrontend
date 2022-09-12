@@ -45,7 +45,6 @@ input {
   position: relative;
 }
 
-
 /* COLORS */
 $color-background-dark: #1b1f24;
 $color-foreground-dark: #24292f;
@@ -75,6 +74,7 @@ $color-input-border-light: rgba(255, 255, 255, 0.5);
 
 
 [data-theme="dark"] {
+  --color-overlay: rgba(0,0,0,0.25);
   --color-background: #{$color-background-dark};
   --color-foreground: #{$color-foreground-dark};
   --color-text:  #{$color-text-dark};
@@ -89,6 +89,7 @@ $color-input-border-light: rgba(255, 255, 255, 0.5);
 }
 
 [data-theme="light"] {
+  --color-overlay: rgba(0,0,0,0.2);
   --color-background: #{$color-background-light};
   --color-foreground: #{$color-foreground-light};
   --color-text: #{$color-text-light};

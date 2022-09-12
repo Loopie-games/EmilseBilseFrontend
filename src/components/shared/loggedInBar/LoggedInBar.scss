@@ -130,12 +130,11 @@
 .closeOverlay {
     z-index: 99;
     opacity: 0;
-    background-color: rgba($color: var(--color-jointext-color), $alpha: 0.5);
+    background-color: var(--color-overlay);
     flex: 1;
     position: absolute;
-    top: 70px;
     left: 300px;
-    height: calc(100% - 70px);
+    height: 100%;
     width: calc(100% - 300px);
     animation: fadeIn 0.2s 0.2s forwards ease-in-out;
 }
