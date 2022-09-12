@@ -79,6 +79,7 @@ $defaultEasing: cubic-bezier(0.4, 0, 0.2, 1);
                             justify-content: center;
                             align-items: center;
                             padding-left: 10px;
+                            filter: var(--color-icon);
                         }
                         input {
                             width: 100%;
@@ -93,7 +94,7 @@ $defaultEasing: cubic-bezier(0.4, 0, 0.2, 1);
                             color: var(--color-text);
 
                             &::placeholder {
-                                color: #999;
+                                color: var(--color-input-placeholder)
                             }
                         }
                         &:hover {

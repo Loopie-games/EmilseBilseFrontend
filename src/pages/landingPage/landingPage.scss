@@ -81,7 +81,7 @@
                     color: var(--color-text);
 
                     &::placeholder {
-                        color: #ccc;
+                        color: var(--color-input-placeholder);
                     }
                 }
 

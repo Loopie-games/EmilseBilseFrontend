@@ -6,6 +6,7 @@ export class ThemeStore {
 
     @action
     setTheme = () => {
+        localStorage.getItem('theme') ?? localStorage.setItem('theme', 'light');
         document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') ?? 'light');
     }
 

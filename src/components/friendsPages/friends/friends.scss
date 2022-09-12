@@ -86,6 +86,7 @@
             justify-content: center;
             align-items: center;
             cursor: pointer;
+            filter: var(--color-icon);
 
             img {
                 height: 24px;
@@ -143,7 +144,7 @@
                     color: var(--color-text);
 
                     &::placeholder {
-                        color: #999;
+                        color: var(--color-input-placeholder)
                     }
                 }
 

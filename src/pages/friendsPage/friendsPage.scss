@@ -76,6 +76,7 @@
                     justify-content: center;
                     align-items: center;
                     padding-left: 10px;
+                    filter: var(--color-icon);
                 }
 
                 .FriendsPage-SearchbarIcon:last-of-type {
@@ -85,6 +86,7 @@
                     padding-right: 10px;
                     animation: fadeIn 0.2s ease-in-out;
                     cursor: pointer;
+                    filter: var(--color-icon);
 
                     img {
                         height: 16px;
@@ -108,7 +110,7 @@
                         color: var(--color-text);
 
                         &::placeholder {
-                            color: #999;
+                            color: var(--color-input-placeholder)
                         }
                     }
                 }
