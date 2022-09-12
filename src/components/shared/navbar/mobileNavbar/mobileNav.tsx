@@ -14,7 +14,15 @@ const MobileNav = () => {
     const blacklistedUrls = ['/game']
 
     const checkIfBlacklistedRoute = (path: string) => {
-        return blacklistedUrls.some(route => !route.startsWith(path));
+        let t = false;
+        blacklistedUrls.forEach((route) => {
+            if (path.includes(route)) {
+                t = true;
+                return t;
+            }
+        })
+        return t;
+
     }
 
 
