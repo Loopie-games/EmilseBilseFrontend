@@ -1,6 +1,6 @@
 import { observable, makeAutoObservable, runInAction, toJS, action, observe, when } from "mobx";
 import { HubConnection, HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
-import { CloseLobbyDto, GameDTO, LeaveLobbyDto, Lobby, StartGameDto } from "../models/game/gameInterfaces";
+import { CloseLobbyDto, GameDTO, LeaveLobbyDto, Lobby, StartGameDto, TopPlayer } from "../models/game/gameInterfaces";
 import { SimplePlayerDTO, SimpleUserDTO, UserDTO } from "../models/user/userInterface";
 import { useNavigate } from 'react-router-dom';
 import { pendingPlayerDto } from "../models/player/playerInterface";
@@ -9,6 +9,7 @@ import gameService from "../services/gameService";
 import {BoardDTO, BoardTileDTO } from "../models/tile/tileInterface";
 import colorLookupService from "../services/colorLookupService";
 import {POPUP_STATES} from "../components/shared/popups/popup";
+import TopPlayerService from "../services/topPlayerService";
 
 export default class GameStore {
     @observable lobby: Lobby | undefined
@@ -16,6 +17,7 @@ export default class GameStore {
     @observable players: SimpleUserDTO[] = [];
     @observable lobbyPlayers: pendingPlayerDto[] = [];
     @observable game: GameDTO| undefined;
+    @observable topRanked: TopPlayer[] = [];
     hubConnection: HubConnection | null = null;
     testhashmap = new Map<string, string>();
 
@@ -204,6 +206,14 @@ export default class GameStore {
     @action
     getGame = async (gameId: string) =>{
         const response = await gameService.getById(gameId);
+        return response.data
+    }
+
+    @action
+    getTop3  =async (gameId: string) =>{
+        const response = await TopPlayerService.getTop3(gameId);
+        this.topRanked = response.data
+        console.log(response.data)
         return response.data
     }
 
