@@ -21,6 +21,7 @@ import TilesForYouPage from './pages/tilesPages/tilesForYouPage/tilesForYouPage'
 import TilesMadeByYouPage from './pages/tilesPages/tilesMadeByYouPage/tilesMadeByYouPage';
 import AboutUsPage from './pages/aboutUsPage/aboutUsPage';
 import Popup from './components/shared/popups/popup';
+import Winnerscreen from './components/gameBoard/winnerscreen/winnerscreen';
 
 function App() {
   const { userStore, popupStore } = useStore()
@@ -37,6 +38,7 @@ function App() {
     { path: "/user/tiles/:id", element: <TilesForYouPage /> },
     { path: "/user/tilesby/:id", element: <TilesMadeByYouPage /> },
     { path: "/AboutUs", element: <AboutUsPage /> },
+    { path: "/game/won/:id", element: <Winnerscreen /> },
     { path: "*", element: <PageNotFound /> }
   ];
   ;
