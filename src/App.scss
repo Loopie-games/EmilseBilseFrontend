@@ -45,6 +45,7 @@ input {
   position: relative;
 }
 
+
 /* COLORS */
 $color-background-dark: #1b1f24;
 $color-foreground-dark: #24292f;
@@ -55,8 +56,10 @@ $color-highlighthover-dark: #fff;
 $color-border-dark: #8694A4;
 $color-icon-blue-dark: invert(64%) sepia(27%) saturate(212%) hue-rotate(172deg) brightness(86%) contrast(87%);
 $color-icon-dark: invert(94%) sepia(0%) saturate(7500%) hue-rotate(69deg) brightness(107%) contrast(107%);
-$color-input-background-dark: rgba(255, 255, 255, 0.05);
-$color-input-border-dark: rgba(0, 0, 0, 0.5);
+$color-input-background-dark: rgba(255, 255, 255, 0.1);
+$color-input-border-dark:rgba(255, 255, 255, 0.5);
+$color-menu-divider-dark: rgba(255, 255, 255, 0.1);
+
 
 
 $color-background-light: #D1D6DC;
@@ -69,7 +72,8 @@ $color-border-light: #5C6A7A;
 $color-icon-blue-light: invert(41%) sepia(17%) saturate(467%) hue-rotate(172deg) brightness(93%) contrast(88%);;
 $color-icon-light: invert(0%) sepia(6%) saturate(24%) hue-rotate(189deg) brightness(92%) contrast(105%);
 $color-input-background-light: rgba(0, 0, 0, 0.05);
-$color-input-border-light: rgba(255, 255, 255, 0.5);
+$color-input-border-light: rgba(0, 0, 0, 0.5);
+$color-menu-divider-light: rgba(0, 0, 0, 0.1);
 
 
 
@@ -86,6 +90,7 @@ $color-input-border-light: rgba(255, 255, 255, 0.5);
   --color-icon: #{$color-icon-dark};
   --color-input-background: #{$color-input-background-dark};
   --color-input-border: #{$color-input-border-dark};
+  --color-menu-divider: #{$color-menu-divider-dark};
 }
 
 [data-theme="light"] {
@@ -101,5 +106,6 @@ $color-input-border-light: rgba(255, 255, 255, 0.5);
   --color-icon: #{$color-icon-light};
   --color-input-background: #{$color-input-background-light};
   --color-input-border: #{$color-input-border-light};
+  --color-menu-divider: #{$color-menu-divider-light};
 }
 
