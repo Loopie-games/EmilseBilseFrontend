@@ -1,8 +1,11 @@
 import React from 'react'
+import './portraitOrientation.scss'
 
 const PortraitOrientation = () => {
-  return (
-    <div>portraitOrientation</div>
+  return (    
+  <div className='PortraitOrientation_Container'>
+  Please turn your device to portrait mode to use Loopie
+</div>
   )
 }
 

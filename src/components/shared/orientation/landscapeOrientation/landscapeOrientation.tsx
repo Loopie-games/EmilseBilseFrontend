@@ -3,7 +3,9 @@ import './landscapeOrientation.scss'
 
 const LandscapeOrientation = () => {
   return (
-    <div>landscapeOrientation</div>
+    <div className='LandScapeOrientation_Container'>
+      Please turn your device to landscape mode to use Loopie
+    </div>
   )
 }
 
