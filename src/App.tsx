@@ -25,7 +25,7 @@ import MobileNav from './components/shared/navbar/mobileNavbar/mobileNav';
 import Winnerscreen from './components/gameBoard/winnerscreen/winnerscreen';
 
 function App() {
-  const { userStore, popupStore, mobileStore } = useStore();
+  const { userStore, popupStore, mobileStore, themeStore } = useStore();
   const [lightTheme, setLightTheme] = useState(true);
 
   const routes = [
@@ -55,25 +55,17 @@ function App() {
     } else {
       mobileStore.setIsMobile(false);
     }
-    setLightTheme(localStorage.getItem('theme') === 'light');
+    themeStore.setTheme();
+    
   }, [])
 
   const toggleTheme = () => {
-    setLightTheme(!lightTheme);
+    themeStore.toggleTheme();
   }
-
-  useEffect(() => {
-
-    localStorage.setItem('theme', lightTheme ? 'light' : 'dark');
-    document.documentElement.setAttribute('data-theme', lightTheme ? 'light' : 'dark');
-  }, [lightTheme])
-
-
 
 
   return (
     <div className="App">
-      <div style={{ "zIndex": "99" }} onClick={toggleTheme}>TOGGLE</div>
       {popupStore.isShown && <Popup isConfirmation={popupStore.isConfirmation} title={popupStore.title} errorMessage={popupStore.errorMessage} handleClose={popupStore.onCancel} handleConfirm={popupStore.onConfirm} />}
       <Router>
         <Routes>

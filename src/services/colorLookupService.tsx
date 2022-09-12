@@ -54,7 +54,7 @@ class ColorLookupService {
                 return '#FE4545';
 
             default:
-                return 'var(--color-text)FFF';
+                return '#fff';
         }
     }
 

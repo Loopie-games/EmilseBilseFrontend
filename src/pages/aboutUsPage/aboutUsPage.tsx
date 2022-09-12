@@ -1,15 +1,22 @@
 import React from 'react'
 import aboutus1 from '../../assets/aboutUs/aboutus1.svg'
 import aboutus2 from '../../assets/aboutUs/aboutus2.svg'
+import aboutus1_white from '../../assets/aboutUs/aboutus1_white.svg'
+import aboutus2_white from '../../assets/aboutUs/aboutus2_white.svg'
 import './aboutUsPage.scss'
 import stock from '../../assets/aboutUs/stock.jpg'
 import mikeLoopie from '../../assets/aboutUs/MikeLoopie.jpg'
 import friends from '../../assets/aboutUs/unsplash - friends.jpg'
 import teamplayers from '../../assets/aboutUs/teamplayers.jpg'
+import { useStore } from '../../stores/store'
+import { observer } from 'mobx-react-lite'
 const AboutUsPage = () => {
+
+    const { themeStore } = useStore();
+
     return (
         <div className='AboutUs_Container'>
-            <img className='teast' src={aboutus1} alt="bagground1" />
+            <img className='teast' src={themeStore.theme === 'dark' ? aboutus1_white : aboutus1} alt="bagground1" />
             <div className='AboutUs_Wrapper'>
                 <div className='AboutUs_Title'>About Us</div>
                 <div className='AboutUs_TextContainer'>
@@ -59,9 +66,9 @@ const AboutUsPage = () => {
                     </section>
                 </div>
             </div>
-            <img className='teast' src={aboutus2} alt="bagground2" />
+            <img className='teast' src={themeStore.theme === 'dark' ? aboutus2_white : aboutus2} alt="bagground2" />
         </div>
     )
 }
 
-export default AboutUsPage
+export default observer(AboutUsPage)

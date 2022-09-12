@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { MobileStore } from '../../../../stores/mobileStore'
 import { useStore } from '../../../../stores/store'
 import Icon from '../../icon/Icon'
 import './mobileNav.scss'
@@ -9,7 +10,7 @@ const MobileNav = () => {
     const navigate = useNavigate()
     const url = window.location.pathname;
 
-    const { userStore } = useStore()
+    const { userStore, themeStore } = useStore()
 
     const blacklistedUrls = ['/game']
 
@@ -24,8 +25,6 @@ const MobileNav = () => {
         return t;
 
     }
-
-
 
     const [showMenu, setShowMenu] = useState(false)
 
@@ -127,6 +126,10 @@ const MobileNav = () => {
         setLogOutShown(false);
     }
 
+    const handleToggleTheme = () => {
+        themeStore.toggleTheme();
+    }
+
     return (
         <>
             {checkIfBlacklistedRoute(url) ? null :
@@ -135,7 +138,12 @@ const MobileNav = () => {
 
                         <div className="MobileNav_LinksContainer" >
                             <div className="MobileNav_LinksWrapper">
-                                <div className={`MobileNav_MenuLinksContainer ${linkShown ? 'active' : ''}`} onClick={handleLinksClick}>
+                            <div className={`MobileNav_MenuLinksContainer`} onClick={handleToggleTheme}>
+                                    <div className='MobileNav_MenuLinksContainerIcon'><Icon name={`${themeStore.theme === 'light' ? 'moon' : 'sun'}`} /></div>
+                                    <div className='MobileNav_MenuLinksContainerTextTitle'>Toggle Theme</div>
+                                </div>
+
+                            <div className={`MobileNav_MenuLinksContainer ${linkShown ? 'active' : ''}`} onClick={handleLinksClick}>
                                     <div className='MobileNav_MenuLinksContainerIcon'><Icon name="link" /></div>
                                     <div className='MobileNav_MenuLinksContainerTextTitle'>Links</div>
                                 </div>

@@ -5,6 +5,7 @@ import { FriendshipStore } from "./friendshipStore";
 import GameStore from "./gameStore";
 import { MobileStore } from "./mobileStore";
 import { PopupStore } from "./popupStore";
+import { ThemeStore } from "./themeStore";
 import { TileStore } from "./tileStore";
 import { UserStore } from "./userStore";
 
@@ -15,7 +16,8 @@ type Store = {
     tileStore: TileStore,
     gameStore: GameStore,
     popupStore: PopupStore,
-    mobileStore: MobileStore
+    mobileStore: MobileStore,
+    themeStore: ThemeStore
 }
 
 export const store: Store = {
@@ -25,7 +27,8 @@ export const store: Store = {
     friendshipStore: new FriendshipStore(),
     gameStore: new GameStore(),
     popupStore: new PopupStore(),
-    mobileStore: new MobileStore()
+    mobileStore: new MobileStore(),
+    themeStore: new ThemeStore()
 };
 
 export const StoreContext = createContext<Store>({} as Store);
