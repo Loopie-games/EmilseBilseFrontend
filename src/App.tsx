@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import './App.css';
+import React, { useEffect, useState } from 'react';
+import './App.scss';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/landingPage/landingPage';
 import RegisterPage from './pages/registerPage/registerPage';
@@ -25,6 +25,8 @@ import Winnerscreen from './components/gameBoard/winnerscreen/winnerscreen';
 
 function App() {
   const { userStore, popupStore } = useStore()
+  const [lightTheme, setLightTheme] = useState(true);
+
   const routes = [
     { path: "/", element: <LandingPage /> },
     { path: "/register", element: <RegisterPage /> },
@@ -46,10 +48,26 @@ function App() {
     if (localStorage.getItem('userId') !== null) {
       userStore.getById(localStorage.getItem('userId') ?? '');
     }
+
+    setLightTheme(localStorage.getItem('theme') === 'light');
   }, [])
+
+  const toggleTheme = () => {
+    setLightTheme(!lightTheme);
+  }
+
+  useEffect(() => {
+
+    localStorage.setItem('theme', lightTheme ? 'light' : 'dark');
+    document.documentElement.setAttribute('data-theme', lightTheme ? 'light' : 'dark');
+  }, [lightTheme])
+
+
+
 
   return (
     <div className="App">
+      <div style={{ "zIndex": "99" }} onClick={toggleTheme}>TOGGLE</div>
       {popupStore.isShown && <Popup isConfirmation={popupStore.isConfirmation} title={popupStore.title} errorMessage={popupStore.errorMessage} handleClose={popupStore.onCancel} handleConfirm={popupStore.onConfirm} />}
       <Router>
         <Routes>
@@ -57,7 +75,7 @@ function App() {
             <Route key={index} path={route.path} element={
               <>
                 <Navbar />
-                <div style={{ "zIndex": "2", "height": "70px", "width": "100%", "backgroundColor": "#24292f" }}></div>
+                <div style={{ "zIndex": "2", "height": "70px", "width": "100%", "backgroundColor": "var(--color-foreground)" }}></div>
                 <div style={{ "display": "flex", "flexDirection": "row", "flex": "1", "position": "relative" }}>
                   {userStore.user !== undefined ? <LoggedInBar /> : null}
                   {route.element}
