@@ -10,7 +10,7 @@ import './friendsPage.scss'
 const FriendsPage = () => {
     const t2 = [{ r1: "asd", a2: "asd" }, { r1: "a123", a2: "123" }]
 
-    const { friendshipStore } = useStore();
+    const { friendshipStore, userStore } = useStore();
     const [filteredList, setFilteredList] = useState(friendshipStore._friendlist);
     const [search, setSearch] = useState('');
     const [loading, setLoading] = useState(true);
@@ -28,6 +28,8 @@ const FriendsPage = () => {
         }
 
         params.id !== undefined ? loadData() : setLoading(false);
+        console.log(userStore.user);
+        
 
     }, [])
 

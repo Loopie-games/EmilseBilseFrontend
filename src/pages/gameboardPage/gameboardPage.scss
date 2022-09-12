@@ -4,7 +4,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: var(--color-input-border);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,7 +14,7 @@
         max-width: 400px;
         width: 100%;
         height: fit-content;
-        background-color: #24292f;
+        background-color: var(--color-foreground);
         border-radius: 5px;
         display: flex;
         flex-direction: column;
@@ -44,7 +44,7 @@
             font-style: normal;
             font-weight: 400;
             font-size: 24px;
-            color: #fff;
+            color: var(--color-text);
         }
 
         .Gameboard_WinnerClaimBoxContent {
@@ -52,7 +52,7 @@
             font-style: normal;
             font-weight: 400;
             font-size: 18px;
-            color: #fff;
+            color: var(--color-text);
             margin-bottom: 20px;
             justify-content: center;
             align-items: center;
@@ -67,13 +67,13 @@
     flex: 1;
     align-items: center;
     user-select: none;
-    background: #1b1f24;
+    background: var(--color-background);
     flex-direction: column;
 
     .Gameboard_NavBackground {
         width: 100%;
         height: 100px;
-        background-color: #24292f;
+        background-color: var(--color-foreground);
     }
 
     .Gameboard_Wrapper {
@@ -103,13 +103,13 @@
             display: flex;
             flex-direction: column;
             transition: width 0.2s ease-in-out;
-            background-color: #24292f;
+            background-color: var(--color-foreground);
+            border-radius: 0 0 15px 0;
             align-items: center;
             justify-content: center;
             z-index: 4;
 
             .Gameboard_TracklistTitle {
-
                 margin-top: 10px;
                 @media screen and (max-height: 414px) and (orientation: landscape) {
                     width: 30px;
@@ -128,18 +128,18 @@
                         width: 280px;
                     }
                 }
-                background: rgba(255, 255, 255, 0.05);
+                background: var(--color-input-background);
                 backdrop-filter: blur(5px);
                 border-radius: 5px;
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                border: 2px solid rgba(0, 0, 0, 0.5);
+                border: 2px solid var(--color-input-border);
                 font-family: "Caviar Dreams";
                 font-style: normal;
                 font-weight: 700;
                 line-height: 0%;
-                color: #fff;
+                color: var(--color-text);
                 transition: all 0.2s ease-in-out;
                 cursor: pointer;
             }
@@ -260,7 +260,8 @@
             display: flex;
             flex-direction: column;
             transition: width 0.2s ease-in-out;
-            background-color: #24292f;
+            background-color: var(--color-foreground);
+            border-radius: 0 0 0 15px;
             align-items: center;
             justify-content: center;
             z-index: 4;
@@ -288,18 +289,17 @@
                         font-weight: 700;
                     }
                 }
-
-                background: rgba(255, 255, 255, 0.05);
+                background: var(--color-input-background);
                 backdrop-filter: blur(5px);
                 border-radius: 5px;
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                border: 2px solid rgba(0, 0, 0, 0.5);
+                border: 2px solid var(--color-input-border);
                 font-family: "Caviar Dreams";
                 font-style: normal;
                 line-height: 0%;
-                color: #fff;
+                color: var(--color-text);
                 transition: all 0.2s ease-in-out;
                 
                 cursor: pointer;
