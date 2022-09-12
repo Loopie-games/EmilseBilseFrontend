@@ -21,10 +21,11 @@ import TilesForYouPage from './pages/tilesPages/tilesForYouPage/tilesForYouPage'
 import TilesMadeByYouPage from './pages/tilesPages/tilesMadeByYouPage/tilesMadeByYouPage';
 import AboutUsPage from './pages/aboutUsPage/aboutUsPage';
 import Popup from './components/shared/popups/popup';
+import MobileNav from './components/shared/navbar/mobileNavbar/mobileNav';
 import Winnerscreen from './components/gameBoard/winnerscreen/winnerscreen';
 
 function App() {
-  const { userStore, popupStore } = useStore()
+  const { userStore, popupStore, mobileStore } = useStore();
   const [lightTheme, setLightTheme] = useState(true);
 
   const routes = [
@@ -43,12 +44,17 @@ function App() {
     { path: "/game/won/:id", element: <Winnerscreen /> },
     { path: "*", element: <PageNotFound /> }
   ];
-  ;
+
   useEffect(() => {
     if (localStorage.getItem('userId') !== null) {
       userStore.getById(localStorage.getItem('userId') ?? '');
     }
 
+    if (window.screen.availWidth < 768) {
+      mobileStore.setIsMobile(true);
+    } else {
+      mobileStore.setIsMobile(false);
+    }
     setLightTheme(localStorage.getItem('theme') === 'light');
   }, [])
 
@@ -74,12 +80,17 @@ function App() {
           {routes.map((route, index) => (
             <Route key={index} path={route.path} element={
               <>
-                <Navbar />
-                <div style={{ "zIndex": "2", "height": "70px", "width": "100%", "backgroundColor": "var(--color-foreground)" }}></div>
-                <div style={{ "display": "flex", "flexDirection": "row", "flex": "1", "position": "relative" }}>
-                  {userStore.user !== undefined ? <LoggedInBar /> : null}
+                {!mobileStore.isMobile &&
+                  <>
+                    <Navbar />
+                    <div style={{ "zIndex": "2", "height": "70px", "width": "100%", "backgroundColor": "var(--color-foreground)" }}></div>
+                  </>
+                }
+                <div style={{ "display": "flex", "flexDirection": "row", "flex": "1" , "overflow": "hidden", "position": "relative"}}>
+                  {userStore.user !== undefined && !mobileStore.isMobile && <LoggedInBar />}
                   {route.element}
                 </div>
+                {mobileStore.isMobile && <MobileNav />}
               </>
             } />
           ))}

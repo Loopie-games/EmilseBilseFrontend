@@ -3,6 +3,7 @@ import { createContext, useContext } from "react";
 import { AuthStore } from "./authStore";
 import { FriendshipStore } from "./friendshipStore";
 import GameStore from "./gameStore";
+import { MobileStore } from "./mobileStore";
 import { PopupStore } from "./popupStore";
 import { TileStore } from "./tileStore";
 import { UserStore } from "./userStore";
@@ -13,7 +14,8 @@ type Store = {
     friendshipStore: FriendshipStore,
     tileStore: TileStore,
     gameStore: GameStore,
-    popupStore: PopupStore
+    popupStore: PopupStore,
+    mobileStore: MobileStore
 }
 
 export const store: Store = {
@@ -22,7 +24,8 @@ export const store: Store = {
     userStore: new UserStore(),
     friendshipStore: new FriendshipStore(),
     gameStore: new GameStore(),
-    popupStore: new PopupStore()
+    popupStore: new PopupStore(),
+    mobileStore: new MobileStore()
 };
 
 export const StoreContext = createContext<Store>({} as Store);

@@ -1,13 +1,14 @@
 import { observer } from 'mobx-react-lite'
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Board from '../../components/gameBoard/board/board';
 import Player from '../../components/gameBoard/player/player';
 import Tiles from '../../components/gameBoard/tiles/tiles';
 import Winnerscreen from '../../components/gameBoard/winnerscreen/winnerscreen';
-import winnerscreen from '../../components/gameBoard/winnerscreen/winnerscreen';
 import InvertedCornerQ1 from '../../components/shared/invertedCorners/invertedCornerQ1';
 import InvertedCornerQ2 from '../../components/shared/invertedCorners/invertedCornerQ2';
+import InvertedCornerQ3 from '../../components/shared/invertedCorners/invertedCornerQ3';
+import InvertedCornerQ4 from '../../components/shared/invertedCorners/invertedCornerQ4';
 import { GameDTO, State } from '../../models/game/gameInterfaces';
 import { BoardTileDTO, BoardDTO } from '../../models/tile/tileInterface';
 import { useStore } from '../../stores/store';
@@ -17,10 +18,11 @@ const GameboardPage = () => {
     const [tasklistShown, setTasklistShown] = useState(false);
     const [playersShown, setPlayersShown] = useState(false);
     const [winnerFound, setWinnerFound] = useState(false)
+    const { gameStore, userStore, popupStore, mobileStore } = useStore();
     //TODO: Remove after test and design
     const [testWinner, setTestWinner] = useState(false);
-    const { gameStore, userStore, popupStore } = useStore();
     const params = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
         console.log('====================================');
@@ -93,16 +95,21 @@ const GameboardPage = () => {
                     </div>
 
                     <InvertedCornerQ1 />
+                    {mobileStore.isMobile && <InvertedCornerQ3 />}
 
-                    {(gameStore.game?.winner != undefined && gameStore.game?.state == State.Ended) ?
+                    {(gameStore.game?.winner !== undefined && gameStore.game?.state === State.Ended) ?
                         <Winnerscreen /> :
                         <div className='Gameboard_GameboardContainer'>
+                            {mobileStore.isMobile &&
+                                <div className='GameBoard_MobileBack' onClick={() => navigate('/')}>← Back to home</div>
+                            }
                             <div className='Gameboard_GameboardWrapper'>
                                 <Board />
                             </div>
                         </div>
                     }
                     <InvertedCornerQ2 />
+                    {mobileStore.isMobile && <InvertedCornerQ4 />}
                     <div className={`Gameboard_PlayersContainer ${playersShown ? 'shown' : ''}`}>
                         <div onClick={() => togglePlayers()}
                             className={`Gameboard_PlayersTitle ${playersShown ? 'shown' : ''}`}>{playersShown ? 'Players' : 'P'}</div>

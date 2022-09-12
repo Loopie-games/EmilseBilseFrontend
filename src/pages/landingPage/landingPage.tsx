@@ -24,9 +24,8 @@ const LandingPage = () => {
         return () => {
             console.log("UNMOUNTING");
         }
-            
-    }, []);
 
+    }, []);
 
     const handlePinChange = (e: any) => {
         setPinValue(e.target.value);
@@ -41,11 +40,11 @@ const LandingPage = () => {
             navigate('/login');
         }
         else {
-            try{
-            await gameStore.createHubConnection();
-            await gameStore.joinLobby(userStore.user!.id, pinValue,
-                () => { navigate('/lobby') });
-            } catch (e:any) {
+            try {
+                await gameStore.createHubConnection();
+                await gameStore.joinLobby(userStore.user!.id, pinValue,
+                    () => { navigate('/lobby') });
+            } catch (e: any) {
                 popupStore.setErrorMessage(e.message);
                 popupStore.show();
             }
@@ -57,11 +56,11 @@ const LandingPage = () => {
         if (userStore.user === undefined) {
             navigate('/login');
         } else {
-            try{
-            await gameStore.createHubConnection();
-            await gameStore.createLobby(
-                () => { navigate('/lobby') });
-            } catch (e:any) {
+            try {
+                await gameStore.createHubConnection();
+                await gameStore.createLobby(
+                    () => { navigate('/lobby') });
+            } catch (e: any) {
                 popupStore.setErrorMessage(e.message);
                 popupStore.show();
             }
