@@ -26,7 +26,6 @@ import Winnerscreen from './components/gameBoard/winnerscreen/winnerscreen';
 
 function App() {
   const { userStore, popupStore, mobileStore, themeStore } = useStore();
-  const [lightTheme, setLightTheme] = useState(true);
 
   const routes = [
     { path: "/", element: <LandingPage /> },
@@ -58,11 +57,6 @@ function App() {
     themeStore.setTheme();
     
   }, [])
-
-  const toggleTheme = () => {
-    themeStore.toggleTheme();
-  }
-
 
   return (
     <div className="App">
