@@ -7,18 +7,18 @@ import './userComponent.scss'
 
 const UserComponent = (user: pendingPlayerDto) => {
 
-    const { gameStore } = useStore();
+    const {lobbyStore } = useStore();
 
     const kickPlayer = () => {
-        gameStore.kickPlayer(user.id);
+        //gameStore.kickPlayer(user.id);
     }
 
     const isHost = () => {
-        console.log(gameStore.lobby)
-        return gameStore.lobby?.host === user.player.id;
+        return lobbyStore.lobby?.host === user.player.id;
     }
 
     useEffect(() => {
+        console.log(user.player.username)
     }, [])
 
     return (

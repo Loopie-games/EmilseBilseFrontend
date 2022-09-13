@@ -6,8 +6,8 @@ import lobbyService from "../services/lobbyService";
 
 export default class LobbyStore {
     hubConnection: HubConnection | null = null;
-    @observable lobby: Lobby | undefined
-    @observable lobbyPlayers: pendingPlayerDto[] = [];
+    @observable lobby: Lobby | undefined;
+    @observable players: pendingPlayerDto[] = [];
 
 
     createHubConnection = async () => {
@@ -22,18 +22,26 @@ export default class LobbyStore {
             .catch(error => {
                 console.log(error)
             });
-
         return;
     }
 
-    joinLobby = async (lobbyPin: string, onReciecedLobby: Function) => {
+    joinLobby = async (lobbyPin: string) => {
         await this.createHubConnection()
         this.hubConnection?.on('receiveLobby', async (lobby: Lobby) => {
             this.lobby = lobby;
-            onReciecedLobby();
+            console.log(lobby)
+            return
         });
+        this.hubConnection?.on('playerList', (players: pendingPlayerDto[]) => {
+            runInAction(() => {
+                this.players = players;
+                console.log("players in lobby " + players.length);
+                //callBack()
+                return
+            });
+        })
         await this.hubConnection?.invoke('JoinLobby', lobbyPin)
-        return this.lobby
+        return
     }
 
     @action
