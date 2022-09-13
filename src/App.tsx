@@ -33,14 +33,14 @@ function App() {
 
   const routes = [
     { path: "/", element: <LandingPage />, isLandscape: false },
-    { path: "/register", element: <RegisterPage /> , isLandscape: false},
+    { path: "/register", element: <RegisterPage />, isLandscape: false },
     { path: "/login", element: <LoginPage />, isLandscape: false },
     { path: "/Lobby", element: <RequireLobby><LobbyPage /></RequireLobby>, isLandscape: false },
     { path: "/game/:id", element: <GameboardPage />, isLandscape: true },
     { path: "/user/friendlist/:id", element: <FriendsPage />, isLandscape: false },
     { path: "/test", element: <TestPage />, isLandscape: false },
     { path: "/user/addfriend/", element: <AddFriendPage />, isLandscape: false },
-    { path: "/user/friendRequests", element: <FriendRequestPage />, isLandscape: false},
+    { path: "/user/friendRequests", element: <FriendRequestPage />, isLandscape: false },
     { path: "/user/tiles/:id", element: <TilesForYouPage />, isLandscape: false },
     { path: "/user/tilesby/:id", element: <TilesMadeByYouPage />, isLandscape: false },
     { path: "/AboutUs", element: <AboutUsPage />, isLandscape: false },
@@ -59,11 +59,12 @@ function App() {
     } else {
       mobileStore.setIsMobile(false);
     }
-    themeStore.setTheme();  
+    themeStore.setTheme();
 
 
-      let r = routes.find(r => r.path === window.location.pathname);
+    let r = routes.find(r => r.path === window.location.pathname);
 
+    if (mobileStore.isMobile) {
       if (r?.isLandscape === true && window.screen.orientation.type === "portrait-primary") {
         setShowLandscapeError(true);
       }
@@ -74,7 +75,8 @@ function App() {
         setShowLandscapeError(false);
         setShowPortraitError(false);
       }
-      
+    }
+
   }, [])
 
   useEffect(() => {
@@ -92,39 +94,39 @@ function App() {
         setShowLandscapeError(false);
         setShowPortraitError(false);
       }
-      
+
     })
   })
 
 
   return (
     <>
-    {showLandscapeError && <LandscapeOrientation />}
-    {showPortraitError && <PortraitOrientation />}
-    <div className="App">
-      {popupStore.isShown && <Popup isConfirmation={popupStore.isConfirmation} title={popupStore.title} errorMessage={popupStore.errorMessage} handleClose={popupStore.onCancel} handleConfirm={popupStore.onConfirm} />}
-      <Router>
-        <Routes>
-          {routes.map((route, index) => (
-            <Route key={index} path={route.path} element={
-              <>
-                {!mobileStore.isMobile &&
-                  <>
-                    <Navbar />
-                    <div style={{ "zIndex": "2", "height": "70px", "width": "100%", "backgroundColor": "var(--color-foreground)" }}></div>
-                  </>
-                }
-                <div style={{ "display": "flex", "flexDirection": "row", "flex": "1" , "overflow": "hidden", "position": "relative"}}>
-                  {userStore.user !== undefined && !mobileStore.isMobile && <LoggedInBar />}
-                  {route.element}
-                </div>
-                {mobileStore.isMobile && <MobileNav />}
-              </>
-            } />
-          ))}
-        </Routes>
-      </Router>
-    </div>
+      {showLandscapeError && <LandscapeOrientation />}
+      {showPortraitError && <PortraitOrientation />}
+      <div className="App">
+        {popupStore.isShown && <Popup isConfirmation={popupStore.isConfirmation} title={popupStore.title} errorMessage={popupStore.errorMessage} handleClose={popupStore.onCancel} handleConfirm={popupStore.onConfirm} />}
+        <Router>
+          <Routes>
+            {routes.map((route, index) => (
+              <Route key={index} path={route.path} element={
+                <>
+                  {!mobileStore.isMobile &&
+                    <>
+                      <Navbar />
+                      <div style={{ "zIndex": "2", "height": "70px", "width": "100%", "backgroundColor": "var(--color-foreground)" }}></div>
+                    </>
+                  }
+                  <div style={{ "display": "flex", "flexDirection": "row", "flex": "1", "overflow": "hidden", "position": "relative" }}>
+                    {userStore.user !== undefined && !mobileStore.isMobile && <LoggedInBar />}
+                    {route.element}
+                  </div>
+                  {mobileStore.isMobile && <MobileNav />}
+                </>
+              } />
+            ))}
+          </Routes>
+        </Router>
+      </div>
     </>
   );
 }
