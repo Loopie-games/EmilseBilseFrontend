@@ -1,8 +1,12 @@
+import { useStripe } from '@stripe/react-stripe-js'
+import { loadStripe } from '@stripe/stripe-js'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Icon from '../../../../components/shared/icon/Icon'
 import NewTile from '../../../../components/tilepackCreator/newTilepackCreator/newTile'
+import httpCommon from '../../../../http-common'
 import './newTilepackCreatorPage.scss'
+
 
 const NewTilepackCreatorPage = () => {
     const [name, setName] = useState('')
@@ -12,6 +16,7 @@ const NewTilepackCreatorPage = () => {
     const [selectedTiles, setSelectedTiles] = useState([])
 
     const navigate = useNavigate();
+    const stripe = useStripe();
 
     const handleCancel = () => {
         setName('')
@@ -20,9 +25,8 @@ const NewTilepackCreatorPage = () => {
         navigate('/admin/tilepackcreator')
     }
 
-    const handleCreate = () => {
-
-        navigate('/admin/tilepackcreator')
+    const handleCreate = async() => {
+        
     }
 
     return (

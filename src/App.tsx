@@ -27,11 +27,16 @@ import MobileNav from './components/shared/navbar/mobileNavbar/mobileNav';
 import Winnerscreen from './components/gameBoard/winnerscreen/winnerscreen';
 import LandscapeOrientation from './components/shared/orientation/landscapeOrientation/landscapeOrientation';
 import PortraitOrientation from './components/shared/orientation/potraitOrientation/portraitOrientation';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+const stripePromise = loadStripe('pk_test_51Lf0qhHlPakEYz1FbXf2tOuCqoV5jPQcIoPASo8amOG1px2sOMObFsPGFhfDPaZZ5tT2RcjCBQZtgrN63khxdS8P00HCW9k4rl');
 
 function App() {
+
   const { userStore, popupStore, mobileStore, themeStore } = useStore();
   const [showPortraitError, setShowPortraitError] = useState(false);
   const [showLandscapeError, setShowLandscapeError] = useState(false);
+  
 
   const routes = [
     { path: "/", element: <LandingPage />, isLandscape: false },
@@ -45,8 +50,8 @@ function App() {
     { path: "/user/friendRequests", element: <FriendRequestPage />, isLandscape: false },
     { path: "/user/tiles/:id", element: <TilesForYouPage />, isLandscape: false },
     { path: "/user/tilesby/:id", element: <TilesMadeByYouPage />, isLandscape: false },
-    { path: "/admin/tilepackcreator", element: <TilepackCreatorPage /> },
-    { path: "/admin/tilepackcreator/addnew", element: <NewTilepackCreatorPage /> },
+    { path: "/admin/tilepackcreator", element: <TilepackCreatorPage />, isLandscape: false },
+    { path: "/admin/tilepackcreator/addnew", element: <Elements stripe={stripePromise}><NewTilepackCreatorPage /></Elements>, isLandscape: false },
     { path: "/AboutUs", element: <AboutUsPage />, isLandscape: false },
     { path: "/game/won/:id", element: <Winnerscreen />, isLandscape: false },
     { path: "*", element: <PageNotFound />, isLandscape: false }
