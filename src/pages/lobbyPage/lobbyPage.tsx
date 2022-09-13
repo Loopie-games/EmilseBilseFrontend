@@ -12,7 +12,7 @@ import lobbyStore from '../../stores/lobbyStore';
 
 const LobbyPage = () => {
     const {gameStore, userStore, popupStore, lobbyStore} = useStore();
-    const [loading, setLoading] = useState(true)
+    const [lobby, setLobby] = useState(lobbyStore.lobby)
 
     const navigate = useNavigate();
     const params = useParams();
@@ -33,13 +33,11 @@ const LobbyPage = () => {
         }
     }, [])
 
-    const joinLobby = async () =>{
-        setLoading(true)
-        await lobbyStore.joinLobby(params.pin!, ()=>{
-            setLoading(false)
+    const joinLobby = async () => {
+        await lobbyStore.joinLobby(params.pin!, () => {
+            setLobby(lobbyStore.lobby)
         })
     }
-
 
 
     const onExit = () => {
@@ -99,16 +97,6 @@ const LobbyPage = () => {
         }
 
     }
-    return(
-        <>
-            {lobbyStore.lobby === undefined ? "Loading" : <>
-                lobby: {lobbyStore.lobby?.pin}
-            </>}
-
-    </>
-    )
-
-    /*
     return (
         <>
             <div className='Lobby_Container'>
@@ -119,14 +107,20 @@ const LobbyPage = () => {
                     <div className='Lobby_InputContainer'>
                         <div className='Lobby_PinCode'>
                             <input type="text" placeholder='Pin Code' maxLength={5} readOnly
-                                   onClick={() => savePinToClipboard()} value={lobbyStore.lobby?.pin}/>
+                                   onClick={() => savePinToClipboard()} value={params.pin}/>
                         </div>
-                        <div className='Lobby_ButtonsContainer'>
-                            {lobbyStore.lobby?.host === userStore.user!.id ?
-                                <div className='Lobby_StartButton' onClick={handleStartGame}> Start</div> : null}
-                            <div className='Lobby_StartButton'
-                                 onClick={lobbyStore.lobby?.host === userStore.user?.id ? handleCloseLobby : handleLeaveLobby}>{`${lobbyStore.lobby?.host === userStore.user?.id ? 'Close Lobby' : 'Leave Lobby'}`}</div>
-                        </div>
+                        {lobby !== undefined ?
+                            <div className='Lobby_ButtonsContainer'>
+                                {lobby.host === userStore.user!.id ?
+                                    <div className='Lobby_StartButton' onClick={handleStartGame}> Start</div> : null}
+                                <div className='Lobby_StartButton'
+                                     onClick={lobby.host === userStore.user?.id ? handleCloseLobby : handleLeaveLobby}>{`${lobby.host === userStore.user?.id ? 'Close Lobby' : 'Leave Lobby'}`}</div>
+                            </div>
+                            :
+                            <>
+                                Loading
+                            </>
+                        }
                     </div>
                     <div className='Lobby_PlayerContainer'>
                         {lobbyStore.lobbyPlayers.map((player) => (
@@ -137,10 +131,9 @@ const LobbyPage = () => {
             </div>
         </>
     )
-    */
+
 
 }
-
 
 
 export default observer(LobbyPage)
