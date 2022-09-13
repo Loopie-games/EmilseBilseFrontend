@@ -217,5 +217,11 @@ export default class GameStore {
         return response.data
     }
 
+    @action
+    getEnded = async() =>{
+        const response = await gameService.getEndedGames();
+        return response.data
+    }
+
 
 }
