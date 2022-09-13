@@ -1,11 +1,12 @@
 import { observer } from 'mobx-react-lite';
 import React, { useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom';
+import lobbyStore from '../../../stores/lobbyStore';
 import { useStore } from '../../../stores/store';
 import Loader from '../loader/loader';
 
 const RequireLobby = ({ children }: any) => {
-    const { gameStore } = useStore();
+    const { gameStore, lobbyStore } = useStore();
     const [loaded, setLoaded] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -20,6 +21,9 @@ const RequireLobby = ({ children }: any) => {
     const loadLobby = async () => {
         setLoaded(false);
         if (gameStore.lobby !== undefined) {
+            setIsLoggedIn(true);
+        }
+        if(lobbyStore.lobby !== undefined) {
             setIsLoggedIn(true);
         }
         setLoaded(true);

@@ -4,29 +4,43 @@ import './lobbyPage.scss'
 import {useStore} from '../../stores/store'
 import {UserDTO} from '../../models/user/userInterface';
 import {observer} from 'mobx-react-lite';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import {StartGameDto} from '../../models/game/gameInterfaces';
 import {observe} from 'mobx';
 import Popup from '../../components/shared/popups/popup';
+import lobbyStore from '../../stores/lobbyStore';
 
 const LobbyPage = () => {
-    const {gameStore, userStore, popupStore} = useStore();
+    const {gameStore, userStore, popupStore, lobbyStore} = useStore();
+    const [loading, setLoading] = useState(true)
+
     const navigate = useNavigate();
+    const params = useParams();
 
     useEffect(() => {
-        listenForGameStarting()
-        listenForLobbyClosing()
+        joinLobby()
+        //listenForGameStarting()
+        //listenForLobbyClosing()
         window.addEventListener("beforeunload", (ev) => {
             ev.preventDefault();
             onExit()
             return
         });
         return () => {
-            if (gameStore.lobby != undefined) {
+            if (lobbyStore.lobby != undefined) {
                 onExit()
             }
         }
     }, [])
+
+    const joinLobby = async () =>{
+        setLoading(true)
+        await lobbyStore.joinLobby(params.pin!, ()=>{
+            setLoading(false)
+        })
+    }
+
+
 
     const onExit = () => {
         if (gameStore.lobby?.id !== undefined) {
@@ -85,7 +99,16 @@ const LobbyPage = () => {
         }
 
     }
+    return(
+        <>
+            {lobbyStore.lobby === undefined ? "Loading" : <>
+                lobby: {lobbyStore.lobby?.pin}
+            </>}
 
+    </>
+    )
+
+    /*
     return (
         <>
             <div className='Lobby_Container'>
@@ -96,17 +119,17 @@ const LobbyPage = () => {
                     <div className='Lobby_InputContainer'>
                         <div className='Lobby_PinCode'>
                             <input type="text" placeholder='Pin Code' maxLength={5} readOnly
-                                   onClick={() => savePinToClipboard()} value={gameStore.lobby?.pin}/>
+                                   onClick={() => savePinToClipboard()} value={lobbyStore.lobby?.pin}/>
                         </div>
                         <div className='Lobby_ButtonsContainer'>
-                            {gameStore.lobby?.host === userStore.user!.id ?
+                            {lobbyStore.lobby?.host === userStore.user!.id ?
                                 <div className='Lobby_StartButton' onClick={handleStartGame}> Start</div> : null}
                             <div className='Lobby_StartButton'
-                                 onClick={gameStore.lobby?.host === userStore.user?.id ? handleCloseLobby : handleLeaveLobby}>{`${gameStore.lobby?.host === userStore.user?.id ? 'Close Lobby' : 'Leave Lobby'}`}</div>
+                                 onClick={lobbyStore.lobby?.host === userStore.user?.id ? handleCloseLobby : handleLeaveLobby}>{`${lobbyStore.lobby?.host === userStore.user?.id ? 'Close Lobby' : 'Leave Lobby'}`}</div>
                         </div>
                     </div>
                     <div className='Lobby_PlayerContainer'>
-                        {gameStore.lobbyPlayers.map((player) => (
+                        {lobbyStore.lobbyPlayers.map((player) => (
                             <UserComponent {...player} />
                         ))}
                     </div>
@@ -114,6 +137,10 @@ const LobbyPage = () => {
             </div>
         </>
     )
+    */
+
 }
+
+
 
 export default observer(LobbyPage)

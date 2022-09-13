@@ -2,6 +2,7 @@ import {observer} from 'mobx-react-lite';
 import React, {useEffect, useState} from 'react'
 import {useNavigate} from 'react-router-dom';
 import Loader from '../../components/shared/loader/loader';
+import { Lobby } from '../../models/game/gameInterfaces';
 import lobbyStore from '../../stores/lobbyStore';
 
 import {useStore} from '../../stores/store';
@@ -59,12 +60,8 @@ const LandingPage = () => {
             navigate('/login');
         } else {
             try {
-                await lobbyStore.createHubConnection();
-                await gameStore.createHubConnection();
-                await gameStore.createLobby(
-                    () => {
-                        navigate('/lobby')
-                    });
+                let l : Lobby = await lobbyStore.createlobby()
+                navigate('/lobby/' + l.pin)
             } catch (e: any) {
                 popupStore.setErrorMessage(e.message);
                 popupStore.show();

@@ -35,7 +35,7 @@ function App() {
     { path: "/", element: <LandingPage />, isLandscape: false },
     { path: "/register", element: <RegisterPage />, isLandscape: false },
     { path: "/login", element: <LoginPage />, isLandscape: false },
-    { path: "/Lobby", element: <RequireLobby><LobbyPage /></RequireLobby>, isLandscape: false },
+    { path: "/lobby/:pin", element: <LobbyPage />, isLandscape: false },
     { path: "/game/:id", element: <GameboardPage />, isLandscape: true },
     { path: "/user/friendlist/:id", element: <FriendsPage />, isLandscape: false },
     { path: "/test", element: <TestPage />, isLandscape: false },
