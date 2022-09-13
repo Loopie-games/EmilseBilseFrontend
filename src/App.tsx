@@ -33,10 +33,52 @@ const stripePromise = loadStripe('pk_test_51Lf0qhHlPakEYz1FbXf2tOuCqoV5jPQcIoPAS
 
 function App() {
 
-  const { userStore, popupStore, mobileStore, themeStore } = useStore();
+  const { userStore, popupStore, mobileStore, themeStore, stripeStore} = useStore();
   const [showPortraitError, setShowPortraitError] = useState(false);
   const [showLandscapeError, setShowLandscapeError] = useState(false);
-  
+
+  const apperance = {
+    theme: "stripe",
+
+    variables: {
+      fontFamily: "caviar-dreams",
+      colorPrimary: "var(--color-textSecondary)",
+      colorBackground: "var(--color-background)",
+      colorText: "var(--color-text)",
+      colorDanger: "#ff0000",
+      borderRadius: "5px",
+
+    },
+    
+    rules: {
+      '.tab': {
+        background: 'var(--color-input-background)',
+        color: 'var(--color-text)',
+        border: '1px solid var(--color-input-border)',
+        backdropFilter: 'blur(5px)',
+        transition: 'box-shadow 0.2s ease-in-out',
+      },
+
+      '.tab:hover': {
+        boxShadow: 'var(--color-highlighthover) 0 0 0 2px inset', 
+      },
+
+      '.tab:active': {
+        boxShadow: 'var(--color-highlighthover) 0 0 0 2px inset',
+      }
+    }
+  }
+
+  const options = {
+    // passing the client secret obtained from the server
+    clientSecret: stripeStore.clientSecret,
+    fonts: [
+      {
+        cssSrc: 'https://allfont.net/cache/css/caviar-dreams.css',
+      },
+    ],
+    apperance: apperance,
+  };
 
   const routes = [
     { path: "/", element: <LandingPage />, isLandscape: false },
@@ -45,7 +87,7 @@ function App() {
     { path: "/Lobby", element: <RequireLobby><LobbyPage /></RequireLobby>, isLandscape: false },
     { path: "/game/:id", element: <GameboardPage />, isLandscape: true },
     { path: "/user/friendlist/:id", element: <FriendsPage />, isLandscape: false },
-    { path: "/test", element: <TestPage />, isLandscape: false },
+    { path: "/test", element: <Elements stripe={stripePromise} options={options}><TestPage /></Elements>, isLandscape: false },
     { path: "/user/addfriend/", element: <AddFriendPage />, isLandscape: false },
     { path: "/user/friendRequests", element: <FriendRequestPage />, isLandscape: false },
     { path: "/user/tiles/:id", element: <TilesForYouPage />, isLandscape: false },
@@ -59,6 +101,7 @@ function App() {
 
 
   useEffect(() => {
+    stripeStore.getClientSecret();
     if (localStorage.getItem('userId') !== null) {
       userStore.getById(localStorage.getItem('userId') ?? '');
     }

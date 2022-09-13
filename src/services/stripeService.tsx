@@ -3,6 +3,9 @@ import http from "../http-common"
 import { newTilepackDTO } from "../models/stripe/stripeInterface";
 
 class StripeService {
+    async getClientSecret() {
+        return await http.get("/clientsecret")
+    }
     async getProducts() {
         return await http.get("/products")
     }

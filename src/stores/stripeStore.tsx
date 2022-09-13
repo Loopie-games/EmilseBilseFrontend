@@ -6,6 +6,7 @@ import stripeService from "../services/stripeService";
 
 export class StripeStore {
     @observable products: any[] = [];
+    @observable clientSecret: string | undefined;
     @action async createTilePack(tilePack: newTilepackDTO) {
         const response = await stripeService.createTilePack(tilePack);
         return;
@@ -16,6 +17,13 @@ export class StripeStore {
         this.products = response.data;
         return;
     }
+
+    @action async getClientSecret() {
+        const response = await stripeService.getClientSecret();
+        this.clientSecret = response.data;
+        return;
+    }
+
     constructor() {
         makeAutoObservable(this);
     }
