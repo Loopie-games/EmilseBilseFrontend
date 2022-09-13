@@ -28,6 +28,17 @@
                 display: flex;
                 gap: 40px;
 
+                .Navbar-ToggleTheme{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 40px;
+                    flex-direction: row;
+                    gap: 10px;
+                    cursor: pointer;
+                    filter: var(--color-icon);
+                }
+
                 .Navbar-Button {
                     position: relative;
                     height: 40px;
@@ -43,11 +54,11 @@
                     font-weight: 400;
                     font-size: 16px;
                     line-height: 0%;
-                    color: #fff;
+                    color: var(--color-text);
                 }
                 .Navbar-Button:hover {
                     cursor: pointer;
-                    box-shadow: rgb(255 255 255) 0 0 0 2px inset;
+                    box-shadow: var(--color-highlighthover) 0 0 0 2px inset;
                 }
             }
         }

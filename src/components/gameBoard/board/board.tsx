@@ -4,31 +4,40 @@ import logo from '../../../assets/Shared/EmilseBilseBingo_Logo.png'
 import { observer } from 'mobx-react-lite';
 import './board.scss'
 import gameboardPage from '../../../pages/gameboardPage/gameboardPage';
+import { BoardTileDTO } from '../../../models/tile/tileInterface';
+import { POPUP_STATES } from '../../shared/popups/popup';
 
 const Board = () => {
 
-    const { gameStore, userStore } = useStore();
-    const [testData, setTestData] = useState<any[]>([{ id: 1, completed: false }, { id: 2, completed: false }, { id: 3, completed: false }, { id: 4, completed: false }, { id: 5, completed: false }, { id: 6, completed: false }, { id: 7, completed: false }, { id: 8, completed: false }, { id: 9, completed: false }, { id: 10, completed: false }, { id: 11, completed: false }, { id: 12, completed: false }, { id: 13, completed: false }, { id: 14, completed: false }, { id: 15, completed: false }, { id: 16, completed: false }, { id: 17, completed: false }, { id: 18, completed: false }, { id: 19, completed: false }, { id: 20, completed: false }, { id: 21, completed: false }, { id: 22, completed: false }, { id: 23, completed: false }, { id: 24, completed: false },]);
+    const { gameStore, userStore,popupStore } = useStore();
     const [counter, setCounter] = useState(0);
     let triggerTime: number;
     let longPressTime = 200;
     useEffect(() => {
     }, [])
 
-    const completeTile = (tile: any) => {
-        testData.find(x => x.id === tile.id).completed = !testData.find(x => x.id === tile.id).completed;
-        setTestData([...testData]);
-
-        console.log(tile.completed);
-
+    const completeTile = async (tile: BoardTileDTO) => {
+        await gameStore.turnTile(tile.id, (popup : POPUP_STATES| undefined) => {
+            if (popup === POPUP_STATES.winClaim) {
+                const onConfirmWin = async () => {
+                    await gameStore.claimWin(tile.board.id)
+                }
+                const onCancelWin = async () => {
+                    await gameStore.turnTile(tile.id, () => {})
+                }
+                popupStore.showConfirmation("Claim win", "You have filled the board. Are you sure, that you are done?", onConfirmWin, onCancelWin)
+            }
+            return
+        })
+        return
     }
 
-    const test = (tile: any) => {
-        gameStore.tiles![0].isActivated = !gameStore.tiles![0].isActivated;
-    }
+
 
     const handleClick = (e: any) => {
-        triggerTime > longPressTime ? test(e) : completeTile(e);
+        console.log(getPlayerColor(e.aboutUser.id));
+
+        triggerTime > longPressTime ? completeTile(e) : completeTile(e);
     }
 
     const handleTouchStart = (e: any) => {
@@ -38,21 +47,34 @@ const Board = () => {
         triggerTime = Date.now() - triggerTime;
     }
 
+    const getPlayerColor = (playerId: string) => {
+        return gameStore.tiles.find((tile: BoardTileDTO) => tile.aboutUser.id === playerId)?.aboutUser.color;
+    }
+
 
     return (
+        <>
         <div className='GameBoard_Container'>
             <div className='GameBoard_TileContainer'>
-                {testData.map((tile, index) => (
-                    <div className={`GameBoard_Tile ${tile.completed ? 'active' : ''}`} key={index}
-                        onClick={() => handleClick(tile)}
-                        onMouseDown={handleTouchStart}
-                        onMouseUp={handleTouchEnd}>
-                        {index}
-                    </div>
+                {gameStore.tiles.map((tile, index) => (
+                    <>
+                        <div style={{ "color": `${getPlayerColor(tile.aboutUser.id)}` }} className={`GameBoard_Tile ${tile.isActivated ? 'active' : ''}`} key={index}
+                            onClick={() => handleClick(tile)}
+                            onMouseDown={handleTouchStart}
+                            onMouseUp={handleTouchEnd}>
+                            {index}
+                            {tile.isActivated ?
+                                <div className='GameBoard_TileShadow' style={{ "boxShadow": `0px 0px 20px ${getPlayerColor(tile.aboutUser.id)}` }} >
+                                </div>
+                                : null}
+                        </div>
+
+                    </>
                 ))}
                 <div className='GameBoard_Tile active TileFree'> FREE </div>
             </div>
         </div>
+        </>
     )
 }
 

@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
-import './App.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import './App.scss';
+import { BrowserRouter as Router, Routes, Route, useParams, useNavigate, useLocation } from 'react-router-dom';
 import LandingPage from './pages/landingPage/landingPage';
 import RegisterPage from './pages/registerPage/registerPage';
 import LoginPage from './pages/LoginPage/loginPage';
@@ -22,52 +22,114 @@ import TilesMadeByYouPage from './pages/tilesPages/tilesMadeByYouPage/tilesMadeB
 import AboutUsPage from './pages/aboutUsPage/aboutUsPage';
 import TilepackCreatorPage from './pages/tilesPages/tilepackCreatorPage/tilepackCreatorPage';
 import NewTilepackCreatorPage from './pages/tilesPages/tilepackCreatorPage/NewTilepackCreatorPage/newTilepackCreatorPage';
+import Popup from './components/shared/popups/popup';
+import MobileNav from './components/shared/navbar/mobileNavbar/mobileNav';
+import Winnerscreen from './components/gameBoard/winnerscreen/winnerscreen';
+import LandscapeOrientation from './components/shared/orientation/landscapeOrientation/landscapeOrientation';
+import PortraitOrientation from './components/shared/orientation/potraitOrientation/portraitOrientation';
 
 function App() {
-  const { userStore } = useStore()
+  const { userStore, popupStore, mobileStore, themeStore } = useStore();
+  const [showPortraitError, setShowPortraitError] = useState(false);
+  const [showLandscapeError, setShowLandscapeError] = useState(false);
+
   const routes = [
-    { path: "/", element: <LandingPage /> },
-    { path: "/register", element: <RegisterPage /> },
-    { path: "/login", element: <LoginPage /> },
-    { path: "/Lobby", element: <RequireLobby><LobbyPage /></RequireLobby> },
-    { path: "/game", element: <GameboardPage /> },
-    { path: "/user/friendlist/:id", element: <FriendsPage /> },
-    { path: "/test", element: <TestPage /> },
-    { path: "/user/addfriend/", element: <AddFriendPage /> },
-    { path: "/user/friendRequests", element: <FriendRequestPage /> },
-    { path: "/user/tiles/:id", element: <TilesForYouPage /> },
-    { path: "/user/tilesby/:id", element: <TilesMadeByYouPage /> },
+    { path: "/", element: <LandingPage />, isLandscape: false },
+    { path: "/register", element: <RegisterPage />, isLandscape: false },
+    { path: "/login", element: <LoginPage />, isLandscape: false },
+    { path: "/Lobby", element: <RequireLobby><LobbyPage /></RequireLobby>, isLandscape: false },
+    { path: "/game/:id", element: <GameboardPage />, isLandscape: true },
+    { path: "/user/friendlist/:id", element: <FriendsPage />, isLandscape: false },
+    { path: "/test", element: <TestPage />, isLandscape: false },
+    { path: "/user/addfriend/", element: <AddFriendPage />, isLandscape: false },
+    { path: "/user/friendRequests", element: <FriendRequestPage />, isLandscape: false },
+    { path: "/user/tiles/:id", element: <TilesForYouPage />, isLandscape: false },
+    { path: "/user/tilesby/:id", element: <TilesMadeByYouPage />, isLandscape: false },
     { path: "/admin/tilepackcreator", element: <TilepackCreatorPage /> },
     { path: "/admin/tilepackcreator/addnew", element: <NewTilepackCreatorPage /> },
-    { path: "/AboutUs", element: <AboutUsPage /> },
-    { path: "*", element: <PageNotFound /> }
+    { path: "/AboutUs", element: <AboutUsPage />, isLandscape: false },
+    { path: "/game/won/:id", element: <Winnerscreen />, isLandscape: false },
+    { path: "*", element: <PageNotFound />, isLandscape: false }
   ];
-  ;
+
+
   useEffect(() => {
     if (localStorage.getItem('userId') !== null) {
       userStore.getById(localStorage.getItem('userId') ?? '');
     }
+
+    if (window.screen.availWidth < 768) {
+      mobileStore.setIsMobile(true);
+    } else {
+      mobileStore.setIsMobile(false);
+    }
+    themeStore.setTheme();
+
+
+    let r = routes.find(r => r.path === window.location.pathname);
+
+    if (mobileStore.isMobile) {
+      if (r?.isLandscape === true && window.screen.orientation.type === "portrait-primary") {
+        setShowLandscapeError(true);
+      }
+      else if (r?.isLandscape === false && window.screen.orientation.type === "landscape-primary") {
+        setShowPortraitError(true);
+      }
+      else {
+        setShowLandscapeError(false);
+        setShowPortraitError(false);
+      }
+    }
   }, [])
 
+  useEffect(() => {
+
+    window.screen.orientation.addEventListener('change', () => {
+      let r = routes.find(r => r.path === window.location.pathname);
+
+      if (r?.isLandscape === true && window.screen.orientation.type === "portrait-primary") {
+        setShowLandscapeError(true);
+      }
+      else if (r?.isLandscape === false && window.screen.orientation.type === "landscape-primary") {
+        setShowPortraitError(true);
+      }
+      else {
+        setShowLandscapeError(false);
+        setShowPortraitError(false);
+      }
+
+    })
+  })
+
   return (
-    <div className="App">
-      <Router>
-        <Routes>
-          {routes.map((route, index) => (
-            <Route key={index} path={route.path} element={
-              <>
-                <Navbar />
-                <div style={{ "zIndex": "100", "height": "70px", "width": "100%", "backgroundColor": "#24292f" }}></div>
-                <div style={{ "display": "flex", "flexDirection": "row", "flex": "1" }}>
-                  {userStore.user !== undefined ? <LoggedInBar /> : null}
-                  {route.element}
-                </div>
-              </>
-            } />
-          ))}
-        </Routes>
-      </Router>
-    </div>
+    <>
+      {showLandscapeError && <LandscapeOrientation />}
+      {showPortraitError && <PortraitOrientation />}
+      <div className="App">
+        {popupStore.isShown && <Popup isConfirmation={popupStore.isConfirmation} title={popupStore.title} errorMessage={popupStore.errorMessage} handleClose={popupStore.onCancel} handleConfirm={popupStore.onConfirm} />}
+        <Router>
+          <Routes>
+            {routes.map((route, index) => (
+              <Route key={index} path={route.path} element={
+                <>
+                  {!mobileStore.isMobile &&
+                    <>
+                      <Navbar />
+                      <div style={{ "zIndex": "2", "height": "70px", "width": "100%", "backgroundColor": "var(--color-foreground)" }}></div>
+                    </>
+                  }
+                  <div style={{ "display": "flex", "flexDirection": "row", "flex": "1", "overflow": "hidden", "position": "relative" }}>
+                    {userStore.user !== undefined && !mobileStore.isMobile && <LoggedInBar />}
+                    {route.element}
+                  </div>
+                  {mobileStore.isMobile && <MobileNav />}
+                </>
+              } />
+            ))}
+          </Routes>
+        </Router>
+      </div>
+    </>
   );
 }
 

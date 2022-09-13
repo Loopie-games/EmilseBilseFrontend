@@ -3,7 +3,6 @@ import { Friend } from "../models/friendship/friendInterface";
 import FriendshipService from "../services/friendshipService";
 
 export class FriendshipStore {
-
     @observable _friendlist: Friend[] | undefined;
     @observable _friendRequests: Friend[] | undefined;
     @observable _searchResults: Friend[] | undefined;    

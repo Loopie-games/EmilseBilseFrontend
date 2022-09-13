@@ -1,4 +1,5 @@
 import { wait } from '@testing-library/user-event/dist/utils';
+import { observer } from 'mobx-react-lite';
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useStore } from '../../../stores/store';
@@ -31,11 +32,19 @@ const LoggedInBar = () => {
 
 
     const checkIfBlacklistedRoute = (path: string) => {
-        return barBlacklistRoutes.some(route => route === path);
+        let t = false;
+        barBlacklistRoutes.forEach((route) => {
+            if (path.includes(route)) {
+                t = true;
+                return t;
+            }
+        })
+        return t;
+    
     }
 
     const handleProfileClick = () => {
-        !isShown ? setIsShown(true) : () => { };
+        !isShown && setIsShown(true);
         setProfileShown(!profileShown);
         setFriendsShown(false);
         setTilesShown(false);
@@ -192,4 +201,4 @@ const LoggedInBar = () => {
     )
 }
 
-export default LoggedInBar
+export default observer(LoggedInBar)

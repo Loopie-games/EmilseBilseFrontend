@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="95ab0aca-e3bd-4f58-a05b-c1aa8ae3437f" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/services/topPlayerService.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/tile/tileInterface.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/tile/tileInterface.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/gameBoard/winnerscreen/winnerscreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/gameBoard/winnerscreen/winnerscreen.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/game/gameInterfaces.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/game/gameInterfaces.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/gameStore.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/gameStore.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,6 +79,10 @@
       <workItem from="1661151507109" duration="11390000" />
       <workItem from="1661250915950" duration="3915000" />
       <workItem from="1661341184234" duration="1850000" />
+      <workItem from="1662026733485" duration="6218000" />
+      <workItem from="1662101403627" duration="1269000" />
+      <workItem from="1662362178743" duration="4156000" />
+      <workItem from="1662445577044" duration="6486000" />
     </task>
     <servers />
   </component>

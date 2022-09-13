@@ -10,8 +10,7 @@ const Tiles = (tile: BoardTileDTO) => {
     const [color, setColor] = useState('');
     const [isShown, setIsShown] = useState(false)
     useEffect(() => {
-        console.log(tile)
-        setColor(colorLookupService.generateRandomAppropriateColor());
+        setColor(tile.aboutUser.color!)
     }, [])
 
     const handleShow = () => {
@@ -32,7 +31,7 @@ const Tiles = (tile: BoardTileDTO) => {
                 {isShown ?
                     <>
                         <div className='Tile_ActionTo'>
-                            To whoom: {tile.aboutUser.username}
+                            by: {tile.aboutUser.nickname}
                         </div>
                     </>
                     : null}
