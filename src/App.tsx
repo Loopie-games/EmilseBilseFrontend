@@ -76,7 +76,6 @@ function App() {
         setShowPortraitError(false);
       }
     }
-
   }, [])
 
   useEffect(() => {
@@ -97,7 +96,6 @@ function App() {
 
     })
   })
-
 
   return (
     <>

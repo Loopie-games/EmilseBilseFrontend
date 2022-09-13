@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import aboutus1 from '../../assets/aboutUs/aboutus1.svg'
 import aboutus2 from '../../assets/aboutUs/aboutus2.svg'
 import aboutus1_white from '../../assets/aboutUs/aboutus1_white.svg'
@@ -14,9 +14,16 @@ const AboutUsPage = () => {
 
     const { themeStore } = useStore();
 
+    useEffect(() => {
+        themeStore.setTheme();
+        console.log(themeStore.theme);
+        
+    }, [themeStore.theme])
+
+
     return (
         <div className='AboutUs_Container'>
-            <img className='teast' src={themeStore.theme === 'dark' ? aboutus1_white : aboutus1} alt="bagground1" />
+            <img className='teast' src={themeStore.theme === 'light' ? aboutus1_white : aboutus1} alt="bagground1" />
             <div className='AboutUs_Wrapper'>
                 <div className='AboutUs_Title'>About Us</div>
                 <div className='AboutUs_TextContainer'>
@@ -66,7 +73,7 @@ const AboutUsPage = () => {
                     </section>
                 </div>
             </div>
-            <img className='teast' src={themeStore.theme === 'dark' ? aboutus2_white : aboutus2} alt="bagground2" />
+            <img className='teast' src={themeStore.theme === 'light' ? aboutus2_white : aboutus2} alt="bagground2" />
         </div>
     )
 }
