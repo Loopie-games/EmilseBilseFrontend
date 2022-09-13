@@ -220,8 +220,6 @@
             }
 
             .Gameboard_GameboardWrapper {
-                max-width: 60%;
-                width: 100%;
                 flex: 1;
                 display: flex;
                 z-index: 2;
@@ -353,5 +351,10 @@
 }
 
 .mobile{
+    width: 80vh;
+}
 
+.desktop{
+    width: 100%;
+    max-width: 40%;
 }

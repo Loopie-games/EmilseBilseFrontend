@@ -103,7 +103,7 @@ const GameboardPage = () => {
                             {mobileStore.isMobile &&
                                 <div className='GameBoard_MobileBack' onClick={() => navigate('/')}>← Back to home</div>
                             }
-                            <div className='Gameboard_GameboardWrapper'>
+                            <div className={`Gameboard_GameboardWrapper ${mobileStore.isMobile ? 'mobile' : 'desktop'}`}>
                                 <Board />
                             </div>
                         </div>
