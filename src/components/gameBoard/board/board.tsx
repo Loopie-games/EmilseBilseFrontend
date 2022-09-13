@@ -9,7 +9,7 @@ import { POPUP_STATES } from '../../shared/popups/popup';
 
 const Board = () => {
 
-    const { gameStore, userStore,popupStore } = useStore();
+    const { gameStore, userStore,popupStore, mobileStore } = useStore();
     const [counter, setCounter] = useState(0);
     let triggerTime: number;
     let longPressTime = 200;
@@ -55,7 +55,7 @@ const Board = () => {
     return (
         <>
         <div className='GameBoard_Container'>
-            <div className='GameBoard_TileContainer'>
+            <div className={`GameBoard_TileContainer ${mobileStore.isMobile ? 'mobileGab' : 'desktopGab'}`}>
                 {gameStore.tiles.map((tile, index) => (
                     <>
                         <div style={{ "color": `${getPlayerColor(tile.aboutUser.id)}` }} className={`GameBoard_Tile ${tile.isActivated ? 'active' : ''}`} key={index}
