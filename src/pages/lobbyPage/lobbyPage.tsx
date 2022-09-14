@@ -23,12 +23,8 @@ const LobbyPage = () => {
     }
 
     useEffect(() => {
-        setLoading(true)
         joinLobby()
-        if (lobbyStore.lobby !== undefined) {
-            setLoading(false)
-        }
-    }, [lobbyStore.lobby])
+    }, [])
 
 
     const onExit = () => {

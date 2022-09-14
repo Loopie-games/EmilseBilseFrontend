@@ -1,5 +1,5 @@
 import {HubConnection, HubConnectionBuilder, LogLevel} from "@microsoft/signalr";
-import {action, observable, runInAction} from "mobx";
+import {action, makeAutoObservable, observable, runInAction} from "mobx";
 import {Lobby} from "../models/game/gameInterfaces";
 import {pendingPlayerDto} from "../models/player/playerInterface";
 import lobbyService from "../services/lobbyService";
@@ -8,6 +8,10 @@ export default class LobbyStore {
     hubConnection: HubConnection | null = null;
     @observable lobby: Lobby | undefined;
     @observable players: pendingPlayerDto[] = [];
+
+    constructor() {
+        makeAutoObservable(this)
+    }
 
 
     createHubConnection = async () => {
