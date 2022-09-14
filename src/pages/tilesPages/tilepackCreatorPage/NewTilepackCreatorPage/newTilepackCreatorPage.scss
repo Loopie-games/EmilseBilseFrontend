@@ -18,7 +18,7 @@
             max-width: 275px;
             display: flex;
             flex-direction: column;
-            background: #24292f;
+            background: var(--color-foreground);
             border-radius: 15px;
             gap: 20px;
             box-shadow: 0 0 0 1px #101316, 0 30px 30px rgba(0, 0, 0, 0.07), 0 15px 15px rgba(0, 0, 0, 0.06),
@@ -45,9 +45,9 @@
                 aspect-ratio: 1/1;
                 width: 80%;
                 height: auto;
-                background: rgba(255, 255, 255, 0.05);
+                background: var(--color-input-background);
                 backdrop-filter: blur(5px);
-                border: 2px solid rgba(0, 0, 0, 0.5);
+                border: 2px solid var(--color-input-border);
                 border-radius: 15px;
                 transition: box-shadow 0.2s, outline 0.2s ease;
                 display: flex;
@@ -57,13 +57,14 @@
                 margin-top: 30px;
 
                 &:hover {
-                    box-shadow: rgb(255 255 255) 0 0 0 2px inset;
+                    box-shadow: var(--color-highlighthover) 0 0 0 2px inset;
 
                 }
 
                 img {
                     width: 25%;
                     height: auto;
+                    filter: var(--color-icon);
                 }
             }
 
@@ -74,12 +75,12 @@
                 flex-direction: row;
                 align-items: center;
                 justify-content: center;
-                background: rgba(255, 255, 255, 0.05);
+                background: var(--color-input-background);
                 backdrop-filter: blur(5px);
                 border-radius: 5px;
                 display: flex;
                 align-items: center;
-                border: 2px solid rgba(0, 0, 0, 0.5);
+                border: 2px solid var(--color-input-border);
                 transition: box-shadow 0.2s, outline 0.2s ease;
                 gap: 10px;
 
@@ -88,6 +89,11 @@
                     justify-content: center;
                     align-items: center;
                     padding-left: 10px;
+
+                    img {
+
+                        filter: var(--color-icon);
+                    }
                 }
 
                 .NewTilePack_SearchInput {
@@ -103,17 +109,17 @@
                         font-style: normal;
                         font-weight: 400;
                         font-size: 16px;
-                        color: #fff;
+                        color: var(--color-text);
                     }
                 }
             }
         }
 
-        .NewTilePack_CreatorContainer{
+        .NewTilePack_CreatorContainer {
             flex: 1;
             display: flex;
             flex-direction: column;
-            background: #24292f;
+            background: var(--color-foreground);
             border-radius: 15px;
             gap: 20px;
             box-shadow: 0 0 0 1px #101316, 0 30px 30px rgba(0, 0, 0, 0.07), 0 15px 15px rgba(0, 0, 0, 0.06),
@@ -136,75 +142,82 @@
                 box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
             }
 
-            .NewTilePack_CreatorWrapper{
+            .NewTilePack_CreatorWrapper {
                 width: 100%;
                 height: 100%;
                 display: grid;
                 grid-template-columns: repeat(2, 1fr);
-                .NewTilePack_TileContainer{
+
+                .NewTilePack_TileContainer {
                     padding: 30px;
                     display: flex;
                     flex-direction: column;
-                    .NewTilePack_CreatorTitle{
+
+                    .NewTilePack_CreatorTitle {
                         font-family: "Caviar Dreams";
                         font-style: normal;
                         font-weight: 400;
                         font-size: 24px;
-                        color: #fff;
+                        color: var(--color-text);
                         margin-bottom: 20px;
                         width: 100%;
                         height: 40px;
                         display: flex;
                         align-items: center;
                         justify-content: center;
-                        background: rgba(255, 255, 255, 0.05);
+                        background: var(--color-input-background);
                         backdrop-filter: blur(5px);
                         border-radius: 5px;
-                        border: rgba(0, 0, 0, 0.5) 2px solid;   
+                        border: var(--color-input-border) 2px solid;
                     }
 
-                    .NewTilePack_CreatorActionContainer{
+                    .NewTilePack_CreatorActionContainer {
                         flex: 1;
                         display: flex;
                         flex-direction: column;
                         overflow-y: auto;
                         overflow-x: hidden;
                         height: 100%;
-                        background: rgba(255, 255, 255, 0.05);
+                        background: var(--color-input-background);
                         backdrop-filter: blur(5px);
                         border-radius: 5px;
-                        border: rgba(0, 0, 0, 0.5) 2px solid;
+                        border: var(--color-input-border) 2px solid;
                         transition: box-shadow 0.2s, outline 0.2s ease;
                         gap: 20px;
                         padding: 20px;
-                        .NewTilePack_NewTileButton{
+
+                        .NewTilePack_NewTileButton {
                             width: 100%;
                             height: 40px;
                             display: flex;
                             align-items: center;
                             justify-content: center;
-                            background: #24292f;
+                            background: var(--color-foreground);
                             border-radius: 5px;
                             cursor: pointer;
                             font-family: "Caviar Dreams";
                             font-style: normal;
                             font-weight: 400;
                             font-size: 16px;
-                            color: #fff;
+                            color: var(--color-text);
                             box-shadow: none;
                             transition: box-shadow 0.2s, outline 0.2s ease;
-                            img{
+
+                            img {
                                 width: auto;
                                 height: 100%;
+                                filter: var(--color-icon);
                             }
-                            &:hover{
-                                box-shadow: rgb(255 255 255) 0 0 0 2px inset;
+
+                            &:hover {
+                                box-shadow: var(--color-highlighthover) 0 0 0 2px inset;
                             }
                         }
                     }
                 }
             }
-            .NewTilePack_CreatorButtonContainer{
+
+            .NewTilePack_CreatorButtonContainer {
                 flex: 1;
                 width: 100%;
                 height: 40px;
@@ -212,17 +225,18 @@
                 display: flex;
                 align-items: center;
                 justify-content: end;
-                .NewTilePack_CreatorButtonWrapper{
+
+                .NewTilePack_CreatorButtonWrapper {
                     display: flex;
                     gap: 20px;
                     padding-right: 30px;
                     height: 100%;
 
-                    .NewTilePack_CancelButton{
-                        background: rgba(255, 255, 255, 0.05);
+                    .NewTilePack_CancelButton {
+                        background: var(--color-input-background);
                         backdrop-filter: blur(5px);
                         border-radius: 5px;
-                        border: rgba(0, 0, 0, 0.5) 2px solid;
+                        border: var(--color-input-border) 2px solid;
                         transition: box-shadow 0.2s, outline 0.2s ease;
                         cursor: pointer;
                         height: 40px;
@@ -234,18 +248,18 @@
                         font-style: normal;
                         font-weight: 400;
                         font-size: 16px;
-                        color: #fff;
+                        color: var(--color-text);
 
-                        &:hover{
+                        &:hover {
                             box-shadow: rgb(188, 45, 45) 0 0 0 2px inset;
                         }
                     }
 
-                    .NewTilePack_CreatorButton{
-                        background: rgba(255, 255, 255, 0.05);
+                    .NewTilePack_CreatorButton {
+                        background: var(--color-input-background);
                         backdrop-filter: blur(5px);
                         border-radius: 5px;
-                        border: rgba(0, 0, 0, 0.5) 2px solid;
+                        border: var(--color-input-border) 2px solid;
                         transition: box-shadow 0.2s, outline 0.2s ease;
                         cursor: pointer;
                         height: 40px;
@@ -257,9 +271,9 @@
                         font-style: normal;
                         font-weight: 400;
                         font-size: 16px;
-                        color: #fff;
+                        color: var(--color-text);
 
-                        &:hover{
+                        &:hover {
                             box-shadow: rgb(45, 188, 52) 0 0 0 2px inset;
                         }
                     }
