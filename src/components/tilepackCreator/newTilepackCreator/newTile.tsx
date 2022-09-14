@@ -1,42 +1,43 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Icon from '../../shared/icon/Icon'
 import './newTile.scss'
 
-const NewTile = (tile: any) => {
-    const [action, setAction] = useState(tile.action)
+const NewTile = ({onAdd, onDelete, onEdit, tile, iconName}:any  )=> {
+    const [action, setAction] = useState("")
     const [isEditable, setIsEditable] = useState(false)
+
+
+    useEffect(() => {
+        console.log(iconName);
+        
+        setAction(tile.action);
+
+    }, [])
 
     const handleEdit = () => {
         setIsEditable(true)
         console.log('edit');
-        
     }
 
     const handleSaveEdit = () => {
+        setAction(action);
         setIsEditable(false)
         console.log('save edit');
+        onEdit(action);
         
-    }
-
-    const handleDelete = () => {
-        console.log('delete');
-    }
-
-    const editTileAction = (action: string) => {
-        tile.action = action
     }
 
   return (
     <div className='NewTile_Container'>
-        <div className='NewTile_Ikon'>
-            <Icon name="move" />
+        <div className='NewTile_Ikon' onClick={() =>onAdd()}>
+            <Icon name={`${iconName}`} />
         </div>
         <div className='NewTile_InputContainer'>
-            <input type="text" onChange={(e) => editTileAction(e.target.value)} disabled={!isEditable} placeholder="Tile action"/>
+            <input type="text" onChange={(e) => setAction(e.target.value)} disabled={!isEditable} placeholder="Tile action" value={action}/>
         </div>
         <div className='NewTile_Ikon' onClick={!isEditable ? handleEdit : handleSaveEdit}>
             <Icon name={isEditable ?  'check': 'edit'} /></div>
-        <div className='NewTile_Ikon'>
+        <div className='NewTile_Ikon' onClick={() => onDelete()}>
             <Icon name="cross" />
         </div>
     </div>
