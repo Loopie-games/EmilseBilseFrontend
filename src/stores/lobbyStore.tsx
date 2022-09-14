@@ -31,6 +31,11 @@ export default class LobbyStore {
             this.lobby = lobby;
             return
         });
+        this.hubConnection?.on('lobbyClosed', async () => {
+            this.lobby = undefined;
+            this.players = [];
+            return
+        });
         this.hubConnection?.on('playerList', (players: pendingPlayerDto[]) => {
             runInAction(() => {
                 this.players = players;
@@ -57,6 +62,18 @@ export default class LobbyStore {
         const response = await lobbyService.create();
         this.lobby = response.data
         return response.data
+    }
+
+    @action
+    closeLobby = async() => {
+        if(this.lobby !== undefined) {
+            const response = await lobbyService.closeLobby(this.lobby.id);
+            if (response.data) {
+                this.lobby = undefined
+            }
+            return response.data
+        }
+        console.log("ERROR in close lobby. lobby is undefined")
     }
 
 

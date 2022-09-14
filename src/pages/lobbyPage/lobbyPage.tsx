@@ -63,7 +63,8 @@ const LobbyPage = () => {
     }
 
     const handleCloseLobby = async () => {
-        //await gameStore.closeLobby(gameStore.lobby!.id)
+        navigate('/')
+        await lobbyStore.closeLobby()
     }
 
     const handleLeaveLobby = async () => {
