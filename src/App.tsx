@@ -35,7 +35,7 @@ function App() {
     { path: "/", element: <LandingPage />, isLandscape: false },
     { path: "/register", element: <RegisterPage />, isLandscape: false },
     { path: "/login", element: <LoginPage />, isLandscape: false },
-    { path: "/Lobby", element: <RequireLobby><LobbyPage /></RequireLobby>, isLandscape: false },
+    { path: "/lobby", element: <RequireLobby><LobbyPage /></RequireLobby>, isLandscape: false },
     { path: "/game/:id", element: <GameboardPage />, isLandscape: true },
     { path: "/user/friendlist/:id", element: <FriendsPage />, isLandscape: false },
     { path: "/test", element: <TestPage />, isLandscape: false },
@@ -62,7 +62,7 @@ function App() {
     themeStore.setTheme();
 
 
-    let r = routes.find(r => r.path === window.location.pathname);
+    let r = routes.find(r => r.path.toLowerCase() === window.location.pathname.toLowerCase());
 
     if (mobileStore.isMobile) {
       if (r?.isLandscape === true && window.screen.orientation.type === "portrait-primary") {
@@ -81,8 +81,8 @@ function App() {
   useEffect(() => {
 
     window.screen.orientation.addEventListener('change', () => {
-      let r = routes.find(r => r.path === window.location.pathname);
-
+      let r = routes.find(r => r.path.toLowerCase() === window.location.pathname.toLowerCase());
+      
       if (r?.isLandscape === true && window.screen.orientation.type === "portrait-primary") {
         setShowLandscapeError(true);
       }
