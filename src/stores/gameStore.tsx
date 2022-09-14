@@ -173,6 +173,11 @@ export default class GameStore {
         this.hubConnection?.stop();
     }
 
+    stopConnection = async ()=>{
+        this.lobby = undefined
+        this.hubConnection?.stop();
+    }
+
     @action
     getByBoardId = async (boardId: string) => {
         const response = await boardService.getByBoardId(boardId)

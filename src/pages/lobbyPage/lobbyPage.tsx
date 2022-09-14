@@ -23,7 +23,13 @@ const LobbyPage = () => {
     }
 
     useEffect(() => {
-        joinLobby()
+            joinLobby().catch(()=>{
+                navigate("/")
+                return
+            })
+        return () => {
+            lobbyStore
+        }
     }, [])
 
 
@@ -77,7 +83,6 @@ const LobbyPage = () => {
     }
 
     const handleLeaveLobby = async () => {
-        //await gameStore.leaveLobby(gameStore.lobby!.id)
         navigate('/')
     }
 

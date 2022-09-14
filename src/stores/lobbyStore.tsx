@@ -26,24 +26,22 @@ export default class LobbyStore {
             .catch(error => {
                 console.log(error)
             });
-        return;
-    }
 
-    joinLobby = async (lobbyPin: string) => {
-        await this.createHubConnection()
         this.hubConnection?.on('receiveLobby', async (lobby: Lobby) => {
             this.lobby = lobby;
-            console.log(lobby)
             return
         });
         this.hubConnection?.on('playerList', (players: pendingPlayerDto[]) => {
             runInAction(() => {
                 this.players = players;
-                console.log("players in lobby " + players.length);
-                //callBack()
                 return
             });
         })
+        return;
+    }
+
+    joinLobby = async (lobbyPin: string) => {
+        await this.createHubConnection()
         await this.hubConnection?.invoke('JoinLobby', lobbyPin)
         return
     }

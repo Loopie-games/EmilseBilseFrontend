@@ -42,11 +42,7 @@ const LandingPage = () => {
             navigate('/login');
         } else {
             try {
-                await gameStore.createHubConnection();
-                await gameStore.joinLobby(userStore.user!.id, pinValue,
-                    () => {
-                        navigate('/lobby')
-                    });
+                navigate('/lobby/' + pinValue)
             } catch (e: any) {
                 popupStore.setErrorMessage(e.message);
                 popupStore.show();
