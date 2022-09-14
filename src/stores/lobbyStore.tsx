@@ -40,6 +40,12 @@ export default class LobbyStore {
         return;
     }
 
+    stopConnection = async () =>{
+        await this.hubConnection?.stop()
+        this.lobby = undefined
+        this.players = []
+    }
+
     joinLobby = async (lobbyPin: string) => {
         await this.createHubConnection()
         await this.hubConnection?.invoke('JoinLobby', lobbyPin)

@@ -28,7 +28,7 @@ const LobbyPage = () => {
                 return
             })
         return () => {
-            lobbyStore
+            lobbyStore.stopConnection()
         }
     }, [])
 
