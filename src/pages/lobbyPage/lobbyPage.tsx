@@ -12,9 +12,6 @@ import lobbyStore from '../../stores/lobbyStore';
 
 const LobbyPage = () => {
     const {userStore, popupStore, lobbyStore} = useStore();
-    const [loading, setLoading] = useState(true)
-
-
     const navigate = useNavigate();
     const params = useParams();
 
@@ -23,28 +20,15 @@ const LobbyPage = () => {
     }
 
     useEffect(() => {
-            joinLobby().catch(()=>{
-                navigate("/")
-                return
-            })
+        joinLobby().catch(() => {
+            navigate("/")
+            return
+        })
         return () => {
             lobbyStore.stopConnection()
         }
     }, [])
 
-
-    const onExit = () => {
-        /*
-        if (gameStore.lobby?.id !== undefined) {
-            if (gameStore.lobby.host === userStore.user!.id) {
-                handleCloseLobby()
-            } else {
-                handleLeaveLobby()
-            }
-        }
-
-         */
-    }
 
     const listenForGameStarting = async () => {
         /*
