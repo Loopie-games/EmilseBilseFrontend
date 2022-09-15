@@ -25,6 +25,7 @@ import MobileNav from './components/shared/navbar/mobileNavbar/mobileNav';
 import Winnerscreen from './components/gameBoard/winnerscreen/winnerscreen';
 import LandscapeOrientation from './components/shared/orientation/landscapeOrientation/landscapeOrientation';
 import PortraitOrientation from './components/shared/orientation/potraitOrientation/portraitOrientation';
+import ProfilePage from './pages/profilePage/profilePage';
 
 function App() {
   const { userStore, popupStore, mobileStore, themeStore } = useStore();
@@ -45,6 +46,7 @@ function App() {
     { path: "/user/tilesby/:id", element: <TilesMadeByYouPage />, isLandscape: false },
     { path: "/AboutUs", element: <AboutUsPage />, isLandscape: false },
     { path: "/game/won/:id", element: <Winnerscreen />, isLandscape: false },
+    { path: "/user/profile/:id", element: <ProfilePage /> },
     { path: "*", element: <PageNotFound />, isLandscape: false }
   ];
 
