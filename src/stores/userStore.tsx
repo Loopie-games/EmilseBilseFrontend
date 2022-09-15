@@ -1,18 +1,14 @@
 import { action, makeAutoObservable, observable } from "mobx";
 import { useHref } from "react-router-dom";
-import { CreateUserDTO, LoginDTO, LoginResponseDTO, UserDTO } from "../models/user/userInterface";
+import { CreateUserDTO, LoginDTO, LoginResponseDTO, SimpleUserDTO, UserDTO, admin } from "../models/user/userInterface";
 import cloudinaryService from "../services/cloudinaryService";
 import securityService from "../services/securityService";
 import userService from "../services/userService";
 
 export class UserStore {
-    deleteTile(id: string) {
-        throw new Error('Method not implemented.');
-    }
-
-
-    @observable user: UserDTO | undefined;
+    @observable user: SimpleUserDTO | undefined;
     @observable loginResponse: LoginResponseDTO | undefined;
+    @observable admin : admin | undefined;
 
     constructor() {
         makeAutoObservable(this);
@@ -28,13 +24,6 @@ export class UserStore {
     }
 
     @action
-    getById = async (userId: string) => {
-        const response = await userService.getById(userId)
-        this.user = response.data
-        return response.data;
-    }
-
-    @action
     getUserById = async (userId: string) => {
         const response = await userService.getById(userId)
         return response.data;
@@ -43,11 +32,10 @@ export class UserStore {
     @action
     login = async (data: LoginDTO) => {
         localStorage.removeItem("token")
-        await localStorage.removeItem("userId");
 
         const salt = await (await userService.getSaltByUsername(data.username)).data;
         if (salt === null) {
-            return
+            throw new Error("No user with given username, check your spelling")
         }
         const password = await securityService.hashPassword(data.password, salt);
 
@@ -57,16 +45,30 @@ export class UserStore {
         this.loginResponse = await response.data;
         if (this.loginResponse !== undefined) {
             await localStorage.setItem("token", this.loginResponse?.jwt);
-            await localStorage.setItem("userId", this.loginResponse.uuid);
-            await this.getById(this.loginResponse.uuid)
+            await this.getLogged()
+
         }
         return this.loginResponse;
+    }
+
+    @action
+    async getLogged() {
+        const response = await userService.getLogged()
+        function instanceOfAdmin(object: any): object is admin {
+            return 'adminId' in object;
+        }
+        if(instanceOfAdmin(response.data)){
+            this.admin = response.data
+        }
+        this.user = response.data
+        return response.data
     }
 
     @action
     logout() {
         localStorage.clear();
         this.user = undefined;
+        this.admin = undefined;
     }
 
     @action

@@ -12,5 +12,11 @@ class GameService {
         return http.get<SimpleUserDTO[]>("/Game/GetPlayers/" + gameId);
     }
 
+    async getEndedGames() {
+        return http.get<GameDTO[]>("/Game/GetEnded/");
+    }
+
+
+
 }
 export default new GameService();
