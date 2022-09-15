@@ -41,18 +41,23 @@ const GameboardPage = () => {
                 navigate("/")
                 return
             }).then(() => {
-                /*
                 autorun(() => {
                     if (gameStore.hubConnection !== null && gameStore.hubConnection.state === HubConnectionState.Connected) {
-
+                           /*
                         if (gameStore.game !== undefined && gameStore.board !== undefined) {
                             //TODO ERROR
                             navigate("/")
                             return;
                         }
+
+                            */
+                        if(gameStore.boardFilled){
+                            popupStore.showConfirmation("Confirm win", "Are you sure you're done?", ()=>{
+                                gameStore.claimWin()
+                            }, ()=>{})
+                        }
                     }
                 })
-                 */
             })
         return
     }

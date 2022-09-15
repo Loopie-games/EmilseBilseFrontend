@@ -17,6 +17,7 @@ export default class GameStore {
     @observable game: GameDTO | undefined;
     @observable board: BoardDTO | undefined;
     @observable topRanked: TopPlayer[] = [];
+    @observable boardFilled: boolean = false;
     hubConnection: HubConnection | null = null;
     testhashmap = new Map<string, string>();
 
@@ -62,7 +63,7 @@ export default class GameStore {
         })
         this.hubConnection?.on('boardFilled', async (boardId: string) => {
             runInAction(async () => {
-                //tileTurned(POPUP_STATES.winClaim)
+                this.boardFilled = true
             })
         })
 
@@ -85,8 +86,8 @@ export default class GameStore {
         this.hubConnection?.invoke('TurnTile', boardtileId)
     }
 
-    claimWin = async (boardId: string) => {
-        this.hubConnection?.invoke('ClaimWin', boardId)
+    claimWin = async () => {
+        this.hubConnection?.invoke('ClaimWin', this.board!.id)
         return
     }
 
