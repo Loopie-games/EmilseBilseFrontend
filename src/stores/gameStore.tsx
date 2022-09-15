@@ -12,10 +12,8 @@ import {POPUP_STATES} from "../components/shared/popups/popup";
 import TopPlayerService from "../services/topPlayerService";
 
 export default class GameStore {
-    @observable lobby: Lobby | undefined
     @observable tiles: BoardTileDTO[] = [];
     @observable players: SimpleUserDTO[] = [];
-    @observable lobbyPlayers: pendingPlayerDto[] = [];
     @observable game: GameDTO| undefined;
     @observable topRanked: TopPlayer[] = [];
     hubConnection: HubConnection | null = null;
@@ -40,27 +38,11 @@ export default class GameStore {
                 console.log(error)
             });
 
-        this.hubConnection.on('lobbyPlayerListUpdate', (players: pendingPlayerDto[]) => {
-            runInAction(() => {
-                this.lobbyPlayers = players;
-            });
-        })
-
         return;
     }
 
     stopHubConnection = () => {
         this.hubConnection?.stop().catch(error => { });
-    }
-
-    createLobby = async (func: Function) => {
-        this.hubConnection?.on('receiveLobby', async (lobby) => {
-            runInAction(async () => {
-                this.lobby = await lobby;
-                func()
-            });
-        });
-        this.hubConnection?.invoke('CreateLobby');
     }
 
     startGame = async (lobbyId: string, callBack: Function) => {
@@ -96,26 +78,6 @@ export default class GameStore {
             runInAction(async () => {
                 await callback(board)
             })
-        });
-    }
-
-    joinLobby = async (userId: string, lobbyPin: string, lobbyrecieved: Function) => {
-        this.hubConnection?.on('receiveLobby', async (lobby: Lobby) => {
-            this.lobby = lobby;
-            lobbyrecieved();
-        });
-        this.hubConnection?.invoke('JoinLobby', lobbyPin)
-    }
-
-    lobbyClosing = async (callback: Function) => {
-        this.hubConnection?.on('lobbyClosed', async () => {
-            runInAction(async () => {
-                await callback()
-                this.lobbyPlayers = [];
-                this.lobby = undefined;
-                this.hubConnection?.stop();
-                return
-            });
         });
     }
 
@@ -159,23 +121,8 @@ export default class GameStore {
         return
     }
 
-    closeLobby = async (lobbyId: string) => {
-        this.hubConnection?.invoke('CloseLobby', lobbyId)
-    }
-
     kickPlayer = async (userId: string) => {
         console.log(userId);
-    }
-
-    leaveLobby = async (lobbyId: string) => {
-        this.hubConnection?.invoke('LeaveLobby', lobbyId)
-        this.lobby = undefined
-        this.hubConnection?.stop();
-    }
-
-    stopConnection = async ()=>{
-        this.lobby = undefined
-        this.hubConnection?.stop();
     }
 
     @action
