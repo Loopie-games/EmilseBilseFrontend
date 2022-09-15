@@ -15,6 +15,13 @@ const LobbyPage = () => {
     const navigate = useNavigate();
     const params = useParams();
 
+    useEffect(() => {
+        joinLobby()
+        return () => {
+            lobbyStore.stopConnection()
+        }
+    }, [])
+
     const joinLobby = async () => {
         await lobbyStore.joinLobby(params.pin!)
             .catch(() => {
@@ -35,15 +42,7 @@ const LobbyPage = () => {
             })
         return
     }
-
-    useEffect(() => {
-        joinLobby()
-        return () => {
-            lobbyStore.stopConnection()
-        }
-    }, [])
-
-
+    
     const savePinToClipboard = () => {
         try {
             navigator.clipboard.writeText(params.pin!);
