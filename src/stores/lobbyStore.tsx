@@ -33,21 +33,26 @@ export default class LobbyStore {
                 console.log(error)
             });
 
-        this.hubConnection?.on('receiveLobby', async (lobby: Lobby) => {
-            this.lobby = lobby;
-            return
+        this.hubConnection.on('receiveLobby', async (lobby: Lobby) => {
+            runInAction(()=>{
+                this.lobby = lobby;
+                return
+            })
         });
-        this.hubConnection?.on('lobbyClosed', async () => {
-            this.reset()
-            return
+        this.hubConnection.on('lobbyClosed', async () => {
+            runInAction(()=> {
+                this.reset()
+                return
+            })
         });
-        this.hubConnection?.on('playerList', (players: pendingPlayerDto[]) => {
+        this.hubConnection.on('playerList', (players: pendingPlayerDto[]) => {
             runInAction(() => {
                 this.players = players;
+                console.log(players)
                 return
             });
         })
-        this.hubConnection?.on('gameStarting', (gameId: string) => {
+        this.hubConnection.on('gameStarting', (gameId: string) => {
             runInAction(() => {
                 this.gameId = gameId;
                 return
