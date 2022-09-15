@@ -39,7 +39,7 @@ const Board = () => {
     return (
         <>
             <div className='GameBoard_Container'>
-                <div className='GameBoard_TileContainer'>
+                <div className={`GameBoard_TileContainer ${mobileStore.isMobile ? 'mobileGab' : 'desktopGab'}`}>
                     {gameStore.tiles.map((tile, index) => (
                         <>
                             <div style={{"color": `${getPlayerColor(tile.aboutUser.id)}`}}
@@ -54,7 +54,6 @@ const Board = () => {
                                     </div>
                                     : null}
                             </div>
-
                         </>
                     ))}
                     <div className='GameBoard_Tile active TileFree'> FREE</div>

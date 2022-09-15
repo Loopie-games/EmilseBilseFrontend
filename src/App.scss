@@ -4,6 +4,8 @@
   height: 100vh;
   user-select: none;
   background-color: var(--color-background);
+  height: 100%;
+  width: 100%;
 }
 
 /* Change the white to any color */
@@ -28,7 +30,7 @@ input {
 }
 
 ::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   border-radius: 10px;
   background-color: #24292f;
 }
@@ -41,9 +43,28 @@ input {
 
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  background-color: #8694A4;
+  background-color: #8694a4;
   position: relative;
 }
+
+:root {
+  --doc-height: 100%;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  height: 100vh; /* fallback for Js load */
+  height: var(--doc-height);
+  width: 100%;
+}
+
+#root {
+  height: 100%;
+  width: 100%;
+}
+
 
 
 /* COLORS */
@@ -53,24 +74,23 @@ $color-text-dark: #fff;
 $color-textSecondary-dark: #94a3b5;
 $color-jointext-color-dark: #000;
 $color-highlighthover-dark: #fff;
-$color-border-dark: #8694A4;
+$color-border-dark: #8694a4;
 $color-icon-blue-dark: invert(64%) sepia(27%) saturate(212%) hue-rotate(172deg) brightness(86%) contrast(87%);
 $color-icon-dark: invert(94%) sepia(0%) saturate(7500%) hue-rotate(69deg) brightness(107%) contrast(107%);
 $color-input-background-dark: rgba(255, 255, 255, 0.1);
-$color-input-border-dark:rgba(255, 255, 255, 0.5);
+$color-input-border-dark: rgba(0, 0, 0, 0.5);
 $color-input-placeholder-dark: #dadada;
 $color-menu-divider-dark: rgba(255, 255, 255, 0.1);
 $color-menu-input-background-dark: rgba(0, 0, 0, 0.3);
 
-
-$color-background-light: #D1D6DC;
-$color-foreground-light: #DCE0E5;
+$color-background-light: #d1d6dc;
+$color-foreground-light: #dce0e5;
 $color-text-light: #000;
-$color-textSecondary-light: #49586A;
+$color-textSecondary-light: #49586a;
 $color-jointext-color-light: #fff;
 $color-highlighthover-light: #000;
-$color-border-light: #5C6A7A;
-$color-icon-blue-light: invert(41%) sepia(17%) saturate(467%) hue-rotate(172deg) brightness(93%) contrast(88%);;
+$color-border-light: #5c6a7a;
+$color-icon-blue-light: invert(41%) sepia(17%) saturate(467%) hue-rotate(172deg) brightness(93%) contrast(88%);
 $color-icon-light: invert(0%) sepia(6%) saturate(24%) hue-rotate(189deg) brightness(92%) contrast(105%);
 $color-input-background-light: rgba(0, 0, 0, 0.05);
 $color-input-border-light: rgba(0, 0, 0, 0.5);
@@ -78,12 +98,11 @@ $color-input-placeholder-light: #363636;
 $color-menu-divider-light: rgba(0, 0, 0, 0.1);
 $color-menu-input-background-light: rgba(255, 255, 255, 0.3);
 
-
 [data-theme="dark"] {
-  --color-overlay: rgba(0,0,0,0.25);
+  --color-overlay: rgba(0, 0, 0, 0.25);
   --color-background: #{$color-background-dark};
   --color-foreground: #{$color-foreground-dark};
-  --color-text:  #{$color-text-dark};
+  --color-text: #{$color-text-dark};
   --color-jointext-color: #{$color-jointext-color-dark};
   --color-highlighthover: #{$color-highlighthover-dark};
   --color-border: #{$color-border-dark};
@@ -98,7 +117,7 @@ $color-menu-input-background-light: rgba(255, 255, 255, 0.3);
 }
 
 [data-theme="light"] {
-  --color-overlay: rgba(0,0,0,0.2);
+  --color-overlay: rgba(0, 0, 0, 0.2);
   --color-background: #{$color-background-light};
   --color-foreground: #{$color-foreground-light};
   --color-text: #{$color-text-light};
@@ -114,4 +133,3 @@ $color-menu-input-background-light: rgba(255, 255, 255, 0.3);
   --color-menu-divider: #{$color-menu-divider-light};
   --color-menu-input-background: #{$color-menu-input-background-light};
 }
-

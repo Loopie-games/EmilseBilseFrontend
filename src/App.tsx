@@ -7,7 +7,6 @@ import LoginPage from './pages/LoginPage/loginPage';
 import Navbar from './components/shared/navbar/Navbar';
 import TestPage from './pages/test/testPage';
 import { useStore } from './stores/store';
-import RequireAuth from './components/shared/requireAuth/RequireAuth';
 import { observer } from 'mobx-react-lite';
 import LobbyPage from './pages/lobbyPage/lobbyPage';
 import GameboardPage from './pages/gameboardPage/gameboardPage';
@@ -61,7 +60,7 @@ function App() {
     themeStore.setTheme();
 
 
-    let r = routes.find(r => r.path === window.location.pathname);
+    let r = routes.find(r => r.path.toLowerCase() === window.location.pathname.toLowerCase());
 
     if (mobileStore.isMobile) {
       if (r?.isLandscape === true && window.screen.orientation.type === "portrait-primary") {
@@ -75,14 +74,13 @@ function App() {
         setShowPortraitError(false);
       }
     }
-
   }, [])
 
   useEffect(() => {
 
     window.screen.orientation.addEventListener('change', () => {
-      let r = routes.find(r => r.path === window.location.pathname);
-
+      let r = routes.find(r => r.path.toLowerCase() === window.location.pathname.toLowerCase());
+      
       if (r?.isLandscape === true && window.screen.orientation.type === "portrait-primary") {
         setShowLandscapeError(true);
       }
@@ -96,7 +94,6 @@ function App() {
 
     })
   })
-
 
   return (
     <>

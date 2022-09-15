@@ -104,7 +104,6 @@
             flex-direction: column;
             transition: width 0.2s ease-in-out;
             background-color: var(--color-foreground);
-            border-radius: 0 0 15px 0;
             align-items: center;
             justify-content: center;
             z-index: 4;
@@ -221,16 +220,6 @@
             }
 
             .Gameboard_GameboardWrapper {
-                @media screen and (max-height: 414px) and (orientation: landscape) {
-                    height: 100%;
-                    max-height: 90%;
-                }
-
-                @media screen and (min-height: 415px) {
-                    width: 90%;
-                    max-width: 50%;
-                }
-
                 flex: 1;
                 display: flex;
                 z-index: 2;
@@ -261,7 +250,6 @@
             flex-direction: column;
             transition: width 0.2s ease-in-out;
             background-color: var(--color-foreground);
-            border-radius: 0 0 0 15px;
             align-items: center;
             justify-content: center;
             z-index: 4;
@@ -360,4 +348,13 @@
     100% {
         filter: hue-rotate(360deg);
     }
+}
+
+.mobile{
+    width: 80vh;
+}
+
+.desktop{
+    width: 100%;
+    max-width: 40%;
 }
