@@ -42,7 +42,7 @@ const LobbyPage = () => {
             })
         return
     }
-    
+
     const savePinToClipboard = () => {
         try {
             navigator.clipboard.writeText(params.pin!);
@@ -104,9 +104,6 @@ const LobbyPage = () => {
             </div>
         </>
     )
-
-
 }
-
 
 export default observer(LobbyPage)
