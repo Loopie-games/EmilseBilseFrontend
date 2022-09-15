@@ -16,21 +16,24 @@ const LobbyPage = () => {
     const params = useParams();
 
     const joinLobby = async () => {
-        await lobbyStore.joinLobby(params.pin!).catch(() => {
-            navigate("/")
-            return
-        }).then(()=>{
-            autorun(() => {
-                if(lobbyStore.gameId !== undefined){
-                    navigate("/game/" + lobbyStore.gameId)
-                    return;
-                }
-                if(lobbyStore.lobby ===undefined){
-                    navigate("/")
-                    return;
-                }
+        await lobbyStore.joinLobby(params.pin!)
+            .catch(() => {
+                navigate("/")
+                return
             })
-        })
+            .then(() => {
+                autorun(() => {
+                    if (lobbyStore.gameId !== undefined) {
+                        navigate("/game/" + lobbyStore.gameId)
+                        return;
+                    }
+                    if (lobbyStore.lobby === undefined) {
+                        navigate("/")
+                        return;
+                    }
+                })
+            })
+        return
     }
 
     useEffect(() => {
@@ -61,19 +64,12 @@ const LobbyPage = () => {
     }
 
     const handleStartGame = async () => {
-        if (lobbyStore.players.length >= 2) {
-            try {
-                await lobbyStore.startGame()
-            }
-            catch (e: any){
-                popupStore.setErrorMessage(e.message)
-                popupStore.show();
-            }
-        } else {
-            popupStore.setErrorMessage('You need at least 2 players to start the game')
+        try {
+            await lobbyStore.startGame()
+        } catch (e: any) {
+            popupStore.setErrorMessage(e.message)
             popupStore.show();
         }
-
     }
     return (
         <>

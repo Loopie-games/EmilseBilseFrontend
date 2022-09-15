@@ -58,12 +58,11 @@ export default class LobbyStore {
 
     stopConnection = async () => {
         await this.hubConnection?.stop()
-        this.reset();
         return
     }
 
     joinLobby = async (lobbyPin: string) => {
-        this.reset()
+        this.reset();
         await this.createHubConnection()
         await this.hubConnection?.invoke('JoinLobby', lobbyPin)
         return
@@ -92,6 +91,7 @@ export default class LobbyStore {
     @action
     startGame = async () => {
         if (this.lobby === undefined) throw new Error("Game cannot be created without a lobby")
+        if (this.players.length < 2) throw new Error("You need to be at least to players to start a game")
         const response = await lobbyService.startGame(this.lobby.id);
         let gameId = response.data.id
         await this.hubConnection!.invoke('StartGame', this.lobby.id, gameId)
