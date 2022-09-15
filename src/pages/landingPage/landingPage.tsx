@@ -1,9 +1,11 @@
-import { observer } from 'mobx-react-lite';
-import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import {observer} from 'mobx-react-lite';
+import React, {useEffect, useState} from 'react'
+import {useNavigate} from 'react-router-dom';
 import Loader from '../../components/shared/loader/loader';
+import { Lobby } from '../../models/game/gameInterfaces';
+import lobbyStore from '../../stores/lobbyStore';
 
-import { useStore } from '../../stores/store';
+import {useStore} from '../../stores/store';
 import './landingPage.scss'
 
 const LandingPage = () => {
@@ -14,7 +16,7 @@ const LandingPage = () => {
     /**
      * Example of how to use the store context
      */
-    const { userStore, gameStore, popupStore } = useStore();
+    const {userStore, gameStore, popupStore, lobbyStore} = useStore();
 
     useEffect(() => {
         setLoaded(true);
@@ -38,12 +40,9 @@ const LandingPage = () => {
     const handleJoinClick = async () => {
         if (userStore.user === undefined) {
             navigate('/login');
-        }
-        else {
+        } else {
             try {
-                await gameStore.createHubConnection();
-                await gameStore.joinLobby(userStore.user!.id, pinValue,
-                    () => { navigate('/lobby') });
+                navigate('/lobby/' + pinValue)
             } catch (e: any) {
                 popupStore.setErrorMessage(e.message);
                 popupStore.show();
@@ -57,9 +56,8 @@ const LandingPage = () => {
             navigate('/login');
         } else {
             try {
-                await gameStore.createHubConnection();
-                await gameStore.createLobby(
-                    () => { navigate('/lobby') });
+                let l : Lobby = await lobbyStore.createlobby()
+                navigate('/lobby/' + l.pin)
             } catch (e: any) {
                 popupStore.setErrorMessage(e.message);
                 popupStore.show();
@@ -70,16 +68,18 @@ const LandingPage = () => {
 
     return (
         <>
-            {!loaded ? <Loader /> :
+            {!loaded ? <Loader/> :
                 <div className='LandingPage-Container '>
-                    <img src='https://github.githubassets.com/images/modules/site/codespaces/glow.png' alt={"glow img"}></img>
+                    <img src='https://github.githubassets.com/images/modules/site/codespaces/glow.png'
+                         alt={"glow img"}></img>
                     <div className='LandingPage-Wrapper'>
                         <div className='LandingPage-JoinWrapper'>
                             <div className='LandingPage-JoinLabel'>
                                 Join Room
                             </div>
-                            <div className={`LandingPage-JoinInput ${hasPin ? "active" : ""}`} >
-                                <input type="text" placeholder='Pin Code' maxLength={5} onChange={(e) => handlePinChange(e)} onKeyUp={() => checkPinLength()} />
+                            <div className={`LandingPage-JoinInput ${hasPin ? "active" : ""}`}>
+                                <input type="text" placeholder='Pin Code' maxLength={5}
+                                       onChange={(e) => handlePinChange(e)} onKeyUp={() => checkPinLength()}/>
                             </div>
                             <div className='LandingPage-JoinButton' onClick={() => handleJoinClick()}>Join</div>
                         </div>
