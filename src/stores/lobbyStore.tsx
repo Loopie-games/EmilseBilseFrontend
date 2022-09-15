@@ -20,7 +20,7 @@ export default class LobbyStore {
         this.gameId = undefined;
     }
 
-    createHubConnection = async () => {
+    private createHubConnection = async () => {
         this.hubConnection = new HubConnectionBuilder()
             .withUrl(process.env.REACT_APP_LOBBY_SOCKET !== undefined ? process.env.REACT_APP_LOBBY_SOCKET : "http://localhost:5121/", {accessTokenFactory: () => localStorage.getItem("token")!.toString()})
             .withAutomaticReconnect()

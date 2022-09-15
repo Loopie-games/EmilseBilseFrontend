@@ -25,7 +25,7 @@ export default class GameStore {
         makeAutoObservable(this);
     }
 
-    createHubConnection = async () => {
+    private createHubConnection = async () => {
         this.hubConnection = new HubConnectionBuilder()
             .withUrl(process.env.REACT_APP_GAME_SOCKET !== undefined ? process.env.REACT_APP_GAME_SOCKET : "http://localhost:5121/", {accessTokenFactory: () => localStorage.getItem("token")!.toString()})
             .withAutomaticReconnect()
@@ -120,22 +120,6 @@ export default class GameStore {
     }
 
     @action
-    getBoardByGameId = async () => {
-        const response = await boardService.getBoard(this.game!.id)
-        this.tiles = response.data;
-        this.tiles.forEach(async (tile) => {
-            if (!this.testhashmap.has(tile.aboutUser.id)) {
-                tile.aboutUser.color = colorLookupService.lookupColor(tile.position)
-                this.testhashmap.set(tile.aboutUser.id, tile.aboutUser.color)
-            } else {
-                tile.aboutUser.color = this.testhashmap.get(tile.aboutUser.id)
-            }
-
-        })
-        return response.data;
-    }
-
-    @action
     getPlayers = async () => {
         const response = await gameService.getPlayers(this.game!.id);
         return response.data
@@ -160,6 +144,5 @@ export default class GameStore {
         const response = await gameService.getEndedGames();
         return response.data
     }
-
 
 }
