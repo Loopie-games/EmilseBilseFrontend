@@ -16,14 +16,25 @@ const LobbyPage = () => {
     const params = useParams();
 
     const joinLobby = async () => {
-        await lobbyStore.joinLobby(params.pin!)
+        await lobbyStore.joinLobby(params.pin!).catch(() => {
+            navigate("/")
+            return
+        }).then(()=>{
+            autorun(() => {
+                if(lobbyStore.gameId !== undefined){
+                    navigate("/game/" + lobbyStore.gameId)
+                    return;
+                }
+                if(lobbyStore.lobby ===undefined){
+                    navigate("/")
+                    return;
+                }
+            })
+        })
     }
 
     useEffect(() => {
-        joinLobby().catch(() => {
-            navigate("/")
-            return
-        })
+        joinLobby()
         return () => {
             lobbyStore.stopConnection()
         }
@@ -37,16 +48,6 @@ const LobbyPage = () => {
             console.log(e)
         }
     }
-    autorun(() => {
-        if(lobbyStore.gameId !== undefined){
-            navigate("/game/" + lobbyStore.gameId)
-            return;
-        }
-        if(lobbyStore.lobby ===undefined){
-            navigate("/")
-            return;
-        }
-    })
 
     const handleCloseLobby = async () => {
         navigate('/')

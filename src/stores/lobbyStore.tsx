@@ -14,7 +14,7 @@ export default class LobbyStore {
         makeAutoObservable(this)
     }
 
-    reset = ()=>{
+    reset = () => {
         this.lobby = undefined;
         this.players = [];
         this.gameId = undefined;
@@ -39,8 +39,7 @@ export default class LobbyStore {
             return
         });
         this.hubConnection?.on('lobbyClosed', async () => {
-            this.lobby = undefined;
-            this.players = [];
+            this.reset()
             return
         });
         this.hubConnection?.on('playerList', (players: pendingPlayerDto[]) => {
@@ -60,6 +59,7 @@ export default class LobbyStore {
 
     stopConnection = async () => {
         await this.hubConnection?.stop()
+        this.reset
         return
     }
 
