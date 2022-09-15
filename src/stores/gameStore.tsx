@@ -101,10 +101,6 @@ export default class GameStore {
         return
     }
 
-    kickPlayer = async (userId: string) => {
-        console.log(userId);
-    }
-
     @action
     getByBoardId = async (boardId: string) => {
         const response = await boardService.getByBoardId(boardId)
@@ -135,7 +131,6 @@ export default class GameStore {
     getTop3 = async (gameId: string) => {
         const response = await TopPlayerService.getTop3(gameId);
         this.topRanked = response.data
-        console.log(response.data)
         return response.data
     }
 

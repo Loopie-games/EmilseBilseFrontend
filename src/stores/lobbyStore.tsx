@@ -68,6 +68,10 @@ export default class LobbyStore {
         return
     }
 
+    kickPlayer = async (userId: string) => {
+        //TODO
+    }
+
     @action
     createlobby = async () => {
         this.reset();
