@@ -43,18 +43,25 @@ const GameboardPage = () => {
             }).then(() => {
                 autorun(() => {
                     if (gameStore.hubConnection !== null && gameStore.hubConnection.state === HubConnectionState.Connected) {
-                           /*
-                        if (gameStore.game !== undefined && gameStore.board !== undefined) {
+                        if (gameStore.game === undefined) {
                             //TODO ERROR
                             navigate("/")
                             return;
                         }
-
-                            */
                         if(gameStore.boardFilled){
                             popupStore.showConfirmation("Confirm win", "Are you sure you're done?", ()=>{
                                 gameStore.claimWin()
                             }, ()=>{})
+                        }
+                        if (gameStore.game!.host.id === userStore.user!.id) {
+                            //player is host
+                            if (gameStore.game!.state === State.Paused && gameStore.game!.winner != undefined) {
+                                popupStore.showConfirmation("Confirm win claim", "check board of " + gameStore.game!.winner!.username + " and conirm or deny win", async () => {
+                                    await gameStore.confirmWin();
+                                }, async () => {
+                                    await gameStore.denyWin()
+                                })
+                            }
                         }
                     }
                 })
@@ -69,24 +76,7 @@ const GameboardPage = () => {
             await gameStore.connectToGame(params.id!, async (boardId: string) => {
                 await gameStore.listenGameupdate()
 
-                if (gameStore.game!.host.id === userStore.user!.id) {
-                    //player is host
-                    await gameStore.listenWinnerClaimed(async (board: BoardDTO) => {
-                        let winner = await userStore.getUserById(board.userId)
-                        popupStore.showConfirmation("Confirm win claim", "check board of " + winner.username + " and conirm or deny win", async () => {
-                            await gameStore.confirmWin();
-                        }, async () => {
-                            await gameStore.denyWin()
-                        })
 
-                    })
-                    if (gameStore.game!.state === State.Paused && gameStore.game!.winner != undefined) {
-                        popupStore.showConfirmation("Confirm win claim", "check board of " + gameStore.game!.winner!.username + " and conirm or deny win", async () => {
-                            await gameStore.confirmWin();
-                        }, async () => {
-                            await gameStore.denyWin()
-                        })
-                    }
 
                 }
             })

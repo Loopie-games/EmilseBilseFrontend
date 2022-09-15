@@ -53,7 +53,8 @@ export default class GameStore {
         });
         this.hubConnection.on('winnerClaimed', async (board: BoardDTO) => {
             runInAction(async () => {
-                this.board = board;
+                //Todo show host winner board
+                //this.board = board;
             })
         });
         this.hubConnection?.on('TileTurned', async (boardTile: BoardTileDTO) => {
