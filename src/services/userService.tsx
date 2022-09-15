@@ -2,6 +2,9 @@ import { CreateUserDTO, SimpleUserDTO } from "../models/user/userInterface";
 import http from "../http-common"
 
 class UserService {
+    getLogged() {
+        return http.get("/User/GetLogged")
+    }
     getSaltByUsername(username: string) {
         return http.get("/User/GetSalt/" + username)
     }

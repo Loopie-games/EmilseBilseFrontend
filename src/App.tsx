@@ -48,9 +48,7 @@ function App() {
 
 
   useEffect(() => {
-    if (localStorage.getItem('userId') !== null) {
-      userStore.getById(localStorage.getItem('userId') ?? '');
-    }
+    userStore.getLogged()
 
     if (window.screen.availWidth < 768) {
       mobileStore.setIsMobile(true);
