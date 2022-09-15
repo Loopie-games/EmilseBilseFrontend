@@ -14,6 +14,12 @@ export default class LobbyStore {
         makeAutoObservable(this)
     }
 
+    reset = ()=>{
+        this.lobby = undefined;
+        this.players = [];
+        this.gameId = undefined;
+    }
+
 
     createHubConnection = async () => {
         this.hubConnection = new HubConnectionBuilder()
@@ -54,8 +60,7 @@ export default class LobbyStore {
 
     stopConnection = async () => {
         await this.hubConnection?.stop()
-        this.lobby = undefined
-        this.players = []
+        return
     }
 
     joinLobby = async (lobbyPin: string) => {
@@ -66,6 +71,7 @@ export default class LobbyStore {
 
     @action
     createlobby = async () => {
+        this.reset();
         const response = await lobbyService.create();
         this.lobby = response.data
         return response.data

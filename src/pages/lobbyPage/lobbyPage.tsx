@@ -29,6 +29,14 @@ const LobbyPage = () => {
         }
     }, [])
 
+
+    const savePinToClipboard = () => {
+        try {
+            navigator.clipboard.writeText(params.pin!);
+        } catch (e) {
+            console.log(e)
+        }
+    }
     autorun(() => {
         if(lobbyStore.gameId !== undefined){
             navigate("/game/" + lobbyStore.gameId)
@@ -39,14 +47,6 @@ const LobbyPage = () => {
             return;
         }
     })
-
-    const savePinToClipboard = () => {
-        try {
-            navigator.clipboard.writeText(params.pin!);
-        } catch (e) {
-            console.log(e)
-        }
-    }
 
     const handleCloseLobby = async () => {
         navigate('/')
