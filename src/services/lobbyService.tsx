@@ -1,7 +1,10 @@
 import http from "../http-common"
-import { Lobby } from "../models/game/gameInterfaces";
+import {GameDTO, Lobby } from "../models/game/gameInterfaces";
 
 class LobbyService {
+    startGame(id: string) {
+        return http.post<GameDTO>("/Game?lobbyId=" + id);
+    }
     closeLobby(lobbyId: string) {
         return http.delete<boolean>("/Lobby/CloseLobby?lobbyId=" + lobbyId);
     }

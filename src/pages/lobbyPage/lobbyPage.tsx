@@ -6,7 +6,7 @@ import {UserDTO} from '../../models/user/userInterface';
 import {observer} from 'mobx-react-lite';
 import {useNavigate, useParams} from 'react-router-dom';
 import {StartGameDto} from '../../models/game/gameInterfaces';
-import {observe} from 'mobx';
+import {autorun, observe} from 'mobx';
 import Popup from '../../components/shared/popups/popup';
 import lobbyStore from '../../stores/lobbyStore';
 
@@ -29,20 +29,16 @@ const LobbyPage = () => {
         }
     }, [])
 
-
-    const listenForGameStarting = async () => {
-        /*
-        try {
-            await gameStore.gameStarting((gameId: string) => {
-                gameStore.lobby = undefined
-                navigate('/game/' + gameId)
-            });
-        } catch (e) {
-            console.log(e)
+    autorun(() => {
+        if(lobbyStore.gameId !== undefined){
+            navigate("/game/" + lobbyStore.gameId)
+            return;
         }
-
-         */
-    }
+        if(lobbyStore.lobby ===undefined){
+            navigate("/")
+            return;
+        }
+    })
 
     const savePinToClipboard = () => {
         try {
@@ -55,24 +51,27 @@ const LobbyPage = () => {
     const handleCloseLobby = async () => {
         navigate('/')
         await lobbyStore.closeLobby()
+        return
     }
 
     const handleLeaveLobby = async () => {
         navigate('/')
+        return
     }
 
     const handleStartGame = async () => {
-        /*if (gameStore.lobbyPlayers.length >= 2) {
-            await gameStore.startGame(gameStore.lobby!.id, () => {
-            })
-            return
+        if (lobbyStore.players.length >= 2) {
+            try {
+                await lobbyStore.startGame()
+            }
+            catch (e: any){
+                popupStore.setErrorMessage(e.message)
+                popupStore.show();
+            }
         } else {
-
             popupStore.setErrorMessage('You need at least 2 players to start the game')
             popupStore.show();
         }
-
-         */
 
     }
     return (

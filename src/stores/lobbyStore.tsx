@@ -8,6 +8,7 @@ export default class LobbyStore {
     hubConnection: HubConnection | null = null;
     @observable lobby: Lobby | undefined;
     @observable players: pendingPlayerDto[] = [];
+    @observable gameId: string | undefined;
 
     constructor() {
         makeAutoObservable(this)
@@ -42,10 +43,16 @@ export default class LobbyStore {
                 return
             });
         })
+        this.hubConnection?.on('gameStarting', (gameId: string) => {
+            runInAction(() => {
+                this.gameId = gameId;
+                return
+            });
+        })
         return;
     }
 
-    stopConnection = async () =>{
+    stopConnection = async () => {
         await this.hubConnection?.stop()
         this.lobby = undefined
         this.players = []
@@ -65,15 +72,25 @@ export default class LobbyStore {
     }
 
     @action
-    closeLobby = async() => {
-        if(this.lobby !== undefined) {
+    closeLobby = async () => {
+        if (this.lobby !== undefined) {
             const response = await lobbyService.closeLobby(this.lobby.id);
             if (response.data) {
                 this.lobby = undefined
             }
             return response.data
         }
-        console.log("ERROR in close lobby. lobby is undefined")
+        throw new Error("ERROR in close lobby. lobby is undefined")
+    }
+
+    @action
+    startGame = async () => {
+        if (this.lobby === undefined) throw new Error("Game cannot be created without a lobby")
+        const response = await lobbyService.startGame(this.lobby.id);
+        let gameId = response.data.id
+        await this.hubConnection!.invoke('StartGame', this.lobby.id, gameId)
+        return response.data
+
     }
 
 
