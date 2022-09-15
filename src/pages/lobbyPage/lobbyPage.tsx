@@ -15,30 +15,11 @@ const LobbyPage = () => {
     const {userStore, popupStore, lobbyStore} = useStore();
     const navigate = useNavigate();
     const params = useParams();
-    let active = false
 
     useEffect(() => {
-        joinLobby().then(() => {
-            active = true
-            autorun(() => {
-                if(lobbyStore.hubConnection !== null && lobbyStore.hubConnection.state === HubConnectionState.Connected) {
-                    if (lobbyStore.gameId !== undefined) {
-                        //TODO ERROR
-                        navigate("/game/" + lobbyStore.gameId)
-                        return;
-                    }
-                    if (lobbyStore.lobby === undefined) {
-                        //TODO ERROR
-                        navigate("/")
-                        return;
-                    }
-                }
-                return;
-            })
-        })
+        joinLobby()
         return () => {
             lobbyStore.stopConnection()
-            active = false
         }
     }, [])
 
@@ -48,6 +29,22 @@ const LobbyPage = () => {
                 //TODO ERROR
                 navigate("/")
                 return
+            }).then(() => {
+                autorun(() => {
+                    if(lobbyStore.hubConnection !== null && lobbyStore.hubConnection.state === HubConnectionState.Connected) {
+                        if (lobbyStore.gameId !== undefined) {
+                            //TODO ERROR
+                            navigate("/game/" + lobbyStore.gameId)
+                            return;
+                        }
+                        if (lobbyStore.lobby === undefined) {
+                            //TODO ERROR
+                            navigate("/")
+                            return;
+                        }
+                    }
+                    return;
+                })
             })
         return
     }
