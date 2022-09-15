@@ -44,16 +44,6 @@ const LobbyPage = () => {
          */
     }
 
-    const listenForLobbyClosing = async () => {
-        /*
-        await gameStore.lobbyClosing(() => {
-            navigate('/')
-            return
-        })
-
-         */
-    }
-
     const savePinToClipboard = () => {
         try {
             navigator.clipboard.writeText(params.pin!);

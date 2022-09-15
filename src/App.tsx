@@ -11,7 +11,6 @@ import RequireAuth from './components/shared/requireAuth/RequireAuth';
 import { observer } from 'mobx-react-lite';
 import LobbyPage from './pages/lobbyPage/lobbyPage';
 import GameboardPage from './pages/gameboardPage/gameboardPage';
-import RequireLobby from './components/shared/requireLobby/RequireLobby';
 import PageNotFound from './pages/pageNotFound/pageNotFound';
 import LoggedInBar from './components/shared/loggedInBar/LoggedInBar';
 import FriendsPage from './pages/friendsPage/friendsPage';
