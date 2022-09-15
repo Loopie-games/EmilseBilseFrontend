@@ -1,12 +1,12 @@
-import { observable, makeAutoObservable, runInAction, toJS, action, observe, when } from "mobx";
-import { HubConnection, HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
-import { CloseLobbyDto, GameDTO, LeaveLobbyDto, Lobby, StartGameDto, TopPlayer } from "../models/game/gameInterfaces";
-import { SimplePlayerDTO, SimpleUserDTO, UserDTO } from "../models/user/userInterface";
-import { useNavigate } from 'react-router-dom';
-import { pendingPlayerDto } from "../models/player/playerInterface";
+import {observable, makeAutoObservable, runInAction, toJS, action, observe, when} from "mobx";
+import {HubConnection, HubConnectionBuilder, LogLevel} from "@microsoft/signalr";
+import {CloseLobbyDto, GameDTO, LeaveLobbyDto, Lobby, StartGameDto, TopPlayer} from "../models/game/gameInterfaces";
+import {SimplePlayerDTO, SimpleUserDTO, UserDTO} from "../models/user/userInterface";
+import {useNavigate} from 'react-router-dom';
+import {pendingPlayerDto} from "../models/player/playerInterface";
 import boardService from "../services/boardService";
 import gameService from "../services/gameService";
-import {BoardDTO, BoardTileDTO } from "../models/tile/tileInterface";
+import {BoardDTO, BoardTileDTO} from "../models/tile/tileInterface";
 import colorLookupService from "../services/colorLookupService";
 import {POPUP_STATES} from "../components/shared/popups/popup";
 import TopPlayerService from "../services/topPlayerService";
@@ -14,20 +14,19 @@ import TopPlayerService from "../services/topPlayerService";
 export default class GameStore {
     @observable tiles: BoardTileDTO[] = [];
     @observable players: SimpleUserDTO[] = [];
-    @observable game: GameDTO| undefined;
+    @observable game: GameDTO | undefined;
+    @observable board: BoardDTO | undefined;
     @observable topRanked: TopPlayer[] = [];
     hubConnection: HubConnection | null = null;
     testhashmap = new Map<string, string>();
-
 
     constructor() {
         makeAutoObservable(this);
     }
 
-
     createHubConnection = async () => {
         this.hubConnection = new HubConnectionBuilder()
-            .withUrl(process.env.REACT_APP_GAME_SOCKET !== undefined ? process.env.REACT_APP_GAME_SOCKET : "http://localhost:5121/", { accessTokenFactory: () => localStorage.getItem("token")!.toString() })
+            .withUrl(process.env.REACT_APP_GAME_SOCKET !== undefined ? process.env.REACT_APP_GAME_SOCKET : "http://localhost:5121/", {accessTokenFactory: () => localStorage.getItem("token")!.toString()})
             .withAutomaticReconnect()
             .configureLogging(LogLevel.Information)
             .build();
@@ -38,75 +37,57 @@ export default class GameStore {
                 console.log(error)
             });
 
-        return;
-    }
-
-    stopHubConnection = () => {
-        this.hubConnection?.stop().catch(error => { });
-    }
-
-    startGame = async (lobbyId: string, callBack: Function) => {
-        this.hubConnection?.invoke('StartGame', lobbyId);
-        await this.gameStarting(callBack);
-        return
-    }
-
-    connectToGame = async (gameId: string, callback: Function) => {
-        this.hubConnection?.on('gameConnected', async (boardId: string) => {
+        this.hubConnection.on('gameConnected', async (board: BoardDTO) => {
             runInAction(async () => {
-                this.game = await this.getGame(gameId);
-                await this.listenGameupdate()
-                await this.getBoardByGameId();
-                await this.getPlayers()
-                await callback(boardId)
+                this.board = board;
+                this.tiles = await this.getByBoardId(board.id);
+                //await this.getBoardByGameId();
+                //await this.getPlayers()
+                console.log(this.game)
                 return
             })
         });
-        await this.hubConnection?.invoke('ConnectToGame', gameId)
-    }
-
-    listenGameupdate = async ()=>{
-        this.hubConnection?.on('updateGame', async (game: GameDTO) => {
+        this.hubConnection.on('updateGame', async (game: GameDTO) => {
             runInAction(async () => {
                 this.game = game
             })
         });
-    }
-
-    listenWinnerClaimed = async(callback: Function) =>{
-        this.hubConnection?.on('winnerClaimed', async (board: BoardDTO) => {
+        this.hubConnection.on('winnerClaimed', async (board: BoardDTO) => {
             runInAction(async () => {
-                await callback(board)
+                this.board = board;
             })
         });
-    }
-
-    gameStarting = async (gameStarting: Function) => {
-        this.hubConnection?.on('gameStarting', async (gameId: string) => {
-            runInAction(async () => {
-                gameStarting(gameId)
-                return
-            })
-        })
-        return
-    }
-
-    turnTile = async (boardtileId: string, tileTurned: Function) => {
         this.hubConnection?.on('TileTurned', async (boardTile: BoardTileDTO) => {
             runInAction(async () => {
                 this.tiles.find((t: BoardTileDTO) => t.id === boardTile.id)!.isActivated = boardTile.isActivated
-                tileTurned()
             })
         })
         this.hubConnection?.on('boardFilled', async (boardId: string) => {
             runInAction(async () => {
-                tileTurned(POPUP_STATES.winClaim)
+                //tileTurned(POPUP_STATES.winClaim)
             })
         })
+
+        return;
+    }
+
+    stopConnection = async () => {
+        await this.hubConnection?.stop()
+        return
+    }
+
+    connectToGame = async (gameId: string) => {
+        this.game = await this.getGame(gameId);
+        await this.createHubConnection()
+        await this.hubConnection?.invoke('ConnectToGame', gameId)
+        return
+    }
+
+    turnTile = async (boardtileId: string) => {
         this.hubConnection?.invoke('TurnTile', boardtileId)
     }
 
-    claimWin = async (boardId:string) => {
+    claimWin = async (boardId: string) => {
         this.hubConnection?.invoke('ClaimWin', boardId)
         return
     }
@@ -128,7 +109,6 @@ export default class GameStore {
     @action
     getByBoardId = async (boardId: string) => {
         const response = await boardService.getByBoardId(boardId)
-        this.tiles = response.data
         return response.data;
     }
     @action
@@ -156,13 +136,13 @@ export default class GameStore {
     }
 
     @action
-    getGame = async (gameId: string) =>{
+    getGame = async (gameId: string) => {
         const response = await gameService.getById(gameId);
         return response.data
     }
 
     @action
-    getTop3  =async (gameId: string) =>{
+    getTop3 = async (gameId: string) => {
         const response = await TopPlayerService.getTop3(gameId);
         this.topRanked = response.data
         console.log(response.data)
@@ -170,7 +150,7 @@ export default class GameStore {
     }
 
     @action
-    getEnded = async() =>{
+    getEnded = async () => {
         const response = await gameService.getEndedGames();
         return response.data
     }

@@ -15,6 +15,7 @@ const Board = () => {
     let longPressTime = 200;
     useEffect(() => {
     }, [])
+    /*
 
     const completeTile = async (tile: BoardTileDTO) => {
         await gameStore.turnTile(tile.id, (popup : POPUP_STATES| undefined) => {
@@ -32,12 +33,14 @@ const Board = () => {
         return
     }
 
+     */
+
 
 
     const handleClick = (e: any) => {
         console.log(getPlayerColor(e.aboutUser.id));
 
-        triggerTime > longPressTime ? completeTile(e) : completeTile(e);
+        //triggerTime > longPressTime ? completeTile(e) : completeTile(e);
     }
 
     const handleTouchStart = (e: any) => {
