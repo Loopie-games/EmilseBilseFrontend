@@ -41,8 +41,7 @@ export default class GameStore {
             runInAction(async () => {
                 this.board = board;
                 this.tiles = await this.getByBoardId(board.id);
-                //await this.getBoardByGameId();
-                //await this.getPlayers()
+                this.players = await this.getPlayers()
                 console.log(this.game)
                 return
             })
@@ -109,8 +108,18 @@ export default class GameStore {
     @action
     getByBoardId = async (boardId: string) => {
         const response = await boardService.getByBoardId(boardId)
+        response.data.forEach(async (tile) => {
+            if (!this.testhashmap.has(tile.aboutUser.id)) {
+                tile.aboutUser.color = colorLookupService.lookupColor(tile.position)
+                this.testhashmap.set(tile.aboutUser.id, tile.aboutUser.color)
+            } else {
+                tile.aboutUser.color = this.testhashmap.get(tile.aboutUser.id)
+            }
+
+        })
         return response.data;
     }
+
     @action
     getBoardByGameId = async () => {
         const response = await boardService.getBoard(this.game!.id)
@@ -130,8 +139,6 @@ export default class GameStore {
     @action
     getPlayers = async () => {
         const response = await gameService.getPlayers(this.game!.id);
-        this.players = response.data
-
         return response.data
     }
 
