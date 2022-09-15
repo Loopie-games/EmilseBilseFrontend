@@ -50,6 +50,7 @@ const GameboardPage = () => {
                         if(gameStore.boardFilled){
                             popupStore.showConfirmation("Confirm win", "Are you sure you're done?", ()=>{
                                 gameStore.claimWin()
+                                gameStore.boardFilled = false
                             }, ()=>{gameStore.boardFilled = false})
                         }
                         if (gameStore.game!.host.id === userStore.user!.id) {

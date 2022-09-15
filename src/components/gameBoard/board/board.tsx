@@ -9,7 +9,7 @@ import {POPUP_STATES} from '../../shared/popups/popup';
 
 const Board = () => {
 
-    const {gameStore, userStore, popupStore} = useStore();
+    const {gameStore, userStore, popupStore, mobileStore} = useStore();
     const [counter, setCounter] = useState(0);
     let triggerTime: number;
     let longPressTime = 200;
