@@ -28,7 +28,6 @@ const GameboardPage = () => {
 
     useEffect(() => {
         connectToGame()
-        //waitForBoard()
         return () => {
             gameStore.stopConnection();
         }
@@ -51,7 +50,7 @@ const GameboardPage = () => {
                         if(gameStore.boardFilled){
                             popupStore.showConfirmation("Confirm win", "Are you sure you're done?", ()=>{
                                 gameStore.claimWin()
-                            }, ()=>{})
+                            }, ()=>{gameStore.boardFilled = false})
                         }
                         if (gameStore.game!.host.id === userStore.user!.id) {
                             //player is host
@@ -68,21 +67,6 @@ const GameboardPage = () => {
             })
         return
     }
-
-
-    /*
-        const waitForBoard = async () => {
-            await gameStore.createHubConnection();
-            await gameStore.connectToGame(params.id!, async (boardId: string) => {
-                await gameStore.listenGameupdate()
-
-
-
-                }
-            })
-        }
-
-     */
 
     const toggleTasklist = () => {
         setTasklistShown(!tasklistShown);
