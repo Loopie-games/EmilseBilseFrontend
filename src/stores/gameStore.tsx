@@ -67,7 +67,6 @@ export default class GameStore {
                 this.boardFilled = true
             })
         })
-
         return;
     }
 

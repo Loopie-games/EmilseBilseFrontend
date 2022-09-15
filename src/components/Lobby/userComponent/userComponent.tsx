@@ -10,7 +10,7 @@ const UserComponent = (user: pendingPlayerDto) => {
     const {lobbyStore } = useStore();
 
     const kickPlayer = () => {
-        //gameStore.kickPlayer(user.id);
+        //TODO
     }
 
     const isHost = () => {
