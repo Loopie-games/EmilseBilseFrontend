@@ -42,7 +42,6 @@ export default class GameStore {
                 this.board = board;
                 this.tiles = await this.getByBoardId(board.id);
                 this.players = await this.getPlayers()
-                console.log(this.game)
                 return
             })
         });
@@ -115,7 +114,6 @@ export default class GameStore {
             } else {
                 tile.aboutUser.color = this.testhashmap.get(tile.aboutUser.id)
             }
-
         })
         return response.data;
     }

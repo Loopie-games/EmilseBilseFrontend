@@ -15,32 +15,14 @@ const Board = () => {
     let longPressTime = 200;
     useEffect(() => {
     }, [])
-    /*
 
     const completeTile = async (tile: BoardTileDTO) => {
-        await gameStore.turnTile(tile.id, (popup : POPUP_STATES| undefined) => {
-            if (popup === POPUP_STATES.winClaim) {
-                const onConfirmWin = async () => {
-                    await gameStore.claimWin(tile.board.id)
-                }
-                const onCancelWin = async () => {
-                    await gameStore.turnTile(tile.id, () => {})
-                }
-                popupStore.showConfirmation("Claim win", "You have filled the board. Are you sure, that you are done?", onConfirmWin, onCancelWin)
-            }
-            return
-        })
+        await gameStore.turnTile(tile.id)
         return
     }
 
-     */
-
-
-
     const handleClick = (e: any) => {
-        console.log(getPlayerColor(e.aboutUser.id));
-
-        //triggerTime > longPressTime ? completeTile(e) : completeTile(e);
+        triggerTime > longPressTime ? completeTile(e) : completeTile(e);
     }
 
     const handleTouchStart = (e: any) => {
