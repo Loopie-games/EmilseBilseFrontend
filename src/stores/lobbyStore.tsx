@@ -59,11 +59,12 @@ export default class LobbyStore {
 
     stopConnection = async () => {
         await this.hubConnection?.stop()
-        this.reset
+        this.reset();
         return
     }
 
     joinLobby = async (lobbyPin: string) => {
+        this.reset()
         await this.createHubConnection()
         await this.hubConnection?.invoke('JoinLobby', lobbyPin)
         return
