@@ -6,39 +6,48 @@ import {UserDTO} from '../../models/user/userInterface';
 import {observer} from 'mobx-react-lite';
 import {useNavigate, useParams} from 'react-router-dom';
 import {StartGameDto} from '../../models/game/gameInterfaces';
-import {autorun, observe} from 'mobx';
+import {autorun} from 'mobx';
 import Popup from '../../components/shared/popups/popup';
 import lobbyStore from '../../stores/lobbyStore';
+import { HubConnection, HubConnectionState } from '@microsoft/signalr';
 
 const LobbyPage = () => {
     const {userStore, popupStore, lobbyStore} = useStore();
     const navigate = useNavigate();
     const params = useParams();
+    let active = false
 
     useEffect(() => {
-        joinLobby()
+        joinLobby().then(() => {
+            active = true
+            autorun(() => {
+                if(lobbyStore.hubConnection !== null && lobbyStore.hubConnection.state === HubConnectionState.Connected) {
+                    if (lobbyStore.gameId !== undefined) {
+                        //TODO ERROR
+                        navigate("/game/" + lobbyStore.gameId)
+                        return;
+                    }
+                    if (lobbyStore.lobby === undefined) {
+                        //TODO ERROR
+                        navigate("/")
+                        return;
+                    }
+                }
+                return;
+            })
+        })
         return () => {
             lobbyStore.stopConnection()
+            active = false
         }
     }, [])
 
     const joinLobby = async () => {
         await lobbyStore.joinLobby(params.pin!)
             .catch(() => {
+                //TODO ERROR
                 navigate("/")
                 return
-            })
-            .then(() => {
-                autorun(() => {
-                    if (lobbyStore.gameId !== undefined) {
-                        navigate("/game/" + lobbyStore.gameId)
-                        return;
-                    }
-                    if (lobbyStore.lobby === undefined) {
-                        navigate("/")
-                        return;
-                    }
-                })
             })
         return
     }
