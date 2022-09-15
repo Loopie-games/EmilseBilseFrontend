@@ -96,7 +96,6 @@ export default class LobbyStore {
         let gameId = response.data.id
         await this.hubConnection!.invoke('StartGame', this.lobby.id, gameId)
         return response.data
-
     }
-    
+
 }
