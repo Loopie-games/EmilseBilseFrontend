@@ -54,6 +54,16 @@ export class PopupStore {
         this.show();
     }
 
+    showError(title: string, message: string){
+        this.setErrorMessage(message);
+        this.setTitle(title);
+        this.setOnCancel(() => {
+            this.hide();
+        })
+        this.setConfirmation(false);
+        this.show();
+    }
+
     constructor() {
         makeAutoObservable(this);
     }

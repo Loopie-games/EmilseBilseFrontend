@@ -95,11 +95,13 @@
 }
 
 .closing{
+    z-index: 99;
     animation: fadeout 0.2s forwards ease-in-out;
     z-index: 1000;
 }
 
 .opening{
+    z-index: 99;
     animation: fadein 0.2s forwards ease-in-out;
     z-index: 1000;
 }

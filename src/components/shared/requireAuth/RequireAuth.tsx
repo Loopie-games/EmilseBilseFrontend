@@ -23,7 +23,7 @@ const RequireAuth = ({ children }: any) => {
         console.log(t);
 
         if (t !== null) {
-            await userStore.getById(t);
+            await userStore.getLogged();
             setIsLoggedIn(true);
         }
         setLoaded(true);

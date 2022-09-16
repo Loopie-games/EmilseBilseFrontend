@@ -1,93 +1,81 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import UserComponent from '../../components/Lobby/userComponent/userComponent';
 import './lobbyPage.scss'
-import { useStore } from '../../stores/store'
-import { UserDTO } from '../../models/user/userInterface';
-import { observer } from 'mobx-react-lite';
-import { useNavigate } from 'react-router-dom';
-import { StartGameDto } from '../../models/game/gameInterfaces';
-import { observe } from 'mobx';
+import {useStore} from '../../stores/store'
+import {UserDTO} from '../../models/user/userInterface';
+import {observer} from 'mobx-react-lite';
+import {useNavigate, useParams} from 'react-router-dom';
+import {StartGameDto} from '../../models/game/gameInterfaces';
+import {autorun} from 'mobx';
 import Popup from '../../components/shared/popups/popup';
+import lobbyStore from '../../stores/lobbyStore';
+import { HubConnection, HubConnectionState } from '@microsoft/signalr';
 
 const LobbyPage = () => {
-    const { gameStore, userStore, popupStore } = useStore();
+    const {userStore, popupStore, lobbyStore} = useStore();
     const navigate = useNavigate();
-
-
+    const params = useParams();
 
     useEffect(() => {
-        listenForGameStarting()
-        listenForLobbyClosing()
-        window.addEventListener("beforeunload", (ev) => {
-            ev.preventDefault();
-            onExit()
-            return
-        });
+        joinLobby()
         return () => {
-            if (gameStore.lobby != undefined) {
-                onExit()
-            }
+            lobbyStore.stopConnection()
         }
     }, [])
 
-    const onExit = () => {
-        if (gameStore.lobby?.id !== undefined) {
-            if (gameStore.lobby.host === userStore.user!.id) {
-                handleCloseLobby()
-            }
-            else {
-                handleLeaveLobby()
-            }
-        }
-    }
-
-    const listenForGameStarting = async () => {
-        try {
-            await gameStore.gameStarting((gameId: string) => {
-                gameStore.lobby = undefined
-                navigate('/game/' + gameId)
-            });
-        } catch (e) {
-            console.log(e)
-        }
-    }
-
-    const listenForLobbyClosing = async () => {
-        await gameStore.lobbyClosing(() => {
-            navigate('/')
-            return
-        })
+    const joinLobby = async () => {
+        await lobbyStore.joinLobby(params.pin!)
+            .catch(() => {
+                //TODO ERROR
+                navigate("/")
+                return
+            }).then(() => {
+                autorun(() => {
+                    if(lobbyStore.hubConnection !== null && lobbyStore.hubConnection.state === HubConnectionState.Connected) {
+                        if (lobbyStore.gameId !== undefined) {
+                            //TODO ERROR
+                            navigate("/game/" + lobbyStore.gameId)
+                            return;
+                        }
+                        if (lobbyStore.lobby === undefined) {
+                            //TODO ERROR
+                            navigate("/")
+                            return;
+                        }
+                    }
+                    return;
+                })
+            })
+        return
     }
 
     const savePinToClipboard = () => {
         try {
-            navigator.clipboard.writeText(gameStore.lobby!.pin);
+            navigator.clipboard.writeText(params.pin!);
         } catch (e) {
             console.log(e)
         }
     }
 
     const handleCloseLobby = async () => {
-        await gameStore.closeLobby(gameStore.lobby!.id)
+        navigate('/')
+        await lobbyStore.closeLobby()
+        return
     }
 
     const handleLeaveLobby = async () => {
-        await gameStore.leaveLobby(gameStore.lobby!.id)
         navigate('/')
+        return
     }
 
     const handleStartGame = async () => {
-        if (gameStore.lobbyPlayers.length >= 2) {
-            await gameStore.startGame(gameStore.lobby!.id, () => { })
-            return
-        } else {
-
-            popupStore.setErrorMessage('You need at least 2 players to start the game')
+        try {
+            await lobbyStore.startGame()
+        } catch (e: any) {
+            popupStore.setErrorMessage(e.message)
             popupStore.show();
         }
-
     }
-
     return (
         <>
             <div className='Lobby_Container'>
@@ -96,17 +84,25 @@ const LobbyPage = () => {
                         Lobby
                     </div>
                     <div className='Lobby_InputContainer'>
-                        <div className='Lobby_PinCode' >
-                            <input type="text" placeholder='Pin Code' maxLength={5} readOnly onClick={() => savePinToClipboard()} value={gameStore.lobby?.pin} />
+                        <div className='Lobby_PinCode'>
+                            <input type="text" placeholder='Pin Code' maxLength={5} readOnly
+                                   onClick={() => savePinToClipboard()} value={params.pin}/>
                         </div>
-                        <div className='Lobby_ButtonsContainer'>
-                            {gameStore.lobby?.host === userStore.user!.id ?
-                                <div className='Lobby_StartButton' onClick={handleStartGame}> Start</div> : null}
-                            <div className='Lobby_StartButton' onClick={gameStore.lobby?.host === userStore.user?.id ? handleCloseLobby : handleLeaveLobby}>{`${gameStore.lobby?.host === userStore.user?.id ? 'Close Lobby' : 'Leave Lobby'}`}</div>
-                        </div>
+                        {lobbyStore.lobby !== undefined ?
+                            <div className='Lobby_ButtonsContainer'>
+                                {lobbyStore.lobby!.host === userStore.user!.id ?
+                                    <div className='Lobby_StartButton' onClick={handleStartGame}> Start</div> : null}
+                                <div className='Lobby_StartButton'
+                                     onClick={lobbyStore.lobby!.host === userStore.user?.id ? handleCloseLobby : handleLeaveLobby}>{`${lobbyStore.lobby!.host === userStore.user?.id ? 'Close Lobby' : 'Leave Lobby'}`}</div>
+                            </div>
+                            :
+                            <>
+                                Loading
+                            </>
+                        }
                     </div>
                     <div className='Lobby_PlayerContainer'>
-                        {gameStore.lobbyPlayers.map((player) => (
+                        {lobbyStore.players.map((player) => (
                             <UserComponent {...player} />
                         ))}
                     </div>
