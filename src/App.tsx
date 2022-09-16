@@ -95,7 +95,7 @@ function App() {
     { path: "/admin/tilepackcreator/addnew", element: <Elements stripe={stripePromise}><NewTilepackCreatorPage /></Elements>, isLandscape: false },
     { path: "/AboutUs", element: <AboutUsPage />, isLandscape: false },
     { path: "/game/won/:id", element: <Winnerscreen />, isLandscape: false },
-    { path: "/user/profile/:id", element: <ProfilePage /> },
+    { path: "/user/profile/:id", element: <ProfilePage />, isLandscape: false },
     { path: "*", element: <PageNotFound />, isLandscape: false }
   ];
 
