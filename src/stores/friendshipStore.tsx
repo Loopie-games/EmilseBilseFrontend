@@ -61,6 +61,11 @@ export class FriendshipStore {
         return this._friendRequests;
     }
 
+    @action 
+    clearSearchResults = () => {
+        this._searchResults = [];
+    }
+
     constructor() {
         makeAutoObservable(this);
     }
