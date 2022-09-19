@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import logo from '../../../assets/Shared/EmilseBilseBingo_Logo.png'
+import logo from '../../../assets/Shared/logo.svg'
 import { Link, useLocation } from 'react-router-dom'
 import './Navbar.scss'
 import { useStore } from '../../../stores/store'
@@ -33,7 +33,7 @@ const Navbar = () => {
                     <div className='Navbar-Wrapper'>
                         <div className='Navbar-Logo'>
                             <Link to='/' style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                <img src={logo} alt="Logo" />
+                                <img id='logo' src={logo} alt="Logo" />
                             </Link>
                         </div>
                         <div className='Navbar-SearchContainer'>
