@@ -30,6 +30,7 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import Terms from './pages/termsPage/terms';
 import PrivacyPage from './pages/privacyPage/privacyPage';
+import MobileLogoBar from './components/shared/navbar/mobileLogoBar/mobileLogoBar';
 const stripePromise = loadStripe('pk_test_51Lf0qhHlPakEYz1FbXf2tOuCqoV5jPQcIoPASo8amOG1px2sOMObFsPGFhfDPaZZ5tT2RcjCBQZtgrN63khxdS8P00HCW9k4rl');
 
 function App() {
@@ -160,6 +161,7 @@ function App() {
             {routes.map((route, index) => (
               <Route key={index} path={route.path} element={
                 <>
+                  {mobileStore.isMobile && <MobileLogoBar />}
                   {!mobileStore.isMobile &&
                     <>
                       <Navbar />

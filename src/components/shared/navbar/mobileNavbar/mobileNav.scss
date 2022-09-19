@@ -81,7 +81,7 @@
 
 .MobileNav_LinksContainer {
     width: 100%;
-    height: calc(100vh - 65px);
+    height: calc(100vh - 115px);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -91,7 +91,7 @@
     z-index: 4;
     background-color: var(--color-overlay);
     backdrop-filter: blur(2px);
-    padding-top: 20px;
+    padding-top: 60px;
     padding-bottom: 40px;
 
     .MobileNav_LinksWrapper {

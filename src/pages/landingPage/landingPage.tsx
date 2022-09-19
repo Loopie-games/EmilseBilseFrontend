@@ -75,7 +75,7 @@ const LandingPage = () => {
                          alt={"glow img"}></img>
                     <div className='LandingPage-Wrapper'>
                         <div className='LandingPage-JoinWrapper'>
-                            <div className='LandingPage-JoinLabel'>
+                            <div className='LandingPage-JoinLabel '>
                                 Join Room
                             </div>
                             <div className={`LandingPage-JoinInput ${hasPin ? "active" : ""}`}>
