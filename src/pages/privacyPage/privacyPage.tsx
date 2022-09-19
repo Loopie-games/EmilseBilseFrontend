@@ -19,10 +19,10 @@ const PrivacyPage = () => {
                     </div>
                     <div className='Privacy_SectionContent'>
                         We are a Data Controller of your information.
-                        <br></br>
+                        <br /><br />
 
                         Loopie Studio legal basis for collecting and using the personal information described in this Privacy Policy depends on the Personal Information we collect and the specific context in which we collect the information:
-                        <br></br>
+                        <br /><br />
                         <ul>
                             <li>Loopie Studio needs to perform a contract with you</li>
                             <li>You have given Loopie Studio permission to do so </li>
@@ -32,9 +32,9 @@ const PrivacyPage = () => {
                             <li>Loopie Studio needs to comply with the law</li>
                         </ul>
                         Loopie Studio will retain your personal information only for as long as is necessary for the purposes set out in this Privacy Policy. We will retain and use your information to the extent necessary to comply with our legal obligations, resolve disputes, and enforce our policies.
-                        <br />
+                        <br /><br />
                         If you are a resident of the European Economic Area (EEA), you have certain data protection rights. If you wish to be informed what Personal Information we hold about you and if you want it to be removed from our systems, please contact us.
-                        <br />
+                        <br /><br />
                         In certain circumstances, you have the following data protection rights:
 
                         <ul>
@@ -73,9 +73,9 @@ const PrivacyPage = () => {
                     </div>
                     <div className='Privacy_SectionContent'>
                         You may consult this list to find the Privacy Policy for each of the advertising partners of Loopie Studio.
-                        <br />
+                        <br /><br />
                         Third-party ad servers or ad networks uses technologies like cookies, JavaScript, or Web Beacons that are used in their respective advertisements and links that appear on Loopie Studio, which are sent directly to users' browser. They automatically receive your IP address when this occurs. These technologies are used to measure the effectiveness of their advertising campaigns and/or to personalize the advertising content that you see on websites that you visit.
-                        <br />
+                        <br /><br />
                         Note that Loopie Studio has no access to or control over these cookies that are used by third-party advertisers.</div>
                 </section>
                 <section className='Privacy_Section'>
@@ -84,7 +84,7 @@ const PrivacyPage = () => {
                     </div>
                     <div className='Privacy_SectionContent'>
                         Loopie Studio's Privacy Policy does not apply to other advertisers or websites. Thus, we are advising you to consult the respective Privacy Policies of these third-party ad servers for more detailed information. It may include their practices and instructions about how to opt-out of certain options.
-                        <br />
+                        <br /><br />
                         You can choose to disable cookies through your individual browser options. To know more detailed information about cookie management with specific web browsers, it can be found at the browsers' respective websites.
                     </div>
                 </section>
@@ -94,7 +94,7 @@ const PrivacyPage = () => {
                     </div>
                     <div className='Privacy_SectionContent'>
                         Another part of our priority is adding protection for children while using the internet. We encourage parents and guardians to observe, participate in, and/or monitor and guide their online activity.
-                        <br />
+                        <br /><br />
                         Loopie Studio does not knowingly collect any Personal Identifiable Information from children under the age of 13. If you think that your child provided this kind of information on our website, we strongly encourage you to contact us immediately and we will do our best efforts to promptly remove such information from our records.
                     </div>
                 </section>
