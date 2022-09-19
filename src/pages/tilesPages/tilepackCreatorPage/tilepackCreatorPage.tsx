@@ -1,15 +1,27 @@
-import React, { useState } from 'react'
+import React, {useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import Icon from '../../../components/shared/icon/Icon';
 import Popup from '../../../components/shared/popups/popup';
 import TilepackComponent from '../../../components/tilepackCreator/tilepackComponent';
+import { TilePack } from '../../../models/tile/tileInterface';
+import { useStore } from '../../../stores/store';
 import './tilepackCreatorPage.scss'
 
 const TilepackCreatorPage = () => {
+    const {tileStore } = useStore();
     const [search, setSearch] = useState('');
+    const [tilePacks, setTilePacks] = useState <TilePack[]>([]);
     const [showPopup, setShowPopup] = useState(false)
-    const navigate = useNavigate();    
+    const navigate = useNavigate();
     const message = "Are you sure you want to delete this tilepack? This action is irreversable."
+
+    useEffect(()=>{
+        initTP()
+    })
+
+    const initTP = async () => {
+        setTilePacks(await tileStore.getAllTilepacks())
+    }
 
     const handleClearSearch = () => {
         setSearch('');
@@ -29,12 +41,12 @@ const TilepackCreatorPage = () => {
     const handleConfirmPopup = () => {
         setShowPopup(false)
     }
-    
+
 
     return (
         <>
         {showPopup ? <Popup isConfirmation={true} title="Are you sure?" errorMessage={message} handleClose={handleClosePopup} handleConfirm={handleConfirmPopup} /> : null}
-          
+
         <div className='TilepackCreator_Container'>
             <div className='TilepackCreator_Wrapper'>
                 <div className='TilepackCreator_Title'>Tile Pack Creator</div>
@@ -48,8 +60,8 @@ const TilepackCreatorPage = () => {
                     </div>
                 </div>
                 <div className='TilepackCreator_PackContainer'>
-                    <TilepackComponent handleDelete={handleDelete} />
                     <div className='TilepackCreator_NewPack' onClick={handleAddTilePack}><Icon name="plus" /></div>
+                    {tilePacks.map((t) => <TilepackComponent {...t} />)}
                 </div>
             </div>
         </div>

@@ -3,12 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="95ab0aca-e3bd-4f58-a05b-c1aa8ae3437f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/shared/requireAuth/RequireAuth.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/shared/requireAuth/RequireAuth.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/landingPage/landingPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/landingPage/landingPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/authService.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/authService.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/userService.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/userService.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stores/userStore.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/userStore.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/tilepackCreator/tilepackComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/tilepackCreator/tilepackComponent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/tile/tileInterface.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/tile/tileInterface.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/tilesPages/tilepackCreatorPage/tilepackCreatorPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/tilesPages/tilepackCreatorPage/tilepackCreatorPage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/tileStore.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/tileStore.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,6 +57,23 @@
       <recent name="D:\Cecilie\Kode projekter\EmilseBilseBingo\2.0\Frontend\EmilseBilseFrontend\src\pages\registerPage" />
     </key>
   </component>
+  <component name="RunManager">
+    <configuration name="start" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.start" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -85,6 +100,8 @@
       <workItem from="1662101403627" duration="1269000" />
       <workItem from="1662362178743" duration="4156000" />
       <workItem from="1662445577044" duration="6486000" />
+      <workItem from="1663325478633" duration="4387000" />
+      <workItem from="1663588461538" duration="2150000" />
     </task>
     <servers />
   </component>

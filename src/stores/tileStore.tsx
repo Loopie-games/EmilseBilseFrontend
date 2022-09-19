@@ -1,5 +1,6 @@
 import { action, makeAutoObservable, observable } from "mobx";
-import {UserTile, TileNewFromUser } from "../models/tile/tileInterface";
+import {UserTile, TileNewFromUser, TilePack } from "../models/tile/tileInterface";
+import tilePackService from "../services/tilePackService";
 import tileService from "../services/tileService";
 
 export class TileStore {
@@ -9,10 +10,20 @@ export class TileStore {
     @observable tilesAboutUser: UserTile[] | undefined;
     @observable createdTiles: UserTile[] | undefined;
     @observable createdtile: UserTile | undefined;
+    @observable tilepacks: TilePack[] = []
 
     constructor() {
         makeAutoObservable(this);
     }
+
+
+    @action
+    getAllTilepacks = async () =>{
+        const response =await tilePackService.getAll();
+        this.tilepacks = response.data
+        return response.data
+    }
+
 
     @action
     getTilesAboutUser = async (userId: string) => {

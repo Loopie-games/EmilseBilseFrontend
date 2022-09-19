@@ -15,6 +15,9 @@ export interface UserTile extends ITile  {
 export interface TilePack {
     id: string
     name: string
+    picUrl?: string
+    isOwned?: boolean
+    price: number
 }
 
 export interface PackTile extends ITile
