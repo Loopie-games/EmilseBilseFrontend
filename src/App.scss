@@ -17,11 +17,11 @@ input:-webkit-autofill:active {
 }
 
 input:-webkit-autofill {
-  -webkit-text-fill-color: #fff !important;
+  -webkit-text-fill-color: var(--color-text) !important;
 }
 
 input {
-  color: #fff;
+  color: var(--color-text)
 }
 
 @font-face {
@@ -32,18 +32,18 @@ input {
 ::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   border-radius: 10px;
-  background-color: #24292f;
+  background-color: var(--color-foreground);
 }
 
 ::-webkit-scrollbar {
   width: 12px;
   border-radius: 10px;
-  background-color: #24292f;
+  background-color: var(--color-foreground);
 }
 
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  background-color: #8694a4;
+  background-color: var(--color-border);
   position: relative;
 }
 
