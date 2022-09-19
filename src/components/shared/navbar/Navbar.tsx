@@ -7,6 +7,7 @@ import { observer } from 'mobx-react-lite'
 import LoggedInNavbar from './loggedInNavbar/LoggedInNavbar'
 import Loader from '../loader/loader'
 import Icon from '../icon/Icon'
+import Searchbar from '../searchbar/searchbar'
 
 const Navbar = () => {
     const [loaded, setLoaded] = useState(false)
@@ -34,6 +35,9 @@ const Navbar = () => {
                             <Link to='/' style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                                 <img src={logo} alt="Logo" />
                             </Link>
+                        </div>
+                        <div className='Navbar-SearchContainer'>
+                            <Searchbar />
                         </div>
                         <div className='Navbar-Button-Container'>
                             <div className='Navbar-Button-Wrapper'>
