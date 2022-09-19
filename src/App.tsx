@@ -28,6 +28,7 @@ import PortraitOrientation from './components/shared/orientation/potraitOrientat
 import ProfilePage from './pages/profilePage/profilePage';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
+import Terms from './pages/termsPage/terms';
 const stripePromise = loadStripe('pk_test_51Lf0qhHlPakEYz1FbXf2tOuCqoV5jPQcIoPASo8amOG1px2sOMObFsPGFhfDPaZZ5tT2RcjCBQZtgrN63khxdS8P00HCW9k4rl');
 
 function App() {
@@ -96,6 +97,7 @@ function App() {
     { path: "/AboutUs", element: <AboutUsPage />, isLandscape: false },
     { path: "/game/won/:id", element: <Winnerscreen />, isLandscape: false },
     { path: "/user/profile/:id", element: <ProfilePage />, isLandscape: false },
+    { path: "/terms", element: <Terms /> },
     { path: "*", element: <PageNotFound />, isLandscape: false }
   ];
 

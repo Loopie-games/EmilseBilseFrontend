@@ -61,7 +61,7 @@
             z-index: 2;
 
 
-            section {
+            #aboutusSection {
                 width: 100%;
                 margin-bottom: 25px;
                 display: flex;
@@ -101,7 +101,7 @@
     }
 }
 
-section:nth-of-type(2n) {
+#aboutusSection:nth-of-type(2n) {
     justify-content: right;
     align-self: end;
     direction: rtl;
