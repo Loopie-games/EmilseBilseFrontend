@@ -86,5 +86,6 @@ export class UserStore {
         console.log('====================================');
         console.log(newProfilePicURL);
         console.log('====================================');
+        return newProfilePicURL;
     }
 }
