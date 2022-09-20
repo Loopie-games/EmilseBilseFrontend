@@ -49,4 +49,10 @@ export class TileStore {
         return response.data
     }
 
+    @action
+    getAll = async () =>{
+        const response = await tileService.getAll();
+        return response.data
+    }
+
 }

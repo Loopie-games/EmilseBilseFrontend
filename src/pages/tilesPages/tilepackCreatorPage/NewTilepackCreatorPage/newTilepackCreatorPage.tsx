@@ -26,7 +26,7 @@ const NewTilepackCreatorPage = () => {
     })
 
     const initTiles = async() =>{
-        setAvailableTiles(await tileStore.getTilesUsedInPacktiles())
+        setAvailableTiles(await tileStore.getAll())
     }
 
     const handleCancel = () => {
