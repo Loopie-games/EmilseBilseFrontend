@@ -5,6 +5,7 @@ import shopBlur from '../../assets/Shared/shopBlur.svg'
 import Icon from '../../components/shared/icon/Icon'
 import FeaturedItem from '../../components/shop/featured/featuredItem'
 import { useStore } from '../../stores/store'
+import Membership from '../../components/shop/membership/membership'
 
 const ShopPage = () => {
     const { popupStore } = useStore()
@@ -26,6 +27,92 @@ const ShopPage = () => {
             name: 'test3',
             price: 300,
             image: 'https://picsum.photos/200/300',
+        },
+    ])
+    const [testMemberships, setTestMemberships] = useState([
+        {
+            id: 0,
+            name: 'free',
+            price: 0,
+            image: 'https://picsum.photos/200/300',
+            features: [
+                {
+                    id: 1,
+                    title: 'feature1',
+                    description: 'test1',
+                },
+                {
+                    id: 2,
+                    title: 'feature1',
+                    description: 'test2',
+                },
+                {
+                    id: 3,
+                    title: 'feature1',
+                    description: 'test3',
+                },
+            ],
+        },
+        {
+            id: 1,
+            name: 'test1',
+            price: 100,
+            image: 'https://picsum.photos/200/300',
+            features: [
+                {
+                    id: 1,
+                    title: 'feature1',
+                    description: 'test1',
+                },
+                {
+                    id: 2,
+                    title: 'feature1',
+                    description: 'test2',
+                },
+                {
+                    id: 3,
+                    title: 'feature1',
+                    description: 'test3',
+                },
+                {
+                    id: 4,
+                    title: 'feature1',
+                    description: 'test3',
+                },
+                {
+                    id: 5,
+                    title: 'feature1',
+                    description: 'test3',
+                },
+                {
+                    id: 6,
+                    title: 'feature1',
+                    description: 'test3',
+                },
+            ],
+        },
+        {
+            id: 2,
+            name: 'test2',
+            price: 200,
+            image: 'https://picsum.photos/200/300',
+            features: [
+                {
+                    id: 1,
+                    title: 'feature1',
+                    description: 'test1',
+                },
+                {
+                    id: 2,
+                    title: 'feature1',
+                    description: 'test2',
+                },
+                {
+                    id: 3,
+                    title: 'feature1',
+                    description: 'test3',
+                },
+            ],
         },
     ])
 
@@ -133,6 +220,14 @@ const ShopPage = () => {
                                     <div className={`Shop_Indicator ${item.id === 2 ? 'Shop_IndicatorActive' : 'Shop_IndicatorInactive'}`}></div>
                                 ))}
                             </div>
+                        </div>
+                    </section>
+                    <section className='Shop_MembershipContainer'>
+                        <div className='Shop_MembershipTitle'>Pro Memberships</div>
+                        <div className='Shop_MembershipContentContainer'>
+                            {testMemberships.map((item) => (
+                                <Membership addToCart={() => addToCart(item)} membership={item} />
+                            ))} 
                         </div>
                     </section>
                 </div>

@@ -137,6 +137,33 @@
                 }
             }
         }
+        .Shop_MembershipContainer{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            align-items: center;
+            z-index: 2;
+            margin-top: 150px;
+            padding-bottom: 150px;
+            .Shop_MembershipTitle{
+                font-size: 32px;
+                font-weight: 700;
+                margin-top: 1rem;
+                margin-bottom: 1rem;
+                font-family: Caviar Dreams;
+                color: var(--color-text);
+            }
+            .Shop_MembershipContentContainer{
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                gap: 25px;
+
+            }
+        }
     }
 }
 
