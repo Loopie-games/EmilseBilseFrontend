@@ -51,7 +51,8 @@ const Searchbar = () => {
                         <Icon name="cross" />
                     </div>}
             </div>
-            <div className={`Searchbar_OutPutContainer ${isActivated ? 'SearchActivated test' : ''}`}>
+            <div className={`Searchbar_OutPutContainer ${isActivated ? 'SearchActivated test' : ''} 
+                            ${friendshipStore._searchResults !== undefined && friendshipStore._searchResults.length >= 1 ? 'ShouldShow' : 'ShouldNotShow'}`}>
                
                 {friendshipStore._searchResults?.map(user =>
                     <div className='Searchbar_OutPutItem' key={user.user.id} onClick={() => navigate(`/user/profile/${user.user.id}`)}>
