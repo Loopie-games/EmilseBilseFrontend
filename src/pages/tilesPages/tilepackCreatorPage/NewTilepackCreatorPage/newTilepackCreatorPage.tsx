@@ -71,6 +71,7 @@ const NewTilepackCreatorPage = () => {
         tile.action = action
     }
 
+
     return (
         <div className='NewTilePack_Container'>
             <div className='NewTilePack_Wrapper'>
@@ -89,12 +90,15 @@ const NewTilepackCreatorPage = () => {
                             <input type="text" onKeyUp={e => { }} onChange={e => setPrice(e.target.value)} value={price} placeholder="€ Price" />
                         </div>
                     </div>
+                    {/* TODO DISCOUNT
+
                     <div className={`NewTilePack_InfoStateContainer ${discount.length > 0 ? 'active' : ''}`}>
                         <div className='NewTilePack_Icon'><Icon name="filter" /></div>
                         <div className='NewTilePack_SearchInput'>
                             <input type="text" onKeyUp={e => { }} onChange={e => setDiscount(e.target.value)} value={discount} maxLength={2} placeholder="Discount %" />
                         </div>
                     </div>
+                    */}
                 </div>
                 {/* Tilepack creator side / Right side */}
                 <div className='NewTilePack_CreatorContainer'>
