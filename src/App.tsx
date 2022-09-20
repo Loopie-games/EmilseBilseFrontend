@@ -30,6 +30,7 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import Terms from './pages/termsPage/terms';
 import PrivacyPage from './pages/privacyPage/privacyPage';
+import ShopPage from './pages/shopPage/shopPage';
 const stripePromise = loadStripe('pk_test_51Lf0qhHlPakEYz1FbXf2tOuCqoV5jPQcIoPASo8amOG1px2sOMObFsPGFhfDPaZZ5tT2RcjCBQZtgrN63khxdS8P00HCW9k4rl');
 
 function App() {
@@ -100,6 +101,7 @@ function App() {
     { path: "/user/profile/:id", element: <ProfilePage />, isLandscape: false },
     { path: "/terms", element: <Terms /> },
     { path: "/privacy", element: <PrivacyPage /> },
+    { path: "/shop", element: <ShopPage /> },
     { path: "*", element: <PageNotFound />, isLandscape: false }
   ];
 

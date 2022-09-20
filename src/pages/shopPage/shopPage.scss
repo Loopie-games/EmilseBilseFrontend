@@ -1,0 +1,336 @@
+.Shop_Container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    flex-direction: column;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+
+
+    .Shop_Wrapper {
+        width: 90%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        z-index: 2;
+        position: relative;
+
+        .Shop_FeaturedContainer {
+            height: 100%;
+            max-height: 550px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 2;
+
+            .Shop_FeaturedTitle {
+                font-size: 32px;
+                font-weight: 700;
+                margin-top: 1rem;
+                margin-bottom: 1rem;
+                font-family: Caviar Dreams;
+                color: var(--color-text);
+            }
+
+            .Shop_FeaturedContentContainer {
+                flex: 1;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+
+                .Shop_DisplayContainer {
+                    flex: 1;
+                    max-height: 200px;
+                    width: 100%;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    align-items: center;
+
+                    .Shop_ButtonContainer {
+                        min-width: 24px;
+                        max-width: 40px;
+                        height: 100%;
+                        max-height: 200px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        filter: var(--color-icon);
+
+                        img {
+                            &:hover {
+                                scale: 1.1;
+                                cursor: pointer;
+                            }
+                        }
+
+                        &:first-of-type {
+                            margin-right: 50px;
+
+                            img {
+                                transform: rotate(90deg);
+                            }
+                        }
+
+                        &:last-of-type {
+                            margin-left: 50px;
+
+                            img {
+                                transform: rotate(270deg);
+                            }
+                        }
+                    }
+
+                    .Shop_ItemContainer {
+                        flex: 1;
+                        max-width: 160px;
+                        height: 100%;
+                        max-height: 200px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        scale: 0.7;
+                        opacity: 70%;
+                        transition: scale 0.3s ease-in-out;
+                        margin: 0 5px;
+
+                        &:nth-of-type(3) {
+                            scale: 1;
+                            opacity: 100%;
+
+                            &:hover {
+                                scale: 1.05;
+                            }
+                        }
+
+                        &:hover {
+                            scale: 1;
+                            opacity: 100%;
+                        }
+
+                    }
+                }
+
+                .Shop_IndicatorContainer {
+                    height: 24px;
+                    width: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 10px;
+
+                    .Shop_Indicator {
+                        height: 5px;
+                        width: 40px;
+                        border-radius: 5px;
+                        transition: background-color 0.2s ease-in-out;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.Shop_IndicatorActive {
+    background-color: var(--color-text);
+}
+
+.Shop_IndicatorInactive {
+    background-color: var(--color-background);
+}
+
+.Shop_CartItems_Close{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+}
+
+.Shop_Cart_OverlayContainer{
+    position: absolute;
+    top: 0;
+    right: 10%;
+    z-index: 4;
+    .Shop_CartContainer {
+        margin-top: 20px;
+        z-index: 5;
+        position: sticky;
+        width: 100%;
+        justify-content: end;
+        display: flex;
+        .Shop_CartIcon{
+            position: relative;
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border: none;
+            background-color: transparent;
+            img{
+                filter: var(--color-icon);
+                height: 30px;
+                width: 30px;
+            }
+            .Shop_CartIcon_Count{
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                width: 15px;
+                height: 15px;
+                border-radius: 50%;
+                background: var(--color-red);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 12px;
+                font-weight: 400;
+                color: #fff;
+            }
+        }
+        .Shop_Cart{
+            z-index: 3;
+            position: absolute;
+            top: 50px;
+            right: 0;
+            width: 300px;
+            max-height: 500px;
+            background: var(--color-input-background);
+            border: 2px solid var(--color-input-border);
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            backdrop-filter: blur(2px);
+            color: var(--color-text);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s ease-in-out;
+            .Shop_CartItems{
+                flex-grow: 1;
+                width: 90%;
+                height: 100%;
+                overflow-y: auto;
+                overflow-x: hidden;
+                justify-content: center;
+                align-items: center;
+                .Shop_CartItems_Empty{
+                    width: 100%;
+                    height: 100%;
+                    min-height: 60px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-size: 16px;
+                    font-weight: 400;
+                    color: var(--color-text);
+                    font-family: Caviar Dreams;
+                }
+                .Shop_CartItemContainer{
+                    min-height: 40px;
+                    width: calc(100% - 24px);
+                    border-radius: 5px;
+                    height: 40px;
+                    display: flex;
+                    margin: 10px 0;
+                    padding: 0 10px;
+                    align-items: center;
+                    justify-content: space-between;
+                    flex-direction: row;
+                    background: var(--color-input-background);
+                    border: 2px solid var(--color-input-border);
+                    .Shop_CartItemInfo{
+                        font-family: "Caviar Dreams";
+                        font-style: normal;
+                        font-weight: 400;
+                        font-size: 16px;
+                        
+                    }
+                    .Shop_CartRemoveIcon{
+                        filter: var(--color-icon);
+                        cursor: pointer;
+                    }
+                }
+                
+            }
+            .Shop_CartTotal{
+                width: 90%;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 10px;
+                flex-direction: row;
+                .Shop_CartTotalText{
+                    font-family: "Caviar Dreams";
+                    font-style: normal;
+                    font-weight: 700;
+                    font-size: 16px;
+                }
+                .Shop_CartTotalPrice{
+                    font-family: "Caviar Dreams";
+                    font-style: normal;
+                    font-weight: 400;
+                    font-size: 16px;
+                }
+            }
+
+            .Shop_Checkout{
+                width: 90%;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: var(--color-input-background);
+                border: 2px solid var(--color-input-border);
+                border-radius: 5px;
+                cursor: pointer;
+                margin-bottom: 10px;
+                font-family: "Caviar Dreams";
+                font-style: normal;
+                font-weight: 700;
+                font-size: 16px;
+                transition: box-shadow 0.2s, background 0.2s ease-in-out;
+
+
+                &:hover{
+                    box-shadow: var(--color-highlighthover) 0 0 0 2px inset;
+                    background: var(--color-green-50);
+                }
+            }
+        }
+    }
+}
+
+#shopBlur {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+    max-height: 600px;
+    z-index: 1;
+    filter: var(--color-shop-blur);
+}
+
+#LeftArrow {
+    transform: rotate(90deg);
+}
+
+.CartShown{
+    opacity: 1 !important;
+    visibility: visible !important;
+}
