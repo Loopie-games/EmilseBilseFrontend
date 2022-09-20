@@ -1,0 +1,111 @@
+.Membership_Container{
+    width: 240px;
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--color-input-background);
+    border: 2px solid var(--color-input-border);
+    border-radius: 5px;
+    .Membership_Wrapper{
+        width: 90%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow: hidden;
+        padding-bottom: 20px;
+        .Membership_Image{
+            width: 128px;
+            height: 128px;
+            background-color: var(--color-input-background);
+            border: 2px solid var(--color-input-border);
+            aspect-ratio: 1/1;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+            img{
+                width: 80px;
+                height: 80px;
+                border-radius: 5px;
+            }
+        }
+        .Membership_Name{
+            min-height: 20px;
+            font-size: 18px;
+            font-weight: 700;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            font-family: Caviar Dreams;
+            color: var(--color-text);
+        }
+        .Membership_Price{
+            min-height: 20px;
+            font-size: 16px;
+            font-weight: 400;
+            margin-bottom: 10px;
+            font-family: Caviar Dreams;
+            color: var(--color-textSecondary);
+        }
+        .Membership_Featurelist{
+            flex: 1;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+
+            .Membership_FeatureContainer{
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+
+            .Membership_FeatureTitle{
+                font-size: 12px;
+                font-weight: 400;
+                height: 20px;
+                font-family: Caviar Dreams;
+                color: var(--color-textSecondary);
+
+            }
+            .Membership_Feature{
+                font-size: 14px;
+                font-weight: 400;
+                font-family: Caviar Dreams;
+                color: var(--color-text);
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                height: 30px;
+                border-radius: 5px;
+                justify-content: center;
+                background-color: var(--color-input-background);
+                border: 1px solid var(--color-input-border);
+            }
+        }
+        }
+        .Membership_Buy{
+            min-height: 30px;
+            height: 30px;
+            width: calc(100% - 4px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--color-input-background);
+            border: 2px solid var(--color-input-border);
+            border-radius: 5px;
+            margin-top: 20px;
+            font-size: 14px;
+            font-weight: 400;
+            font-family: Caviar Dreams;
+            color: var(--color-text);
+            cursor: pointer;
+            transition: box-shadow 0.2s ease-in-out;
+            &:hover{
+                box-shadow: var(--color-highlighthover) 0 0 0 2px inset;
+            }
+        }
+    }
+}
