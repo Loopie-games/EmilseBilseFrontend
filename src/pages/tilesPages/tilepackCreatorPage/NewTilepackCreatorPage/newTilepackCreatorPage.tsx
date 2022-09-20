@@ -1,25 +1,33 @@
 import { useStripe } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
-import React, { useState } from 'react'
+import React, {useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Icon from '../../../../components/shared/icon/Icon'
 import NewTile from '../../../../components/tilepackCreator/newTilepackCreator/newTile'
 import httpCommon from '../../../../http-common'
-import { ITile } from '../../../../models/tile/tileInterface'
+import { Tile } from '../../../../models/tile/tileInterface'
 import { useStore } from '../../../../stores/store'
 import './newTilepackCreatorPage.scss'
 
 
 const NewTilepackCreatorPage = () => {
-    const {popupStore} = useStore();
+    const {popupStore, tileStore} = useStore();
     const [name, setName] = useState('')
     const [price, setPrice] = useState('')
     const [discount, setDiscount] = useState('')
-    const [availableTiles, setAvailableTiles] = useState<ITile[]>([{ id: '1', action: '' }])
-    const [selectedTiles, setSelectedTiles] = useState<ITile[]>([])
+    const [availableTiles, setAvailableTiles] = useState<Tile[]>([])
+    const [selectedTiles, setSelectedTiles] = useState<Tile[]>([])
 
     const navigate = useNavigate();
     const stripe = useStripe();
+
+    useEffect(()=>{
+        initTiles()
+    })
+
+    const initTiles = async() =>{
+        setAvailableTiles(await tileStore.getTilesUsedInPacktiles())
+    }
 
     const handleCancel = () => {
         setName('')
@@ -35,7 +43,7 @@ const NewTilepackCreatorPage = () => {
         
     }
 
-    const addTile = (tile: ITile) => {
+    const addTile = (tile: Tile) => {
         if(tile.action.length > 0){
         setSelectedTiles([...selectedTiles,tile])
         setAvailableTiles(availableTiles.filter((t) => t.id !== tile.id))
@@ -44,7 +52,7 @@ const NewTilepackCreatorPage = () => {
         }
     }
 
-    const removeTile = (tile: ITile) => {
+    const removeTile = (tile: Tile) => {
         setAvailableTiles([...availableTiles, tile])
         setSelectedTiles(selectedTiles.filter((t) => t.id !== tile.id))
     }
@@ -53,13 +61,13 @@ const NewTilepackCreatorPage = () => {
         setAvailableTiles([...availableTiles, { id: (availableTiles.length + selectedTiles.length + 1).toString(), action: '' }])
     }
 
-    const handleDeleteTile = (tile: ITile) => {
+    const handleDeleteTile = (tile: Tile) => {
         setAvailableTiles(availableTiles.filter((t) => t.id !== tile.id))
         setSelectedTiles(selectedTiles.filter((t) => t.id !== tile.id))
 
     }
 
-    const handleEditTileAction = (tile: ITile, action: string) => {
+    const handleEditTileAction = (tile: Tile, action: string) => {
         tile.action = action
     }
 
@@ -94,7 +102,7 @@ const NewTilepackCreatorPage = () => {
                         <div className='NewTilePack_TileContainer'>
                             <div className='NewTilePack_CreatorTitle'>Available tiles</div>
                             <div className='NewTilePack_CreatorActionContainer'>
-                                {availableTiles.map((tile: ITile) =>
+                                {availableTiles.map((tile: Tile) =>
                                     <NewTile tile={tile} iconName="rightArrow" onAdd={() =>addTile(tile)} onDelete={() => handleDeleteTile(tile)} onEdit={(e: string) => handleEditTileAction(tile, e)} />
                                 )}
                                 <div className='NewTilePack_NewTileButton' onClick={addNewTile}>
@@ -105,7 +113,7 @@ const NewTilepackCreatorPage = () => {
                         <div className='NewTilePack_TileContainer'>
                             <div className='NewTilePack_CreatorTitle'>Selected tiles</div>
                             <div className='NewTilePack_CreatorActionContainer'>
-                                {selectedTiles.map((tile: ITile) =>
+                                {selectedTiles.map((tile: Tile) =>
                                     <NewTile iconName="leftArrow" tile={tile} onAdd={() => removeTile(tile)} onDelete={() => handleDeleteTile(tile)} />
                                 )}
                             </div>

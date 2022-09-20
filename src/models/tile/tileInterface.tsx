@@ -5,7 +5,7 @@ export interface TileNewFromUser {
     aboutUserId: string
 }
 
-export interface UserTile extends ITile  {
+export interface UserTile extends Tile  {
     id: string
     user: SimpleUserDTO
     action: string
@@ -20,17 +20,23 @@ export interface TilePack {
     price: number
 }
 
-export interface PackTile extends ITile
+export interface PackTile extends Tile
 {
     id: string
     action: string
     pack: TilePack
 
 }
-export interface ITile {
+export interface Tile {
     id: string
     action: string
+    addedby?: string
+    tileType?: TileType;
 
+}
+
+export enum TileType {
+    userTile, packTile
 }
 export interface BoardDTO{
     id: string
@@ -41,7 +47,7 @@ export interface BoardDTO{
 export interface BoardTileDTO {
     id: string
     board: BoardDTO
-    tile: ITile
+    tile: Tile
     aboutUser: SimplePlayerDTO
     position: number
     isActivated: boolean
