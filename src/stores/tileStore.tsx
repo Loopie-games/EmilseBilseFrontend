@@ -26,6 +26,12 @@ export class TileStore {
     }
 
     @action
+    createTilePack = async (toCreate: TilePack) => {
+        const response = await tilePackService.create(toCreate);
+        return response.data
+    }
+
+    @action
     getTilesAboutUser = async (userId: string) => {
         const response = await (await userTileService.getTilesAboutUser(userId));
         this.tilesAboutUser = response.data;
@@ -44,13 +50,13 @@ export class TileStore {
     }
 
     @action
-    getTilesUsedInPacktiles = async() =>{
+    getTilesUsedInPacktiles = async () => {
         const response = await tileService.getUsedInPacks();
         return response.data
     }
 
     @action
-    getAll = async () =>{
+    getAll = async () => {
         const response = await tileService.getAll();
         return response.data
     }

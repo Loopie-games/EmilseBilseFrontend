@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react'
+import { Tile } from '../../../models/tile/tileInterface'
 import Icon from '../../shared/icon/Icon'
 import './newTile.scss'
 
-const NewTile = ({onAdd, tile, iconName}:any  )=> {
+const NewTile = ({tile, callBack}: NTcom)=> {
     const [action, setAction] = useState("")
     const [isEditable, setIsEditable] = useState(false)
 
 
     useEffect(() => {
         setAction(tile.action);
+        console.log(tile.action)
 
     }, [])
 
@@ -25,8 +27,8 @@ const NewTile = ({onAdd, tile, iconName}:any  )=> {
 
   return (
     <div className='NewTile_Container'>
-        <div className='NewTile_Ikon' onClick={() =>onAdd()}>
-            <Icon name={`${iconName}`} />
+        <div className='NewTile_Ikon' onClick={callBack}>
+            <Icon name={`rightArrow`} />
         </div>
         <div className='NewTile_InputContainer'>
             <input type="text" onChange={(e) => setAction(e.target.value)} disabled={!isEditable} placeholder="Tile action" value={action}/>
@@ -40,6 +42,12 @@ const NewTile = ({onAdd, tile, iconName}:any  )=> {
             </div>*/}
     </div>
   )
+}
+
+export interface NTcom {
+    tile: Tile
+    callBack: ()=> void
+
 }
 
 export default NewTile

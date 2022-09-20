@@ -1,14 +1,14 @@
-import { useStripe } from '@stripe/react-stripe-js'
-import { loadStripe } from '@stripe/stripe-js'
-import React, {useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import {useStripe} from '@stripe/react-stripe-js'
+import {loadStripe} from '@stripe/stripe-js'
+import React, {useEffect, useState} from 'react'
+import {useNavigate} from 'react-router-dom'
 import Icon from '../../../../components/shared/icon/Icon'
+import newTile, { NTcom } from '../../../../components/tilepackCreator/newTilepackCreator/newTile'
 import NewTile from '../../../../components/tilepackCreator/newTilepackCreator/newTile'
 import httpCommon from '../../../../http-common'
-import { Tile } from '../../../../models/tile/tileInterface'
-import { useStore } from '../../../../stores/store'
+import {Tile} from '../../../../models/tile/tileInterface'
+import {useStore} from '../../../../stores/store'
 import './newTilepackCreatorPage.scss'
-
 
 const NewTilepackCreatorPage = () => {
     const {popupStore, tileStore} = useStore();
@@ -19,13 +19,12 @@ const NewTilepackCreatorPage = () => {
     const [selectedTiles, setSelectedTiles] = useState<Tile[]>([])
 
     const navigate = useNavigate();
-    const stripe = useStripe();
 
-    useEffect(()=>{
+    useEffect(() => {
         initTiles()
-    })
+    }, [])
 
-    const initTiles = async() =>{
+    const initTiles = async () => {
         setAvailableTiles(await tileStore.getAll())
     }
 
@@ -39,33 +38,33 @@ const NewTilepackCreatorPage = () => {
     const handleCreate = async () => {
         console.log(name);
         console.log(selectedTiles);
-        
-        
+
+
     }
 
-    const addTile = (tile: Tile) => {
-        if(tile.action.length > 0){
-        setSelectedTiles([...selectedTiles,tile])
-        setAvailableTiles(availableTiles.filter((t) => t.id !== tile.id))
+    const addTile = (tile: Tile, index: number) => {
+        if (tile.action.length > 0) {
+            setSelectedTiles([...selectedTiles, tile])
+            delete availableTiles[index]
+            setAvailableTiles(availableTiles)
         } else {
             popupStore.showError('Error', 'Please enter a valid action')
         }
     }
-
+    
     const removeTile = (tile: Tile) => {
         setAvailableTiles([...availableTiles, tile])
         setSelectedTiles(selectedTiles.filter((t) => t.id !== tile.id))
     }
 
     const addNewTile = () => {
-        setAvailableTiles([...availableTiles, { id: (availableTiles.length + selectedTiles.length + 1).toString(), action: '' }])
+        setAvailableTiles([...availableTiles, {
+            id: (availableTiles.length + selectedTiles.length + 1).toString(),
+            action: ''
+        }])
     }
 
-    const handleDeleteTile = (tile: Tile) => {
-        setAvailableTiles(availableTiles.filter((t) => t.id !== tile.id))
-        setSelectedTiles(selectedTiles.filter((t) => t.id !== tile.id))
 
-    }
 
     const handleEditTileAction = (tile: Tile, action: string) => {
         tile.action = action
@@ -77,17 +76,19 @@ const NewTilepackCreatorPage = () => {
             <div className='NewTilePack_Wrapper'>
                 {/* Info side / Left side */}
                 <div className='NewTilePack_InfoContainer'>
-                    <div className='NewTilePack_InfoImage'><Icon name="plus" /> </div>
+                    <div className='NewTilePack_InfoImage'><Icon name="plus"/></div>
                     <div className={`NewTilePack_InfoStateContainer ${name.length > 0 ? 'active' : ''}`}>
-                        <div className='NewTilePack_Icon'><Icon name="filter" /></div>
+                        <div className='NewTilePack_Icon'><Icon name="filter"/></div>
                         <div className='NewTilePack_SearchInput'>
-                            <input type="text" onKeyUp={e => { }} onChange={e => setName(e.target.value)} value={name} placeholder="Pack name" />
+                            <input type="text" onKeyUp={e => {
+                            }} onChange={e => setName(e.target.value)} value={name} placeholder="Pack name"/>
                         </div>
                     </div>
                     <div className={`NewTilePack_InfoStateContainer ${price.length > 0 ? 'active' : ''}`}>
-                        <div className='NewTilePack_Icon'><Icon name="filter" /></div>
+                        <div className='NewTilePack_Icon'><Icon name="filter"/></div>
                         <div className='NewTilePack_SearchInput'>
-                            <input type="text" onKeyUp={e => { }} onChange={e => setPrice(e.target.value)} value={price} placeholder="€ Price" />
+                            <input type="text" onKeyUp={e => {
+                            }} onChange={e => setPrice(e.target.value)} value={price} placeholder="€ Price"/>
                         </div>
                     </div>
                     {/* TODO DISCOUNT
@@ -106,19 +107,22 @@ const NewTilepackCreatorPage = () => {
                         <div className='NewTilePack_TileContainer'>
                             <div className='NewTilePack_CreatorTitle'>Available tiles</div>
                             <div className='NewTilePack_CreatorActionContainer'>
-                                {availableTiles.map((tile: Tile) =>
-                                    <NewTile tile={tile} iconName="rightArrow" onAdd={() =>addTile(tile)} onDelete={() => handleDeleteTile(tile)} onEdit={(e: string) => handleEditTileAction(tile, e)} />
-                                )}
+                                {availableTiles.map((mtile: Tile, i) =>
+                                        <NewTile {...{tile: mtile, callBack: ()=> {
+                                                addTile(mtile, i)
+                                            }}}/>
+                                    )}
                                 <div className='NewTilePack_NewTileButton' onClick={addNewTile}>
-                                    <Icon name="plus" />    
+                                    <Icon name="plus"/>
                                 </div>
                             </div>
                         </div>
                         <div className='NewTilePack_TileContainer'>
                             <div className='NewTilePack_CreatorTitle'>Selected tiles</div>
                             <div className='NewTilePack_CreatorActionContainer'>
-                                {selectedTiles.map((tile: Tile) =>
-                                    <NewTile iconName="leftArrow" tile={tile} onAdd={() => removeTile(tile)} onDelete={() => handleDeleteTile(tile)} />
+                                {selectedTiles.map((mtile: Tile, i) =>
+                                    <NewTile {...{tile: mtile, callBack: ()=> {removeTile(mtile)
+                                }}}/>
                                 )}
                             </div>
                         </div>
@@ -130,8 +134,8 @@ const NewTilepackCreatorPage = () => {
                         </div>
                     </div>
                 </div>
-            </div >
-        </div >
+            </div>
+        </div>
     )
 }
 
