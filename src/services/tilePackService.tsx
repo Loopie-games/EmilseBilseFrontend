@@ -7,6 +7,10 @@ class tilePackService {
         return await http.get<TilePack[]>("/TilePack")
     }
 
+    getById = async (id:string) =>{
+        return await http.get<TilePack>("/TilePack/" + id)
+    }
+
     create = async (toCreate: TilePack) => {
         return await http.post<TilePack>("/TilePack", toCreate)
     }

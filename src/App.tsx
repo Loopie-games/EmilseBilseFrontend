@@ -91,7 +91,7 @@ function App() {
     { path: "/user/tiles/:id", element: <TilesForYouPage />, isLandscape: false },
     { path: "/user/tilesby/:id", element: <TilesMadeByYouPage />, isLandscape: false },
     { path: "/admin/tilepackcreator", element: <TilepackCreatorPage />, isLandscape: false },
-    { path: "/admin/tilepackcreator/addnew", element: <Elements stripe={stripePromise}><NewTilepackCreatorPage /></Elements>, isLandscape: false },
+    { path: "/admin/tilepackcreator/addnew/:id", element: <Elements stripe={stripePromise}><NewTilepackCreatorPage /></Elements>, isLandscape: false },
     { path: "/AboutUs", element: <AboutUsPage />, isLandscape: false },
     { path: "/game/won/:id", element: <Winnerscreen />, isLandscape: false },
     { path: "*", element: <PageNotFound />, isLandscape: false }

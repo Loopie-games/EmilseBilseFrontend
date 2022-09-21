@@ -1,34 +1,43 @@
 import {useStripe} from '@stripe/react-stripe-js'
 import {loadStripe} from '@stripe/stripe-js'
 import React, {useEffect, useState} from 'react'
-import {useNavigate} from 'react-router-dom'
+import {useNavigate, useParams} from 'react-router-dom'
 import Icon from '../../../../components/shared/icon/Icon'
 import newTile, {NTcom} from '../../../../components/tilepackCreator/newTilepackCreator/newTile'
 import NewTile from '../../../../components/tilepackCreator/newTilepackCreator/newTile'
 import httpCommon from '../../../../http-common'
-import {Tile} from '../../../../models/tile/tileInterface'
+import {Tile, TilePack} from '../../../../models/tile/tileInterface'
 import {useStore} from '../../../../stores/store'
 import './newTilepackCreatorPage.scss'
 
 const NewTilepackCreatorPage = () => {
     const {popupStore, tileStore} = useStore();
-    const [hasinit, setHasInit] = useState(false)
     const [name, setName] = useState('')
     const [price, setPrice] = useState('')
     const [discount, setDiscount] = useState('')
+    const [tilePack, setTilePack] = useState<TilePack>()
     const [availableTiles, setAvailableTiles] = useState<Tile[]>([])
     const [selectedTiles, setSelectedTiles] = useState<Tile[]>([])
 
+    const params = useParams();
     const navigate = useNavigate();
 
 
     useEffect(() => {
-        if (!hasinit) {
-            initTiles()
-            setHasInit(true)
+        initTilePack()
+        initTiles()
+    }, [])
+
+    const initTilePack = async () => {
+        if (params.id !== undefined) {
+            try {
+                setTilePack(await tileStore.getTilePackById(params.id))
+            } catch (e) {
+                console.log("no tilepack with given id")
+            }
         }
 
-    }, [availableTiles, selectedTiles])
+    }
 
     const initTiles = async () => {
         let l = await tileStore.getAll()
@@ -72,19 +81,23 @@ const NewTilepackCreatorPage = () => {
     }
 
     const handleCreateTilePack = async () => {
-        if(name.length > 3){
+        if (name.length > 3) {
             try {
                 let tp = await tileStore.createTilePack({name: name})
+                navigate(tp.id!)
                 console.log(tp)
-            }catch (e){
+            } catch (e) {
                 console.log(e)
             }
-        }
-        else{
+        } else {
             //TODO ERROR
             console.log("Enter valid tilepackname")
         }
 
+    }
+    const handleUpdateTilePack = async () => {
+        //TODO
+        console.log("not implemented")
     }
 
 
@@ -98,7 +111,8 @@ const NewTilepackCreatorPage = () => {
                         <div className='NewTilePack_Icon'><Icon name="filter"/></div>
                         <div className='NewTilePack_SearchInput'>
                             <input type="text" onKeyUp={e => {
-                            }} onChange={e => setName(e.target.value)} value={name} placeholder="Pack name"/>
+                            }} onChange={e => setName(e.target.value)} value={name}
+                                   placeholder={tilePack?.name ?? "Pack name"}/>
                         </div>
                     </div>
                     <div className={`NewTilePack_InfoStateContainer ${price.length > 0 ? 'active' : ''}`}>
@@ -108,7 +122,11 @@ const NewTilepackCreatorPage = () => {
                             }} onChange={e => setPrice(e.target.value)} value={price} placeholder="€ Price"/>
                         </div>
                     </div>
-                    <button onClick={()=>handleCreateTilePack()}>Create</button>
+                    {tilePack === undefined ? <button onClick={() => handleCreateTilePack()}>{"Create"}</button>
+                        :
+                        <button onClick={() => handleUpdateTilePack()}>{"Update"}</button>
+                    }
+
                     {/* TODO DISCOUNT
 
                     <div className={`NewTilePack_InfoStateContainer ${discount.length > 0 ? 'active' : ''}`}>
@@ -170,6 +188,3 @@ const NewTilepackCreatorPage = () => {
 
 export default NewTilepackCreatorPage
 
-function TilePack(arg0: {}, TilePack: any) {
-    throw new Error('Function not implemented.')
-}

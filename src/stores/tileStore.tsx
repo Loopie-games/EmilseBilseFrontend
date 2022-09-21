@@ -26,6 +26,12 @@ export class TileStore {
     }
 
     @action
+    getTilePackById = async(id: string) =>{
+        const response = await tilePackService.getById(id);
+        return response.data;
+    }
+
+    @action
     createTilePack = async (toCreate: TilePack) => {
         const response = await tilePackService.create(toCreate);
         return response.data
