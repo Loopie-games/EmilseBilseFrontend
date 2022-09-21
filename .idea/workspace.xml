@@ -5,8 +5,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/tilepackCreator/newTilepackCreator/newTile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/tilepackCreator/newTilepackCreator/newTile.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/tilesPages/tilepackCreatorPage/NewTilepackCreatorPage/newTilepackCreatorPage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/tilesPages/tilepackCreatorPage/NewTilepackCreatorPage/newTilepackCreatorPage.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/tilePackService.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/tilePackService.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stores/tileStore.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/tileStore.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,7 +100,8 @@
       <workItem from="1662445577044" duration="6486000" />
       <workItem from="1663325478633" duration="4387000" />
       <workItem from="1663588461538" duration="2150000" />
-      <workItem from="1663658098096" duration="12445000" />
+      <workItem from="1663658098096" duration="12527000" />
+      <workItem from="1663746105187" duration="4476000" />
     </task>
     <servers />
   </component>
