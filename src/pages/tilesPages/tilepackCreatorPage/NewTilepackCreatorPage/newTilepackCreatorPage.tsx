@@ -49,19 +49,14 @@ const NewTilepackCreatorPage = () => {
     }
 
     const addTile = (tile: Tile, index: number) => {
-        //delete availableTiles[index]
-        setAvailableTiles(prev => prev.filter(fruit => fruit !== tile));
-        selectedTiles.push(tile)
-        setSelectedTiles((prev) => [...selectedTiles])
+        setAvailableTiles(prev => prev.filter(t => t !== tile));
+        setSelectedTiles((prev) => [...selectedTiles, tile])
         return
     }
 
     const removeTile = (tile: Tile, index: number) => {
-        availableTiles.push(tile)
-        setAvailableTiles((prev) => [...availableTiles])
-        console.log(selectedTiles.indexOf(tile))
-        //delete selectedTiles[selectedTiles.indexOf(tile)]
-        setSelectedTiles(prev => prev.filter(fruit => fruit !== tile));
+        setAvailableTiles((prev) => [...availableTiles, tile])
+        setSelectedTiles(prev => prev.filter(t => t !== tile).sort());
         return
     }
 
@@ -74,6 +69,22 @@ const NewTilepackCreatorPage = () => {
 
     const handleEditTileAction = (tile: Tile, action: string) => {
         tile.action = action
+    }
+
+    const handleCreateTilePack = async () => {
+        if(name.length > 3){
+            try {
+                let tp = await tileStore.createTilePack({name: name})
+                console.log(tp)
+            }catch (e){
+                console.log(e)
+            }
+        }
+        else{
+            //TODO ERROR
+            console.log("Enter valid tilepackname")
+        }
+
     }
 
 
@@ -97,6 +108,7 @@ const NewTilepackCreatorPage = () => {
                             }} onChange={e => setPrice(e.target.value)} value={price} placeholder="€ Price"/>
                         </div>
                     </div>
+                    <button onClick={()=>handleCreateTilePack()}>Create</button>
                     {/* TODO DISCOUNT
 
                     <div className={`NewTilePack_InfoStateContainer ${discount.length > 0 ? 'active' : ''}`}>
@@ -157,3 +169,7 @@ const NewTilepackCreatorPage = () => {
 }
 
 export default NewTilepackCreatorPage
+
+function TilePack(arg0: {}, TilePack: any) {
+    throw new Error('Function not implemented.')
+}

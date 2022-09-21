@@ -22,7 +22,7 @@ const TilepackComponent = (tp: TilePack) => {
                     <img src="https://via.placeholder.com/150" alt="tile pack" />
                 </div>
                 <div className='TilepackComponent_Name'>{tp.name}</div>
-                <div className='TilepackComponent_Price'>€{(tp.price / 100).toFixed(2)}</div>
+                <div className='TilepackComponent_Price'>€{(tp.price! / 100).toFixed(2)}</div>
                 <div className='TilepackComponent_EditButton' onClick={handleEdit}>Edit</div>
             </div>
     )

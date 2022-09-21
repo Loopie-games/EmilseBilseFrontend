@@ -13,11 +13,11 @@ export interface UserTile extends Tile  {
 
 }
 export interface TilePack {
-    id: string
+    id?: string
     name: string
     picUrl?: string
     isOwned?: boolean
-    price: number
+    price?: number
 }
 
 export interface PackTile extends Tile
