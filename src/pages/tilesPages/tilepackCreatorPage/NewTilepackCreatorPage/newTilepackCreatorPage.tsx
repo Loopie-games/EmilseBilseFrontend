@@ -25,13 +25,14 @@ const NewTilepackCreatorPage = () => {
 
     useEffect(() => {
         initTilePack()
-        initTiles()
     }, [])
 
     const initTilePack = async () => {
+        initTiles()
         if (params.id !== undefined) {
             try {
                 setTilePack(await tileStore.getTilePackById(params.id))
+                setSelectedTiles([...await  tileStore.getPackTilesbyPackId(params.id)])
             } catch (e) {
                 console.log("no tilepack with given id")
             }
@@ -40,9 +41,7 @@ const NewTilepackCreatorPage = () => {
     }
 
     const initTiles = async () => {
-        let l = await tileStore.getAll()
-        setAvailableTiles(l.splice(4))
-        setSelectedTiles(l.splice(0, 4))
+        setAvailableTiles([...await tileStore.getAll()])
     }
 
     const handleCancel = () => {
@@ -138,6 +137,7 @@ const NewTilepackCreatorPage = () => {
                     */}
                 </div>
                 {/* Tilepack creator side / Right side */}
+                {tilePack === undefined ? "create tile pack" :
                 <div className='NewTilePack_CreatorContainer'>
                     <div className='NewTilePack_CreatorWrapper'>
                         <div className='NewTilePack_TileContainer'>
@@ -181,6 +181,7 @@ const NewTilepackCreatorPage = () => {
                         </div>
                     </div>
                 </div>
+                }
             </div>
         </div>
     )

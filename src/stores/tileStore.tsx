@@ -3,6 +3,7 @@ import {UserTile, TileNewFromUser, TilePack} from "../models/tile/tileInterface"
 import tilePackService from "../services/tilePackService";
 import userTileService from "../services/userTileService";
 import tileService from "../services/tileService";
+import packTileService from "../services/packTileService";
 
 export class TileStore {
     deleteTile(id: string) {
@@ -35,6 +36,12 @@ export class TileStore {
     createTilePack = async (toCreate: TilePack) => {
         const response = await tilePackService.create(toCreate);
         return response.data
+    }
+
+    @action
+    getPackTilesbyPackId = async (packid: string) =>{
+        const response = await packTileService.getByPackId(packid);
+        return response.data;
     }
 
     @action
