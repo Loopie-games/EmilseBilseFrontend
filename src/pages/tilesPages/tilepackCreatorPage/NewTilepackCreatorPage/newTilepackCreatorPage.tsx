@@ -28,20 +28,23 @@ const NewTilepackCreatorPage = () => {
     }, [])
 
     const initTilePack = async () => {
-        initTiles()
         if (params.id !== undefined) {
             try {
                 setTilePack(await tileStore.getTilePackById(params.id))
-                setSelectedTiles([...await  tileStore.getPackTilesbyPackId(params.id)])
+                let selected =await  tileStore.getPackTilesbyPackId(params.id)
+                console.log(selected.length)
+                setSelectedTiles([...selected])
+                let all = await tileStore.getAll()
+                let rest = all.filter(t => !selected.some(f => f.action ===t.action))
+                console.log(all.length)
+                console.log(rest.length)
+                setAvailableTiles(prev => [...rest])
+
             } catch (e) {
                 console.log("no tilepack with given id")
             }
         }
 
-    }
-
-    const initTiles = async () => {
-        setAvailableTiles([...await tileStore.getAll()])
     }
 
     const handleCancel = () => {
@@ -64,7 +67,7 @@ const NewTilepackCreatorPage = () => {
 
     const removeTile = (tile: Tile, index: number) => {
         setAvailableTiles((prev) => [...availableTiles, tile])
-        setSelectedTiles(prev => prev.filter(t => t !== tile).sort());
+        setSelectedTiles(prev => prev.filter(t => t !== tile));
         return
     }
 
