@@ -27,19 +27,16 @@ const NewTilepackCreatorPage = () => {
         initTilePack()
     }, [])
 
+
+
     const initTilePack = async () => {
         if (params.id !== undefined) {
             try {
                 setTilePack(await tileStore.getTilePackById(params.id))
                 let selected =await  tileStore.getPackTilesbyPackId(params.id)
-                console.log(selected.length)
                 setSelectedTiles([...selected])
                 let all = await tileStore.getAll()
-                let rest = all.filter(t => !selected.some(f => f.action ===t.action))
-                console.log(all.length)
-                console.log(rest.length)
-                setAvailableTiles(prev => [...rest])
-
+                setAvailableTiles(prev => [...all.filter(t => !selected.some(f => f.action ===t.action))])
             } catch (e) {
                 console.log("no tilepack with given id")
             }
@@ -149,7 +146,10 @@ const NewTilepackCreatorPage = () => {
                                 <div className='NewTilePack_NewTileButton' onClick={addNewTile}>
                                     <Icon name="plus"/>
                                 </div>
-                                {availableTiles.map((mtile: Tile, i) =>
+                                {availableTiles.sort(function(a, b){
+                                    if(a.action.toLowerCase() < b.action.toLowerCase()) { return -1; }
+                                    if(a.action.toLowerCase() > b.action.toLowerCase()) { return 1; }
+                                    return 0;}).map((mtile: Tile, i) =>
                                     <div className='NewTile_Container'>
                                         <div className='NewTile_Ikon' onClick={() => addTile(mtile, i)}>
                                             <Icon name={"rightArrow"}/>
@@ -164,7 +164,10 @@ const NewTilepackCreatorPage = () => {
                         <div className='NewTilePack_TileContainer'>
                             <div className='NewTilePack_CreatorTitle'>Selected tiles</div>
                             <div className='NewTilePack_CreatorActionContainer'>
-                                {selectedTiles.map((mtile: Tile, i) =>
+                                {selectedTiles.sort(function(a, b){
+                                    if(a.action.toLowerCase() < b.action.toLowerCase()) { return -1; }
+                                    if(a.action.toLowerCase() > b.action.toLowerCase()) { return 1; }
+                                    return 0;}).map((mtile: Tile, i) =>
                                     <div className='NewTile_Container'>
                                         <div className='NewTile_Ikon' onClick={() => removeTile(mtile, i)}>
                                             <Icon name={"leftArrow"}/>
