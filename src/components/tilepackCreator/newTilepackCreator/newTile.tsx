@@ -4,12 +4,10 @@ import Icon from '../../shared/icon/Icon'
 import './newTile.scss'
 
 const NewTile = ({tile, callBack, icon}: NTcom)=> {
-    const [action, setAction] = useState("")
     const [isEditable, setIsEditable] = useState(false)
 
 
     useEffect(() => {
-        setAction(tile.action);
     }, [])
 
     const handleEdit = () => {
@@ -18,7 +16,7 @@ const NewTile = ({tile, callBack, icon}: NTcom)=> {
     }
 
     const handleSaveEdit = () => {
-        setAction(action);
+
         setIsEditable(false)
         console.log('save edit');
     }
@@ -29,7 +27,7 @@ const NewTile = ({tile, callBack, icon}: NTcom)=> {
             <Icon name={icon} />
         </div>
         <div className='NewTile_InputContainer'>
-            <input type="text" onChange={(e) => setAction(e.target.value)} disabled={!isEditable} placeholder="Tile action" value={action}/>
+            <input type="text"  placeholder="Tile action" value={tile.action}/>
         </div>
 
         {/* TODO EDIT AND DELETE BASETILES  --> nok ikke smart her fordi tiles kan være i mere end en packtile/usertile og det virker farligt.
