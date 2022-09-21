@@ -25,7 +25,6 @@ const NewTilepackCreatorPage = () => {
         initTiles()
     }, [])
 
-
     const initTiles = async () => {
         setAvailableTiles(await tileStore.getAll())
     }
@@ -53,13 +52,8 @@ const NewTilepackCreatorPage = () => {
     }
 
     const removeTile = (tile: Tile, index:number) => {
-        availableTiles.push(tile)
-        setAvailableTiles(availableTiles)
-        console.log("i: "+index)
-        delete selectedTiles[index]
-        console.log(selectedTiles.length)
-        setSelectedTiles(selectedTiles)
-        console.log(selectedTiles.length)
+        setAvailableTiles([...availableTiles, tile])
+        setSelectedTiles((prev)=>prev.filter(t=> t.id !== tile.id));
         return
     }
 
