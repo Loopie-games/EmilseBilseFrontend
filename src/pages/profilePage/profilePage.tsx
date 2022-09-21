@@ -7,8 +7,10 @@ import Icon from '../../components/shared/icon/Icon';
 import InvertedCornerQ1 from '../../components/shared/invertedCorners/invertedCornerQ1';
 import { UserDTO } from '../../models/user/userInterface';
 import ProfilePageMobile from './profilePageMobile/profilePageMobile';
-
-
+import ProfileFriends from '../../components/profile/friends/profileFriends';
+import Loader from '../../components/shared/loader/loader';
+import filterService from '../../services/filterService';
+import Filter from '../../components/shared/filter/filter';
 const inputFile = createRef<HTMLInputElement>();
 
 const ProfilePage = () => {
@@ -18,9 +20,13 @@ const ProfilePage = () => {
     const [user, setUser] = useState<UserDTO>();
     const params = useParams();
     const [testPB, setTestPB] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [filtered, setFiltered] = useState<any[]>([]);
 
-    const { userStore, mobileStore } = useStore();
+    const { userStore, mobileStore, friendshipStore } = useStore();
     useEffect(() => {
+
+
         if (userStore.user?.id === params.id) {
             setIsOwner(true);
             setUser(userStore.user);
@@ -28,15 +34,29 @@ const ProfilePage = () => {
             setIsOwner(false);
             getUser();
         }
+
+        if (showing === 'friends') {
+            getFriendList();
+        }
+
         return () => {
             setIsOwner(false);
             setUser(undefined);
         }
-    }, [])
+
+    }, [params.id])
 
     const getUser = async () => {
         const user = await userStore.getUserById(params.id!);
         setUser(user);
+    }
+
+    const getFriendList = async () => {
+        setLoading(true);
+        setShowing('friends');
+        await friendshipStore.getFriendList(params.id!);
+        setLoading(false);
+        console.log(friendshipStore._friendlist);
     }
 
     const edit = () => {
@@ -58,6 +78,15 @@ const ProfilePage = () => {
         const file = event[0]
         const response = await userStore.updateProfilePic(file);
         setTestPB(response);
+    }
+
+    const filterInFriends = (query: string) => {
+        if (friendshipStore._friendlist !== undefined) {
+            setFiltered(filterService.filterForFriends(query, friendshipStore._friendlist));
+        }
+        console.log('====================================');
+        console.log(filtered);
+        console.log('====================================');
     }
 
 
@@ -100,7 +129,7 @@ const ProfilePage = () => {
                                 </div>
                                 <div className='ProfilePage_Friends'>
                                     <div className='ProfilePage_FriendsTitle'>
-                                        Friends - 207
+                                        Friends - {friendshipStore._friendlist?.length}
                                     </div>
                                     <div className='ProfilePage_FriendsContainer'>
                                         AAAAA
@@ -133,7 +162,7 @@ const ProfilePage = () => {
                                     <div className={`ProfilePage_MainSectionNavbarButton ${showing === 'achievements' ? 'active' : ''}`} onClick={() => setShowing('achievements')}>
                                         Achievements
                                     </div>
-                                    <div className={`ProfilePage_MainSectionNavbarButton ${showing === 'friends' ? 'active' : ''}`} onClick={() => setShowing('friends')}>
+                                    <div className={`ProfilePage_MainSectionNavbarButton ${showing === 'friends' ? 'active' : ''}`} onClick={() => getFriendList()}>
                                         Friends
                                     </div>
                                     <div className={`ProfilePage_MainSectionNavbarButton ${showing === 'tiles' ? 'active' : ''}`} onClick={() => setShowing('tiles')}>
@@ -141,10 +170,29 @@ const ProfilePage = () => {
                                     </div>
                                 </div>
                                 <div className='ProfilePage_MainSectionContent'>
+                                    {showing === 'friends' && <>
+                                        {loading ? <Loader /> :
+                                            <>
+                                                <div className='ProfilePage_FilterContainer'>
+                                                    <div className='ProfilePage_FilterWrapper'>
 
+                                                        <Filter filter={(e: string) => filterInFriends(e)} />
+
+                                                    </div>
+                                                </div>
+                                                <div className='ProfilePage_FriendsContainer'>
+                                                    <>
+                                                        {filtered.map((friend) => (
+                                                            <ProfileFriends key={friend.id} {...friend} />
+                                                        ))}
+                                                    </>
+                                                </div>
+                                            </>
+                                        }
+                                    </>
+                                    }
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
