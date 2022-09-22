@@ -55,6 +55,7 @@ const NewTilepackCreatorPage = () => {
     }
 
     const handleSave = async () => {
+        await tileStore.clearPack(tilePack!.id!)
         selectedTiles.forEach((st) => tileStore.addToTilePack({tileId: st.id, packId: tilePack!.id!}))
         await initTilePack()
     }

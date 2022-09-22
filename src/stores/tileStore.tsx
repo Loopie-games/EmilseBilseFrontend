@@ -49,6 +49,11 @@ export class TileStore {
         const response = await packTileService.addTileToPack(pt)
         return response.data;
     }
+    @action
+    clearPack = async (id: string) =>{
+        const response = await packTileService.clearPack(id)
+        return response.data
+    }
 
     @action
     getTilesAboutUser = async (userId: string) => {
