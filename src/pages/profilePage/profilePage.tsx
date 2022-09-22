@@ -2,13 +2,18 @@ import React, { createRef, useEffect, useState } from 'react'
 import { observer } from 'mobx-react-lite';
 import './profilePage.scss'
 import { useStore } from '../../stores/store';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Icon from '../../components/shared/icon/Icon';
 import InvertedCornerQ1 from '../../components/shared/invertedCorners/invertedCornerQ1';
 import { UserDTO } from '../../models/user/userInterface';
 import ProfilePageMobile from './profilePageMobile/profilePageMobile';
-
-
+import ProfileFriends from '../../components/profile/friends/profileFriends';
+import Loader from '../../components/shared/loader/loader';
+import filterService from '../../services/filterService';
+import Filter from '../../components/shared/filter/filter';
+import ProfileTiles from '../../components/profile/tiles/profileTiles';
+import ProfileAchievements from '../../components/profile/achievements/profileAchievements';
+import { Friend } from '../../models/friendship/friendInterface';
 const inputFile = createRef<HTMLInputElement>();
 
 const ProfilePage = () => {
@@ -17,10 +22,40 @@ const ProfilePage = () => {
     const [showing, setShowing] = useState('overview');
     const [user, setUser] = useState<UserDTO>();
     const params = useParams();
+    const navigate = useNavigate();
     const [testPB, setTestPB] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [filtered, setFiltered] = useState<any[]>([]);
+    const [placeholder, setPlaceholder] = useState('');
+    const defaultPic = 'https://as2.ftcdn.net/v2/jpg/02/15/84/43/1000_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg'
+    const [testAchievements, setTestAchievements] = useState<any[]>([
+        {
+            achievement: {
+                id: 1,
+                title: "First achievement",
+                description: "First achievement description",
+            }
+        },
+        {
+            achievement: {
+                id: 2,
+                title: "Second achievement",
+                description: "Second achievement description",
+            }
+        },
+        {
+            achievement: {
+                id: 3,
+                title: "Third achievement",
+                description: "Third achievement description",
+            }
+        },
+    ]);
 
-    const { userStore, mobileStore } = useStore();
+    const { userStore, mobileStore, friendshipStore, tileStore } = useStore();
     useEffect(() => {
+
+
         if (userStore.user?.id === params.id) {
             setIsOwner(true);
             setUser(userStore.user);
@@ -28,16 +63,77 @@ const ProfilePage = () => {
             setIsOwner(false);
             getUser();
         }
+
+        if (showing === 'friends') {
+            getFriendList();
+        }
+
+        const loadFriends = async () => {
+            await friendshipStore.getFriendList(params.id!);
+        }
+        const loadTiles = async () => {
+            await tileStore.getTilesAboutUser(params.id!);
+        }
+        loadTiles();
+        loadFriends();
+
         return () => {
             setIsOwner(false);
             setUser(undefined);
         }
-    }, [])
+
+    }, [params.id])
+
+    useEffect(() => {
+        console.log(tileStore.tilesAboutUser?.length);
+
+
+    }, [tileStore.tilesAboutUser])
 
     const getUser = async () => {
         const user = await userStore.getUserById(params.id!);
         setUser(user);
     }
+
+    const getFriendList = async () => {
+        setFiltered([]);
+        setLoading(true);
+        setShowing('friends');
+        if (friendshipStore._friendlist === undefined) {
+            await friendshipStore.getFriendList(params.id!);
+        } else {
+            setFiltered(friendshipStore._friendlist!);
+        }
+        setLoading(false);
+        console.log(friendshipStore._friendlist);
+    }
+
+    const getTilesAboutUser = async () => {
+        setFiltered([]);
+        setLoading(true);
+        setShowing('tiles');
+        if (tileStore.tilesAboutUser?.length === undefined) {
+            await tileStore.getTilesAboutUser(params.id!);
+        } else {
+            setFiltered(tileStore.tilesAboutUser!);
+        }
+        setLoading(false);
+    }
+
+    const getAchievements = async () => {
+        setFiltered([]);
+        setLoading(true);
+        setShowing('achievements');
+
+        // await userStore.getAchievements(params.id!);
+        if (testAchievements.length === 0) {
+            //await userStore.getAchievements(params.id!);
+        } else {
+            setFiltered(testAchievements);
+        }
+        setLoading(false);
+    }
+
 
     const edit = () => {
         if (isInEditMode) {
@@ -60,7 +156,61 @@ const ProfilePage = () => {
         setTestPB(response);
     }
 
+    const filterInAchievements = (query: string) => {
+        if (testAchievements !== undefined) {
+            setFiltered(filterService.filterInAchievements(query, testAchievements));
+        }
+    }
 
+    const filterInFriends = (query: string) => {
+        if (friendshipStore._friendlist !== undefined) {
+            setFiltered(filterService.filterForFriends(query, friendshipStore._friendlist));
+        }
+        console.log('====================================');
+        console.log(filtered);
+        console.log('====================================');
+    }
+
+    const filterInTiles = (query: string) => {
+        if (tileStore.tilesAboutUser !== undefined) {
+            setFiltered(filterService.filterForTiles(query, tileStore.tilesAboutUser));
+        }
+    }
+
+    const filter = (query: string) => {
+
+        switch (showing) {
+            case 'achievements':
+                filterInAchievements(query);
+                break;
+            case 'friends':
+                filterInFriends(query);
+                break;
+            case 'tiles':
+                filterInTiles(query);
+                break;
+            default:
+                break;
+        }
+    }
+
+    const getPlaceholderText = () => {
+        switch (showing) {
+            case 'achievements':
+                return 'Search for achievements';
+            case 'friends':
+                return 'Search for friends';
+            case 'tiles':
+                return 'Search for tiles';
+            default:
+                return '';
+        }
+    }
+
+    useEffect(() => {
+        filter('');
+        setPlaceholder(getPlaceholderText());
+    }, [showing, friendshipStore._friendlist, tileStore.tilesAboutUser])
 
     return (
         <>
@@ -100,18 +250,28 @@ const ProfilePage = () => {
                                 </div>
                                 <div className='ProfilePage_Friends'>
                                     <div className='ProfilePage_FriendsTitle'>
-                                        Friends - 207
+                                        Friends - {friendshipStore._friendlist?.length}
                                     </div>
                                     <div className='ProfilePage_FriendsContainer'>
-                                        AAAAA
+                                        {
+                                            friendshipStore._friendlist?.slice(0, 3).map((friend: Friend) => (
+                                                <div className='ProfilePage_FriendPics' key={friend.id}>
+                                                    <img id='ProfilePage_FriendsPic' src={defaultPic} alt='friendpic' onClick={() => navigate(`/user/profile/${friend.user.id}`)} />
+                                                </div>
+                                            ))
+                                        }
                                     </div>
                                 </div>
                                 <div className='ProfilePage_Achievements'>
                                     <div className='ProfilePage_AchievementsTitle'>
-                                        Achievements - 207
+                                        Achievements - {testAchievements?.length}
                                     </div>
                                     <div className='ProfilePage_AchievementsContainer'>
-                                        AAAAA
+                                        {testAchievements?.slice(0, 3).map((achievement: any) => (
+                                            <div className='ProfilePage_Achievement' key={achievement.achievement.id}>
+                                                <img id='ProfilePage_Achievement' src='https://github.githubassets.com/images/modules/profile/achievements/yolo-default.png' alt='achievement' />
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
                             </div>
@@ -130,21 +290,55 @@ const ProfilePage = () => {
                                     <div className={`ProfilePage_MainSectionNavbarButton ${showing === 'overview' ? 'active' : ''}`} onClick={() => setShowing('overview')}>
                                         Overview
                                     </div>
-                                    <div className={`ProfilePage_MainSectionNavbarButton ${showing === 'achievements' ? 'active' : ''}`} onClick={() => setShowing('achievements')}>
+                                    <div className={`ProfilePage_MainSectionNavbarButton ${showing === 'achievements' ? 'active' : ''}`} onClick={() => getAchievements()}>
                                         Achievements
                                     </div>
-                                    <div className={`ProfilePage_MainSectionNavbarButton ${showing === 'friends' ? 'active' : ''}`} onClick={() => setShowing('friends')}>
+                                    <div className={`ProfilePage_MainSectionNavbarButton ${showing === 'friends' ? 'active' : ''}`} onClick={() => getFriendList()}>
                                         Friends
                                     </div>
-                                    <div className={`ProfilePage_MainSectionNavbarButton ${showing === 'tiles' ? 'active' : ''}`} onClick={() => setShowing('tiles')}>
+                                    <div className={`ProfilePage_MainSectionNavbarButton ${showing === 'tiles' ? 'active' : ''}`} onClick={() => getTilesAboutUser()}>
                                         Tiles
                                     </div>
                                 </div>
                                 <div className='ProfilePage_MainSectionContent'>
-
+                                    {showing !== 'overview' &&
+                                        <div className='ProfilePage_FilterContainer'>
+                                            <div className='ProfilePage_FilterWrapper'>
+                                                <Filter filter={(e: string) => filter(e)} placeholder={placeholder} />
+                                            </div>
+                                        </div>
+                                    }
+                                    {showing === 'friends' && <>
+                                        {loading ? <Loader /> :
+                                            <div className='ProfilePage_ContentContainer'>
+                                                {filtered.map((friend) => (
+                                                    <ProfileFriends key={friend.id} {...friend} />
+                                                ))}
+                                            </div>
+                                        }
+                                    </>
+                                    }
+                                    {showing === 'tiles' && <>
+                                        {loading ? <Loader /> :
+                                            <div className='ProfilePage_ContentContainer'>
+                                                {filtered.map((tile) => (
+                                                    <ProfileTiles key={tile.id} {...tile} />
+                                                ))}
+                                            </div>
+                                        }
+                                    </>
+                                    }
+                                    {showing === 'achievements' && <>
+                                        {loading ? <Loader /> :
+                                            <div className='ProfilePage_ContentContainer'>
+                                                {filtered.map((achievement) => (
+                                                    <ProfileAchievements key={achievement.id} {...achievement} />
+                                                ))}
+                                            </div>
+                                        }
+                                    </>}
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
