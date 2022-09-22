@@ -51,7 +51,7 @@ const NewTilepackCreatorPage = () => {
         navigate('/admin/tilepackcreator')
     }
 
-    const handleCreate = async () => {
+    const handleSave = async () => {
         console.log(name);
         console.log(selectedTiles);
     }
@@ -183,7 +183,7 @@ const NewTilepackCreatorPage = () => {
                     <div className='NewTilePack_CreatorButtonContainer'>
                         <div className='NewTilePack_CreatorButtonWrapper'>
                             <div className='NewTilePack_CancelButton' onClick={handleCancel}>Cancel</div>
-                            <div className='NewTilePack_CreatorButton' onClick={handleCreate}>Create</div>
+                            <div className='NewTilePack_CreatorButton' onClick={handleSave}>Save</div>
                         </div>
                     </div>
                 </div>
