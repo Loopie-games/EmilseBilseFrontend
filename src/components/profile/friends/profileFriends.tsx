@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Friend } from '../../../models/friendship/friendInterface'
+import Icon from '../../shared/icon/Icon'
 import './profileFriends.scss'
 
 const ProfileFriends = ({user}: Friend) => {
@@ -31,7 +32,7 @@ const ProfileFriends = ({user}: Friend) => {
                     <div className='ProfileFriends_UsernameContainer'>{user.username}</div>
                 </div>
                 <div className='ProfileFriends_GotoProfileContainer' onClick={() => navigate(`/user/profile/${user.id}`)}>
-                    AAAA
+                    <Icon name="profile" />
                 </div>
             </div>
         </div>

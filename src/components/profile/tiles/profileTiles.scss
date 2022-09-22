@@ -1,54 +1,45 @@
-.Filter_Container {
+.ProfileTiles_Container{
+    width: 100%;
+    height: 100%;
     display: flex;
-    flex-direction: row;
+    flex-direction:row;
     align-items: center;
     justify-content: center;
     background: var(--color-input-background);
     border-radius: 5px;
     border: 1px solid var(--color-input-border);
-    width: 100%;
-    height: 100%;
 
-    .Filter_Wrapper {
+    .ProfileTiles_Wrapper{
         width: 90%;
         height: 100%;
         display: flex;
         flex-direction: row;
-        padding: 10px 0;
-
-        .Filter_IconContainer {
-            max-width: 40px;
-            max-height: 100%;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            img {
-                filter: var(--color-icon);
-            }
-        }
-
-        .Filter_InputContainer {
+        .ProfileTiles_TileContainer{
             flex: 1;
-            width: 100%;
-            height: 100%;
             display: flex;
+            flex-direction: column;
+            height: 100%;
             justify-content: center;
-            align-items: center;
-            #filterInput {
+            
+            .ProfileTiles_TileAction{
                 width: 100%;
-                height: 100%;
-                background: transparent;
-                border: none;
-                outline: none;
                 font-family: "Caviar Dreams";
+                font-size: 16px;
+                font-weight: 400;
+                color: var(--color-text);
+            
+            }
+            .ProfileTiles_TileBy{
+                width: 100%;
+                font-family: "Caviar Dreams";
+                font-size: 14px;
+                font-weight: 400;
+                color: var(--color-textSecondary);
             }
         }
-
-        .Filter_Clear{
+        .ProfileTiles_TileIcon{
             max-width: 40px;
+            min-width: 40px;
             max-height: 100%;
             width: 100%;
             height: 100%;
@@ -56,8 +47,7 @@
             justify-content: center;
             align-items: center;
             cursor: pointer;
-
-            img {
+            img{
                 filter: var(--color-icon);
             }
         }

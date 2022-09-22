@@ -6,16 +6,16 @@ import Icon from '../icon/Icon';
 import './filter.scss';
 
 
-const Filter = ({ filter }: any) => {
+const Filter = ({ filter, placeholder }: any) => {
 
   const inputRef = React.useRef<HTMLInputElement>();
 
   const [query, setQuery] = useState('');
 
-  const { friendshipStore } = useStore();
-
-
   useEffect(() => {
+    console.log('====================================');
+    console.log(placeholder);
+    console.log('====================================');
     if (query.length > 0) {
 
       handleSearch();
@@ -31,6 +31,15 @@ const Filter = ({ filter }: any) => {
   }
 
 
+  const handleChange = (event: any) => {
+    setQuery(event.target.value);
+  };
+
+  const handleClear = () => {
+    setQuery('');
+  };
+
+
 
 
 
@@ -41,10 +50,10 @@ const Filter = ({ filter }: any) => {
           <Icon name='filter' />
         </div>
         <div className='Filter_InputContainer'>
-          <input id='filterInput' type="text" onKeyUp={(e) => setQuery(e.target.value)}/>
+          <input id='filterInput' type="text" placeholder={placeholder} onChange={(e) => handleChange(e)} value={query}/>
         </div>
         {query !== '' &&
-          <div className='Filter_Clear' onClick={() => setQuery('')}>
+          <div className='Filter_Clear' onClick={handleClear}>
             <Icon name='cross' />
           </div>}
       </div>

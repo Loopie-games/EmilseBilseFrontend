@@ -28,7 +28,7 @@ const UserCreatedTile = (tile: UserTile) => {
         <div className='UserCreatedTile_Container'>
             <div className='UserCreatedTile_TileInfoContainer'>
                 <div className='UserCreatedTile_TileInfo Action'>{tile.action}</div>
-                <div className='UserCreatedTile_TileInfo NickName'>Added by: {tile.addedBy.username}</div>
+                <div className='UserCreatedTile_TileInfo NickName'>Added by: {tile.addedBy}</div>
             </div>
             {isLoggedInUser ?
                 <div className='UserCreatedTile_TileInfoIcon' onClick={deleteTile}><Icon name="cross" /></div>

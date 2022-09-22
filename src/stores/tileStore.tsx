@@ -3,9 +3,6 @@ import {UserTile, TileNewFromUser } from "../models/tile/tileInterface";
 import tileService from "../services/tileService";
 
 export class TileStore {
-    deleteTile(id: string) {
-        throw new Error('Method not implemented.');
-    }
     @observable tilesAboutUser: UserTile[] | undefined;
     @observable createdTiles: UserTile[] | undefined;
     @observable createdtile: UserTile | undefined;
@@ -30,6 +27,11 @@ export class TileStore {
         const response = await tileService.createTile(tile)
         this.createdtile = response.data
         return response;
+    }
+
+    @action
+    deleteTile(id: string) {
+        throw new Error('Method not implemented.');
     }
 
 }
