@@ -17,7 +17,7 @@ const TilepackCreatorPage = () => {
 
     useEffect(()=>{
         initTP()
-    })
+    },[])
 
     const initTP = async () => {
         setTilePacks(await tileStore.getAllTilepacks())
