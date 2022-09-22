@@ -27,6 +27,12 @@ export interface PackTile extends Tile
     pack: TilePack
 
 }
+
+export interface PackTileDto{
+    tileId: string
+    packId: string
+}
+
 export interface Tile {
     id: string
     action: string

@@ -1,5 +1,5 @@
 import {action, makeAutoObservable, observable} from "mobx";
-import {UserTile, TileNewFromUser, TilePack} from "../models/tile/tileInterface";
+import {UserTile, TileNewFromUser, TilePack, PackTileDto} from "../models/tile/tileInterface";
 import tilePackService from "../services/tilePackService";
 import userTileService from "../services/userTileService";
 import tileService from "../services/tileService";
@@ -41,6 +41,12 @@ export class TileStore {
     @action
     getPackTilesbyPackId = async (packid: string) =>{
         const response = await packTileService.getByPackId(packid);
+        return response.data;
+    }
+
+    @action
+    addToTilePack = async (pt:PackTileDto) => {
+        const response = await packTileService.addTileToPack(pt)
         return response.data;
     }
 
