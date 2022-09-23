@@ -88,7 +88,7 @@ const NewTilepackCreatorPage = () => {
     const handleCreateTilePack = async () => {
         if (name.length > 3) {
             try {
-                let tp = await tileStore.createTilePack({name: name})
+                let tp = await tileStore.createTilePack({name: name, price: price})
                 navigate("/admin/tilepackcreator/edit/" + tp.id!)
                 console.log(tp)
                 return
@@ -124,7 +124,8 @@ const NewTilepackCreatorPage = () => {
                             }} onChange={e => setPrice(e.target.valueAsNumber)} value={price} placeholder="€ Price"/>
                         </div>
                     </div>
-                    {tilePack === undefined ?? <button onClick={() => handleCreateTilePack()}>{"Create"}</button>
+                    {tilePack === undefined ? <button onClick={() => handleCreateTilePack()}>{"Create"}</button>
+                        : <></>
 
                     }
 
