@@ -56,8 +56,10 @@ const NewTilepackCreatorPage = () => {
 
     const handleSave = async () => {
         await tileStore.clearPack(tilePack!.id!)
-        selectedTiles.forEach((st) => tileStore.addToTilePack({tileId: st.id, packId: tilePack!.id!}))
-        await initTilePack()
+        for (const st of selectedTiles) {
+            await tileStore.addToTilePack({tileId: st.id, packId: tilePack!.id!});
+        }
+        navigate("/admin/tilepackcreator")
     }
 
     const addTile = (tile: Tile) => {
@@ -78,11 +80,6 @@ const NewTilepackCreatorPage = () => {
             action: ''
         }])
     }
-
-    const handleEditTileAction = (tile: Tile, action: string) => {
-        tile.action = action
-    }
-
     const handleCreateTilePack = async () => {
         if (name.length > 3) {
             try {
@@ -98,10 +95,6 @@ const NewTilepackCreatorPage = () => {
             console.log("Enter valid tilepackname")
         }
 
-    }
-    const handleUpdateTilePack = async () => {
-        //TODO
-        console.log("not implemented")
     }
 
 
@@ -126,9 +119,8 @@ const NewTilepackCreatorPage = () => {
                             }} onChange={e => setPrice(e.target.value)} value={price} placeholder="€ Price"/>
                         </div>
                     </div>
-                    {tilePack === undefined ? <button onClick={() => handleCreateTilePack()}>{"Create"}</button>
-                        :
-                        <button onClick={() => handleUpdateTilePack()}>{"Update"}</button>
+                    {tilePack === undefined ?? <button onClick={() => handleCreateTilePack()}>{"Create"}</button>
+
                     }
 
                     {/* TODO DISCOUNT
