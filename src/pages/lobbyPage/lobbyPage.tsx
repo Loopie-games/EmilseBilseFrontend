@@ -11,9 +11,10 @@ import Popup from '../../components/shared/popups/popup';
 import lobbyStore from '../../stores/lobbyStore';
 import { HubConnection, HubConnectionState } from '@microsoft/signalr';
 import GameSettings from '../../components/Lobby/gameSettings/gameSettings';
+import MobileGameSettings from '../../components/Lobby/mobileGameSettings/mobileGameSettings';
 
 const LobbyPage = () => {
-    const { userStore, popupStore, lobbyStore } = useStore();
+    const { userStore, popupStore, lobbyStore, mobileStore } = useStore();
     const navigate = useNavigate();
     const params = useParams();
 
@@ -87,7 +88,11 @@ const LobbyPage = () => {
     return (
         <>
             {isHost() &&
-                <GameSettings />
+                <>
+                    {mobileStore.isMobile ? <MobileGameSettings /> :
+                        <GameSettings />
+                    }
+                </>
             }
             <div className='Lobby_Container'>
                 <div className='Lobby_Wrapper'>
