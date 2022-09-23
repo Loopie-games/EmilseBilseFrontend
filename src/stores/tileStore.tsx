@@ -39,6 +39,11 @@ export class TileStore {
     }
 
     @action
+    updateTilePack = async( toUpdate: TilePack) =>{
+        await  tilePackService.update(toUpdate);
+    }
+
+    @action
     getPackTilesbyPackId = async (packid: string) =>{
         const response = await packTileService.getByPackId(packid);
         return response.data;

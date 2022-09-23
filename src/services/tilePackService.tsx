@@ -15,6 +15,10 @@ class tilePackService {
         return await http.post<TilePack>("/TilePack", toCreate)
     }
 
+    update = async (toUpdate: TilePack) =>{
+        return await http.put("/TilePack", toUpdate)
+    }
+
 }
 
 export default new tilePackService();

@@ -5,10 +5,11 @@ import {Tile, TilePack} from '../../../../models/tile/tileInterface'
 import {useStore} from '../../../../stores/store'
 import './newTilepackCreatorPage.scss'
 
+
 const NewTilepackCreatorPage = () => {
     const {tileStore} = useStore();
     const [name, setName] = useState('')
-    const [price, setPrice] = useState('')
+    const [price, setPrice] = useState<number>(0)
     const [discount, setDiscount] = useState('')
     const [tilePack, setTilePack] = useState<TilePack>()
     const [availableTiles, setAvailableTiles] = useState<Tile[]>([])
@@ -39,7 +40,7 @@ const NewTilepackCreatorPage = () => {
                 let selected = await tileStore.getPackTilesbyPackId(params.id)
                 setSelectedTiles([...selected])
                 let all = await tileStore.getAll()
-                setAvailableTiles(() => [...all.filter(t => !selected.some(f => f.action === t.action))])
+                setAvailableTiles(() => [...all.filter((t: { action: any }) => !selected.some((f: { action: any }) => f.action === t.action))])
             } catch (e) {
                 console.log("no tilepack with given id")
             }
@@ -49,17 +50,21 @@ const NewTilepackCreatorPage = () => {
 
     const handleCancel = () => {
         setName('')
-        setPrice('')
+        setPrice(0)
         setDiscount('')
         navigate('/admin/tilepackcreator')
     }
 
     const handleSave = async () => {
-        await tileStore.clearPack(tilePack!.id!)
-        for (const st of selectedTiles) {
-            await tileStore.addToTilePack({tileId: st.id, packId: tilePack!.id!});
+        if (tilePack?.id) {
+            tilePack.price = price*100;
+            await tileStore.updateTilePack(tilePack)
+            await tileStore.clearPack(tilePack.id)
+            for (const st of selectedTiles) {
+                await tileStore.addToTilePack({tileId: st.id, packId: tilePack.id});
+            }
+            navigate("/admin/tilepackcreator")
         }
-        navigate("/admin/tilepackcreator")
     }
 
     const addTile = (tile: Tile) => {
@@ -112,11 +117,11 @@ const NewTilepackCreatorPage = () => {
                                    placeholder={name ?? "Pack name"}/>
                         </div>
                     </div>
-                    <div className={`NewTilePack_InfoStateContainer ${price.length > 0 ? 'active' : ''}`}>
+                    <div className={`NewTilePack_InfoStateContainer ${price > 0 ? 'active' : ''}`}>
                         <div className='NewTilePack_Icon'><Icon name="filter"/></div>
                         <div className='NewTilePack_SearchInput'>
-                            <input type="text" onKeyUp={() => {
-                            }} onChange={e => setPrice(e.target.value)} value={price} placeholder="€ Price"/>
+                            <input type="number" onKeyUp={() => {
+                            }} onChange={e => setPrice(e.target.valueAsNumber)} value={price} placeholder="€ Price"/>
                         </div>
                     </div>
                     {tilePack === undefined ?? <button onClick={() => handleCreateTilePack()}>{"Create"}</button>
