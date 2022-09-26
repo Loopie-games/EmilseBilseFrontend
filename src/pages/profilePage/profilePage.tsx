@@ -17,12 +17,20 @@ import { Friend } from '../../models/friendship/friendInterface';
 const inputFile = createRef<HTMLInputElement>();
 
 const ProfilePage = () => {
+    //States
     const [isOwner, setIsOwner] = useState(false);
     const [isInEditMode, setIsInEditMode] = useState(false);
     const [showing, setShowing] = useState('overview');
+    //Variables
     const [user, setUser] = useState<UserDTO>();
     const params = useParams();
+
+    const [nickname, setNickname] = useState('');
+    const [description, setDescription] = useState('');
+
+    //Systems
     const navigate = useNavigate();
+    //Values
     const [testPB, setTestPB] = useState("");
     const [loading, setLoading] = useState(false);
     const [filtered, setFiltered] = useState<any[]>([]);
@@ -54,10 +62,9 @@ const ProfilePage = () => {
 
     const { userStore, mobileStore, friendshipStore, tileStore } = useStore();
     useEffect(() => {
-
-
         if (userStore.user?.id === params.id) {
             setIsOwner(true);
+            setNickname(userStore.user!.nickname);
             setUser(userStore.user);
         } else {
             setIsOwner(false);
@@ -138,6 +145,10 @@ const ProfilePage = () => {
     const edit = () => {
         if (isInEditMode) {
             //TODO save changes when endpoint is done
+            //console.log(`nick: ${nickname}\ndesc: ${description}`);
+
+            //Create object to send to db for handling
+            
             setIsInEditMode(false);
         } else {
             setIsInEditMode(true);
@@ -240,12 +251,12 @@ const ProfilePage = () => {
 
                                     </div>
                                     <div className='ProfilePage_NicknameContainer'>
-                                        <input type='text' placeholder='Nickname' value={user?.nickname} disabled={!isInEditMode} />
+                                        <input id='nicknameChange' type='text' placeholder='Nickname' value={/*user?.nickname*/nickname} disabled={!isInEditMode} onChange={(e)=> {setNickname(e.target.value)}} />
                                     </div>
                                 </div>
                                 <div className='ProfilePage_Description'>
                                     <div className='ProfilePage_DescriptionContainer'>
-                                        <textarea placeholder='Description' disabled={!isInEditMode} />
+                                        <textarea id='descriptionChange' placeholder='Description' disabled={!isInEditMode} onChange={(e)=>{setDescription(e.target.value)}} />
                                     </div>
                                 </div>
                                 <div className='ProfilePage_Friends'>
