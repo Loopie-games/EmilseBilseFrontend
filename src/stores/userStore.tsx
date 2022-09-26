@@ -24,7 +24,7 @@ export class UserStore {
     }
 
     @action
-    update = async (data: any) => {
+    update = async (data: UserDTO) => {
         //TODO: Send data about the new user-fields to backend with proper ID for updating in the database
     }
 
