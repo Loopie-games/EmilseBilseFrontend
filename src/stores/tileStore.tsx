@@ -6,11 +6,7 @@ import tileService from "../services/tileService";
 import packTileService from "../services/packTileService";
 
 export class TileStore {
-    deleteTile(id: string) {
-        throw new Error('Method not implemented.');
-    }
-
-
+    
     @observable tilesAboutUser: UserTile[] | undefined;
     @observable createdTiles: UserTile[] | undefined;
     @observable createdtile: UserTile | undefined;
