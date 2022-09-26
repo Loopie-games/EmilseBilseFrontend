@@ -19,6 +19,10 @@ class tilePackService {
         return await http.put("/TilePack", toUpdate)
     }
 
+    delete = async (packId:string) =>{
+        return await http.delete("/TilePack?packId=" + packId)
+    }
+
 }
 
 export default new tilePackService();

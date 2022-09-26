@@ -2,13 +2,13 @@ import React, {useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import Icon from '../../../components/shared/icon/Icon';
 import Popup from '../../../components/shared/popups/popup';
-import TilepackComponent from '../../../components/tilepackCreator/tilepackComponent';
+import TilePackComponent from '../../../components/tilepackCreator/tilePackComponent';
 import { TilePack } from '../../../models/tile/tileInterface';
 import { useStore } from '../../../stores/store';
 import './tilepackCreatorPage.scss'
 
 const TilepackCreatorPage = () => {
-    const {tileStore } = useStore();
+    const {tileStore, popupStore } = useStore();
     const [search, setSearch] = useState('');
     const [tilePacks, setTilePacks] = useState <TilePack[]>([]);
     const [showPopup, setShowPopup] = useState(false)
@@ -32,8 +32,9 @@ const TilepackCreatorPage = () => {
         navigate('/admin/tilepackcreator/addnew');
     }
 
-    const handleDelete = () => {
-        setShowPopup(true)
+    const handleDelete = async (id: string) => {
+        await tileStore.deleteTilePack(id)
+        await initTP()
     }
     const handleClosePopup = () => {
         setShowPopup(false)
@@ -61,7 +62,7 @@ const TilepackCreatorPage = () => {
                 </div>
                 <div className='TilepackCreator_PackContainer'>
                     <div className='TilepackCreator_NewPack' onClick={handleAddTilePack}><Icon name="plus" /></div>
-                    {tilePacks.map((t) => <TilepackComponent {...t} />)}
+                    {tilePacks.map((t: TilePack) => <TilePackComponent {...{tilePack: t, removeTp:()=>handleDelete(t.id!)}} />)}
                 </div>
             </div>
         </div>

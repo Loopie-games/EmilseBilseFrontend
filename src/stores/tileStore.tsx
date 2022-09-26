@@ -44,6 +44,11 @@ export class TileStore {
     }
 
     @action
+    deleteTilePack = async ( packId: string) =>{
+        await tilePackService.delete(packId)
+    }
+
+    @action
     getPackTilesbyPackId = async (packid: string) =>{
         const response = await packTileService.getByPackId(packid);
         return response.data;
