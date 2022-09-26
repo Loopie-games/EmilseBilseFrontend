@@ -148,6 +148,17 @@ const ProfilePage = () => {
             //console.log(`nick: ${nickname}\ndesc: ${description}`);
 
             //Create object to send to db for handling
+            let data: UserDTO = {
+                id: user!.id,
+                username: user!.username,
+                nickname: nickname,
+                profilePicture: user!.profilePicture!
+            }
+
+            userStore.update(data).then(res=>{
+                console.log(res);
+                
+            })
             
             setIsInEditMode(false);
         } else {
