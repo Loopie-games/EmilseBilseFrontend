@@ -10,6 +10,7 @@ export class TileStore {
         throw new Error('Method not implemented.');
     }
 
+
     @observable tilesAboutUser: UserTile[] | undefined;
     @observable createdTiles: UserTile[] | undefined;
     @observable createdtile: UserTile | undefined;
@@ -93,6 +94,11 @@ export class TileStore {
     getAll = async () => {
         const response = await tileService.getAll();
         return response.data
+    }
+
+    @action
+    deleteTile(id: string) {
+        throw new Error('Method not implemented.');
     }
 
 }

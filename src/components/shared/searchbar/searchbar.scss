@@ -1,0 +1,157 @@
+    .Searchbar_Container {
+        width: 100%;
+        height: 100%;
+        min-height: 40px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        border-radius: 5px;
+        max-width: 40px;
+        transition-property: max-width, background-color, border;
+        transition-duration: 0.2s;
+        transition-timing-function: ease-in-out;
+
+        &:hover {
+            max-width: 400px;
+
+            background-color: var(--color-input-background);
+            border: 2px solid var(--color-input-border);
+        }
+
+
+
+        .Searchbar_IconContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            width: 40px;
+            min-width: 40px;
+            cursor: pointer;
+            filter: var(--color-icon);
+        }
+
+        .Searchbar_InputContainer {
+            flex: 1;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+
+            input {
+                width: 100%;
+                height: 100%;
+                border: none;
+                background-color: transparent;
+                font-size: 14px;
+                font-weight: 400;
+                color: var(--color-textSecondary);
+                outline: none;
+            }
+        }
+
+        .Searchbar_ClearContainer{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            width: 40px;
+            min-width: 40px;
+            cursor: pointer;
+            filter: var(--color-icon);
+        }
+
+    }
+
+    .Searchbar_OutPutContainer {
+        width: 100%;
+        max-height: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        align-items: center;
+        top: 100%;
+        left: 0;
+        max-width: 0;
+        margin-top: 10px;
+        background-color: var(--color-input-background);
+        border-radius: 5px;
+        border: 2px solid var(--color-input-border);
+        z-index: 100;
+        opacity: 0;
+        transition-delay: 0.2s, 0.4s, 0.2s;
+        transition-property: opacity, max-height, max-width;
+        transition-duration: 0.2s;
+        transition-timing-function: ease-in-out;
+
+
+        .Searchbar_OutPutItem {
+            width: 90%;
+            height: 40px;
+            min-height: 40px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding: 0 10px;
+            cursor: pointer;
+            margin: 10px 0;
+            transition: box-shadow 0.2s ease-in-out;
+            border-radius: 5px;
+
+            &:hover {
+                box-shadow: var(--color-highlighthover) 0 0 0 2px inset;
+
+                .Searchbar_IconContainer {
+                    opacity: 100%;
+                }
+            }
+
+            .Searchbar_OutPutItemImage {
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                background-color: var(--color-input-background);
+                border: 2px solid var(--color-input-border);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-right: 10px;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    border-radius: 50%;
+                }
+            }
+
+            .Searchbar_OutPutItemText {
+                font-size: 16px;
+                font-weight: 400;
+                color: var(--color-text);
+                font-family: "Caviar Dreams";
+                flex: 1;
+            }
+
+            .Searchbar_IconContainer {
+                opacity: 0;
+                transition: opacity 0.2s ease-in-out;
+                filter: var(--color-icon);
+            }
+
+        }
+    }
+
+
+    .SearchActivated {
+        max-width: 400px;
+        opacity: 100%;
+        background-color: var(--color-input-background);
+        border: 2px solid var(--color-input-border);
+    }
+
+    .test {
+        max-height: 200px;
+    }

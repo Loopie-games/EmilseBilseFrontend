@@ -8,9 +8,10 @@ export interface TileNewFromUser {
 export interface UserTile extends Tile  {
     id: string
     user: SimpleUserDTO
+    addedByUser: SimpleUserDTO
     action: string
-    addedBy: SimpleUserDTO
-
+    addedBy: string
+    tileType: number
 }
 export interface TilePack {
     id?: string

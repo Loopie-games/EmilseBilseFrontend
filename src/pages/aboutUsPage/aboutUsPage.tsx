@@ -27,7 +27,7 @@ const AboutUsPage = () => {
             <div className='AboutUs_Wrapper'>
                 <div className='AboutUs_Title'>About Us</div>
                 <div className='AboutUs_TextContainer'>
-                    <section>
+                    <section id='aboutusSection'>
                         <div className='AboutUs_Info'>
                             <div className='AboutUs_SubTitle'>A Game for Friends</div>
                             <div className='AboutUs_Text'>
@@ -42,7 +42,7 @@ const AboutUsPage = () => {
                             <img src={friends} alt="friends" />
                         </div>
                     </section>
-                    <section>
+                    <section id='aboutusSection'>
                         <div className='AboutUs_Info'>
                             <div className='AboutUs_SubTitle'>Easy to understand and Everyone is included</div>
                             <div className='AboutUs_Text'>
@@ -57,7 +57,7 @@ const AboutUsPage = () => {
                             <img src={teamplayers} alt="stock" />
                         </div>
                     </section>
-                    <section>
+                    <section id='aboutusSection'>
                         <div className='AboutUs_Info'>
                             <div className='AboutUs_SubTitle'>Our Company</div>
                             <div className='AboutUs_Text'>

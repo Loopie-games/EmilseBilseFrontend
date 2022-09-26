@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import { observer } from 'mobx-react-lite';
+import React, { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useStore } from '../../../../stores/store';
 import Icon from '../../icon/Icon';
@@ -10,6 +11,11 @@ const LoggedInNavbar = () => {
     const defaultPic = 'https://as2.ftcdn.net/v2/jpg/02/15/84/43/1000_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg'
 
     const [isOpen, setIsOpen] = useState(false);
+
+    useEffect(() => {
+        console.log(userStore.user);
+        
+    }, [])
 
     const handleProfile = () => {
         setIsOpen(false);
@@ -86,4 +92,4 @@ const LoggedInNavbar = () => {
     )
 }
 
-export default LoggedInNavbar
+export default observer(LoggedInNavbar)

@@ -47,7 +47,7 @@ const AddFriendPage = () => {
                     <div className='FriendsPage-Title'>Add Friend</div>
                     <div className='FriendsPage-Searchbar'>
                         <div className={`FriendsPage-SearchbarContainer ${search.length > 0 ? 'active' : ''}`}>
-                            <div className='FriendsPage-SearchbarIcon'><Icon name="search_blue" /></div>
+                            <div className='FriendsPage-SearchbarIcon'><Icon name="search" /></div>
                             <div className='FriendsPage-SearchbarInput'>
                                 <input type="text" onKeyUp={e => { }} onChange={e => setSearch(e.target.value)} value={search} placeholder="Filter for friends" />
                             </div>

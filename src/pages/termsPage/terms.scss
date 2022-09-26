@@ -1,0 +1,49 @@
+.Terms_Container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: Caviar Dreams;
+    color: var(--color-text);
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    .Terms_Wrapper{
+        width: 90%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        .Terms_HeadTitle{
+            font-size: 36px;
+            font-weight: 600;
+            margin-top: 20px;
+            
+        }
+        .Terms_Section{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            &:last-of-type{
+                padding-bottom: 20px;
+            }
+            .Terms_SectionTitle{
+                font-size: 24px;
+                font-weight: 600;
+            }
+            .Terms_SectionContent{
+                font-size: 16px;
+                font-weight: 400;
+                line-height: 1.5;
+                text-align: justify;
+                #privacyLink{
+                    color: var(--color-text);
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}

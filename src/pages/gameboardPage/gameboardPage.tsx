@@ -33,6 +33,12 @@ const GameboardPage = () => {
         }
     }, [])
 
+    useEffect(() => {
+        if (gameStore.game?.state === State.Ended){
+            navigate(`/game/won/${gameStore.game.id}`)
+        }
+    }, [gameStore.game?.state])
+
     const connectToGame = async () => {
         await gameStore.connectToGame(params.id!)
             .catch(() => {
