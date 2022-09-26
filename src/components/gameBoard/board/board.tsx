@@ -14,6 +14,7 @@ const Board = () => {
     let triggerTime: number;
     let longPressTime = 200;
     useEffect(() => {
+        
     }, [])
 
     const completeTile = async (tile: BoardTileDTO) => {
