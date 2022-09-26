@@ -24,6 +24,8 @@ yarn-debug.log*
 yarn-error.log*
 
 package-lock.json
-package-lock.json
+.idea
 .idea/workspace.xml
-package-lock.json
+.idea/modules.xml
+.idea/inspectionProfiles/Project_Default.xml
+.idea/EmilseBilseFrontend.iml
