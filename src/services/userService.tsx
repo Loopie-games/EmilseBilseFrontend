@@ -1,4 +1,4 @@
-import { CreateUserDTO, SimpleUserDTO } from "../models/user/userInterface";
+import { CreateUserDTO, SimpleUserDTO, UserDTO } from "../models/user/userInterface";
 import http from "../http-common"
 import axios from "axios";
 
@@ -30,6 +30,10 @@ class UserService {
 
     async login(data: any) {
         return http.post("/Auth", data)
+    }
+
+    async update(data: UserDTO){
+        return http.put("/User/" + data.id, data)
     }
 }
 export default new UserService();

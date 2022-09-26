@@ -22,6 +22,10 @@ const ProfilePage = () => {
     const [showing, setShowing] = useState('overview');
     const [user, setUser] = useState<UserDTO>();
     const params = useParams();
+
+    const [nickname, setNickname] = useState('');
+    const [description, setDescription] = useState('');
+
     const navigate = useNavigate();
     const [testPB, setTestPB] = useState("");
     const [loading, setLoading] = useState(false);
@@ -54,10 +58,9 @@ const ProfilePage = () => {
 
     const { userStore, mobileStore, friendshipStore, tileStore } = useStore();
     useEffect(() => {
-
-
         if (userStore.user?.id === params.id) {
             setIsOwner(true);
+            setNickname(userStore.user!.nickname);
             setUser(userStore.user);
         } else {
             setIsOwner(false);
@@ -138,6 +141,21 @@ const ProfilePage = () => {
     const edit = () => {
         if (isInEditMode) {
             //TODO save changes when endpoint is done
+            //console.log(`nick: ${nickname}\ndesc: ${description}`);
+
+            //Create object to send to db for handling
+            let data: UserDTO = {
+                id: user!.id,
+                username: user!.username,
+                nickname: nickname,
+                profilePicture: user!.profilePicture!
+            }
+
+            userStore.update(data).then(res=>{
+                console.log(res);
+                
+            })
+            
             setIsInEditMode(false);
         } else {
             setIsInEditMode(true);
@@ -240,12 +258,12 @@ const ProfilePage = () => {
 
                                     </div>
                                     <div className='ProfilePage_NicknameContainer'>
-                                        <input type='text' placeholder='Nickname' value={user?.nickname} disabled={!isInEditMode} />
+                                        <input id='nicknameChange' type='text' placeholder='Nickname' value={/*user?.nickname*/nickname} disabled={!isInEditMode} onChange={(e)=> {setNickname(e.target.value)}} />
                                     </div>
                                 </div>
                                 <div className='ProfilePage_Description'>
                                     <div className='ProfilePage_DescriptionContainer'>
-                                        <textarea placeholder='Description' disabled={!isInEditMode} />
+                                        <textarea id='descriptionChange' placeholder='Description' disabled={!isInEditMode} onChange={(e)=>{setDescription(e.target.value)}} />
                                     </div>
                                 </div>
                                 <div className='ProfilePage_Friends'>

@@ -24,6 +24,13 @@ export class UserStore {
     }
 
     @action
+    update = async (data: UserDTO) => {
+        //TODO: Send data about the new user-fields to backend with proper ID for updating in the database
+        const res = await userService.update(data);
+        return res.data;
+    }
+
+    @action
     getUserById = async (userId: string) => {
         const response = await userService.getById(userId)
         return response.data;
