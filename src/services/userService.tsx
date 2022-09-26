@@ -1,15 +1,22 @@
 import { CreateUserDTO, SimpleUserDTO } from "../models/user/userInterface";
 import http from "../http-common"
+import axios from "axios";
 
 class UserService {
-    getLogged() {
-        return http.get("/User/GetLogged")
+    async getLogged() {
+        console.log(localStorage.getItem("token"));
+
+        return http.get("/User/GetLogged", {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        })
     }
-    getSaltByUsername(username: string) {
+    async getSaltByUsername(username: string) {
         return http.get("/User/GetSalt/" + username)
     }
 
-    getById(userId: string) {
+    async getById(userId: string) {
         return http.get<SimpleUserDTO>("/User/" + userId)
     }
 
@@ -17,7 +24,7 @@ class UserService {
         return http.post(decodeURI("/User/CreateUser"), data)
     }
 
-    async search(searchStr: string){
+    async search(searchStr: string) {
         return http.get<SimpleUserDTO[]>("User/Search/" + searchStr)
     }
 

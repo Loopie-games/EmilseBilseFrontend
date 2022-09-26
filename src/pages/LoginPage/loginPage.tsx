@@ -37,8 +37,7 @@ const LoginPage = () => {
             setIncorrect(true)
             return;
         });
-
-        setIncorrect(true)
+        setIncorrect(true);
     }
 
     const handleOnKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {

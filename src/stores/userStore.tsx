@@ -8,7 +8,7 @@ import userService from "../services/userService";
 export class UserStore {
     @observable user: SimpleUserDTO | undefined;
     @observable loginResponse: LoginResponseDTO | undefined;
-    @observable admin : admin | undefined;
+    @observable admin: admin | undefined;
 
     constructor() {
         makeAutoObservable(this);
@@ -44,10 +44,10 @@ export class UserStore {
         const response = await userService.login({ username: data.username, password: data.password });
         this.loginResponse = await response.data;
         if (this.loginResponse !== undefined) {
-            await localStorage.setItem("token", this.loginResponse?.jwt);
-            await this.getLogged()
-
+            localStorage.setItem("token", this.loginResponse?.jwt);
+            await this.getLogged();
         }
+
         return this.loginResponse;
     }
 
@@ -57,7 +57,7 @@ export class UserStore {
         function instanceOfAdmin(object: any): object is admin {
             return 'adminId' in object;
         }
-        if(instanceOfAdmin(response.data)){
+        if (instanceOfAdmin(response.data)) {
             this.admin = response.data
         }
         this.user = response.data
@@ -66,16 +66,17 @@ export class UserStore {
 
     @action
     logout() {
-        localStorage.clear();
+        localStorage.removeItem("token");
         this.user = undefined;
         this.admin = undefined;
+        this.loginResponse = undefined;
     }
 
     @action
-    search = async(searchstr: string) =>{
+    search = async (searchstr: string) => {
         const response = await userService.search(searchstr)
         return response.data
-}
+    }
 
     @action
     updateProfilePic = async (file: File) => {
