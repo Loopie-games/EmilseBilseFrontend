@@ -4,6 +4,7 @@ import { useParams, useNavigate, Navigate } from 'react-router-dom'
 import FriendRequest from '../../components/friendsPages/friendRequests/friendRequests';
 import Friends from '../../components/friendsPages/friends/friends';
 import Icon from '../../components/shared/icon/Icon';
+import Loader from '../../components/shared/loader/loader';
 import { useStore } from '../../stores/store';
 import './friendRequestPage.scss'
 
@@ -26,7 +27,7 @@ const FriendRequestPage = () => {
 
     return (
         <div className='FriendsPage-Container'>
-            {loading ? <div className='FriendsPage-Loading'>Loading...</div> :
+            {loading ? <div className='FriendsPage-Loading'><Loader /></div> :
                 <div className='FriendsPage-Wrapper'>
                     <div className='FriendsPage-Title'>Friend Requests</div>
                     <div className='FriendsPage-FriendsContainer'>

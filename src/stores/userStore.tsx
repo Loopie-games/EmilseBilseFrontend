@@ -1,18 +1,14 @@
 import { action, makeAutoObservable, observable } from "mobx";
 import { useHref } from "react-router-dom";
-import { CreateUserDTO, LoginDTO, LoginResponseDTO, UserDTO } from "../models/user/userInterface";
+import { CreateUserDTO, LoginDTO, LoginResponseDTO, SimpleUserDTO, UserDTO, admin } from "../models/user/userInterface";
 import cloudinaryService from "../services/cloudinaryService";
 import securityService from "../services/securityService";
 import userService from "../services/userService";
 
 export class UserStore {
-    deleteTile(id: string) {
-        throw new Error('Method not implemented.');
-    }
-
-
-    @observable user: UserDTO | undefined;
+    @observable user: SimpleUserDTO | undefined;
     @observable loginResponse: LoginResponseDTO | undefined;
+    @observable admin: admin | undefined;
 
     constructor() {
         makeAutoObservable(this);
@@ -28,10 +24,10 @@ export class UserStore {
     }
 
     @action
-    getById = async (userId: string) => {
-        const response = await userService.getById(userId)
-        this.user = response.data
-        return response.data;
+    update = async (data: UserDTO) => {
+        //TODO: Send data about the new user-fields to backend with proper ID for updating in the database
+        const res = await userService.update(data);
+        return res.data;
     }
 
     @action
@@ -43,11 +39,10 @@ export class UserStore {
     @action
     login = async (data: LoginDTO) => {
         localStorage.removeItem("token")
-        await localStorage.removeItem("userId");
 
         const salt = await (await userService.getSaltByUsername(data.username)).data;
         if (salt === null) {
-            return
+            throw new Error("No user with given username, check your spelling")
         }
         const password = await securityService.hashPassword(data.password, salt);
 
@@ -56,24 +51,39 @@ export class UserStore {
         const response = await userService.login({ username: data.username, password: data.password });
         this.loginResponse = await response.data;
         if (this.loginResponse !== undefined) {
-            await localStorage.setItem("token", this.loginResponse?.jwt);
-            await localStorage.setItem("userId", this.loginResponse.uuid);
-            await this.getById(this.loginResponse.uuid)
+            localStorage.setItem("token", this.loginResponse?.jwt);
+            await this.getLogged();
         }
+
         return this.loginResponse;
     }
 
     @action
-    logout() {
-        localStorage.clear();
-        this.user = undefined;
+    async getLogged() {
+        const response = await userService.getLogged()
+        function instanceOfAdmin(object: any): object is admin {
+            return 'adminId' in object;
+        }
+        if (instanceOfAdmin(response.data)) {
+            this.admin = response.data
+        }
+        this.user = response.data
+        return response.data
     }
 
     @action
-    search = async(searchstr: string) =>{
+    logout() {
+        localStorage.removeItem("token");
+        this.user = undefined;
+        this.admin = undefined;
+        this.loginResponse = undefined;
+    }
+
+    @action
+    search = async (searchstr: string) => {
         const response = await userService.search(searchstr)
         return response.data
-}
+    }
 
     @action
     updateProfilePic = async (file: File) => {
@@ -84,5 +94,6 @@ export class UserStore {
         console.log('====================================');
         console.log(newProfilePicURL);
         console.log('====================================');
+        return newProfilePicURL;
     }
 }

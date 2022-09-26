@@ -10,7 +10,6 @@
 
     .teast {
         position: absolute;
-
         &:first-of-type {
             top: -75px;
             left: -75px;
@@ -37,7 +36,7 @@
             font-style: normal;
             font-weight: 700;
             font-size: 24px;
-            color: #fff;
+            color: var(--color-text);
             white-space: nowrap;
             margin-bottom: 20px;
             width: 100%;
@@ -47,7 +46,7 @@
         }
 
         .AboutUs_TextContainer {
-            color: #fff;
+            color: var(--color-text);
             white-space: wrap;
             flex-grow: 1;
             flex-basis: 0;
@@ -62,7 +61,7 @@
             z-index: 2;
 
 
-            section {
+            #aboutusSection {
                 width: 100%;
                 margin-bottom: 25px;
                 display: flex;
@@ -71,7 +70,7 @@
 
                 .AboutUs_Info {
                     width: 60%;
-                    border-bottom: 1px solid rgba($color: #fff, $alpha: .5);
+                    border-bottom: 1px solid rgba($color: var(--color-text), $alpha: .5);
 
                     .AboutUs_SubTitle {
                         font-weight: 700;
@@ -102,7 +101,7 @@
     }
 }
 
-section:nth-of-type(2n) {
+#aboutusSection:nth-of-type(2n) {
     justify-content: right;
     align-self: end;
     direction: rtl;

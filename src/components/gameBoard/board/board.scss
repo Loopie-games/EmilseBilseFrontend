@@ -1,8 +1,9 @@
 .GameBoard_Container {
-    border-radius: 15px;
-    background-color: #24292f;
-    display: flex;
     width: 100%;
+
+    border-radius: 15px;
+    background-color: var(--color-foreground);
+    display: flex;
     flex-direction: column;
     position: relative;
     aspect-ratio: 1/1;
@@ -12,33 +13,41 @@
     .GameBoard_TileContainer {
         width: 100%;
         display: grid;
-        grid-template-columns: repeat(5, calc(20% - 25px));
-        grid-template-rows: repeat(5, calc(20% - 25px));
-        grid-gap: 20px;
         height: 100%;
         justify-content: center;
         align-content: center;
+
         .GameBoard_Tile {
             font-family: "Caviar Dreams";
             font-style: normal;
             font-weight: 400;
-            font-size: 24px;
+
+            @media screen and (max-height: 414px) {
+                font-size: 14px;
+            }
+
+            @media screen and (min-height: 415px) {
+                font-size: 24px;
+            }
+
             line-height: 0%;
             z-index: 3;
-            border: 2px solid rgba(0, 0, 0, 0.5);
+            border: 2px solid var(--color-input-border);
             border-radius: 5px;
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--color-input-background);
             display: flex;
             justify-content: center;
             align-items: center;
             position: relative;
             transition: box-shadow 0.2s, outline 0.2s ease;
+
             &:hover {
-                box-shadow: rgb(255 255 255) 0 0 0 2px inset !important;
+                box-shadow: var(--color-highlighthover) 0 0 0 2px inset !important;
             }
-            .GameBoard_TileShadow{
+
+            .GameBoard_TileShadow {
                 position: absolute;
                 top: 0;
                 left: 0;
@@ -47,13 +56,21 @@
                 z-index: 2;
             }
         }
+
         .TileFree {
             grid-column-start: 3;
             grid-column-end: 3;
             grid-row-start: 3;
             grid-row-end: 3;
-            font-size: 20px;
-            color: #fff;
+
+            @media screen and (max-height: 414px) {
+                font-size: 14px;
+            }
+
+            @media screen and (min-height: 415px) {
+                font-size: 24px;
+            }
+            color: var(--color-text);
         }
     }
 }
@@ -69,4 +86,18 @@
     content: "";
     border-radius: inherit;
     box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+.mobileGab {
+    grid-gap: 10px;
+
+    grid-template-columns: repeat(5, calc(20% - 15px));
+    grid-template-rows: repeat(5, calc(20% - 15px));
+}
+
+.desktopGab {
+    grid-gap: 20px;
+
+    grid-template-columns: repeat(5, calc(20% - 25px));
+    grid-template-rows: repeat(5, calc(20% - 25px));
 }

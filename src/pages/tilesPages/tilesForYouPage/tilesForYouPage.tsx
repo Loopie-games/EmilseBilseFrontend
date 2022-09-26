@@ -8,7 +8,7 @@ import {UserTile} from '../../../models/tile/tileInterface';
 import { useStore } from '../../../stores/store';
 
 const TilesForYouPage = () => {
-    const { tileStore, userStore } = useStore();
+    const { tileStore, userStore, popupStore } = useStore();
     const params = useParams();
     const [filteredList, setFilteredList] = useState<UserTile[]>(tileStore.tilesAboutUser!);
     const [search, setSearch] = useState('');
@@ -18,12 +18,17 @@ const TilesForYouPage = () => {
 
     useEffect(() => {
         const load = async () => {
+            try{
             let u = await userStore.getUserById(params.id!)
             setUser(u)
             await  tileStore.getTilesAboutUser(params.id!)
             setIsLoggedInUser(userStore.user?.id === params.id);
             setFilteredList(tileStore.tilesAboutUser!);
             setLoading(false);
+            } catch (e :any) {
+                popupStore.setErrorMessage(e.message);
+                popupStore.show();
+            }
         }
         params.id ? load() : setLoading(false);
 

@@ -6,12 +6,14 @@ import { useStore } from '../../../stores/store'
 import { observer } from 'mobx-react-lite'
 import LoggedInNavbar from './loggedInNavbar/LoggedInNavbar'
 import Loader from '../loader/loader'
+import Icon from '../icon/Icon'
+import Searchbar from '../searchbar/searchbar'
 
 const Navbar = () => {
     const [loaded, setLoaded] = useState(false)
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const location = useLocation();
-    const { userStore } = useStore();
+    const { userStore, themeStore } = useStore();
     useEffect(() => {
         setLoaded(false);
         userStore.user !== undefined ? setIsLoggedIn(true) : setIsLoggedIn(false);
@@ -20,6 +22,9 @@ const Navbar = () => {
         setLoaded(true);
     }, [])
 
+    const handleToggleTheme = () => {
+        themeStore.toggleTheme();
+    }
 
     return (
         <>
@@ -31,8 +36,14 @@ const Navbar = () => {
                                 <img src={logo} alt="Logo" />
                             </Link>
                         </div>
+                        <div className='Navbar-SearchContainer'>
+                            <Searchbar />
+                        </div>
                         <div className='Navbar-Button-Container'>
                             <div className='Navbar-Button-Wrapper'>
+                                <div className='Navbar-ToggleTheme' onClick={handleToggleTheme}>
+                                    <Icon name={`${themeStore.theme === 'light' ? 'sun' : 'moon'}`} />
+                                </div>
                                 <Link className={`LoggedInNavbar-Link ${location.pathname === '/aboutUs' ? 'LinkActive' : ''}`} to={'/aboutUs'}>About us</Link>
 
                                 {userStore.user?.id === undefined || userStore.user?.id === '' ?

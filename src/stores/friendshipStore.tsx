@@ -3,7 +3,6 @@ import { Friend } from "../models/friendship/friendInterface";
 import FriendshipService from "../services/friendshipService";
 
 export class FriendshipStore {
-
     @observable _friendlist: Friend[] | undefined;
     @observable _friendRequests: Friend[] | undefined;
     @observable _searchResults: Friend[] | undefined;    
@@ -60,6 +59,11 @@ export class FriendshipStore {
         const response = await FriendshipService.getFriendRequests()
         this._friendRequests = response.data
         return this._friendRequests;
+    }
+
+    @action 
+    clearSearchResults = () => {
+        this._searchResults = [];
     }
 
     constructor() {

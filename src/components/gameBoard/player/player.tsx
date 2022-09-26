@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import React, { useEffect, useState } from 'react'
+import { BoardTileDTO } from '../../../models/tile/tileInterface';
 import colorLookupService from '../../../services/colorLookupService';
 import { useStore } from '../../../stores/store';
 import './player.scss'
@@ -9,14 +10,11 @@ const Player = ({ player }: any) => {
     const [color, setColor] = useState('');
 
     useEffect(() => {
-        gameStore.tiles.forEach((tile: any) => {
+        gameStore.tiles.forEach((tile: BoardTileDTO) => {
             if (tile.aboutUser.id === player.id) {
                 setColor(tile.aboutUser.color!)
             }
         })
-
-        console.log(gameStore.testhashmap.get(player.id));
-        
     }, [])
 
     return (

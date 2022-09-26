@@ -4,35 +4,54 @@
     border-radius: 5px;
     display: flex;
     transition: height 0.2s ease-in-out;
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--color-input-background);
     backdrop-filter: blur(5px);
     border-radius: 5px;
-    border: 2px solid rgba(0, 0, 0, 0.5);
+    border: 2px solid var(--color-input-border);
     font-family: "Caviar Dreams";
     font-style: normal;
-    color: #fff;
+    color: var(--color-text);
 
     &.tileShown {
-        height: 100px;
+        height: 100%;
     }
 
     .Tile_IndicatorContainer {
-        width: 40px;
+
+        @media screen and (max-height: 414px) {
+            min-width: 20px;
+
+        }
+
+        @media screen and (min-height: 415px) {
+            min-width: 30px;
+        }
+            
         height: 100%;
+        margin: 0 5px;
+        
         display: flex;
         justify-content: center;
         align-items: center;
 
         .Tile_Indicator {
-            width: 26px;
-            height: 26px;
+            width: 100%;
+            aspect-ratio: 1/1;
+            height: auto;
             
             border-radius: 50%;
             font-family: "Caviar Dreams";
             font-style: normal;
             font-weight: 400;
-            font-size: 16px;
-            color: #000;
+            @media screen and (max-height: 414px) {
+                font-size: 14px;
+            }
+                
+            @media screen and (min-height: 415px) {
+                font-size: 16px;
+            }
+
+            color: var(--color-jointext-color);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -40,23 +59,32 @@
     }
 
     .Tile_ActionContainer {
-        flex: 1;
+        flex-grow: 1;
+        flex-basis: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
         height: 100%;
         display: flex;
         flex-direction: column;
         justify-content: center;
 
         .Tile_Action {
-            max-width: 180px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            height: 40px;
+            min-height: 40px;
             font-family: "Caviar Dreams";
             font-style: normal;
             font-weight: 700;
-            font-size: 16px;
-            color: #fff;
+            @media screen and (max-height: 414px) {
+                font-size: 14px;
+            }
+
+            @media screen and (min-height: 415px) {
+                font-size: 16px;
+            }
+            color: var(--color-text);
             display: flex;
             align-items: center;
             &.tileActionShown {
@@ -73,8 +101,14 @@
             font-family: "Caviar Dreams";
             font-style: normal;
             font-weight: 400;
-            font-size: 16px;
-            color: #fff;
+            @media screen and (max-height: 414px) {
+                font-size: 14px;
+            }
+
+            @media screen and (min-height: 415px) {
+                font-size: 16px;
+            }
+            color: var(--color-text);
             display: flex;
             align-items: center;
         }
@@ -88,7 +122,7 @@
             font-style: normal;
             font-weight: 400;
             font-size: 14px;
-            color: #94A3B5;
+            color: var(--color-textSecondary);
             display: flex;
             align-items: center;
         }

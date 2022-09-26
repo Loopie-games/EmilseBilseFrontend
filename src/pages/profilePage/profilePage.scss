@@ -1,0 +1,425 @@
+.ProfilePage_Container {
+    flex: 1;
+    display: flex;
+    background-color: var(--color-background);
+
+    .ProfilePage_Wrapper {
+        width: 70%;
+        height: 100%;
+        margin: auto;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        .ProfilePage_UserContainer {
+            background-color: var(--color-foreground);
+            height: 750px;
+            width: 220px;
+            border-radius: 5px 0 5px 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .ProfilePage_UserWrapper {
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                width: calc(100% - 40px);
+                align-items: center;
+                gap: 20px;
+
+                .ProfilePage_UserPic {
+                    width: 100%;
+                    height: 150px;
+
+                    margin-top: 30px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    .ProfilePage_UserPicContainer {
+                        width: 150px;
+                        height: 150px;
+                        border-radius: 50%;
+                        background-color: var(--color-foreground);
+                        border: 2px solid var(--color-border);
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        position: relative;
+
+                        img {
+                            width: 150px;
+                            height: 150px;
+                            border-radius: 50%;
+                        }
+
+                        .ProfilePage_UserPicEdit {
+                            opacity: 0;
+                            position: absolute;
+                            bottom: 0;
+                            right: 0;
+                            width: 100%;
+                            height: 100%;
+                            border-radius: 50%;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            background-color: var(--color-input-border);
+                            transition: 0.2s ease-in-out;
+
+                            img {
+                                width: 50%;
+                                height: 50%;
+                                filter: var(--color-icon)
+                            }
+
+                            &:hover {
+                                opacity: 1;
+                                cursor: pointer;
+                            }
+                        }
+                    }
+                }
+
+                .ProfilePage_EditUser {
+                    width: calc(100% - 4px);
+
+                    height: 20px;
+                    justify-content: center;
+                    align-items: center;
+                    display: flex;
+                    color: var(--color-jointext-color);
+                    background-color: var(--color-highlighthover);
+                    border-radius: 5px;
+                    border: 2px solid var(--color-highlighthover);
+                    cursor: pointer;
+                }
+
+                .ProfilePage_Name{
+                    width: 100%;
+                    height: 60px;
+                    justify-content: space-evenly;
+                    align-items: center;
+                    display: flex;
+                    flex-direction: column;
+                    background-color: var(--color-input-background);
+                    border-radius: 5px;
+                    border: 2px solid var(--color-input-border);
+
+                    
+                    .ProfilePage_NameContainer{
+                        width: 100%;
+                        height: 30%;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        input{
+                            width: 90%;
+                            height: 100%;
+                            background-color: transparent;
+                            border: none;
+                            font-family: Caviar Dreams;
+                            color: var(--color-text);
+                            font-size: 18px;
+                            font-weight: 700;
+                            outline: none;
+                            &:disabled{
+                                color: var(--color-text);
+                            }
+                            &:enabled{    
+                                box-shadow: inset 0 0 4px 0 #000;
+                                border-radius: 5px;
+                                background-color: var(--color-input-background);
+                            }
+                        }
+                    }
+
+                    .ProfilePage_NicknameContainer{
+                        width: 100%;
+                        height: 30%;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        input{
+                            width: 90%;
+                            height: 100%;
+                            background-color: transparent;
+                            border: none;
+                            font-family: Caviar Dreams;
+                            color: var(--color-textSecondary);
+                            font-size: 16px;
+                            font-weight: 400;
+                            outline: none;
+                            &:disabled{
+                                color: var(--color-textSecondary);
+                            }
+                            &:enabled{    
+                                box-shadow: inset 0 0 4px 0 #000;
+                                border-radius: 5px;
+                                background-color: var(--color-input-background);
+                                color: var(--color-jointext-color);
+                            }
+                        }
+                    }
+
+
+                }
+
+                .ProfilePage_Description{
+                    width: 100%;
+                    height:60px;
+                    justify-content: space-evenly;
+                    align-items: center;
+                    display: flex;
+                    flex-direction: column;
+                    background-color: var(--color-input-background);
+                    border-radius: 5px;
+                    border: 2px solid var(--color-input-border);
+
+                    .ProfilePage_DescriptionContainer{
+                        width: 100%;
+                        height: 90%;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        textarea{
+                            width: 90%;
+                            height: 90%;
+                            background-color: transparent;
+                            border: none;
+                            font-family: Caviar Dreams;
+                            color: var(--color-text);
+                            font-size: 16px;
+                            font-weight: 400;
+                            outline: none;
+                            resize: none;
+                            &:disabled{
+                                color: var(--color-text);
+                            }
+                            &:enabled{    
+                                box-shadow: inset 0 0 4px 0 #000;
+                                border-radius: 5px;
+                                background-color: var(--color-input-background);
+                                color: var(--color-jointext-color);
+                            }
+                        }
+                    }
+                }
+                .ProfilePage_Friends{
+                    width: 100%;
+                    height: 90px;
+                    align-items: center;
+                    display: flex;
+                    flex-direction: column;
+
+                    .ProfilePage_FriendsTitle{
+                        width: calc(100% - 10px);
+                        height: 40px;
+                        display: flex;
+                        padding-left: 10px;
+                        align-items: center;
+                        font-family: Caviar Dreams;
+                        color: var(--color-text);
+                        background-color: var(--color-input-background);
+                        border: 2px solid var(--color-input-border);
+                        border-radius: 5px;
+                        font-size: 16px;
+                        font-weight: 400;
+                    }
+                    .ProfilePage_FriendsContainer{
+                        display: grid;
+                        grid-template-columns: repeat(auto-fill, 50px);
+                        grid-gap: 5px;
+                        flex: 1;
+                        width: calc(100%);
+                        justify-content: space-between;
+                        .ProfilePage_FriendPics{
+                            max-width: 50px;
+                            max-height: 50px;
+                            width: 100%;
+                            height: 100%;
+                            #ProfilePage_FriendsPic{
+                                width: 100%;
+                                height: 100%;
+                                object-fit: cover;
+                                border-radius: 50%;
+                                -webkit-user-drag: none;
+                                margin-top: 10px;
+                                cursor: pointer;
+                            }
+                        }
+                    }
+                }
+                .ProfilePage_Achievements{
+                    width: 100%;
+                    height: 90px;
+                    align-items: center;
+                    display: flex;
+                    flex-direction: column;
+                        
+                        .ProfilePage_AchievementsTitle{
+                            width: calc(100% - 10px);
+                            height: 40px;
+                            display: flex;
+                            padding-left: 10px;
+                            align-items: center;
+                            font-family: Caviar Dreams;
+                            color: var(--color-text);
+                            background-color: var(--color-input-background);
+                            border: 2px solid var(--color-input-border);
+                            border-radius: 5px;
+                            font-size: 16px;
+                            font-weight: 400;
+                        }
+                        .ProfilePage_AchievementsContainer{
+                            display: grid;
+                            grid-template-columns: repeat(auto-fill, 50px);
+                            grid-gap: 5px;
+                            flex: 1;
+                            width: calc(100%);
+                            justify-content: space-between;
+                            .ProfilePage_Achievement{
+                                max-width: 50px;
+                                max-height: 50px;
+                                width: 100%;
+                                height: 100%;
+                                #ProfilePage_Achievement{
+                                    width: 100%;
+                                    height: 100%;
+                                    object-fit: cover;
+                                    -webkit-user-drag: none;
+                                    margin-top: 10px;
+                                }
+                            }
+                        }
+                }
+            }
+        }
+        .ProfilePage_RightSideContainer{
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 750px;
+            .ProfilePage_BannerImageContainer{
+                width: 100%;
+                height: 200px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: var(--color-foreground);
+                border-radius: 0 5px 5px 0;
+                z-index: 3;
+                position: relative;
+                #banner{
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    border-radius: 0 5px 5px 0;
+                }
+                .ProfilePage_BannerImageEdit{
+                    opacity: 0;
+                    position: absolute;
+                    bottom: 0;
+                    right: 0;
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    background-color: var(--color-input-border);
+                    transition: 0.2s ease-in-out;
+                    border-radius: 0 5px 5px 0;
+                    img {
+                        aspect-ratio: 1;
+                        width: auto;
+                        height: 50%;
+                        filter: var(--color-icon)
+                    }
+
+                    &:hover {
+                        opacity: 1;
+                        cursor: pointer;
+                    }
+                } 
+            }
+
+            .ProfilePage_MainSection{
+                width: calc(100% - 17px);
+                flex: 1;
+                margin-left: 15px;
+                margin-top: 15px;
+                border: 1px solid red;
+                display: flex;
+                flex-direction: column;
+                background-color: var(--color-input-background);
+                border: 2px solid var(--color-input-border);
+                border-radius: 5px;
+                align-items: center;;
+
+                .ProfilePage_MainSectionNavbar{
+                    width: calc(100% - 40px);
+                    height: 40px;
+                    margin: 20px;
+                    display: flex;
+                    background-color: var(--color-input-background);
+                    border-radius: 5px 5px 0 0;
+                    border: 2px solid var(--color-input-border);
+                    .ProfilePage_MainSectionNavbarButton{
+                        width: 140px;
+                        height: 100%;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        font-family: Caviar Dreams;
+                        color: var(--color-text);
+                        font-size: 16px;
+                        font-weight: 400;
+                        border-right: 1px solid var(--color-input-border);
+                        &:hover{
+                            cursor: pointer;
+                        }
+                    }
+                }
+
+                .ProfilePage_MainSectionContent{
+                    width: calc(100% - 40px);
+                    flex: 1;
+                    margin-bottom: 20px;
+                    justify-content: center;
+                    align-items: center;
+
+                    .ProfilePage_FilterContainer{
+                        width: 100%;
+                        height: 40px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        margin-bottom: 10px;
+                        border-radius: 5px;
+                        .ProfilePage_FilterWrapper{
+                            width: 50%;
+                            height: 100%;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            
+                        }
+                    }
+                    .ProfilePage_ContentContainer{
+                        justify-content: center;
+                        display: grid;
+                        grid-template-columns: repeat(auto-fill, 300px);
+                        grid-template-rows: repeat(auto-fill,100px);
+                        grid-gap: 5px;
+                        flex: 1;
+                        width: calc(100%);
+                        align-items: center;
+                    }
+                }
+            }
+        }
+    }
+}
+
+

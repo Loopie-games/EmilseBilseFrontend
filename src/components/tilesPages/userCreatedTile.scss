@@ -3,13 +3,13 @@
     height: 60px;
     border-radius: 5px;
     display: flex;
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--color-input-background);
     backdrop-filter: blur(5px);
     border-radius: 5px;
-    border: 2px solid rgba(0, 0, 0, 0.5);
+    border: 2px solid var(--color-input-border);
     font-family: "Caviar Dreams";
     font-style: normal;
-    color: #fff;
+    color: var(--color-text);
 
     div{
         margin: 0 20px;
@@ -33,11 +33,11 @@
         }
         .Action{
             font-size: 16px;   
-            color: #fff; 
+            color: var(--color-text); 
         }
         .NickName{
             font-size: 14px;   
-            color: #94A3B5; 
+            color: var(--color-textSecondary); 
         }
     }
     .UserCreatedTile_TileInfoIcon{
@@ -46,6 +46,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        filter: var(--color-icon);
         img{
             width: 24px;
             height: 24px;
