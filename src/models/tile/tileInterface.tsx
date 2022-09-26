@@ -21,6 +21,11 @@ export interface TilePack {
     price?: number
 }
 
+export interface TilePackSetting{
+    tilePack: TilePack
+    isActivated: boolean
+}
+
 export interface PackTile extends Tile
 {
     id: string

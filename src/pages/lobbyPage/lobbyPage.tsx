@@ -1,20 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect} from 'react'
 import UserComponent from '../../components/Lobby/userComponent/userComponent';
 import './lobbyPage.scss'
-import { useStore } from '../../stores/store'
-import { UserDTO } from '../../models/user/userInterface';
-import { observer } from 'mobx-react-lite';
-import { useNavigate, useParams } from 'react-router-dom';
-import { StartGameDto } from '../../models/game/gameInterfaces';
-import { autorun } from 'mobx';
-import Popup from '../../components/shared/popups/popup';
-import lobbyStore from '../../stores/lobbyStore';
-import { HubConnection, HubConnectionState } from '@microsoft/signalr';
+import {useStore} from '../../stores/store'
+import {observer} from 'mobx-react-lite';
+import {useNavigate, useParams} from 'react-router-dom';
+import {autorun} from 'mobx';
+import {HubConnectionState} from '@microsoft/signalr';
 import GameSettings from '../../components/Lobby/gameSettings/gameSettings';
 import MobileGameSettings from '../../components/Lobby/mobileGameSettings/mobileGameSettings';
 
 const LobbyPage = () => {
-    const { userStore, popupStore, lobbyStore, mobileStore } = useStore();
+    const {userStore, popupStore, lobbyStore, mobileStore} = useStore();
     const navigate = useNavigate();
     const params = useParams();
 
@@ -88,11 +84,11 @@ const LobbyPage = () => {
     return (
         <>
             {isHost() &&
-                <>
-                    {mobileStore.isMobile ? <MobileGameSettings /> :
-                        <GameSettings />
-                    }
-                </>
+            <>
+                {mobileStore.isMobile ? <MobileGameSettings/> :
+                    <GameSettings/>
+                }
+            </>
             }
             <div className='Lobby_Container'>
                 <div className='Lobby_Wrapper'>
@@ -102,14 +98,14 @@ const LobbyPage = () => {
                     <div className='Lobby_InputContainer'>
                         <div className='Lobby_PinCode'>
                             <input type="text" placeholder='Pin Code' maxLength={5} readOnly
-                                onClick={() => savePinToClipboard()} value={params.pin} />
+                                   onClick={() => savePinToClipboard()} value={params.pin}/>
                         </div>
                         {lobbyStore.lobby !== undefined ?
                             <div className='Lobby_ButtonsContainer'>
                                 {lobbyStore.lobby!.host === userStore.user!.id ?
                                     <div className='Lobby_StartButton' onClick={handleStartGame}> Start</div> : null}
                                 <div className='Lobby_StartButton'
-                                    onClick={lobbyStore.lobby!.host === userStore.user?.id ? handleCloseLobby : handleLeaveLobby}>{`${lobbyStore.lobby!.host === userStore.user?.id ? 'Close Lobby' : 'Leave Lobby'}`}</div>
+                                     onClick={lobbyStore.lobby!.host === userStore.user?.id ? handleCloseLobby : handleLeaveLobby}>{`${lobbyStore.lobby!.host === userStore.user?.id ? 'Close Lobby' : 'Leave Lobby'}`}</div>
                             </div>
                             :
                             <>
