@@ -68,7 +68,7 @@ const LobbyPage = () => {
 
     const handleStartGame = async () => {
         try {
-            await lobbyStore.startGame()
+            await lobbyStore.startGame({lobbyId: lobbyStore.lobby?.id!, tpIds: undefined})
         } catch (e: any) {
             popupStore.setErrorMessage(e.message)
             popupStore.show();
