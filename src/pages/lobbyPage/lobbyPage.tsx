@@ -12,6 +12,7 @@ import lobbyStore from '../../stores/lobbyStore';
 import { HubConnection, HubConnectionState } from '@microsoft/signalr';
 import GameSettings from '../../components/Lobby/gameSettings/gameSettings';
 import MobileGameSettings from '../../components/Lobby/mobileGameSettings/mobileGameSettings';
+import Loader from '../../components/shared/loader/loader';
 
 const LobbyPage = () => {
     const { userStore, popupStore, lobbyStore, mobileStore } = useStore();
@@ -113,7 +114,7 @@ const LobbyPage = () => {
                             </div>
                             :
                             <>
-                                Loading
+                                <Loader />
                             </>
                         }
                     </div>
