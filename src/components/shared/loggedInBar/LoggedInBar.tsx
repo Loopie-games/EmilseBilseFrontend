@@ -221,12 +221,12 @@ const LoggedInBar = () => {
                             </div>
                         </div>
                         {/**
-                         * Settings
+                         * User interaction
                          * */}
                         <div className={`LoggedInBar-Wrapper ${settingsShown ? 'asdasdasd ' : ''}`} onClick={handleSettingsClick}>
-                            <div className={`LoggedInBar-ComponentTitle ${isShown ? 'shown' : ''} ${settingsShown ? 'activated' : ''}`} onClick={isShown ? handleSettings : () => { }}>
-                                <div className='LoggedInBar-ComponentTitleIcon'><Icon name="settings" /></div>
-                                <div className='LoggedInBar-ComponentTitleText shown'>Settings</div>
+                            <div className={`LoggedInBar-ComponentTitle ${isShown ? 'shown' : ''} ${settingsShown ? 'activated' : ''}`}>
+                                <div className='LoggedInBar-ComponentTitleIcon'><Icon name="heart" /></div>
+                                <div className='LoggedInBar-ComponentTitleText shown'>User Interaction</div>
                             </div>
                             <div className={`LoggedInBar-ComponentContainer ${settingsShown ? 'asdasd' : ''}`}>
                                 {
