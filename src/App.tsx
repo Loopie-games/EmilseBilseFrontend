@@ -31,6 +31,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import Terms from './pages/termsPage/terms';
 import PrivacyPage from './pages/privacyPage/privacyPage';
 import ShopPage from './pages/shopPage/shopPage';
+import NewsletterPage from './pages/newsletterPage/newsletterPage';
 const stripePromise = loadStripe('pk_test_51Lf0qhHlPakEYz1FbXf2tOuCqoV5jPQcIoPASo8amOG1px2sOMObFsPGFhfDPaZZ5tT2RcjCBQZtgrN63khxdS8P00HCW9k4rl');
 
 function App() {
@@ -103,6 +104,7 @@ function App() {
     { path: "/terms", element: <Terms /> },
     { path: "/privacy", element: <PrivacyPage /> },
     { path: "/shop", element: <ShopPage /> },
+    { path: "/newsletter", element: <NewsletterPage />, isLandscape: false },
     { path: "*", element: <PageNotFound />, isLandscape: false }
   ];
 
