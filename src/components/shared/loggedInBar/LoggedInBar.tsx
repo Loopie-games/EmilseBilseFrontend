@@ -109,6 +109,8 @@ const LoggedInBar = () => {
         navigate('/user/settings')
     }
     const handleLogOutClick = () => {
+
+
         !isShown && setIsShown(true);
         setLogOutShown(!logOutShown);
         setProfileShown(false);
@@ -118,10 +120,16 @@ const LoggedInBar = () => {
         setLinkShown(false);
     }
     const handleLogOut = () => {
-        userStore.logout();
-        navigate('/');
+        popupStore.showConfirmation(
+            'Are you sure you want to log out?',
+            'You\'re about to log out of your account. Are you sure you want to do this?',
+            () => {
+                userStore.logout();
+                navigate('/');
+            },
+            () => { }
+        );
     }
-
     const handleCloseAll = () => {
         setIsShown(false);
         setProfileShown(false);
