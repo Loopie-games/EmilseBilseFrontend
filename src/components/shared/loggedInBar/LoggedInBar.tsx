@@ -36,7 +36,11 @@ const LoggedInBar = () => {
         { name: 'Tiles created by you', link: `/user/tilesby/${userStore.user?.id}`, iconName: 'tiles_byUser' },
         { name: 'Create Tilepack', link: `/admin/tilepackcreator/`, iconName: 'tilepack_creator' }
     ];
-    const settingsSubLinks: any[] = [];
+    const UserInteractionSubLinks: any[] = [
+        { name: 'Bug Report', link: `/report`, iconName: 'bug' },
+        { name: 'Feedback', link: `/feedback`, iconName: 'feedback' },
+        { name: 'Newsletter', link: `/newsletter`, iconName: 'mail' },
+    ];
     const logoutSublinks: any[] = [];
 
     const barBlacklistRoutes = ['/register', '/login', '/lobby', '/game'];
@@ -51,7 +55,7 @@ const LoggedInBar = () => {
             }
         })
         return t;
-    
+
     }
     const handleLinksClick = () => {
         !isShown && setIsShown(true);
@@ -82,7 +86,7 @@ const LoggedInBar = () => {
         setLinkShown(false);
     }
     const handleTilesClick = () => {
-       !isShown && setIsShown(true);
+        !isShown && setIsShown(true);
         setTilesShown(!tilesShown);
         setProfileShown(false);
         setFriendsShown(false);
@@ -91,7 +95,7 @@ const LoggedInBar = () => {
         setLinkShown(false);
     }
     const handleSettingsClick = () => {
-       !isShown && setIsShown(true);
+        !isShown && setIsShown(true);
         setSettingsShown(!settingsShown);
         setProfileShown(false);
         setFriendsShown(false);
@@ -103,7 +107,7 @@ const LoggedInBar = () => {
         navigate('/user/settings')
     }
     const handleLogOutClick = () => {
-       !isShown && setIsShown(true);
+        !isShown && setIsShown(true);
         setLogOutShown(!logOutShown);
         setProfileShown(false);
         setFriendsShown(false);
@@ -132,7 +136,10 @@ const LoggedInBar = () => {
             {checkIfBlacklistedRoute(url) ? null :
                 <>
                     <div className={`LoggedInBar-Container ${isShown ? 'shown' : ''}`}>
-                    <div className={`LoggedInBar-Wrapper ${linksShown ? 'asdasdasd ' : ''}`} onClick={handleLinksClick}>
+                        {/**
+                         * Links
+                         */}
+                        <div className={`LoggedInBar-Wrapper ${linksShown ? 'asdasdasd ' : ''}`} onClick={handleLinksClick}>
                             <div className={`LoggedInBar-ComponentTitle ${isShown ? 'shown' : ''} ${linksShown ? 'activated' : ''}`}>
                                 <div className='LoggedInBar-ComponentTitleIcon'><Icon name="link" /></div>
                                 <div className='LoggedInBar-ComponentTitleText shown'>Links</div>
@@ -150,6 +157,9 @@ const LoggedInBar = () => {
                                 }
                             </div>
                         </div>
+                        {/**
+                         * Profile
+                         * */}
                         <div className={`LoggedInBar-Wrapper ${profileShown ? 'asdasdasd ' : ''}`} onClick={handleProfileClick}>
                             <div className={`LoggedInBar-ComponentTitle ${isShown ? 'shown' : ''} ${profileShown ? 'activated' : ''}`}>
                                 <div className='LoggedInBar-ComponentTitleIcon'><Icon name="profile" /></div>
@@ -168,6 +178,9 @@ const LoggedInBar = () => {
                                 }
                             </div>
                         </div>
+                        {/**
+                         * Friends
+                         * */}
                         <div className={`LoggedInBar-Wrapper ${friendsShown ? 'asdasdasd ' : ''}`} onClick={handleFriendsClick}>
                             <div className={`LoggedInBar-ComponentTitle ${isShown ? 'shown' : ''} ${friendsShown ? 'activated' : ''}`}>
                                 <div className='LoggedInBar-ComponentTitleIcon'><Icon name="friendslist" /></div>
@@ -186,6 +199,9 @@ const LoggedInBar = () => {
                                 }
                             </div>
                         </div>
+                        {/**
+                         * tiles
+                         * */}
                         <div className={`LoggedInBar-Wrapper ${tilesShown ? 'asdasdasd ' : ''}`} onClick={handleTilesClick}>
                             <div className={`LoggedInBar-ComponentTitle ${isShown ? 'shown' : ''} ${tilesShown ? 'activated' : ''} `}>
                                 <div className='LoggedInBar-ComponentTitleIcon'><Icon name="tiles" /></div>
@@ -204,6 +220,9 @@ const LoggedInBar = () => {
                                 }
                             </div>
                         </div>
+                        {/**
+                         * Settings
+                         * */}
                         <div className={`LoggedInBar-Wrapper ${settingsShown ? 'asdasdasd ' : ''}`} onClick={handleSettingsClick}>
                             <div className={`LoggedInBar-ComponentTitle ${isShown ? 'shown' : ''} ${settingsShown ? 'activated' : ''}`} onClick={isShown ? handleSettings : () => { }}>
                                 <div className='LoggedInBar-ComponentTitleIcon'><Icon name="settings" /></div>
@@ -211,10 +230,10 @@ const LoggedInBar = () => {
                             </div>
                             <div className={`LoggedInBar-ComponentContainer ${settingsShown ? 'asdasd' : ''}`}>
                                 {
-                                    settingsSubLinks.map((subLink, index) => {
+                                    UserInteractionSubLinks.map((subLink, index) => {
                                         return (
                                             <div className={`LoggedInBar-ComponentTitle ${settingsShown ? 'shown' : ''} ${url === subLink.link ? 'activated' : ''}`} key={index} onClick={() => { navigate(subLink.link); setIsShown(false) }}>
-                                                <div className='LoggedInBar-ComponentTitleIcon'><Icon name="profile" /></div>
+                                                <div className='LoggedInBar-ComponentTitleIcon'><Icon name={subLink.iconName}  /></div>
                                                 <div className='LoggedInBar-SubComponentTitleText shown'>{subLink.name}</div>
                                             </div>
                                         )
@@ -222,6 +241,9 @@ const LoggedInBar = () => {
                                 }
                             </div>
                         </div>
+                        {/**
+                         * Logout
+                         * */}
                         <div className={`LoggedInBar-Wrapper ${logOutShown ? 'asdasdasd ' : ''}`} onClick={handleLogOutClick}>
                             <div className={`LoggedInBar-ComponentTitle ${isShown ? 'shown' : ''} ${logOutShown ? 'activated' : ''}`} onClick={isShown ? handleLogOut : () => { }}>
                                 <div className='LoggedInBar-ComponentTitleIcon'><Icon name="logout" /></div>
