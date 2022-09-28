@@ -174,10 +174,10 @@ function App() {
                   {!mobileStore.isMobile &&
                     <>
                       <Navbar />
-                      <div style={{ "zIndex": "2", "height": "70px", "width": "100%", "backgroundColor": "var(--color-foreground)" }}></div>
+                      <div className="App_NavbarBar"></div>
                     </>
                   }
-                  <div style={{ "display": "flex", "flexDirection": "row", "flex": "1", "overflow": "hidden", "position": "relative" }}>
+                  <div className="App_Container">
                     {userStore.user !== undefined && !mobileStore.isMobile && <LoggedInBar />}
                     {route.element}
                   </div>

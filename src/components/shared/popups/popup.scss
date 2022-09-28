@@ -9,7 +9,6 @@
 }
 
 .PopUp_Container {
-    width: 30%;
     height: 30%;
     max-width: 400px;
     max-height: 250px;
@@ -92,6 +91,15 @@
             }
         }
     }
+}
+
+.PopUp_Desktop{
+    
+    width: 30%;
+}
+
+.PopUp_Mobile{
+    width: 80%;
 }
 
 .closing{

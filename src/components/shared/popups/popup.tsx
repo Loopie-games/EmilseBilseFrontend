@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useStore } from '../../../stores/store';
 import './popup.scss'
 
 export enum  POPUP_STATES {
@@ -7,6 +8,7 @@ export enum  POPUP_STATES {
 }
 const Popup = ({ isConfirmation, title, errorMessage, handleClose, handleConfirm }: any) => {
     const [isClosing, setIsClosing] = useState(false);
+    const {mobileStore} = useStore();
 
     const close = () => {
         setIsClosing(true);
@@ -25,10 +27,12 @@ const Popup = ({ isConfirmation, title, errorMessage, handleClose, handleConfirm
     }
 
 
+
+
     return (
         <>
             <div className={`${isClosing ? 'closing' : 'opening'}`}>
-                <div className={`PopUp_Container`}>
+                <div className={`PopUp_Container ${mobileStore.isMobile ? 'PopUp_Mobile' : 'PopUp_Desktop'}`}>
                     <div className='PopUp_Title'>{title}</div>
                     <div className='PopUp_Error'>{errorMessage}</div>
                     <div className='PopUp_ButtonContainer'>
