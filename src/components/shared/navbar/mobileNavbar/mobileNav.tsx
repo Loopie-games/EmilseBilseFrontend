@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { POPUP_STATES } from '../../../../models/popup/popupInterface'
 import { MobileStore } from '../../../../stores/mobileStore'
 import { useStore } from '../../../../stores/store'
 import Icon from '../../icon/Icon'
@@ -10,7 +11,7 @@ const MobileNav = () => {
     const navigate = useNavigate()
     const url = window.location.pathname;
 
-    const { userStore, themeStore } = useStore()
+    const { userStore, themeStore, popupStore } = useStore()
 
     const blacklistedUrls = ['/game']
 
@@ -47,7 +48,11 @@ const MobileNav = () => {
     const profileSubLinks = [{ name: 'Your Profile', link: `/user/profile/${userStore.user?.id}`, iconName: 'profile' }];
     const friendlistSubLinks = [{ name: 'Friendlist', link: `/user/friendlist/${userStore.user?.id}`, iconName: 'friendslist' }, { name: 'Add Friend', link: `/user/addfriend/`, iconName: 'add_friend' }, { name: 'Friend Requests', link: `/user/friendrequests/`, iconName: 'friend_requests' }];
     const tileSubLinks = [{ name: 'Your Tiles', link: `/user/tiles/${userStore.user?.id}`, iconName: 'tiles_user' }, { name: 'Tiles created by you', link: `/user/tilesby/${userStore.user?.id}`, iconName: 'tiles_byUser' }];
-    const settingsSubLinks: any[] = [];
+    const UserInteractionSubLinks: any[] = [
+        { name: 'Bug Report', type: POPUP_STATES.Bug, iconName: 'bug' },
+        { name: 'Feedback', type: POPUP_STATES.Feedback, iconName: 'feedback' },
+        { name: 'Newsletter', link: `/newsletter`, iconName: 'mail' },
+    ];
     const logoutSublinks: any[] = [];
 
     const handleMenuClick = () => {
@@ -99,8 +104,14 @@ const MobileNav = () => {
         setTilesShown(false);
         setLogOutShown(false);
     }
-    const handleSettings = () => {
-        navigate('/user/settings')
+    const handleUserInteractionClick = () => {
+        !showMenu && setShowMenu(true);
+        setSettingsShown(!settingsShown);
+        setProfileShown(false);
+        setFriendsShown(false);
+        setTilesShown(false);
+        setLogOutShown(false);
+        setLinkShown(false);
     }
     const handleLogOutClick = () => {
         !showMenu && setShowMenu(true);
@@ -111,9 +122,15 @@ const MobileNav = () => {
         setSettingsShown(false);
     }
     const handleLogOut = () => {
-
-        userStore.logout();
-        navigate('/');
+        popupStore.showConfirmation(
+            'Are you sure you want to log out?',
+            'You\'re about to log out of your account. Are you sure you want to do this?',
+            () => {
+                userStore.logout();
+                navigate('/');
+            },
+            () => { }
+        );
     }
 
     const handleHideAll = () => {
@@ -130,6 +147,26 @@ const MobileNav = () => {
         themeStore.toggleTheme();
     }
 
+    const handleUserInteraction = (subLink: any) => {
+        if (subLink.link !== undefined) {
+            navigate(subLink.link);
+            setShowMenu(false);
+        } else {
+            switch (subLink.type) {
+                case POPUP_STATES.Bug:
+                    popupStore.showBug('Bug Report', 'Oh no, looks like you found a bug! Please describe the bug in detail and we will try to fix it as soon as possible.');
+                    break;
+                case POPUP_STATES.Feedback:
+                    popupStore.showFeedback('Feedback', 'We would love to hear your feedback! Please describe your feedback in detail and we will try to implement it as soon as possible.');
+                    break;
+                default:
+                    break;
+
+            }
+        }
+
+    }
+
     return (
         <>
             {checkIfBlacklistedRoute(url) ? null :
@@ -138,12 +175,12 @@ const MobileNav = () => {
 
                         <div className="MobileNav_LinksContainer" >
                             <div className="MobileNav_LinksWrapper">
-                            <div className={`MobileNav_MenuLinksContainer`} onClick={handleToggleTheme}>
+                                <div className={`MobileNav_MenuLinksContainer`} onClick={handleToggleTheme}>
                                     <div className='MobileNav_MenuLinksContainerIcon'><Icon name={`${themeStore.theme === 'light' ? 'moon' : 'sun'}`} /></div>
                                     <div className='MobileNav_MenuLinksContainerTextTitle'>Toggle Theme</div>
                                 </div>
 
-                            <div className={`MobileNav_MenuLinksContainer ${linkShown ? 'active' : ''}`} onClick={handleLinksClick}>
+                                <div className={`MobileNav_MenuLinksContainer ${linkShown ? 'active' : ''}`} onClick={handleLinksClick}>
                                     <div className='MobileNav_MenuLinksContainerIcon'><Icon name="link" /></div>
                                     <div className='MobileNav_MenuLinksContainerTextTitle'>Links</div>
                                 </div>
@@ -213,14 +250,14 @@ const MobileNav = () => {
                                         {/** 
                                  * Settings
                                 */}
-                                        <div className={`MobileNav_MenuLinksContainer ${settingsShown ? 'active' : ''}`} onClick={handleSettings}>
-                                            <div className='MobileNav_MenuLinksContainerIcon'><Icon name="settings" /></div>
-                                            <div className='MobileNav_MenuLinksContainerTextTitle'>Settings</div>
+                                        <div className={`MobileNav_MenuLinksContainer ${settingsShown ? 'active' : ''}`} onClick={handleUserInteractionClick}>
+                                            <div className='MobileNav_MenuLinksContainerIcon'><Icon name="heart" /></div>
+                                            <div className='MobileNav_MenuLinksContainerTextTitle'>User Interaction</div>
                                         </div>
                                         <div className={`MobileNav_MenuComponent ${settingsShown ? 'asdasd' : ''}`}>
-                                            {settingsSubLinks.map((link, index) => {
+                                            {UserInteractionSubLinks.map((link, index) => {
                                                 return (
-                                                    <div className={`MobileNav_MenuLinksContainer ${url === link.link ? 'active' : ''}`} key={index} onClick={() => { setShowMenu(!showMenu); navigate(link.link) }}>
+                                                    <div className={`MobileNav_MenuLinksContainer ${url === link.link ? 'active' : ''}`} key={index} onClick={() => { handleUserInteraction(link) }}>
                                                         <div className='MobileNav_MenuLinksContainerIcon'><Icon name={link.iconName} /></div>
                                                         <div className='MobileNav_MenuLinksContainerText'>{link.name}</div>
                                                     </div>
