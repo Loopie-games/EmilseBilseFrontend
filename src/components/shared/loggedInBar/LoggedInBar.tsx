@@ -2,13 +2,15 @@ import { wait } from '@testing-library/user-event/dist/utils';
 import { observer } from 'mobx-react-lite';
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { POPUP_STATES } from '../../../models/popup/popupInterface';
 import { useStore } from '../../../stores/store';
 import Icon from '../icon/Icon';
 import InvertedCornerQ1 from '../invertedCorners/invertedCornerQ1';
+import Popup from '../popups/popup';
 import './LoggedInBar.scss'
 
 const LoggedInBar = () => {
-    const { userStore } = useStore();
+    const { userStore, popupStore } = useStore();
     const navigate = useNavigate();
     const url = window.location.pathname;
     const [isShown, setIsShown] = useState(false);
@@ -37,8 +39,8 @@ const LoggedInBar = () => {
         { name: 'Create Tilepack', link: `/admin/tilepackcreator/`, iconName: 'tilepack_creator' }
     ];
     const UserInteractionSubLinks: any[] = [
-        { name: 'Bug Report', link: `/report`, iconName: 'bug' },
-        { name: 'Feedback', link: `/feedback`, iconName: 'feedback' },
+        { name: 'Bug Report', type: POPUP_STATES.Bug , iconName: 'bug' },
+        { name: 'Feedback', type: POPUP_STATES.Feedback, iconName: 'feedback' },
         { name: 'Newsletter', link: `/newsletter`, iconName: 'mail' },
     ];
     const logoutSublinks: any[] = [];
@@ -128,6 +130,26 @@ const LoggedInBar = () => {
         setSettingsShown(false);
         setLogOutShown(false);
         setLinkShown(false);
+    }
+
+    const handleUserInteraction = (subLink: any) => {
+        if (subLink.link !== undefined) {
+            navigate(subLink.link);
+            setIsShown(false);
+        } else {
+            switch (subLink.type) {
+                case POPUP_STATES.Bug:
+                    popupStore.showBug('Bug Report', 'Oh no, looks like you found a bug! Please describe the bug in detail and we will try to fix it as soon as possible.');
+                    break;
+                case POPUP_STATES.Feedback:
+                    popupStore.showFeedback('Feedback', 'We would love to hear your feedback! Please describe your feedback in detail and we will try to implement it as soon as possible.');
+                    break;
+                default:
+                    break;
+                
+            }
+        }
+
     }
 
 
@@ -232,8 +254,8 @@ const LoggedInBar = () => {
                                 {
                                     UserInteractionSubLinks.map((subLink, index) => {
                                         return (
-                                            <div className={`LoggedInBar-ComponentTitle ${settingsShown ? 'shown' : ''} ${url === subLink.link ? 'activated' : ''}`} key={index} onClick={() => { navigate(subLink.link); setIsShown(false) }}>
-                                                <div className='LoggedInBar-ComponentTitleIcon'><Icon name={subLink.iconName}  /></div>
+                                            <div className={`LoggedInBar-ComponentTitle ${settingsShown ? 'shown' : ''} ${url === subLink.link ? 'activated' : ''}`} key={index} onClick={() => {handleUserInteraction(subLink)}}>
+                                                <div className='LoggedInBar-ComponentTitleIcon'><Icon name={subLink.iconName} /></div>
                                                 <div className='LoggedInBar-SubComponentTitleText shown'>{subLink.name}</div>
                                             </div>
                                         )

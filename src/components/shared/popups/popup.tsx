@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react'
+import { POPUP_STATES } from '../../../models/popup/popupInterface';
 import { useStore } from '../../../stores/store';
 import './popup.scss'
 
-export enum  POPUP_STATES {
-    winClaim,
-    ConfirmWin,
-}
-const Popup = ({ isConfirmation, title, errorMessage, handleClose, handleConfirm }: any) => {
+const Popup = ({ type, title, errorMessage, handleClose, handleConfirm }: any) => {
     const [isClosing, setIsClosing] = useState(false);
-    const {mobileStore} = useStore();
+    const { mobileStore } = useStore();
 
     const close = () => {
         setIsClosing(true);
@@ -26,9 +23,6 @@ const Popup = ({ isConfirmation, title, errorMessage, handleClose, handleConfirm
         }, 200)
     }
 
-
-
-
     return (
         <>
             <div className={`${isClosing ? 'closing' : 'opening'}`}>
@@ -36,13 +30,13 @@ const Popup = ({ isConfirmation, title, errorMessage, handleClose, handleConfirm
                     <div className='PopUp_Title'>{title}</div>
                     <div className='PopUp_Error'>{errorMessage}</div>
                     <div className='PopUp_ButtonContainer'>
-                        {isConfirmation ?
-                            <Confirmation handleClose={close} handleConfirm={confirm} /> :
-                            <Information handleClose={close} />
-                        }
+                        {type === POPUP_STATES.Confirmation && <Confirmation handleClose={close} handleConfirm={confirm} />}
+                        {type === POPUP_STATES.Information && <Information handleClose={close} />}
+                        {type === POPUP_STATES.Bug && <BugFeedback handleClose={close} handleConfirm={confirm} />}
+                        {type === POPUP_STATES.Feedback && <BugFeedback handleClose={close} handleConfirm={confirm} />}
                     </div>
                 </div>
-                <div className='PopUp_CloseBackground' onClick={!isConfirmation ? close : () => {} }></div>
+                <div className='PopUp_CloseBackground' onClick={type === POPUP_STATES.Information ? close : () => {}}></div>
             </div>
         </>
 
@@ -71,6 +65,20 @@ const Confirmation = ({ handleClose, handleConfirm }: any) => {
             </div>
             <div className='PopUp_Button confirm' onClick={handleConfirm}>
                 Yes
+            </div>
+        </>
+    )
+}
+
+const BugFeedback = ({ handleClose, handleConfirm }: any) => {
+
+    return (
+        <>
+            <div className='PopUp_Button close' onClick={handleClose}>
+                Cancel
+            </div>
+            <div className='PopUp_Button confirm' onClick={handleConfirm}>
+                Send
             </div>
         </>
     )

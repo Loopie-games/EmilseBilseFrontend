@@ -165,7 +165,7 @@ function App() {
       {showLandscapeError && <LandscapeOrientation />}
       {showPortraitError && <PortraitOrientation />}
       <div className="App">
-        {popupStore.isShown && <Popup isConfirmation={popupStore.isConfirmation} title={popupStore.title} errorMessage={popupStore.errorMessage} handleClose={popupStore.onCancel} handleConfirm={popupStore.onConfirm} />}
+        {popupStore.isShown && <Popup type={popupStore.type} title={popupStore.title} errorMessage={popupStore.errorMessage} handleClose={popupStore.onCancel} handleConfirm={popupStore.onConfirm} />}
         <Router>
           <Routes>
             {routes.map((route, index) => (
