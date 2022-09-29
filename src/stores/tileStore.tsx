@@ -6,7 +6,7 @@ import tileService from "../services/tileService";
 import packTileService from "../services/packTileService";
 
 export class TileStore {
-    
+
     @observable tilesAboutUser: UserTile[] | undefined;
     @observable createdTiles: UserTile[] | undefined;
     @observable createdtile: UserTile | undefined;
@@ -20,6 +20,12 @@ export class TileStore {
     getAllTilepacks = async () => {
         const response = await tilePackService.getAll();
         this.tilepacks = response.data
+        return response.data
+    }
+
+    @action
+    getOwnedTilePack = async ():Promise<TilePack[]> =>{
+        const response = await tilePackService.getOwned();
         return response.data
     }
 
