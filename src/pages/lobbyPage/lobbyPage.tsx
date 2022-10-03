@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import UserComponent from '../../components/Lobby/userComponent/userComponent';
 import './lobbyPage.scss'
 import { useStore } from '../../stores/store'
@@ -11,9 +11,11 @@ import MobileGameSettings from '../../components/Lobby/mobileGameSettings/mobile
 import Loader from '../../components/shared/loader/loader';
 import { pendingPlayerDto } from '../../models/player/playerInterface';
 import { SimpleUserDTO } from '../../models/user/userInterface';
+import {TilePackSetting} from "../../models/tile/tileInterface";
 
 const LobbyPage = () => {
-    const { userStore, popupStore, lobbyStore, mobileStore } = useStore();
+    const {userStore, popupStore, lobbyStore, mobileStore} = useStore();
+    const [tilePacks, setTilePacks] = useState<TilePackSetting[]>([])
     const navigate = useNavigate();
     const params = useParams();
     const [hostActive, setHostActive] = useState<boolean>(false);
@@ -90,7 +92,8 @@ const LobbyPage = () => {
 
     const handleStartGame = async () => {
         try {
-            await lobbyStore.startGame({ lobbyId: lobbyStore.lobby?.id!, tpIds: undefined })
+            let activated = tilePacks.filter(t => t.isActivated).map(t => t.tilePack.id)
+            await lobbyStore.startGame({lobbyId: lobbyStore.lobby?.id!, tpIds: activated})
         } catch (e: any) {
             popupStore.setErrorMessage(e.message)
             popupStore.show();
@@ -116,11 +119,11 @@ const LobbyPage = () => {
     return (
         <>
             {isHost() &&
-                <>
-                    {mobileStore.isMobile ? <MobileGameSettings /> :
-                        <GameSettings />
-                    }
-                </>
+            <>
+                {mobileStore.isMobile ? <MobileGameSettings/> :
+                    <GameSettings tilePacks={tilePacks} setTilePacks={(tps:TilePackSetting[])=>setTilePacks(tps)}/>
+                }
+            </>
             }
             <div className='Lobby_Container'>
                 <div className='Lobby_Wrapper'>

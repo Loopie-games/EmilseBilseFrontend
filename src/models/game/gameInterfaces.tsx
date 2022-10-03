@@ -8,7 +8,7 @@ export interface Lobby {
 
 export interface CreateGameDto{
     lobbyId:string
-    tpIds?:string[]
+    tpIds:(string | undefined)[]
 }
 
 export interface GameDTO {

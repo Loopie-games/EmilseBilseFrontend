@@ -4,18 +4,17 @@ import { useStore } from '../../../stores/store';
 import Icon from '../../shared/icon/Icon';
 import InvertedCornerQ1 from '../../shared/invertedCorners/invertedCornerQ1';
 import './gameSettings.scss'
-import {TilePackSetting} from "../../../models/tile/tileInterface";
+import {TilePack, TilePackSetting} from "../../../models/tile/tileInterface";
 
-const GameSettings = () => {
+const GameSettings = (GSCom:GameSettingCom) => {
     const {tileStore } = useStore();
     const [isShown, setIsShown] = useState(false);
     const [restIsShown, setRestIsShown] = useState(false);
     const [generalSettingsShown, setGeneralSettingsShown] = useState(false);
     const [tilepackSettingsShown, setTilepackSettingsShown] = useState(false);
-    const [tilePacks, setTilePacks] = useState<TilePackSetting[]>([])
 
     const initTilePacks = async () => {
-        setTilePacks([])
+        GSCom.setTilePacks([])
         let tpList = await tileStore.getOwnedTilePack()
         let tpSetList:TilePackSetting[] = []
 
@@ -24,7 +23,7 @@ const GameSettings = () => {
             tpSetList.push(tpSetting)
         })
 
-        setTilePacks(tpSetList)
+        GSCom.setTilePacks(tpSetList)
     }
 
     useEffect(()=>{
@@ -58,13 +57,13 @@ const GameSettings = () => {
 
 
     const toggleTilepack = (id: string) => {
-        const newTilePacks = tilePacks.map(tilePack => {
+        const newTilePacks = GSCom.tilePacks.map(tilePack => {
             if (tilePack.tilePack.id === id) {
                 tilePack.isActivated = !tilePack.isActivated;
             }
             return tilePack;
         })
-        setTilePacks(newTilePacks);
+        GSCom.setTilePacks(newTilePacks);
     }
 
 
@@ -89,7 +88,7 @@ const GameSettings = () => {
                         <div className={`LoggedInBar-ComponentContainer ${tilepackSettingsShown ? 'asdasd' : ''}`}>
                             {
                                 <>
-                                    {tilePacks.map((tilePack) => {
+                                    {GSCom.tilePacks.map((tilePack) => {
                                         return (
                                             <div className={`GameSettings_TilePackComponentContainer ${tilePack.isActivated ? 'GameSettings_TilepackActivated' : ''}`} onClick={() => { toggleTilepack(tilePack.tilePack.id!); console.log(tilePack.isActivated) }}>
                                                 <div className='GameSettings_TilePackText'>{tilePack.tilePack.name}</div>
@@ -130,3 +129,8 @@ const GameSettings = () => {
 }
 
 export default observer(GameSettings)
+
+interface GameSettingCom {
+    tilePacks: TilePackSetting[]
+    setTilePacks: (tps:TilePackSetting[])=>void
+}

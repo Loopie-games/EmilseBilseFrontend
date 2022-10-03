@@ -38,9 +38,9 @@ const NewTilepackCreatorPage = () => {
                     setName(tp.name)
                 }
                 let selected = await tileStore.getPackTilesbyPackId(params.id)
-                setSelectedTiles([...selected])
+                setSelectedTiles([...selected.map(pt => pt.tile)])
                 let all = await tileStore.getAll()
-                setAvailableTiles(() => [...all.filter((t: { action: any }) => !selected.some((f: { action: any }) => f.action === t.action))])
+                setAvailableTiles(() => [...all.filter((t: { action: any }) => !selected.some((f) => f.tile.action === t.action))])
             } catch (e) {
                 console.log("no tilepack with given id")
             }
@@ -173,7 +173,7 @@ const NewTilepackCreatorPage = () => {
                                 <div className='NewTilePack_CreatorTitle'>Selected tiles</div>
                                 <div className='NewTilePack_CreatorActionContainer'>
                                     {selectedTiles.sort(function (a, b) {
-                                        if (a.action.toLowerCase() < b.action.toLowerCase()) {
+                                        if (a.action.toLowerCase()< b.action.toLowerCase()) {
                                             return -1;
                                         }
                                         if (a.action.toLowerCase() > b.action.toLowerCase()) {
