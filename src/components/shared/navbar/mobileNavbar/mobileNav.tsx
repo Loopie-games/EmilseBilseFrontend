@@ -155,11 +155,15 @@ const MobileNav = () => {
             switch (subLink.type) {
                 case POPUP_STATES.Bug:
                     setShowMenu(false);
-                    popupStore.showBug('Bug Report', 'Oh no, looks like you found a bug! Please describe the bug in detail and we will try to fix it as soon as possible.');
+                    popupStore.showBug('Bug Report', 
+                    'Oh no, looks like you found a bug! Please describe the bug in detail and we will try to fix it as soon as possible.'
+                    , (e:string) => {console.log(e) });
                     break;
                 case POPUP_STATES.Feedback:
                     setShowMenu(false);
-                    popupStore.showFeedback('Feedback', 'We would love to hear your feedback! Please describe your feedback in detail and we will try to implement it as soon as possible.');
+                    popupStore.showFeedback('Feedback',
+                     'We would love to hear your feedback! Please describe your feedback in detail and we will try to implement it as soon as possible.'
+                     , (e:string) => {console.log(e)});
                     break;
                 default:
                     break;

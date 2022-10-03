@@ -65,27 +65,41 @@ export class PopupStore {
         this.show();
     }
 
-    showBug(title: string, message: string){
+    showInput(title: string, message: string, onConfirm: Function, onCancel: Function){
         this.setErrorMessage(message);
         this.setTitle(title);
-        this.setOnConfirm(async () => {
+        this.setOnConfirm(async (e: string) => {
             this.hide();
-            // onConfirm();
+            onConfirm(e);
         })
         this.setOnCancel(async () => {
             this.hide();
-            // onCancel();
+            onCancel();
+        })
+        this.setType(POPUP_STATES.Input);
+        this.show();
+    }
+
+    showBug(title: string, message: string, onConfirm: Function){
+        this.setErrorMessage(message);
+        this.setTitle(title);
+        this.setOnConfirm(async (e: string) => {
+            this.hide();
+            onConfirm(e);
+        })
+        this.setOnCancel(async () => {
+            this.hide();
         })
         this.setType(POPUP_STATES.Bug);
         this.show();
     }
 
-    showFeedback(title: string, message: string){
+    showFeedback(title: string, message: string, onConfirm: Function){
         this.setErrorMessage(message);
         this.setTitle(title);
-        this.setOnConfirm(async () => {
+        this.setOnConfirm(async (e: string) => {
             this.hide();
-            // onConfirm();
+            onConfirm(e);
         })
         this.setOnCancel(async () => {
             this.hide();
