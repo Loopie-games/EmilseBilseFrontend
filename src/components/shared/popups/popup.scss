@@ -9,7 +9,6 @@
 }
 
 .PopUp_Container {
-    width: 30%;
     height: 30%;
     max-width: 400px;
     max-height: 250px;
@@ -94,6 +93,15 @@
     }
 }
 
+.PopUp_Desktop{
+    
+    width: 30%;
+}
+
+.PopUp_Mobile{
+    width: 80%;
+}
+
 .closing{
     z-index: 99;
     animation: fadeout 0.2s forwards ease-in-out;
@@ -122,5 +130,18 @@
     to {
         opacity: 100%;
     }
+}
+
+#Popup_Textarea{
+    font-family: 'Caviar Dreams';
+    font-size: 16px;
+    color: var(--color-text);
+    width: calc(100%);
+    min-height: 100%;
+    resize:none;
+    overflow: hidden;;
+    background-color: transparent;
+    border: none;
+    outline: none;
 }
     

@@ -1,13 +1,16 @@
 import React, {useEffect, useState} from 'react'
 import UserComponent from '../../components/Lobby/userComponent/userComponent';
 import './lobbyPage.scss'
-import {useStore} from '../../stores/store'
-import {observer} from 'mobx-react-lite';
-import {useNavigate, useParams} from 'react-router-dom';
-import {autorun} from 'mobx';
-import {HubConnectionState} from '@microsoft/signalr';
+import { useStore } from '../../stores/store'
+import { observer } from 'mobx-react-lite';
+import { useNavigate, useParams } from 'react-router-dom';
+import { autorun } from 'mobx';
+import { HubConnectionState } from '@microsoft/signalr';
 import GameSettings from '../../components/Lobby/gameSettings/gameSettings';
 import MobileGameSettings from '../../components/Lobby/mobileGameSettings/mobileGameSettings';
+import Loader from '../../components/shared/loader/loader';
+import { pendingPlayerDto } from '../../models/player/playerInterface';
+import { SimpleUserDTO } from '../../models/user/userInterface';
 import {TilePackSetting} from "../../models/tile/tileInterface";
 
 const LobbyPage = () => {
@@ -15,13 +18,32 @@ const LobbyPage = () => {
     const [tilePacks, setTilePacks] = useState<TilePackSetting[]>([])
     const navigate = useNavigate();
     const params = useParams();
+    const [hostActive, setHostActive] = useState<boolean>(false);
+    const [t, setT] = useState<SimpleUserDTO>();
 
     useEffect(() => {
         joinLobby()
+
         return () => {
             lobbyStore.stopConnection()
         }
     }, [])
+
+    useEffect(() => {
+        findHost();
+        if (getHostAvailability()) {
+            setHostActive(true);
+        } else {
+            setHostActive(false);
+        }
+    }, [lobbyStore.players])
+
+    const getHostAvailability = () => {
+        if (lobbyStore.players.length > 0) {
+            const host = lobbyStore.players.find(p => p.isHost);
+            return host !== undefined;
+        }
+    }
 
     const joinLobby = async () => {
         await lobbyStore.joinLobby(params.pin!)
@@ -84,6 +106,16 @@ const LobbyPage = () => {
         }
         return lobbyStore.lobby.host === userStore.user?.id
     }
+
+    const findHost = async () => {
+        if (lobbyStore.players.length > 0) {
+            let t = await userStore.getUserById(lobbyStore.lobby?.host!)
+            if (t !== undefined) {
+                setT(t)
+            }
+        }
+    }
+
     return (
         <>
             {isHost() &&
@@ -101,29 +133,36 @@ const LobbyPage = () => {
                     <div className='Lobby_InputContainer'>
                         <div className='Lobby_PinCode'>
                             <input type="text" placeholder='Pin Code' maxLength={5} readOnly
-                                   onClick={() => savePinToClipboard()} value={params.pin}/>
+                                onClick={() => savePinToClipboard()} value={params.pin} />
                         </div>
                         {lobbyStore.lobby !== undefined ?
                             <div className='Lobby_ButtonsContainer'>
                                 {lobbyStore.lobby!.host === userStore.user!.id ?
                                     <div className='Lobby_StartButton' onClick={handleStartGame}> Start</div> : null}
                                 <div className='Lobby_StartButton'
-                                     onClick={lobbyStore.lobby!.host === userStore.user?.id ? handleCloseLobby : handleLeaveLobby}>{`${lobbyStore.lobby!.host === userStore.user?.id ? 'Close Lobby' : 'Leave Lobby'}`}</div>
+                                    onClick={lobbyStore.lobby!.host === userStore.user?.id ? handleCloseLobby : handleLeaveLobby}>{`${lobbyStore.lobby!.host === userStore.user?.id ? 'Close Lobby' : 'Leave Lobby'}`}</div>
                             </div>
                             :
                             <>
-                                Loading
+                                <Loader />
                             </>
                         }
                     </div>
                     <div className='Lobby_PlayerContainer'>
-                        {lobbyStore.players.map((player) => (
-                            <UserComponent {...player} />
+                        {t !== undefined &&
+                            <div style={{ 'opacity': hostActive ? '1' : '.5' }}>
+                                <UserComponent {...t!} />
+                            </div>
+                        }
+                        {lobbyStore.players.map((player) => (<>
+                            {player.isHost ? null : <UserComponent {...player.user} />}
+                        </>
                         ))}
                     </div>
                 </div>
             </div>
         </>
+
     )
 }
 

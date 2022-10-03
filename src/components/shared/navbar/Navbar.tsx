@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import logo from '../../../assets/Shared/EmilseBilseBingo_Logo.png'
+import logo from '../../../assets/Shared/LoopieLogo.png'
 import { Link, useLocation } from 'react-router-dom'
 import './Navbar.scss'
 import { useStore } from '../../../stores/store'
@@ -22,6 +22,16 @@ const Navbar = () => {
         setLoaded(true);
     }, [])
 
+    useEffect(() => {
+        let link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
+        if (!link) {
+          link = document.createElement('link');
+          link.rel = 'icon';
+          document.getElementsByTagName('head')[0].appendChild(link);
+        }
+        link.href = themeStore.theme === 'light' ? 'https://res.cloudinary.com/moonbaboon/image/upload/v1664217277/favicon_dark_vngfd4.ico' : 'https://res.cloudinary.com/moonbaboon/image/upload/v1664217277/favicon_o1ay03.ico';
+      }, [themeStore.theme]);
+
     const handleToggleTheme = () => {
         themeStore.toggleTheme();
     }
@@ -33,7 +43,7 @@ const Navbar = () => {
                     <div className='Navbar-Wrapper'>
                         <div className='Navbar-Logo'>
                             <Link to='/' style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                <img src={logo} alt="Logo" />
+                                <img id='logo' src={logo} alt="Logo" />
                             </Link>
                         </div>
                         <div className='Navbar-SearchContainer'>
