@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react'
+import { POPUP_STATES } from '../../../models/popup/popupInterface';
 import { useStore } from '../../../stores/store';
 import './popup.scss'
 
-export enum  POPUP_STATES {
-    winClaim,
-    ConfirmWin,
-}
-const Popup = ({ isConfirmation, title, errorMessage, handleClose, handleConfirm }: any) => {
+const Popup = ({ type, title, errorMessage, handleClose, handleConfirm }: any) => {
     const [isClosing, setIsClosing] = useState(false);
-    const {mobileStore} = useStore();
+    const { mobileStore } = useStore();
+    const [inputValue, setInputValue] = useState('');
 
     const close = () => {
         setIsClosing(true);
@@ -26,23 +24,38 @@ const Popup = ({ isConfirmation, title, errorMessage, handleClose, handleConfirm
         }, 200)
     }
 
-
-
+    const autogrow = () => {
+        const textarea = document.getElementById('Popup_Textarea');
+        if (textarea) {
+            textarea.style.height = '5px';
+            textarea.style.height = textarea.scrollHeight + 'px';
+            
+        }
+    }
 
     return (
         <>
             <div className={`${isClosing ? 'closing' : 'opening'}`}>
                 <div className={`PopUp_Container ${mobileStore.isMobile ? 'PopUp_Mobile' : 'PopUp_Desktop'}`}>
                     <div className='PopUp_Title'>{title}</div>
-                    <div className='PopUp_Error'>{errorMessage}</div>
+                    <div className='PopUp_Error'>
+                        {type === POPUP_STATES.Confirmation && errorMessage}
+                        {type === POPUP_STATES.Information && errorMessage}
+                        {type === POPUP_STATES.Bug && <>
+                            <textarea id='Popup_Textarea' placeholder={errorMessage} value={inputValue} onInput={() => autogrow()} onChange={(e) => setInputValue(e.target.value)} />
+                        </>}
+                        {type === POPUP_STATES.Feedback && <>
+                            <textarea id='Popup_Textarea' placeholder={errorMessage} onInput={() => autogrow()} value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
+                        </>}
+                    </div>
                     <div className='PopUp_ButtonContainer'>
-                        {isConfirmation ?
-                            <Confirmation handleClose={close} handleConfirm={confirm} /> :
-                            <Information handleClose={close} />
-                        }
+                        {type === POPUP_STATES.Confirmation && <Confirmation handleClose={close} handleConfirm={confirm} />}
+                        {type === POPUP_STATES.Information && <Information handleClose={close} />}
+                        {type === POPUP_STATES.Bug && <BugFeedback handleClose={close} handleConfirm={confirm} />}
+                        {type === POPUP_STATES.Feedback && <BugFeedback handleClose={close} handleConfirm={confirm} />}
                     </div>
                 </div>
-                <div className='PopUp_CloseBackground' onClick={!isConfirmation ? close : () => {} }></div>
+                <div className='PopUp_CloseBackground' onClick={type === POPUP_STATES.Information ? close : () => { }}></div>
             </div>
         </>
 
@@ -71,6 +84,20 @@ const Confirmation = ({ handleClose, handleConfirm }: any) => {
             </div>
             <div className='PopUp_Button confirm' onClick={handleConfirm}>
                 Yes
+            </div>
+        </>
+    )
+}
+
+const BugFeedback = ({ handleClose, handleConfirm }: any) => {
+
+    return (
+        <>
+            <div className='PopUp_Button close' onClick={handleClose}>
+                Cancel
+            </div>
+            <div className='PopUp_Button confirm' onClick={handleConfirm}>
+                Send
             </div>
         </>
     )

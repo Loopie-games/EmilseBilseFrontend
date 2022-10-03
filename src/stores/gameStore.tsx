@@ -8,7 +8,6 @@ import boardService from "../services/boardService";
 import gameService from "../services/gameService";
 import {BoardDTO, BoardTileDTO} from "../models/tile/tileInterface";
 import colorLookupService from "../services/colorLookupService";
-import {POPUP_STATES} from "../components/shared/popups/popup";
 import TopPlayerService from "../services/topPlayerService";
 
 export default class GameStore {

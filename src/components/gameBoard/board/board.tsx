@@ -5,13 +5,11 @@ import './board.scss'
 import {BoardTileDTO} from '../../../models/tile/tileInterface';
 
 const Board = () => {
-
     const {gameStore, mobileStore} = useStore();
-
     let triggerTime: number;
     let longPressTime = 200;
     useEffect(() => {
-        
+
     }, [])
 
     const completeTile = async (boardTileDTO: BoardTileDTO) => {
@@ -40,15 +38,15 @@ const Board = () => {
                 <div className={`GameBoard_TileContainer ${mobileStore.isMobile ? 'mobileGab' : 'desktopGab'}`}>
                     {gameStore.tiles.map((tile, index) => (
                         <>
-                            <div style={{"color": `${getPlayerColor(tile.aboutUser.id)}`}}
-                                 className={`GameBoard_Tile ${tile.isActivated ? 'active' : ''}`} key={index}
-                                 onClick={() => handleClick(tile)}
-                                 onMouseDown={handleTouchStart}
-                                 onMouseUp={handleTouchEnd}>
+                            <div style={{ "color": `${getPlayerColor(tile.aboutUser.id)}` }}
+                                className={`GameBoard_Tile ${tile.isActivated ? 'active' : ''}`} key={index}
+                                onClick={() => handleClick(tile)}
+                                onMouseDown={handleTouchStart}
+                                onMouseUp={handleTouchEnd}>
                                 {index}
                                 {tile.isActivated ?
                                     <div className='GameBoard_TileShadow'
-                                         style={{"boxShadow": `0px 0px 20px ${getPlayerColor(tile.aboutUser.id)}`}}>
+                                        style={{ "boxShadow": `0px 0px 20px ${getPlayerColor(tile.aboutUser.id)}` }}>
                                     </div>
                                     : null}
                             </div>
