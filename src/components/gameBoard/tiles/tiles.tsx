@@ -1,16 +1,13 @@
 import { observer } from 'mobx-react-lite';
 import React, { useEffect, useState } from 'react'
 import { BoardTileDTO } from '../../../models/tile/tileInterface';
-import colorLookupService from '../../../services/colorLookupService';
-import { useStore } from '../../../stores/store';
 import './tiles.scss'
 
-const Tiles = (tile: BoardTileDTO) => {
-    const { gameStore } = useStore();
+const Tiles = (boardTileDTO: BoardTileDTO) => {
     const [color, setColor] = useState('');
     const [isShown, setIsShown] = useState(false)
     useEffect(() => {
-        setColor(tile.aboutUser.color!)
+        setColor(boardTileDTO.aboutUser.color!)
     }, [])
 
     const handleShow = () => {
@@ -21,17 +18,17 @@ const Tiles = (tile: BoardTileDTO) => {
         <div className={`Tile_Container ${isShown ? 'tileShown' : ''}`} onClick={handleShow}>
             <div className='Tile_IndicatorContainer'>
                 <div className='Tile_Indicator' style={{ backgroundColor: color }}>
-                    {tile.position}
+                    {boardTileDTO.position}
                 </div>
             </div>
             <div className='Tile_ActionContainer'>
                 <div className={`Tile_Action ${isShown ? 'tileActionShown' : ''}`}>
-                    {tile.aboutUser.nickname} {tile.tile.action}
+                    {boardTileDTO.aboutUser.nickname} {boardTileDTO.byTile.tile.action}
                 </div>
                 {isShown ?
                     <>
                         <div className='Tile_ActionTo'>
-                            by: {tile.aboutUser.nickname}
+                            by: {boardTileDTO.byTile.id}
                         </div>
                     </>
                     : null}

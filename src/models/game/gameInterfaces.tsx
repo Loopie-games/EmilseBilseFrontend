@@ -6,6 +6,11 @@ export interface Lobby {
     pin: string
 }
 
+export interface CreateGameDto{
+    lobbyId:string
+    tpIds?:string[]
+}
+
 export interface GameDTO {
     id: string
     host: SimpleUserDTO
@@ -14,7 +19,7 @@ export interface GameDTO {
 }
 
 export enum State {
-    Ongiong, Paused, Ended
+    Ongoing, Paused, Ended
 
 }
 

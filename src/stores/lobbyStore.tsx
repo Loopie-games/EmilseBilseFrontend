@@ -1,6 +1,6 @@
 import {HubConnection, HubConnectionBuilder, LogLevel} from "@microsoft/signalr";
 import {action, makeAutoObservable, observable, runInAction} from "mobx";
-import {Lobby} from "../models/game/gameInterfaces";
+import {CreateGameDto, Lobby} from "../models/game/gameInterfaces";
 import {pendingPlayerDto} from "../models/player/playerInterface";
 import lobbyService from "../services/lobbyService";
 
@@ -98,10 +98,10 @@ export default class LobbyStore {
     }
 
     @action
-    startGame = async () => {
+    startGame = async (cDto:CreateGameDto) => {
         if (this.lobby === undefined) throw new Error("Game cannot be created without a lobby")
         if (this.players.length < 2) throw new Error("You need to be at least to players to start a game")
-        const response = await lobbyService.startGame(this.lobby.id);
+        const response = await lobbyService.startGame(cDto);
         let gameId = response.data.id
         await this.hubConnection!.invoke('StartGame', this.lobby.id, gameId)
         return response.data

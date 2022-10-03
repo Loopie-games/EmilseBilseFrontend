@@ -1,23 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { useStore } from '../../../stores/store';
-import logo from '../../../assets/Shared/EmilseBilseBingo_Logo.png'
-import { observer } from 'mobx-react-lite';
+import React, {useEffect, useRef, useState} from 'react'
+import {useStore} from '../../../stores/store';
+import {observer} from 'mobx-react-lite';
 import './board.scss'
-import gameboardPage from '../../../pages/gameboardPage/gameboardPage';
-import { BoardTileDTO } from '../../../models/tile/tileInterface';
+import {BoardTileDTO} from '../../../models/tile/tileInterface';
 
 const Board = () => {
-
-    const { gameStore, userStore, popupStore, mobileStore } = useStore();
-    const [counter, setCounter] = useState(0);
+    const {gameStore, mobileStore} = useStore();
     let triggerTime: number;
     let longPressTime = 200;
     useEffect(() => {
 
     }, [])
 
-    const completeTile = async (tile: BoardTileDTO) => {
-        await gameStore.turnTile(tile.id)
+    const completeTile = async (boardTileDTO: BoardTileDTO) => {
+        await gameStore.turnTile(boardTileDTO.id)
         return
     }
 
@@ -25,10 +21,10 @@ const Board = () => {
         triggerTime > longPressTime ? completeTile(e) : completeTile(e);
     }
 
-    const handleTouchStart = (e: any) => {
+    const handleTouchStart = () => {
         triggerTime = Date.now();
     }
-    const handleTouchEnd = (e: any) => {
+    const handleTouchEnd = () => {
         triggerTime = Date.now() - triggerTime;
     }
 
