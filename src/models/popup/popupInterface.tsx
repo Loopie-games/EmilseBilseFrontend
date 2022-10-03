@@ -5,4 +5,5 @@ export enum POPUP_STATES {
     Feedback,
     winClaim,
     ConfirmWin,
+    Input
 }
