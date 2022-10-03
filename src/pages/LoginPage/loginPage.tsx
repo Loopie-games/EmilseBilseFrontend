@@ -22,6 +22,9 @@ const LoginPage = () => {
         setShouldAnimate(true)
     }, [])
 
+    /**
+     * @Description Tries to login the user with the given username and password, if successful it will redirect to the home page
+     */
     const onLogin = async () => {
         let user: LoginDTO = { username, password };
         await userStore.login(user).then(res => {
@@ -40,6 +43,10 @@ const LoginPage = () => {
         setIncorrect(true);
     }
 
+    /**
+     * @Description Enter key listener. If the enter key is pressed it will call the onLogin function
+     * @param e 
+     */
     const handleOnKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
             onLogin()

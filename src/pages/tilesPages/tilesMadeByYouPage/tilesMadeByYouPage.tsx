@@ -17,11 +17,13 @@ const TilesMadeByYouPage = () => {
 
     useEffect(() => {
         setLoading(false);
-        getTiles()
-
-
+        getTiles();
     }, [tileStore, search, params.id, tileStore.createdTiles!])
 
+    /**
+     * @Description Gets the tiles made by the user and sets the filtered list
+     * @returns clears the debounce timer
+     */
     const getTiles = async () => {
         try {
             await tileStore.getCreatedTiles(params.id!);
@@ -37,13 +39,13 @@ const TilesMadeByYouPage = () => {
         }
     }
 
-
-
+    /**
+     * @Description Clears the search input and resets the filter
+     */
     const handleClearSearch = () => {
         setFilteredList(tileStore.createdTiles!);
         setSearch('');
     }
-
 
     return (
         <div className='FriendsPage-Container'>

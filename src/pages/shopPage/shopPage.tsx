@@ -120,7 +120,6 @@ const ShopPage = () => {
     const [cartTotal, setCartTotal] = useState(0)
     const [cartOpen, setCartOpen] = useState(false)
 
-
     useEffect(() => {
         return () => {
             setCartItems([])
@@ -129,7 +128,10 @@ const ShopPage = () => {
         }
     }, [])
 
-
+    /**
+     * @Description - Adds an item to the cart
+     * @param item - The item to add to the cart
+     */
     const addToCart = (item: any) => {
         if (!cartItems.find((cartItem) => cartItem.id === item.id)) {
             setCartItems([...cartItems, item])
@@ -140,20 +142,27 @@ const ShopPage = () => {
 
     }
 
+    /**
+     * @Description - Rotates the carousel to the left
+     */
     const handleClickLeft = () => {
-
         const firstItem = testItems[0]
         const newItems = testItems.slice(1, testItems.length)
         setTestItems([...newItems, firstItem])
     }
 
+    /**
+     * @Description - Rotates the carousel to the right
+     */
     const handleClickRight = () => {
-
         const lastItem = testItems[testItems.length - 1]
         const newItems = testItems.slice(0, testItems.length - 1)
         setTestItems([lastItem, ...newItems])
     }
 
+    /**
+     * @Description - Removes an item from the cart
+     */
     const removeFromCart = (item: any) => {
         const newCartItems = cartItems.filter(cartItem => cartItem.id !== item.id)
         setCartItems(newCartItems)
@@ -227,7 +236,7 @@ const ShopPage = () => {
                         <div className='Shop_MembershipContentContainer'>
                             {testMemberships.map((item) => (
                                 <Membership addToCart={() => addToCart(item)} membership={item} />
-                            ))} 
+                            ))}
                         </div>
                     </section>
                 </div>

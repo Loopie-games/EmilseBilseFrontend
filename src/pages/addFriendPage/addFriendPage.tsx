@@ -11,12 +11,11 @@ import { useStore } from '../../stores/store';
 import './addFriendPage.scss'
 
 const AddFriendPage = () => {
-    const t2 = [{ r1: "asd", a2: "asd" }, { r1: "a123", a2: "123" }]
-
     const { friendshipStore } = useStore();
     const [filteredList, setFilteredList] = useState<Friend[]>([]);
     const [search, setSearch] = useState('');
     const [loading, setLoading] = useState(true);
+
     useEffect(() => {
         setLoading(false);
         if (search.length > 2) {
@@ -33,8 +32,10 @@ const AddFriendPage = () => {
         }
     }, [friendshipStore, search])
 
-
-
+    /**
+     * @Description
+     * Clears the search input and the search results
+     */
     const handleClearSearch = () => {
         setFilteredList([]);
         setSearch('');

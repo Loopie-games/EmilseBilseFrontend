@@ -135,7 +135,6 @@ function App() {
   }, [])
 
   useEffect(() => {
-
     window.screen.orientation.addEventListener('change', () => {
       let r = routes.find(r => r.path.toLowerCase() === window.location.pathname.toLowerCase());
       
@@ -156,7 +155,6 @@ function App() {
         document.getElementsByTagName('head')[0].appendChild(link);
       }
       link.href = themeStore.theme === "light" ? "/loopie_logo_black.ico" : "/loopie_logo_white.ico";
-  
     })
   })
 

@@ -28,7 +28,7 @@ const ProfilePageMobile = () => {
     const [filtered, setFiltered] = useState<any[]>([]);
     const [placeholder, setPlaceholder] = useState('');
     const defaultImage = 'https://github.githubassets.com/images/modules/profile/achievements/yolo-default.png';
-    
+
     const [testAchievements, setTestAchievements] = useState<any[]>([
         {
             achievement: {
@@ -52,11 +52,8 @@ const ProfilePageMobile = () => {
             }
         },
     ]);
-    let testFriends = 207;
 
     useEffect(() => {
-
-
         if (userStore.user?.id === params.id) {
             setIsOwner(true);
             setUser(userStore.user);
@@ -91,11 +88,17 @@ const ProfilePageMobile = () => {
 
     }, [tileStore.tilesAboutUser])
 
+    /**
+     * @Description Gets user from the server
+     */
     const getUser = async () => {
         const user = await userStore.getUserById(params.id!);
         setUser(user);
     }
 
+    /**
+     * @Description Gets friend list from the server
+     */
     const getFriendList = async () => {
         setFiltered([]);
         setLoading(true);
@@ -106,9 +109,11 @@ const ProfilePageMobile = () => {
             setFiltered(friendshipStore._friendlist!);
         }
         setLoading(false);
-        console.log(friendshipStore._friendlist);
     }
 
+    /**
+     * @Description Gets tiles about user from the server
+     */
     const getTilesAboutUser = async () => {
         setFiltered([]);
         setLoading(true);
@@ -121,6 +126,9 @@ const ProfilePageMobile = () => {
         setLoading(false);
     }
 
+    /**
+     * @Description Gets achievements about user from the server
+     */
     const getAchievements = async () => {
         setFiltered([]);
         setLoading(true);
@@ -135,7 +143,9 @@ const ProfilePageMobile = () => {
         setLoading(false);
     }
 
-
+    /**
+     * @Description Toggles edit mode
+     */
     const edit = () => {
         if (isInEditMode) {
             //TODO save changes when endpoint is done
@@ -145,37 +155,51 @@ const ProfilePageMobile = () => {
         }
     }
 
-
-
+    /**
+     * @Description uploads and updates profile picture
+     * @param event array of files
+     */
     const uploadProfilePic = async (event: any) => {
         const file = event[0]
         const response = await userStore.updateProfilePic(file);
         setTestPB(response);
     }
 
+    /**
+     * @Description Filters the achievements based on the search input query
+     * @param query search input query
+     */
     const filterInAchievements = (query: string) => {
         if (testAchievements !== undefined) {
             setFiltered(filterService.filterInAchievements(query, testAchievements));
         }
     }
 
+    /**
+     * @Description Filters the friends based on the search input query
+     * @param query search input query
+     */
     const filterInFriends = (query: string) => {
         if (friendshipStore._friendlist !== undefined) {
             setFiltered(filterService.filterForFriends(query, friendshipStore._friendlist));
         }
-        console.log('====================================');
-        console.log(filtered);
-        console.log('====================================');
     }
 
+    /**
+     *  @Description Filters the tiles based on the search input query
+     * @param query search input query
+     */
     const filterInTiles = (query: string) => {
         if (tileStore.tilesAboutUser !== undefined) {
             setFiltered(filterService.filterForTiles(query, tileStore.tilesAboutUser));
         }
     }
 
+    /**
+     * @Description Function to figure out what to filter in
+     * @param query search input query
+     */
     const filter = (query: string) => {
-
         switch (showing) {
             case 'achievements':
                 filterInAchievements(query);
@@ -191,6 +215,10 @@ const ProfilePageMobile = () => {
         }
     }
 
+    /**
+     * @Description Function to figure the placeholder for the search input
+     * @returns placeholder for the search input
+     */
     const getPlaceholderText = () => {
         switch (showing) {
             case 'achievements':

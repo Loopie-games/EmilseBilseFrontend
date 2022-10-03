@@ -10,6 +10,9 @@ const Tiles = (boardTileDTO: BoardTileDTO) => {
         setColor(boardTileDTO.aboutUser.color!)
     }, [])
 
+    /**
+     * @Description toggles the tilelist shown state
+     */
     const handleShow = () => {
         setIsShown(!isShown)
     }

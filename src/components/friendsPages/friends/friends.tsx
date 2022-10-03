@@ -12,6 +12,9 @@ const Friends = (friend: Friend) => {
     const defaultPic = 'https://as2.ftcdn.net/v2/jpg/02/15/84/43/1000_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg'
     const { tileStore, popupStore } = useStore();
 
+    /**
+     * @Description adds a new tile to the user
+     */
     const handleAddClick = () => {
         try {
         const data: TileNewFromUser = { action: action, aboutUserId: friend.user.id!}
@@ -22,10 +25,18 @@ const Friends = (friend: Friend) => {
             popupStore.show();
         }
     }
+
+    /**
+     * @Description toggles the expanded state
+     */
     const handleExpand = () => {
         setExpanded(!expanded);
     }
 
+    /**
+     * @Description gets the height associated with the expanded state based on whats active
+     * @returns the given height
+     */
     const getHeight = () => {
         if (expanded && addShown) {
             return '350px';

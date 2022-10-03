@@ -11,6 +11,9 @@ const AddFriend = (friend: Friend) => {
     const { friendshipStore, popupStore } = useStore();
     const [added, setAdded] = useState((friend.id !== null && friend.id !== ''));
 
+    /**
+     * @Description Accepts a friend request
+     */
     const handleAddClick = async () => {
         if (!added) {
             try {

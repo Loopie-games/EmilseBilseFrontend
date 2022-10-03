@@ -14,6 +14,9 @@ const GameSettings = () => {
     const [tilepackSettingsShown, setTilepackSettingsShown] = useState(false);
     const [tilePacks, setTilePacks] = useState<TilePackSetting[]>([])
 
+    /**
+     * @Description initializes the tilepacks owned by the host
+     */
     const initTilePacks = async () => {
         setTilePacks([])
         let tpList = await tileStore.getOwnedTilePack()
@@ -31,6 +34,9 @@ const GameSettings = () => {
         initTilePacks()
     },[])
 
+    /**
+     * @Description handles the settings clicked
+     */
     const handleSettingsClicked = () => {
         setIsShown(true);
         setTimeout(() => {
@@ -38,25 +44,34 @@ const GameSettings = () => {
         }, 200);
     }
 
-    const handleGeneralSettingsClick = () => {
-        setGeneralSettingsShown(!generalSettingsShown);
-    }
-
+    /**
+     * @Description handles the expansion og the tilepack section in the settings panel.
+     */
     const handleTilepackSettingsClick = () => {
         setTilepackSettingsShown(true);
     }
 
+    /**
+     * @Description handles the cancle button in the settings panel
+     */
     const handleCancelClick = () => {
         setRestIsShown(false);
         setIsShown(false);
     }
 
+    /**
+     * @Description handles the save button in the settings panel
+     */
     const handleSaveClick = () => {
         setRestIsShown(false);
         setIsShown(false);
+        //TODO save the settings
     }
 
-
+    /**
+     * @Description toggles the individual tilepacks to be used or not
+     * @param id the id of the tilepack to toggle
+     */
     const toggleTilepack = (id: string) => {
         const newTilePacks = tilePacks.map(tilePack => {
             if (tilePack.tilePack.id === id) {
@@ -66,9 +81,6 @@ const GameSettings = () => {
         })
         setTilePacks(newTilePacks);
     }
-
-
-
 
     return (
         <>

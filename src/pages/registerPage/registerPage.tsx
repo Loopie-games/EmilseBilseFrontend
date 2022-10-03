@@ -30,22 +30,30 @@ const RegisterPage = () => {
 
     const { userStore, popupStore } = useStore();
 
-    async function onSubmitNewUser() {
+    /**
+     * @Description Registers the user with the given information
+     */
+    const onSubmitNewUser = async () => {
         if (username.length < 8 && username.match(/^[a-zA-Z0-9]+$/) === null) {
             setUsernameError(true)
+            return;
         }
         if (password.length < 8 && password.match(/^(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9]{8,}$/) === null) {
             setPasswordError(true)
+            return;
         }
         if (repeatPassword !== password || repeatPassword.match(/^(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9]{8,}$/) === null) {
             setRepeatPasswordError(true)
+            return;
         }
         if (nickname.length < 3 && nickname.match(/^[a-zA-Z]+$/) === null) {
             setNicknameError(true)
+            return;
         }
 
         if (email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/) === null) {
             setEmailError(true)
+            return;
         }
 
         //check if user is more than 13 years old
@@ -64,15 +72,10 @@ const RegisterPage = () => {
             setTermsError(true)
         }
 
-        console.log(usernameError, passwordError, repeatPasswordError, nicknameError, emailError, birthdayError, termsError)
-
         if (!usernameError && !passwordError && !repeatPasswordError && !nicknameError && !emailError && !birthdayError && !termsError) {
-            console.log('====================================');
-            console.log(password);
-            console.log('====================================');
             let user: CreateUserDTO = { userName: username, password: password, nickName: nickname, salt: '', profilePicUrl: '' };
             await userStore.create(user)
-            console.log(userStore.user) 
+            console.log(userStore.user)
             if (userStore.user) {
                 navigate('/')
             }
@@ -161,7 +164,7 @@ const RegisterPage = () => {
                                 <div className='Register-InputTitle' style={{ display: "flex", flexDirection: "row" }}>Terms</div>
                                 <div className={`Register-InputFieldWrapper ${terms ? 'active' : ''}  ${termsError ? 'error' : ''}`}>
 
-                                    <input id='TermsCheck' type="checkbox" onChange={(e) => setTerms(e.target.checked)}/>
+                                    <input id='TermsCheck' type="checkbox" onChange={(e) => setTerms(e.target.checked)} />
                                     <div className='Register_TermsContainer'>
                                         I have read and agree to the <Link to={'/terms'} className='Register_TermsLink'> Terms of Service </Link> and <Link to={'/privacy'} className='Register_TermsLink'>Privacy Policy</Link>
                                     </div>

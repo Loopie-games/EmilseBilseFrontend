@@ -13,16 +13,17 @@ const Winnerscreen = () => {
 
 
     useEffect(() => {
-        const blob = async () => {
+        /**
+         * @Description loads the active game from the params
+         */
+        const loadGame = async () => {
             setLoading(true);
 
             gameStore.game = await gameStore.getGame(params.id!)
             await gameStore.getTop3(gameStore.game!.id)
             setLoading(false);
         }
-        blob()
-
-
+        loadGame()
     }, [])
 
     const { gameStore } = useStore();

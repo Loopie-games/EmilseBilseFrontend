@@ -61,11 +61,13 @@ export default class LobbyStore {
         return;
     }
 
+    @action
     stopConnection = async () => {
         await this.hubConnection?.stop()
         return
     }
 
+    @action
     joinLobby = async (lobbyPin: string) => {
         this.reset();
         await this.createHubConnection()
@@ -73,6 +75,7 @@ export default class LobbyStore {
         return
     }
 
+    @action
     kickPlayer = async (userId: string) => {
         //TODO
     }

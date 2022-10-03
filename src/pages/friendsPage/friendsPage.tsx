@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { useState, useEffect } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import Friends from '../../components/friendsPages/friends/friends';
 import Icon from '../../components/shared/icon/Icon';
 import Loader from '../../components/shared/loader/loader';
@@ -8,19 +8,13 @@ import { useStore } from '../../stores/store';
 import './friendsPage.scss'
 
 const FriendsPage = () => {
-    const t2 = [{ r1: "asd", a2: "asd" }, { r1: "a123", a2: "123" }]
-
-    const { friendshipStore, userStore } = useStore();
+    const { friendshipStore } = useStore();
     const [filteredList, setFilteredList] = useState(friendshipStore._friendlist);
     const [search, setSearch] = useState('');
     const [loading, setLoading] = useState(true);
     const params = useParams();
-    const navigate = useNavigate()
-
 
     useEffect(() => {
-        console.log(params);
-
         const loadData = async () => {
             await friendshipStore.getFriendList(params.id!);
             setLoading(false);
@@ -28,11 +22,12 @@ const FriendsPage = () => {
         }
 
         params.id !== undefined ? loadData() : setLoading(false);
-        console.log(userStore.user);
-        
-
     }, [])
 
+    /**
+     * @Description Filters the friendlist based on the search input
+     * @param e event from the search input
+     */
     const handleSearch = (e: any) => {
         const search = e.target.value;
         const filtered = friendshipStore._friendlist!.filter(t => t.user.username.toLowerCase().includes(search.toLowerCase()) || t.user.nickname.toLowerCase().includes(search.toLowerCase()));
@@ -40,6 +35,9 @@ const FriendsPage = () => {
         setSearch(search);
     }
 
+    /**
+     * @Description Clears the search input and resets the filter
+     */
     const handleClearSearch = () => {
         setFilteredList(friendshipStore._friendlist!);
         setSearch('');

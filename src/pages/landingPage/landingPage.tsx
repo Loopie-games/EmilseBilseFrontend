@@ -14,30 +14,34 @@ const LandingPage = () => {
     const [hasPin, setHasPin] = useState(false);
     const [pinValue, setPinValue] = useState('');
     const navigate = useNavigate();
-    /**
-     * Example of how to use the store context
-     */
-    const {userStore, gameStore, popupStore, lobbyStore} = useStore();
+
+    const {userStore, popupStore, lobbyStore} = useStore();
 
     useEffect(() => {
         setLoaded(true);
-        console.log('====================================');
-        console.log(`${process.env.NODE_ENV}`);
-        console.log('====================================');
         return () => {
-            console.log("UNMOUNTING");
         }
-
     }, []);
 
+    /**
+     * @Description sets the pin state to the value from the input field
+     * @param e the event from the input field
+     */
     const handlePinChange = (e: any) => {
         setPinValue(e.target.value);
     }
 
+    /**
+     *  @Description sets the hasPin state to true if the pin input has a value
+     */
     const checkPinLength = () => {
         setHasPin(pinValue.length > 0);
     }
 
+    /**
+     * @Description if the user is undefined I.E not logged in, it will redirect to the login page, 
+     *              otherwise it will navigate to the lobby page for the given pin
+     */
     const handleJoinClick = async () => {
         if (userStore.user === undefined) {
             navigate('/login');
@@ -52,6 +56,10 @@ const LandingPage = () => {
         return
     }
 
+    /**
+     * @Description if the user is undefined I.E not logged in, it will redirect to the login page,
+     *             otherwise it will create a lobby and redirect to the lobby page with the generated pin
+     */
     const handleHostClick = async () => {
         if (userStore.user === undefined) {
             navigate('/login');

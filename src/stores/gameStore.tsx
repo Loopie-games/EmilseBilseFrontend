@@ -25,6 +25,10 @@ export default class GameStore {
         makeAutoObservable(this);
     }
 
+    /**
+     * @Description Creates the socket connection to the game and handles the respones it gets from the server
+     * @returns out of the function
+     */
     private createHubConnection = async () => {
         this.hubConnection = new HubConnectionBuilder()
             .withUrl(process.env.REACT_APP_GAME_SOCKET !== undefined ? process.env.REACT_APP_GAME_SOCKET : "http://localhost:5121/", {accessTokenFactory: () => localStorage.getItem("token")!.toString()})
@@ -70,11 +74,18 @@ export default class GameStore {
         return;
     }
 
+    /**
+     * @Description Stops the socket connection to the game
+     */
     stopConnection = async () => {
         await this.hubConnection?.stop()
         return
     }
 
+    /**
+     * @Description Create a hub connection and invoke the connectToGame method on the server
+     * @param gameId the id of the game
+     */
     connectToGame = async (gameId: string) => {
         this.game = await this.getGame(gameId);
         await this.createHubConnection()
@@ -82,25 +93,46 @@ export default class GameStore {
         return
     }
 
+    /**
+     * @Description Invoke turnTile on the server, whenever a tile is clicked
+     * @param boardtileId the id of the tile
+     */
     turnTile = async (boardtileId: string) => {
         this.hubConnection?.invoke('TurnTile', boardtileId)
     }
 
+    /**
+     * @Description Invoke ClaimWin on the server, whenever a player has filled out the board and confirmed the popup
+     * @returns out of the function
+     */
     claimWin = async () => {
         this.hubConnection?.invoke('ClaimWin', this.board!.id)
         return
     }
 
+    /**
+     * @Description Invoke ConfirmWin on the server, whenever the host has confirmed the claimed win
+     * @returns out of the function
+     */
     confirmWin = async () => {
         this.hubConnection?.invoke('ConfirmWin', this.game!.id)
         return
     }
 
+    /**
+     * @Description Invoke DenyWin on the server, whenever the host has denied the claimed win
+     * @returns out of the function
+     */
     denyWin = async () => {
         this.hubConnection?.invoke('DenyWin', this.game!.id)
         return
     }
 
+    /**
+     * @Description Invoke LeaveLobby on the server, whenever a player leaves the lobby
+     * @param boardId the id of the board
+     * @returns out of the function
+     */
     @action
     getByBoardId = async (boardId: string) => {
         const response = await boardService.getByBoardId(boardId)
@@ -115,18 +147,32 @@ export default class GameStore {
         return response.data;
     }
 
+    /**
+     * @Description Gets the players of the game
+     * @returns the players of the game
+     */
     @action
     getPlayers = async () => {
         const response = await gameService.getPlayers(this.game!.id);
         return response.data
     }
 
+    /**
+     * @Description Gets the game by id
+     * @param gameId the id of the game
+     * @returns the game
+     */
     @action
     getGame = async (gameId: string) => {
         const response = await gameService.getById(gameId);
         return response.data
     }
 
+    /**
+     * @Description Gets the top ranked players
+     * @param gameId the id of the game
+     * @returns the top ranked players
+     */
     @action
     getTop3 = async (gameId: string) => {
         const response = await TopPlayerService.getTop3(gameId);
@@ -134,6 +180,9 @@ export default class GameStore {
         return response.data
     }
 
+    /**
+     * @Description get the ended games
+     */
     @action
     getEnded = async () => {
         const response = await gameService.getEndedGames();

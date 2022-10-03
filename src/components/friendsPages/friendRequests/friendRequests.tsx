@@ -9,11 +9,14 @@ const FriendRequest = (friend: Friend) => {
     const defaultPic = 'https://as2.ftcdn.net/v2/jpg/02/15/84/43/1000_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg'
     const { friendshipStore, popupStore } = useStore();
 
+    /**
+     * @Description Accepts a friend request
+     */
     const handleAddClick = () => {
         try{
         friendshipStore.acceptFriendRequest(friend.id!);
         let ff = friendshipStore._friendRequests!.findIndex((f)=>{
-            f.id == friend.id
+            f.id === friend.id
         })
         friendshipStore._friendRequests!.splice(ff,1)
         }catch(error: any){
@@ -22,6 +25,9 @@ const FriendRequest = (friend: Friend) => {
         }
     }
 
+    /**
+     * @Description Declines a friend request
+     */
     const handleDeclineClick = () => {
         friendshipStore.declineFriendRequest(friend.id!);
     }

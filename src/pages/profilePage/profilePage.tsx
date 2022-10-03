@@ -87,17 +87,17 @@ const ProfilePage = () => {
 
     }, [params.id])
 
-    useEffect(() => {
-        console.log(tileStore.tilesAboutUser?.length);
-
-
-    }, [tileStore.tilesAboutUser])
-
+    /**
+     * @Description Gets the user from the server based on the parameter id
+     */
     const getUser = async () => {
         const user = await userStore.getUserById(params.id!);
         setUser(user);
     }
 
+    /**
+     * @Description Gets the friend list of the user from the server based on the parameter id
+     */
     const getFriendList = async () => {
         setFiltered([]);
         setLoading(true);
@@ -108,9 +108,11 @@ const ProfilePage = () => {
             setFiltered(friendshipStore._friendlist!);
         }
         setLoading(false);
-        console.log(friendshipStore._friendlist);
     }
 
+    /**
+     * @Description Gets the tiles of the user from the server based on the parameter id
+     */
     const getTilesAboutUser = async () => {
         setFiltered([]);
         setLoading(true);
@@ -123,6 +125,9 @@ const ProfilePage = () => {
         setLoading(false);
     }
 
+    /**
+     * @Description Gets the achievements of the user from the server based on the parameter id
+     */
     const getAchievements = async () => {
         setFiltered([]);
         setLoading(true);
@@ -137,7 +142,9 @@ const ProfilePage = () => {
         setLoading(false);
     }
 
-
+    /**
+     * @Description handles the change of the input fields and saves them in the database
+     */
     const edit = () => {
         if (isInEditMode) {
             //TODO save changes when endpoint is done
@@ -151,35 +158,50 @@ const ProfilePage = () => {
                 profilePicture: user!.profilePicture!
             }
 
-            userStore.update(data).then(res=>{
+            userStore.update(data).then(res => {
                 console.log(res);
-                
+
             })
-            
+
             setIsInEditMode(false);
         } else {
             setIsInEditMode(true);
         }
     }
 
+    /**
+     * @Description selects the given file from the file chooser and saves it in the inputFile object
+     */
     const selectPB = () => {
         if (inputFile.current !== null && inputFile.current !== undefined) {
             inputFile.current.click();
         }
     }
 
+    /**
+     * @Description updates the profile picture of the user
+     * @param event array of files
+     */
     const uploadProfilePic = async (event: any) => {
         const file = event[0]
         const response = await userStore.updateProfilePic(file);
         setTestPB(response);
     }
 
+    /**
+     * @Description filters the list of achievments based on the given query.
+     * @param query string to filter the list with
+     */
     const filterInAchievements = (query: string) => {
         if (testAchievements !== undefined) {
             setFiltered(filterService.filterInAchievements(query, testAchievements));
         }
     }
 
+    /**
+     * @Description filters the list of friends based on the given query.
+     * @param query string to filter the list with
+     */
     const filterInFriends = (query: string) => {
         if (friendshipStore._friendlist !== undefined) {
             setFiltered(filterService.filterForFriends(query, friendshipStore._friendlist));
@@ -189,12 +211,20 @@ const ProfilePage = () => {
         console.log('====================================');
     }
 
+    /**
+     * @Description filters the list of tiles based on the given query.
+     * @param query string to filter the list with
+     */
     const filterInTiles = (query: string) => {
         if (tileStore.tilesAboutUser !== undefined) {
             setFiltered(filterService.filterForTiles(query, tileStore.tilesAboutUser));
         }
     }
 
+    /**
+     * @Description Function to figure out what filter function to use, based on what tab currently is selected.
+     * @param query string to filter with.
+     */
     const filter = (query: string) => {
 
         switch (showing) {
@@ -212,6 +242,10 @@ const ProfilePage = () => {
         }
     }
 
+    /**
+     * @Description Function to figure out the placeholder text for the search bar, based on what tab currently is selected.
+     * @returns placeholder text for the search bar
+     */
     const getPlaceholderText = () => {
         switch (showing) {
             case 'achievements':
@@ -258,12 +292,12 @@ const ProfilePage = () => {
 
                                     </div>
                                     <div className='ProfilePage_NicknameContainer'>
-                                        <input id='nicknameChange' type='text' placeholder='Nickname' value={/*user?.nickname*/nickname} disabled={!isInEditMode} onChange={(e)=> {setNickname(e.target.value)}} />
+                                        <input id='nicknameChange' type='text' placeholder='Nickname' value={/*user?.nickname*/nickname} disabled={!isInEditMode} onChange={(e) => { setNickname(e.target.value) }} />
                                     </div>
                                 </div>
                                 <div className='ProfilePage_Description'>
                                     <div className='ProfilePage_DescriptionContainer'>
-                                        <textarea id='descriptionChange' placeholder='Description' disabled={!isInEditMode} onChange={(e)=>{setDescription(e.target.value)}} />
+                                        <textarea id='descriptionChange' placeholder='Description' disabled={!isInEditMode} onChange={(e) => { setDescription(e.target.value) }} />
                                     </div>
                                 </div>
                                 <div className='ProfilePage_Friends'>

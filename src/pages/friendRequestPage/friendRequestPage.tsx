@@ -9,19 +9,14 @@ import { useStore } from '../../stores/store';
 import './friendRequestPage.scss'
 
 const FriendRequestPage = () => {
-    const t2 = [{ r1: "asd", a2: "asd" }, { r1: "a123", a2: "123" }]
-
-    const { friendshipStore, userStore } = useStore();
+    const { friendshipStore } = useStore();
     const [loading, setLoading] = useState(true);
 
-
     useEffect(() => {
-
         const loadData = async () => {
             await friendshipStore.getFriendRequests();
             setLoading(false);
         }
-
         loadData();
     }, [])
 

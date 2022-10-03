@@ -5,6 +5,9 @@ import './pageNotFound.scss'
 const PageNotFound = () => {
     const navigate = useNavigate()
 
+    /**
+     * @Description redirects to the home page
+     */
     const handleHomeClick = () => {
         navigate('/')
     }

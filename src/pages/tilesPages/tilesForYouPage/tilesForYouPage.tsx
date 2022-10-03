@@ -4,7 +4,8 @@ import AddFriend from '../../../components/friendsPages/addFriends/addFriends';
 import Icon from '../../../components/shared/icon/Icon';
 import Loader from '../../../components/shared/loader/loader';
 import UserCreatedTile from '../../../components/tilesPages/userCreatedTile';
-import {UserTile} from '../../../models/tile/tileInterface';
+import { UserTile } from '../../../models/tile/tileInterface';
+import { SimpleUserDTO } from '../../../models/user/userInterface';
 import { useStore } from '../../../stores/store';
 
 const TilesForYouPage = () => {
@@ -14,34 +15,39 @@ const TilesForYouPage = () => {
     const [search, setSearch] = useState('');
     const [loading, setLoading] = useState(true);
     const [isLoggedInUser, setIsLoggedInUser] = useState<Boolean>();
-    const [user, setUser] = useState<any>();
+    const [user, setUser] = useState<SimpleUserDTO>();
 
     useEffect(() => {
         const load = async () => {
-            try{
-            let u = await userStore.getUserById(params.id!)
-            setUser(u)
-            await  tileStore.getTilesAboutUser(params.id!)
-            setIsLoggedInUser(userStore.user?.id === params.id);
-            setFilteredList(tileStore.tilesAboutUser!);
-            setLoading(false);
-            } catch (e :any) {
+            try {
+                let u = await userStore.getUserById(params.id!)
+                setUser(u)
+                await tileStore.getTilesAboutUser(params.id!)
+                setIsLoggedInUser(userStore.user?.id === params.id);
+                setFilteredList(tileStore.tilesAboutUser!);
+                setLoading(false);
+            } catch (e: any) {
                 popupStore.setErrorMessage(e.message);
                 popupStore.show();
             }
         }
         params.id ? load() : setLoading(false);
 
+    }, [tileStore, params.id])
+
+    useEffect(() => {
         const debouncedSearch = setTimeout(async () => {
-                        setFilteredList(tileStore.tilesAboutUser!.filter(t => t.action.toLowerCase().includes(search.toLowerCase()) || t.user.username.toLowerCase().includes(search.toLowerCase())));
+            setFilteredList(tileStore.tilesAboutUser!.filter(t => t.action.toLowerCase().includes(search.toLowerCase()) || t.user.username.toLowerCase().includes(search.toLowerCase())));
         }, 500);
         return () => {
             clearTimeout(debouncedSearch);
         }
-    }, [tileStore, search, params.id])
+    }, [search])
 
 
-
+    /**
+     * @Description Clears the search input and resets the filter
+     */
     const handleClearSearch = () => {
         setFilteredList(tileStore.tilesAboutUser!);
         setSearch('');
@@ -52,7 +58,7 @@ const TilesForYouPage = () => {
         <div className='FriendsPage-Container'>
             {loading ? <Loader /> :
                 <div className='FriendsPage-Wrapper'>
-                    <div className='FriendsPage-Title'>Tiles Made For {isLoggedInUser ? 'You' : `${user.nickname}`}</div>
+                    <div className='FriendsPage-Title'>Tiles Made For {isLoggedInUser ? 'You' : `${user?.nickname}`}</div>
                     <div className='FriendsPage-Searchbar'>
                         <div className={`FriendsPage-SearchbarContainer ${search.length > 0 ? 'active' : ''}`}>
                             <div className='FriendsPage-SearchbarIcon'><Icon name="filter" /></div>
