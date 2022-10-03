@@ -12,6 +12,8 @@ import Loader from '../../components/shared/loader/loader';
 import { pendingPlayerDto } from '../../models/player/playerInterface';
 import { SimpleUserDTO } from '../../models/user/userInterface';
 import {TilePackSetting} from "../../models/tile/tileInterface";
+import sortService from '../../services/sortService';
+import { SORT_TYPE } from '../../models/sortService/sortServiceInterface';
 
 const LobbyPage = () => {
     const {userStore, popupStore, lobbyStore, mobileStore} = useStore();
@@ -20,6 +22,7 @@ const LobbyPage = () => {
     const params = useParams();
     const [hostActive, setHostActive] = useState<boolean>(false);
     const [t, setT] = useState<SimpleUserDTO>();
+    const [sorted, setSorted] = useState<pendingPlayerDto[]>([]);
 
     useEffect(() => {
         joinLobby()
@@ -36,6 +39,7 @@ const LobbyPage = () => {
         } else {
             setHostActive(false);
         }
+        setSorted(sortService.sortArray(lobbyStore.players, SORT_TYPE.Ascending));
     }, [lobbyStore.players])
 
     const getHostAvailability = () => {
@@ -154,7 +158,7 @@ const LobbyPage = () => {
                                 <UserComponent {...t!} />
                             </div>
                         }
-                        {lobbyStore.players.map((player) => (<>
+                        {sorted.map((player) => (<>
                             {player.isHost ? null : <UserComponent {...player.user} />}
                         </>
                         ))}
