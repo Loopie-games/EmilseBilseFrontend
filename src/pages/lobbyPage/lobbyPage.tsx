@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import UserComponent from '../../components/Lobby/userComponent/userComponent';
 import './lobbyPage.scss'
 import {useStore} from '../../stores/store'
@@ -8,9 +8,11 @@ import {autorun} from 'mobx';
 import {HubConnectionState} from '@microsoft/signalr';
 import GameSettings from '../../components/Lobby/gameSettings/gameSettings';
 import MobileGameSettings from '../../components/Lobby/mobileGameSettings/mobileGameSettings';
+import {TilePackSetting} from "../../models/tile/tileInterface";
 
 const LobbyPage = () => {
     const {userStore, popupStore, lobbyStore, mobileStore} = useStore();
+    const [tilePacks, setTilePacks] = useState<TilePackSetting[]>([])
     const navigate = useNavigate();
     const params = useParams();
 
@@ -68,7 +70,8 @@ const LobbyPage = () => {
 
     const handleStartGame = async () => {
         try {
-            await lobbyStore.startGame({lobbyId: lobbyStore.lobby?.id!, tpIds: undefined})
+            let activated = tilePacks.filter(t => t.isActivated).map(t => t.tilePack.id)
+            await lobbyStore.startGame({lobbyId: lobbyStore.lobby?.id!, tpIds: activated})
         } catch (e: any) {
             popupStore.setErrorMessage(e.message)
             popupStore.show();
@@ -86,7 +89,7 @@ const LobbyPage = () => {
             {isHost() &&
             <>
                 {mobileStore.isMobile ? <MobileGameSettings/> :
-                    <GameSettings/>
+                    <GameSettings tilePacks={tilePacks} setTilePacks={(tps:TilePackSetting[])=>setTilePacks(tps)}/>
                 }
             </>
             }

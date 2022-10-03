@@ -26,12 +26,9 @@ export interface TilePackSetting{
     isActivated: boolean
 }
 
-export interface PackTile extends Tile
+export interface PackTile extends ByTile
 {
-    id: string
-    action: string
     pack: TilePack
-
 }
 
 export interface PackTileDto{
@@ -42,7 +39,7 @@ export interface PackTileDto{
 export interface Tile {
     id: string
     action: string
-    addedby?: string
+    addedBy?: string
     tileType?: TileType;
 
 }
