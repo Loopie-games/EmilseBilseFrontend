@@ -16,7 +16,7 @@ const Searchbar = () => {
     const handleSearch = async (query: string) => {
         //TODO
         setQuery(query);
-        if (query === '' ) {
+        if (query === '') {
             setIsActivated(false);
             friendshipStore.clearSearchResults();
         } else if (query.length > 2) {
@@ -25,7 +25,7 @@ const Searchbar = () => {
             friendshipStore._searchResults?.forEach((user) => {
                 console.log(user.user.profilePicUrl);
             })
-            
+
         }
     }
 
@@ -51,23 +51,24 @@ const Searchbar = () => {
                         <Icon name="cross" />
                     </div>}
             </div>
-            <div className={`Searchbar_OutPutContainer ${isActivated ? 'SearchActivated test' : ''}`}>
-               
-                {friendshipStore._searchResults?.map(user =>
-                    <div className='Searchbar_OutPutItem' key={user.user.id} onClick={() => navigate(`/user/profile/${user.user.id}`)}>
-                        <div className='Searchbar_OutPutItemImage'>
-                            <img src={user.user.profilePicUrl!== undefined && user.user.profilePicUrl !== '' ? user.user.profilePicUrl : defaultPic} alt="" />
+            {friendshipStore._searchResults?.length! > 0 && friendshipStore._searchResults !== undefined &&
+                <div className={`Searchbar_OutPutContainer ${isActivated ? 'SearchActivated test' : ''}`}>
+                    {friendshipStore._searchResults?.map(user =>
+                        <div className='Searchbar_OutPutItem' key={user.user.id} onClick={() => navigate(`/user/profile/${user.user.id}`)}>
+                            <div className='Searchbar_OutPutItemImage'>
+                                <img src={user.user.profilePicUrl !== undefined && user.user.profilePicUrl !== '' ? user.user.profilePicUrl : defaultPic} alt="" />
+                            </div>
+                            <div className='Searchbar_OutPutItemText'>
+                                <div>{user.user.username}</div>
+                            </div>
+                            <div className='Searchbar_IconContainer'>
+                                <Icon name="rightArrow" />
+                            </div>
                         </div>
-                        <div className='Searchbar_OutPutItemText'>
-                            <div>{user.user.username}</div>
-                        </div>
-                        <div className='Searchbar_IconContainer'>
-                            <Icon name="rightArrow" />
-                        </div>
-                    </div>
 
-                )}
-            </div>
+                    )}
+                </div>
+            }
         </>
     )
 }
