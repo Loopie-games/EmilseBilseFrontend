@@ -8,12 +8,22 @@ $defaultEasing: cubic-bezier(0.4, 0, 0.2, 1);
     user-select: none;
     background: var(--color-background);
     .Register-Background {
-        width: 75%;
-        position: absolute;
-        z-index: 1;
-        height: auto !important;
-        -webkit-user-drag: none;
-        animation: 1s initialRegisterBackground forwards, 5s foreverRegisterBackground alternate infinite;
+        @media screen and (max-width: 768px) {
+            position: absolute;
+            height: 100%;
+            -webkit-user-drag: none;
+            animation: 1s initialRegisterBackground forwards, 5s foreverRegisterBackground alternate infinite;
+            
+        }
+        @media screen and (min-width: 768px) {
+            width: 75%;
+            position: absolute;
+            z-index: 1;
+            height: auto !important;
+            -webkit-user-drag: none;
+            animation: 1s initialRegisterBackground forwards, 5s foreverRegisterBackground alternate infinite;
+        }
+        
     }
     .Register-Wrapper {
         display: flex;
