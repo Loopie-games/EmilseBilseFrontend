@@ -6,6 +6,7 @@ import securityService from "../services/securityService";
 import userService from "../services/userService";
 
 export class UserStore {
+
     @observable user: SimpleUserDTO | undefined;
     @observable loginResponse: LoginResponseDTO | undefined;
     @observable admin: admin | undefined;
@@ -95,5 +96,11 @@ export class UserStore {
         console.log(newProfilePicURL);
         console.log('====================================');
         return newProfilePicURL;
+    }
+
+    @action
+    validateUsername(username: string) {
+        //TODO validate username in backend
+        return true
     }
 }
