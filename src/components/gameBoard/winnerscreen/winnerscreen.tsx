@@ -21,6 +21,9 @@ const Winnerscreen = () => {
             setLoading(false);
         }
         blob()
+        return ()=> {
+            gameStore.stopConnection()
+        }
 
 
     }, [])
