@@ -43,7 +43,7 @@ const Board = () => {
                                 onClick={() => handleClick(tile)}
                                 onMouseDown={handleTouchStart}
                                 onMouseUp={handleTouchEnd}>
-                                {index}
+                                {index + 1}
                                 {tile.isActivated ?
                                     <div className='GameBoard_TileShadow'
                                         style={{ "boxShadow": `0px 0px 20px ${getPlayerColor(tile.aboutUser.id)}` }}>

@@ -18,7 +18,7 @@ const Tiles = (boardTileDTO: BoardTileDTO) => {
         <div className={`Tile_Container ${isShown ? 'tileShown' : ''}`} onClick={handleShow}>
             <div className='Tile_IndicatorContainer'>
                 <div className='Tile_Indicator' style={{ backgroundColor: color }}>
-                    {boardTileDTO.position}
+                    {boardTileDTO.position + 1}
                 </div>
             </div>
             <div className='Tile_ActionContainer'>
