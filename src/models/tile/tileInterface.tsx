@@ -21,12 +21,14 @@ export interface TilePack {
     price?: number
 }
 
-export interface PackTile extends Tile
-{
-    id: string
-    action: string
-    pack: TilePack
+export interface TilePackSetting{
+    tilePack: TilePack
+    isActivated: boolean
+}
 
+export interface PackTile extends ByTile
+{
+    pack: TilePack
 }
 
 export interface PackTileDto{
@@ -37,7 +39,7 @@ export interface PackTileDto{
 export interface Tile {
     id: string
     action: string
-    addedby?: string
+    addedBy?: string
     tileType?: TileType;
 
 }
@@ -54,8 +56,14 @@ export interface BoardDTO{
 export interface BoardTileDTO {
     id: string
     board: BoardDTO
-    tile: Tile
+    byTile: ByTile
     aboutUser: SimplePlayerDTO
     position: number
     isActivated: boolean
+}
+
+export interface ByTile {
+    id: string
+    tile: Tile
+    tileType: TileType
 }

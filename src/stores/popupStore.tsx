@@ -1,12 +1,13 @@
 import { action, makeAutoObservable, observable } from "mobx";
 import { loginDto, User } from "../models/auth/authInterfaces";
+import { POPUP_STATES } from "../models/popup/popupInterface";
 import authService from "../services/authService";
 
 export class PopupStore {
     @observable isShown: boolean = false;
     @observable errorMessage: string = '';
     @observable title: string = ""
-    @observable isConfirmation: boolean = false;
+    @observable type: POPUP_STATES | undefined ;
     @observable onConfirm: Function | undefined;
     @observable onCancel: Function | undefined;
 
@@ -34,8 +35,8 @@ export class PopupStore {
         this.errorMessage = errorMessage;
     }
 
-    @action setConfirmation = (isConfirmation: boolean) => {
-        this.isConfirmation = isConfirmation;
+    @action setType = (type: POPUP_STATES) => {
+        this.type = type;
     }
 
     showConfirmation(title: string, message: string, onConfirm: Function, onCancel: Function){
@@ -50,7 +51,7 @@ export class PopupStore {
             onCancel();
 
         })
-        this.setConfirmation(true);
+        this.setType(POPUP_STATES.Confirmation);
         this.show();
     }
 
@@ -60,10 +61,54 @@ export class PopupStore {
         this.setOnCancel(() => {
             this.hide();
         })
-        this.setConfirmation(false);
+        this.setType(POPUP_STATES.Information);
         this.show();
     }
 
+    showInput(title: string, message: string, onConfirm: Function, onCancel: Function){
+        this.setErrorMessage(message);
+        this.setTitle(title);
+        this.setOnConfirm(async (e: string) => {
+            this.hide();
+            onConfirm(e);
+        })
+        this.setOnCancel(async () => {
+            this.hide();
+            onCancel();
+        })
+        this.setType(POPUP_STATES.Input);
+        this.show();
+    }
+
+    showBug(title: string, message: string, onConfirm: Function){
+        this.setErrorMessage(message);
+        this.setTitle(title);
+        this.setOnConfirm(async (e: string) => {
+            this.hide();
+            onConfirm(e);
+        })
+        this.setOnCancel(async () => {
+            this.hide();
+        })
+        this.setType(POPUP_STATES.Bug);
+        this.show();
+    }
+
+    showFeedback(title: string, message: string, onConfirm: Function){
+        this.setErrorMessage(message);
+        this.setTitle(title);
+        this.setOnConfirm(async (e: string) => {
+            this.hide();
+            onConfirm(e);
+        })
+        this.setOnCancel(async () => {
+            this.hide();
+            // onCancel();
+        })
+        this.setType(POPUP_STATES.Feedback);
+        this.show();
+    }
+    
     constructor() {
         makeAutoObservable(this);
     }

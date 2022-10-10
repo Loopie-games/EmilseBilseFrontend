@@ -1,24 +1,19 @@
 import React, {useEffect, useRef, useState} from 'react'
 import {useStore} from '../../../stores/store';
-import logo from '../../../assets/Shared/EmilseBilseBingo_Logo.png'
 import {observer} from 'mobx-react-lite';
 import './board.scss'
-import gameboardPage from '../../../pages/gameboardPage/gameboardPage';
 import {BoardTileDTO} from '../../../models/tile/tileInterface';
-import {POPUP_STATES} from '../../shared/popups/popup';
 
 const Board = () => {
-
-    const {gameStore, userStore, popupStore, mobileStore} = useStore();
-    const [counter, setCounter] = useState(0);
+    const {gameStore, mobileStore} = useStore();
     let triggerTime: number;
     let longPressTime = 200;
     useEffect(() => {
-        
+
     }, [])
 
-    const completeTile = async (tile: BoardTileDTO) => {
-        await gameStore.turnTile(tile.id)
+    const completeTile = async (boardTileDTO: BoardTileDTO) => {
+        await gameStore.turnTile(boardTileDTO.id)
         return
     }
 
@@ -26,10 +21,10 @@ const Board = () => {
         triggerTime > longPressTime ? completeTile(e) : completeTile(e);
     }
 
-    const handleTouchStart = (e: any) => {
+    const handleTouchStart = () => {
         triggerTime = Date.now();
     }
-    const handleTouchEnd = (e: any) => {
+    const handleTouchEnd = () => {
         triggerTime = Date.now() - triggerTime;
     }
 
@@ -43,15 +38,15 @@ const Board = () => {
                 <div className={`GameBoard_TileContainer ${mobileStore.isMobile ? 'mobileGab' : 'desktopGab'}`}>
                     {gameStore.tiles.map((tile, index) => (
                         <>
-                            <div style={{"color": `${getPlayerColor(tile.aboutUser.id)}`}}
-                                 className={`GameBoard_Tile ${tile.isActivated ? 'active' : ''}`} key={index}
-                                 onClick={() => handleClick(tile)}
-                                 onMouseDown={handleTouchStart}
-                                 onMouseUp={handleTouchEnd}>
-                                {index}
+                            <div style={{ "color": `${getPlayerColor(tile.aboutUser.id)}` }}
+                                className={`GameBoard_Tile ${tile.isActivated ? 'active' : ''}`} key={index}
+                                onClick={() => handleClick(tile)}
+                                onMouseDown={handleTouchStart}
+                                onMouseUp={handleTouchEnd}>
+                                {index + 1}
                                 {tile.isActivated ?
                                     <div className='GameBoard_TileShadow'
-                                         style={{"boxShadow": `0px 0px 20px ${getPlayerColor(tile.aboutUser.id)}`}}>
+                                        style={{ "boxShadow": `0px 0px 20px ${getPlayerColor(tile.aboutUser.id)}` }}>
                                     </div>
                                     : null}
                             </div>

@@ -6,11 +6,12 @@ import tileService from "../services/tileService";
 import packTileService from "../services/packTileService";
 
 export class TileStore {
-    
+
     @observable tilesAboutUser: UserTile[] | undefined;
     @observable createdTiles: UserTile[] | undefined;
     @observable createdtile: UserTile | undefined;
     @observable tilepacks: TilePack[] = []
+    @observable tilesAboutUserCreatedByYou: UserTile[] | undefined;
 
     constructor() {
         makeAutoObservable(this);
@@ -20,6 +21,12 @@ export class TileStore {
     getAllTilepacks = async () => {
         const response = await tilePackService.getAll();
         this.tilepacks = response.data
+        return response.data
+    }
+
+    @action
+    getOwnedTilePack = async ():Promise<TilePack[]> =>{
+        const response = await tilePackService.getOwned();
         return response.data
     }
 
@@ -96,5 +103,16 @@ export class TileStore {
     deleteTile(id: string) {
         throw new Error('Method not implemented.');
     }
+
+    @action
+    getTilesCreatedByUser = async (userId: string, loggedInId: string) => {
+        const response = await userTileService.getCreatedTiles(userId);
+        response.data.forEach((tile: UserTile) => {
+            if (tile.addedBy === loggedInId) {
+                this.tilesAboutUserCreatedByYou?.push(tile);
+            }
+        })
+    }
+
 
 }

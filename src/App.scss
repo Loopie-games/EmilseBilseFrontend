@@ -8,6 +8,21 @@
   width: 100%;
 }
 
+.App_Container {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+.App_NavbarBar {
+  z-index: 2;
+  height: 70px;
+  width: 100%;
+  background-color: var(--color-foreground);
+}
+
 /* Change the white to any color */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
@@ -21,7 +36,7 @@ input:-webkit-autofill {
 }
 
 input {
-  color: var(--color-text)
+  color: var(--color-text);
 }
 
 @font-face {
@@ -65,8 +80,6 @@ body {
   width: 100%;
 }
 
-
-
 /* COLORS */
 $color-background-dark: #1b1f24;
 $color-foreground-dark: #24292f;
@@ -99,7 +112,6 @@ $color-input-placeholder-light: #363636;
 $color-menu-divider-light: rgba(0, 0, 0, 0.1);
 $color-menu-input-background-light: rgba(255, 255, 255, 0.3);
 $color-shop-blur-light: invert(83%) sepia(11%) saturate(828%) hue-rotate(172deg) brightness(89%) contrast(95%);
-
 
 [data-theme="dark"] {
   --color-overlay: rgba(0, 0, 0, 0.25);
@@ -141,10 +153,9 @@ $color-shop-blur-light: invert(83%) sepia(11%) saturate(828%) hue-rotate(172deg)
 
 /* DEFAULT COLORS */
 
-:root{
---color-red: #ae2b2b;
---color-green: #2bae2b;
---color-green-50: rgba(43, 174, 43, 0.5);
-
+:root {
+  --color-red: #ae2b2b;
+  --color-green: #2bae2b;
+  --color-green-50: rgba(43, 174, 43, 0.5);
+  --color-filter-green: invert(47%) sepia(90%) saturate(544%) hue-rotate(73deg) brightness(96%) contrast(84%);
 }
-

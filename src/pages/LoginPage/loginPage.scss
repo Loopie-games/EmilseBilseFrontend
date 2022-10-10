@@ -8,12 +8,23 @@ $defaultEasing: cubic-bezier(0.4, 0, 0.2, 1);
     user-select: none;
     background: var(--color-background);
     .Login-Background {
-        width: 50%;
-        position: absolute;
-        z-index: 1;
-        height: auto !important;
-        -webkit-user-drag: none;
-        animation: 1s initialBackground forwards, 5s foreverBackground alternate infinite;
+
+        @media screen and (max-width: 768px) {
+            position: absolute;
+            height: 100%;
+            -webkit-user-drag: none;
+            animation: 1s initialBackground forwards, 5s foreverBackground alternate infinite;
+            
+        }
+        @media screen and (min-width: 768px) {
+            width: 50%;
+            position: absolute;
+            z-index: 1;
+            height: auto !important;
+            -webkit-user-drag: none;
+            animation: 1s initialBackground forwards, 5s foreverBackground alternate infinite;
+        }
+
     }
     .Login-Wrapper {
         display: flex;

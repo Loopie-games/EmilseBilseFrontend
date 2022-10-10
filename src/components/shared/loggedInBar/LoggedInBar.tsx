@@ -2,13 +2,15 @@ import { wait } from '@testing-library/user-event/dist/utils';
 import { observer } from 'mobx-react-lite';
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { POPUP_STATES } from '../../../models/popup/popupInterface';
 import { useStore } from '../../../stores/store';
 import Icon from '../icon/Icon';
 import InvertedCornerQ1 from '../invertedCorners/invertedCornerQ1';
+import Popup from '../popups/popup';
 import './LoggedInBar.scss'
 
 const LoggedInBar = () => {
-    const { userStore } = useStore();
+    const { userStore, popupStore } = useStore();
     const navigate = useNavigate();
     const url = window.location.pathname;
     const [isShown, setIsShown] = useState(false);
@@ -36,7 +38,11 @@ const LoggedInBar = () => {
         { name: 'Tiles created by you', link: `/user/tilesby/${userStore.user?.id}`, iconName: 'tiles_byUser' },
         { name: 'Create Tilepack', link: `/admin/tilepackcreator/`, iconName: 'tilepack_creator' }
     ];
-    const settingsSubLinks: any[] = [];
+    const UserInteractionSubLinks: any[] = [
+        { name: 'Bug Report', type: POPUP_STATES.Bug , iconName: 'bug' },
+        { name: 'Feedback', type: POPUP_STATES.Feedback, iconName: 'feedback' },
+        { name: 'Newsletter', link: `/newsletter`, iconName: 'mail' },
+    ];
     const logoutSublinks: any[] = [];
 
     const barBlacklistRoutes = ['/register', '/login', '/lobby', '/game'];
@@ -51,7 +57,7 @@ const LoggedInBar = () => {
             }
         })
         return t;
-    
+
     }
     const handleLinksClick = () => {
         !isShown && setIsShown(true);
@@ -82,7 +88,7 @@ const LoggedInBar = () => {
         setLinkShown(false);
     }
     const handleTilesClick = () => {
-       !isShown && setIsShown(true);
+        !isShown && setIsShown(true);
         setTilesShown(!tilesShown);
         setProfileShown(false);
         setFriendsShown(false);
@@ -91,7 +97,7 @@ const LoggedInBar = () => {
         setLinkShown(false);
     }
     const handleSettingsClick = () => {
-       !isShown && setIsShown(true);
+        !isShown && setIsShown(true);
         setSettingsShown(!settingsShown);
         setProfileShown(false);
         setFriendsShown(false);
@@ -103,7 +109,9 @@ const LoggedInBar = () => {
         navigate('/user/settings')
     }
     const handleLogOutClick = () => {
-       !isShown && setIsShown(true);
+
+
+        !isShown && setIsShown(true);
         setLogOutShown(!logOutShown);
         setProfileShown(false);
         setFriendsShown(false);
@@ -112,10 +120,16 @@ const LoggedInBar = () => {
         setLinkShown(false);
     }
     const handleLogOut = () => {
-        userStore.logout();
-        navigate('/');
+        popupStore.showConfirmation(
+            'Are you sure you want to log out?',
+            'You\'re about to log out of your account. Are you sure you want to do this?',
+            () => {
+                userStore.logout();
+                navigate('/');
+            },
+            () => { }
+        );
     }
-
     const handleCloseAll = () => {
         setIsShown(false);
         setProfileShown(false);
@@ -126,13 +140,38 @@ const LoggedInBar = () => {
         setLinkShown(false);
     }
 
+    const handleUserInteraction = (subLink: any) => {
+        if (subLink.link !== undefined) {
+            navigate(subLink.link);
+            setIsShown(false);
+        } else {
+            switch (subLink.type) {
+                case POPUP_STATES.Bug:
+                    popupStore.showBug('Bug Report', 'Oh no, looks like you found a bug! Please describe the bug in detail and we will try to fix it as soon as possible.'
+                    , (e:string) => {console.log(e)});
+                    break;
+                case POPUP_STATES.Feedback:
+                    popupStore.showFeedback('Feedback', 'We would love to hear your feedback! Please describe your feedback in detail and we will try to implement it as soon as possible.',
+                     (e: string) => {console.log(e) });
+                    break;
+                default:
+                    break;
+                
+            }
+        }
+
+    }
+
 
     return (
         <>
             {checkIfBlacklistedRoute(url) ? null :
                 <>
                     <div className={`LoggedInBar-Container ${isShown ? 'shown' : ''}`}>
-                    <div className={`LoggedInBar-Wrapper ${linksShown ? 'asdasdasd ' : ''}`} onClick={handleLinksClick}>
+                        {/**
+                         * Links
+                         */}
+                        <div className={`LoggedInBar-Wrapper ${linksShown ? 'asdasdasd ' : ''}`} onClick={handleLinksClick}>
                             <div className={`LoggedInBar-ComponentTitle ${isShown ? 'shown' : ''} ${linksShown ? 'activated' : ''}`}>
                                 <div className='LoggedInBar-ComponentTitleIcon'><Icon name="link" /></div>
                                 <div className='LoggedInBar-ComponentTitleText shown'>Links</div>
@@ -150,6 +189,9 @@ const LoggedInBar = () => {
                                 }
                             </div>
                         </div>
+                        {/**
+                         * Profile
+                         * */}
                         <div className={`LoggedInBar-Wrapper ${profileShown ? 'asdasdasd ' : ''}`} onClick={handleProfileClick}>
                             <div className={`LoggedInBar-ComponentTitle ${isShown ? 'shown' : ''} ${profileShown ? 'activated' : ''}`}>
                                 <div className='LoggedInBar-ComponentTitleIcon'><Icon name="profile" /></div>
@@ -168,6 +210,9 @@ const LoggedInBar = () => {
                                 }
                             </div>
                         </div>
+                        {/**
+                         * Friends
+                         * */}
                         <div className={`LoggedInBar-Wrapper ${friendsShown ? 'asdasdasd ' : ''}`} onClick={handleFriendsClick}>
                             <div className={`LoggedInBar-ComponentTitle ${isShown ? 'shown' : ''} ${friendsShown ? 'activated' : ''}`}>
                                 <div className='LoggedInBar-ComponentTitleIcon'><Icon name="friendslist" /></div>
@@ -186,6 +231,9 @@ const LoggedInBar = () => {
                                 }
                             </div>
                         </div>
+                        {/**
+                         * tiles
+                         * */}
                         <div className={`LoggedInBar-Wrapper ${tilesShown ? 'asdasdasd ' : ''}`} onClick={handleTilesClick}>
                             <div className={`LoggedInBar-ComponentTitle ${isShown ? 'shown' : ''} ${tilesShown ? 'activated' : ''} `}>
                                 <div className='LoggedInBar-ComponentTitleIcon'><Icon name="tiles" /></div>
@@ -204,17 +252,20 @@ const LoggedInBar = () => {
                                 }
                             </div>
                         </div>
+                        {/**
+                         * User interaction
+                         * */}
                         <div className={`LoggedInBar-Wrapper ${settingsShown ? 'asdasdasd ' : ''}`} onClick={handleSettingsClick}>
-                            <div className={`LoggedInBar-ComponentTitle ${isShown ? 'shown' : ''} ${settingsShown ? 'activated' : ''}`} onClick={isShown ? handleSettings : () => { }}>
-                                <div className='LoggedInBar-ComponentTitleIcon'><Icon name="settings" /></div>
-                                <div className='LoggedInBar-ComponentTitleText shown'>Settings</div>
+                            <div className={`LoggedInBar-ComponentTitle ${isShown ? 'shown' : ''} ${settingsShown ? 'activated' : ''}`}>
+                                <div className='LoggedInBar-ComponentTitleIcon'><Icon name="heart" /></div>
+                                <div className='LoggedInBar-ComponentTitleText shown'>User Interaction</div>
                             </div>
                             <div className={`LoggedInBar-ComponentContainer ${settingsShown ? 'asdasd' : ''}`}>
                                 {
-                                    settingsSubLinks.map((subLink, index) => {
+                                    UserInteractionSubLinks.map((subLink, index) => {
                                         return (
-                                            <div className={`LoggedInBar-ComponentTitle ${settingsShown ? 'shown' : ''} ${url === subLink.link ? 'activated' : ''}`} key={index} onClick={() => { navigate(subLink.link); setIsShown(false) }}>
-                                                <div className='LoggedInBar-ComponentTitleIcon'><Icon name="profile" /></div>
+                                            <div className={`LoggedInBar-ComponentTitle ${settingsShown ? 'shown' : ''} ${url === subLink.link ? 'activated' : ''}`} key={index} onClick={() => {handleUserInteraction(subLink)}}>
+                                                <div className='LoggedInBar-ComponentTitleIcon'><Icon name={subLink.iconName} /></div>
                                                 <div className='LoggedInBar-SubComponentTitleText shown'>{subLink.name}</div>
                                             </div>
                                         )
@@ -222,6 +273,9 @@ const LoggedInBar = () => {
                                 }
                             </div>
                         </div>
+                        {/**
+                         * Logout
+                         * */}
                         <div className={`LoggedInBar-Wrapper ${logOutShown ? 'asdasdasd ' : ''}`} onClick={handleLogOutClick}>
                             <div className={`LoggedInBar-ComponentTitle ${isShown ? 'shown' : ''} ${logOutShown ? 'activated' : ''}`} onClick={isShown ? handleLogOut : () => { }}>
                                 <div className='LoggedInBar-ComponentTitleIcon'><Icon name="logout" /></div>

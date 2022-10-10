@@ -19,10 +19,12 @@
             -webkit-user-drag: none;
         }
 
-        @media screen and (max-width: 768px) {display: none;
+        @media screen and (max-width: 768px) {
+            position: absolute;
+            height: 100%;
+            -webkit-user-drag: none;
+            
         }
-
-
     }
 
     .LandingPage-Wrapper {

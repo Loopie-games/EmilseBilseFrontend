@@ -31,6 +31,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import Terms from './pages/termsPage/terms';
 import PrivacyPage from './pages/privacyPage/privacyPage';
 import ShopPage from './pages/shopPage/shopPage';
+import NewsletterPage from './pages/newsletterPage/newsletterPage';
 const stripePromise = loadStripe('pk_test_51Lf0qhHlPakEYz1FbXf2tOuCqoV5jPQcIoPASo8amOG1px2sOMObFsPGFhfDPaZZ5tT2RcjCBQZtgrN63khxdS8P00HCW9k4rl');
 
 function App() {
@@ -103,11 +104,13 @@ function App() {
     { path: "/terms", element: <Terms /> },
     { path: "/privacy", element: <PrivacyPage /> },
     { path: "/shop", element: <ShopPage /> },
+    { path: "/newsletter", element: <NewsletterPage />, isLandscape: false },
     { path: "*", element: <PageNotFound />, isLandscape: false }
   ];
 
 
   useEffect(() => {
+
     userStore.getLogged()
     if (window.screen.availWidth < 768) {
       mobileStore.setIsMobile(true);
@@ -148,7 +151,14 @@ function App() {
         setShowLandscapeError(false);
         setShowPortraitError(false);
       }
-
+      let link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
+      if (!link) {
+        link = document.createElement('link');
+        link.rel = 'icon';
+        document.getElementsByTagName('head')[0].appendChild(link);
+      }
+      link.href = themeStore.theme === "light" ? "/loopie_logo_black.ico" : "/loopie_logo_white.ico";
+  
     })
   })
 
@@ -157,7 +167,7 @@ function App() {
       {showLandscapeError && <LandscapeOrientation />}
       {showPortraitError && <PortraitOrientation />}
       <div className="App">
-        {popupStore.isShown && <Popup isConfirmation={popupStore.isConfirmation} title={popupStore.title} errorMessage={popupStore.errorMessage} handleClose={popupStore.onCancel} handleConfirm={popupStore.onConfirm} />}
+        {popupStore.isShown && <Popup type={popupStore.type} title={popupStore.title} errorMessage={popupStore.errorMessage} handleClose={popupStore.onCancel} handleConfirm={popupStore.onConfirm} />}
         <Router>
           <Routes>
             {routes.map((route, index) => (
@@ -166,10 +176,10 @@ function App() {
                   {!mobileStore.isMobile &&
                     <>
                       <Navbar />
-                      <div style={{ "zIndex": "2", "height": "70px", "width": "100%", "backgroundColor": "var(--color-foreground)" }}></div>
+                      <div className="App_NavbarBar"></div>
                     </>
                   }
-                  <div style={{ "display": "flex", "flexDirection": "row", "flex": "1", "overflow": "hidden", "position": "relative" }}>
+                  <div className="App_Container">
                     {userStore.user !== undefined && !mobileStore.isMobile && <LoggedInBar />}
                     {route.element}
                   </div>
