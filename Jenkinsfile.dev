@@ -5,16 +5,7 @@ pipeline {
         pollSCM "*/5 * * * *"
     }
 
-    tools {nodejs "NodeJS"}
-
-    stages {
-         stage('Building') {
-            steps{
-                sh "npm install"
-                sh "CI=False npm run build" 
-            }
-        }
-        stage("Reset containers"){
+    stages {stage("Reset containers"){
             steps{
                 script {
                     try {

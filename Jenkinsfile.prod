@@ -1,10 +1,8 @@
 pipeline {
     agent any
 
-    tools {nodejs "NodeJS"}
-
     stages {        
-                stage("Reset containers"){
+        stage("Reset containers"){
             steps{
                 script {
                     try {
