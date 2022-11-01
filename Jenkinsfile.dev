@@ -7,14 +7,7 @@ pipeline {
 
     tools {nodejs "NodeJS"}
 
-    stages {
-         stage('Building') {
-            steps{
-                sh "npm install"
-                sh "CI=False npm run build" 
-            }
-        }
-        stage("Reset containers"){
+    stages {stage("Reset containers"){
             steps{
                 script {
                     try {
@@ -26,7 +19,13 @@ pipeline {
         }
         stage("Deploy containers") {
             steps {
-                sh "docker-compose -f docker-compose.yml --env-file config/dev.env up -d --build"
+                sh "docker-compose -f docker-compose.yml --env-file config/dev.env up -d"
+            }
+        }
+
+        stage("Clean up"){
+            steps {
+                sh "docker system prune -af --volumes"
             }
         }
     }
