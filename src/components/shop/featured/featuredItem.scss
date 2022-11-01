@@ -1,0 +1,71 @@
+.FeaturedItem_Container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background: var(--color-input-background);
+    border: 2px solid var(--color-input-border);
+    border-radius: 5px;
+    .FeaturedItem_Wrapper{
+        width: 90%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow: hidden;
+        .FeaturedItem_Image{
+            flex-grow: 1;
+            flex-basis: 0;
+            max-width: 60px;
+            aspect-ratio: 1/1;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            img{
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+
+        }
+        .FeaturedItem_Name{
+            min-height: 20px;
+            font-size: 14px;
+            font-weight: 400;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            font-family: Caviar Dreams;
+            color: var(--color-text);
+        }
+        .FeaturedItem_Price{
+            min-height: 20px;
+            font-size: 14px;
+            font-weight: 400;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            font-family: Caviar Dreams;
+            color: var(--color-text);
+        }
+        .FeaturedItem_Buy{
+            min-height: 25px;
+            height: 25px;
+            width: calc(100% - 4px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--color-input-background);
+            border: 2px solid var(--color-input-border);
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 15px;
+            transition: box-shadow 0.2s ease-in-out;
+            color: var(--color-text);
+
+            &:hover{
+                box-shadow: var(--color-highlighthover) 0 0 0 2px inset;
+            }
+        }
+    }
+}

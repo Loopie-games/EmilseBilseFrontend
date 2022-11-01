@@ -6,25 +6,35 @@ $defaultEasing: cubic-bezier(0.4, 0, 0.2, 1);
     justify-content: center;
     align-items: center;
     user-select: none;
-    background: #1b1f24;
+    background: var(--color-background);
     .Register-Background {
-        width: 50%;
-        position: absolute;
-        z-index: 1;
-        height: auto !important;
-        -webkit-user-drag: none;
-        animation: 1s initialRegisterBackground forwards, 5s foreverRegisterBackground alternate infinite;
+        @media screen and (max-width: 768px) {
+            position: absolute;
+            height: 100%;
+            -webkit-user-drag: none;
+            animation: 1s initialRegisterBackground forwards, 5s foreverRegisterBackground alternate infinite;
+            
+        }
+        @media screen and (min-width: 768px) {
+            width: 75%;
+            position: absolute;
+            z-index: 1;
+            height: auto !important;
+            -webkit-user-drag: none;
+            animation: 1s initialRegisterBackground forwards, 5s foreverRegisterBackground alternate infinite;
+        }
+        
     }
     .Register-Wrapper {
         display: flex;
         flex-direction: column;
         align-items: center;
-        max-width: 350px;
+        width: 400px;
         z-index: 2;
         .Register-Component {
-            width: 350px;
-            height: 530px;
-            background-color: #24292f;
+            width:100%;
+            height: fit-content;
+            background-color: var(--color-foreground);
             border-radius: 15px;
             display: flex;
             position: relative;
@@ -43,7 +53,7 @@ $defaultEasing: cubic-bezier(0.4, 0, 0.2, 1);
                 font-style: normal;
                 font-weight: 400;
                 font-size: 32px;
-                color: #fff;
+                color: var(--color-text);
             }
 
             .Register-InputContainer {
@@ -60,18 +70,18 @@ $defaultEasing: cubic-bezier(0.4, 0, 0.2, 1);
                         font-style: normal;
                         font-weight: 400;
                         font-size: 16px;
-                        color: #8694a4;
+                        color: var(--color-highlighthover);
                     }
                     .Register-InputFieldWrapper {
                         width: 280px;
                         height: 40px;
-                        background: rgba(255, 255, 255, 0.05);
+                        background: var(--color-input-background);
                         backdrop-filter: blur(5px);
                         border-radius: 5px;
                         display: flex;
                         justify-content: center;
                         align-items: center;
-                        border: 2px solid rgba(0, 0, 0, 0.5);
+                        border: 2px solid var(--color-input-border);
                         transition: box-shadow 0.2s, outline 0.2s ease;
                         gap: 10px;
                         .Register-InputIcon {
@@ -79,6 +89,7 @@ $defaultEasing: cubic-bezier(0.4, 0, 0.2, 1);
                             justify-content: center;
                             align-items: center;
                             padding-left: 10px;
+                            filter: var(--color-icon);
                         }
                         input {
                             width: 100%;
@@ -89,25 +100,24 @@ $defaultEasing: cubic-bezier(0.4, 0, 0.2, 1);
                             font-style: normal;
                             font-weight: 400;
                             font-size: 16px;
-                            line-height: 0%;
-                            color: #fff;
+                            color: var(--color-text);
 
                             &::placeholder {
-                                color: #999;
+                                color: var(--color-input-placeholder)
                             }
                         }
                         &:hover {
-                            box-shadow: rgb(255 255 255) 0 0 0 2px inset;
+                            box-shadow: var(--color-highlighthover) 0 0 0 2px inset;
                         }
                     }
                 }
                 .Register-Button {
                     width: 280px;
                     height: 40px;
-                    background: rgba(255, 255, 255);
+                    background: var(--color-text);
                     backdrop-filter: blur(5px);
                     border-radius: 5px;
-                    border: 2px solid #fff;
+                    border: 2px solid var(--color-text);
                     display: flex;
                     justify-content: center;
                     align-items: center;
@@ -115,8 +125,7 @@ $defaultEasing: cubic-bezier(0.4, 0, 0.2, 1);
                     font-style: normal;
                     font-weight: 400;
                     font-size: 20px;
-                    line-height: 0%;
-                    color: #000;
+                    color: var(--color-jointext-color);
                     cursor: pointer;
                 }
             }
@@ -128,12 +137,13 @@ $defaultEasing: cubic-bezier(0.4, 0, 0.2, 1);
                 justify-content: center;
                 align-items: center;
                 gap: 5px;
+                margin-top: 10px;
                 .Register-NeedAccountTitle {
                     font-family: "Caviar Dreams";
                     font-style: normal;
                     font-weight: 400;
                     font-size: 13px;
-                    color: #94a3b5;
+                    color: var(--color-textSecondary);
                 }
                 .Register-NeedAccountButton {
                     font-family: "Caviar Dreams";
@@ -141,13 +151,37 @@ $defaultEasing: cubic-bezier(0.4, 0, 0.2, 1);
                     font-weight: 700;
                     font-size: 14px;
                     a {
-                        color: #ffffff;
+                        color: var(--color-text);
                         text-decoration: none;
                     }
                 }
             }
         }
     }
+}
+
+#TermsCheck{
+    width: 18px;
+    margin-left: 10px;
+}
+
+.Register_TermsContainer{
+    width: 100%;
+    display: flex;  
+    color: var(--color-textSecondary);
+    font-family: "Caviar Dreams";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    gap: 5px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    .Register_TermsLink{
+        color: var(--color-text);
+        text-decoration:underline;
+
+    }
+
 }
 
 .Register-Component::after {
@@ -195,7 +229,7 @@ $defaultEasing: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .active {
-    box-shadow: rgb(255 255 255) 0 0 0 2px inset !important;
+    box-shadow: var(--color-highlighthover) 0 0 0 2px inset !important;
 }
 
 .error {
@@ -219,7 +253,7 @@ $defaultEasing: cubic-bezier(0.4, 0, 0.2, 1);
 
     max-width: 200px;
     word-wrap: normal;
-    background-color: #1b1f24;
+    background-color: var(--color-background);
     padding: 5px 10px;
     border-radius: 5px;
 }

@@ -1,76 +1,172 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import UserComponent from '../../components/Lobby/userComponent/userComponent';
 import './lobbyPage.scss'
 import { useStore } from '../../stores/store'
-import { UserDTO } from '../../models/user/userInterface';
 import { observer } from 'mobx-react-lite';
-import { useNavigate } from 'react-router-dom';
-import { StartGameDto } from '../../models/game/gameInterfaces';
+import { useNavigate, useParams } from 'react-router-dom';
+import { autorun } from 'mobx';
+import { HubConnectionState } from '@microsoft/signalr';
+import GameSettings from '../../components/Lobby/gameSettings/gameSettings';
+import MobileGameSettings from '../../components/Lobby/mobileGameSettings/mobileGameSettings';
+import Loader from '../../components/shared/loader/loader';
+import { pendingPlayerDto } from '../../models/player/playerInterface';
+import { SimpleUserDTO } from '../../models/user/userInterface';
+import {TilePackSetting} from "../../models/tile/tileInterface";
+import sortService from '../../services/sortService';
+import { SORT_TYPE } from '../../models/sortService/sortServiceInterface';
 
 const LobbyPage = () => {
-    const { gameStore, userStore } = useStore();
-
+    const {userStore, popupStore, lobbyStore, mobileStore} = useStore();
+    const [tilePacks, setTilePacks] = useState<TilePackSetting[]>([])
     const navigate = useNavigate();
+    const params = useParams();
+    const [hostActive, setHostActive] = useState<boolean>(false);
+    const [t, setT] = useState<SimpleUserDTO>();
+    const [sorted, setSorted] = useState<pendingPlayerDto[]>([]);
 
     useEffect(() => {
-        listenForGameStarting()
-        /*
+        joinLobby()
+
         return () => {
-            gameStore.leaveLobby(gameStore.lobby!.id, userStore.user!.id)
+            lobbyStore.stopConnection()
         }
-         */
     }, [])
 
-    const listenForGameStarting = async() => {
-        await gameStore.gameStarting(()=>{
-            navigate('/game')
-        });
+    useEffect(() => {
+        findHost();
+        if (getHostAvailability()) {
+            setHostActive(true);
+        } else {
+            setHostActive(false);
+        }
+        setSorted(sortService.sortArray(lobbyStore.players, SORT_TYPE.Ascending));
+    }, [lobbyStore.players])
+
+    const getHostAvailability = () => {
+        if (lobbyStore.players.length > 0) {
+            const host = lobbyStore.players.find(p => p.isHost);
+            return host !== undefined;
+        }
+    }
+
+    const joinLobby = async () => {
+        await lobbyStore.joinLobby(params.pin!)
+            .catch(() => {
+                //TODO ERROR
+                navigate("/")
+                return
+            }).then(() => {
+                autorun(() => {
+                    if (lobbyStore.hubConnection !== null && lobbyStore.hubConnection.state === HubConnectionState.Connected) {
+                        if (lobbyStore.gameId !== undefined) {
+                            //TODO ERROR
+                            navigate("/game/" + lobbyStore.gameId)
+                            return;
+                        }
+                        if (lobbyStore.lobby === undefined) {
+                            //TODO ERROR
+                            navigate("/")
+                            return;
+                        }
+                    }
+                    return;
+                })
+            })
+        return
     }
 
     const savePinToClipboard = () => {
-        navigator.clipboard.writeText(gameStore.lobby!.pin);
+        try {
+            navigator.clipboard.writeText(params.pin!);
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     const handleCloseLobby = async () => {
-        await gameStore.leaveLobby(gameStore.lobby!.id, userStore.user!.id)
         navigate('/')
+        await lobbyStore.closeLobby()
+        return
+    }
+
+    const handleLeaveLobby = async () => {
+        navigate('/')
+        return
     }
 
     const handleStartGame = async () => {
-        if(gameStore.lobbyPlayers.length >= 2){
-            let sg: StartGameDto = {userId: userStore.user!.id, lobbyId: gameStore.lobby!.id}
-            await gameStore.startGame(sg, ()=>{
-                navigate('/game')
-            })
+        try {
+            let activated = tilePacks.filter(t => t.isActivated).map(t => t.tilePack.id)
+            await lobbyStore.startGame({lobbyId: lobbyStore.lobby?.id!, tpIds: activated})
+        } catch (e: any) {
+            popupStore.setErrorMessage(e.message)
+            popupStore.show();
         }
+    }
 
-        // TODO error message
-        console.log("you need to be at least 2 players to start a game")
+    const isHost = () => {
+        if (lobbyStore.lobby === undefined) {
+            return false
+        }
+        return lobbyStore.lobby.host === userStore.user?.id
+    }
+
+    const findHost = async () => {
+        if (lobbyStore.players.length > 0) {
+            let t = await userStore.getUserById(lobbyStore.lobby?.host!)
+            if (t !== undefined) {
+                setT(t)
+            }
+        }
     }
 
     return (
-        <div className='Lobby_Container'>
-            <div className='Lobby_NavBackground'></div>
-            <div className='Lobby_Wrapper'>
-                <div className='Lobby_Title'>
-                    Lobby
-                </div>
-                <div className='Lobby_InputContainer'>
-                    <div className='Lobby_PinCode' >
-                        <input type="text" placeholder='Pin Code' maxLength={5} readOnly onClick={() => savePinToClipboard()} value={gameStore.lobby?.pin} />
+        <>
+            {isHost() &&
+            <>
+                {mobileStore.isMobile ? <MobileGameSettings/> :
+                    <GameSettings tilePacks={tilePacks} setTilePacks={(tps:TilePackSetting[])=>setTilePacks(tps)}/>
+                }
+            </>
+            }
+            <div className='Lobby_Container'>
+                <div className='Lobby_Wrapper'>
+                    <div className='Lobby_Title'>
+                        Lobby
                     </div>
-                    <div className='Lobby_ButtonsContainer'>
-                        <div className='Lobby_StartButton' onClick={handleStartGame}> Start</div>
-                        <div className='Lobby_StartButton' onClick={handleCloseLobby}> Close my lobby</div>
+                    <div className='Lobby_InputContainer'>
+                        <div className='Lobby_PinCode'>
+                            <input type="text" placeholder='Pin Code' maxLength={5} readOnly
+                                onClick={() => savePinToClipboard()} value={params.pin} />
+                        </div>
+                        {lobbyStore.lobby !== undefined ?
+                            <div className='Lobby_ButtonsContainer'>
+                                {lobbyStore.lobby!.host === userStore.user!.id ?
+                                    <div className='Lobby_StartButton' onClick={handleStartGame}> Start</div> : null}
+                                <div className='Lobby_StartButton'
+                                    onClick={lobbyStore.lobby!.host === userStore.user?.id ? handleCloseLobby : handleLeaveLobby}>{`${lobbyStore.lobby!.host === userStore.user?.id ? 'Close Lobby' : 'Leave Lobby'}`}</div>
+                            </div>
+                            :
+                            <>
+                                <Loader />
+                            </>
+                        }
                     </div>
-                </div>
-                <div className='Lobby_PlayerContainer'>
-                    {gameStore.lobbyPlayers.map((player) => (
-                        <UserComponent {...player} />
-                    ))}
+                    <div className='Lobby_PlayerContainer'>
+                        {t !== undefined &&
+                            <div style={{ 'opacity': hostActive ? '1' : '.5' }}>
+                                <UserComponent {...t!} />
+                            </div>
+                        }
+                        {sorted.map((player) => (<>
+                            {player.isHost ? null : <UserComponent {...player.user} />}
+                        </>
+                        ))}
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
+
     )
 }
 

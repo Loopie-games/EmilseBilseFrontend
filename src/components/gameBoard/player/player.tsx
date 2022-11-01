@@ -1,16 +1,22 @@
 import { observer } from 'mobx-react-lite';
 import React, { useEffect, useState } from 'react'
+import { BoardTileDTO } from '../../../models/tile/tileInterface';
 import colorLookupService from '../../../services/colorLookupService';
 import { useStore } from '../../../stores/store';
 import './player.scss'
 
-const Player = ({player}:any) => {
+const Player = ({ player }: any) => {
     const { gameStore } = useStore();
-
     const [color, setColor] = useState('');
+
     useEffect(() => {
-        setColor(colorLookupService.generateRandomAppropriateColor());
+        gameStore.tiles.forEach((tile: BoardTileDTO) => {
+            if (tile.aboutUser.id === player.id) {
+                setColor(tile.aboutUser.color!)
+            }
+        })
     }, [])
+
     return (
         <div className='Player_Container'>
             <div className='Player_IndicatorContainer'>

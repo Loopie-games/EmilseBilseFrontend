@@ -1,44 +1,48 @@
-import { TileForUser } from "../tile/tileInterface";
-import { UserDTO } from "../user/userInterface";
+import {SimpleUserDTO, UserDTO} from "../user/userInterface";
 
 export interface Lobby {
     id: string
-    host: UserDTO
-    inProgress: boolean
-    settings: Settings
-    tiles: TileForUser[]
+    host: string
     pin: string
 }
 
-export interface GameRoom {
-    boards: Board[]
-    status: boolean
-    lobby: Lobby
+export interface CreateGameDto{
+    lobbyId:string
+    tpIds:(string | undefined)[]
 }
 
-export interface CloseLobbyDto{
+export interface GameDTO {
+    id: string
+    host: SimpleUserDTO
+    winner?: SimpleUserDTO
+    state: State
+}
+
+export enum State {
+    Ongoing, Paused, Ended
+
+}
+
+export interface CloseLobbyDto {
     lobbyID: string
     hostID: string
 }
 
-export interface LeaveLobbyDto{
+export interface LeaveLobbyDto {
     lobbyID: string
     userID: string
 }
 
-export interface StartGameDto{
-    lobbyId:string
+export interface StartGameDto {
+    lobbyId: string
     userId: string
 }
 
-export interface Board {
-    owner: UserDTO
-    tiles: GameTile[]
-}
-
-export interface GameTile {
-    tile: TileForUser
-    completed: boolean
+export interface TopPlayer {
+    id: string
+    gameId: string
+    user: SimpleUserDTO
+    turnedTiles: number
 }
 
 export interface Settings {

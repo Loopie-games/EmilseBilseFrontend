@@ -1,16 +1,13 @@
 import { observer } from 'mobx-react-lite';
 import React, { useEffect, useState } from 'react'
 import { BoardTileDTO } from '../../../models/tile/tileInterface';
-import colorLookupService from '../../../services/colorLookupService';
-import { useStore } from '../../../stores/store';
 import './tiles.scss'
 
-const Tiles = (tile: BoardTileDTO)  => {
-    const { gameStore } = useStore();
+const Tiles = (boardTileDTO: BoardTileDTO) => {
     const [color, setColor] = useState('');
     const [isShown, setIsShown] = useState(false)
     useEffect(() => {
-        setColor(colorLookupService.generateRandomAppropriateColor());
+        setColor(boardTileDTO.aboutUser.color!)
     }, [])
 
     const handleShow = () => {
@@ -18,23 +15,20 @@ const Tiles = (tile: BoardTileDTO)  => {
     }
 
     return (
-        <div className={`Tile_Container ${isShown ? 'shown' : ''}`} onClick={handleShow}>
+        <div className={`Tile_Container ${isShown ? 'tileShown' : ''}`} onClick={handleShow}>
             <div className='Tile_IndicatorContainer'>
                 <div className='Tile_Indicator' style={{ backgroundColor: color }}>
-                    {tile.position}
+                    {boardTileDTO.position + 1}
                 </div>
             </div>
             <div className='Tile_ActionContainer'>
-                <div className={`Tile_Action ${isShown ? 'shown' : ''}`}>
-                    {tile.tile.user.nickname} {tile.tile.action}
+                <div className={`Tile_Action ${isShown ? 'tileActionShown' : ''}`}>
+                    {boardTileDTO.aboutUser.nickname} {boardTileDTO.byTile.tile.action}
                 </div>
                 {isShown ?
                     <>
                         <div className='Tile_ActionTo'>
-                            To whoom: {tile.tile.user.username}
-                        </div>
-                        <div className='Tile_ActionBy'>
-                            by whoom: {tile.tile.addedBy.nickname}
+                            by: {boardTileDTO.byTile.id}
                         </div>
                     </>
                     : null}

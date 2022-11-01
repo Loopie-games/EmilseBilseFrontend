@@ -1,14 +1,16 @@
+import { observer } from 'mobx-react-lite';
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import Friends from '../../components/friends/friends';
+import Friends from '../../components/friendsPages/friends/friends';
 import Icon from '../../components/shared/icon/Icon';
+import Loader from '../../components/shared/loader/loader';
 import { useStore } from '../../stores/store';
 import './friendsPage.scss'
 
 const FriendsPage = () => {
     const t2 = [{ r1: "asd", a2: "asd" }, { r1: "a123", a2: "123" }]
 
-    const { friendshipStore } = useStore();
+    const { friendshipStore, userStore } = useStore();
     const [filteredList, setFilteredList] = useState(friendshipStore._friendlist);
     const [search, setSearch] = useState('');
     const [loading, setLoading] = useState(true);
@@ -22,12 +24,13 @@ const FriendsPage = () => {
         const loadData = async () => {
             await friendshipStore.getFriendList(params.id!);
             setLoading(false);
-            console.log('====================================');
-            console.log(friendshipStore._friendlist);
-            console.log('====================================');
+            setFilteredList(friendshipStore._friendlist!);
         }
 
         params.id !== undefined ? loadData() : setLoading(false);
+        console.log(userStore.user);
+        
+
     }, [])
 
     const handleSearch = (e: any) => {
@@ -44,8 +47,7 @@ const FriendsPage = () => {
 
     return (
         <div className='FriendsPage-Container'>
-            <div className='FriendsPage-NavBackground'></div>
-            {loading ? <div className='FriendsPage-Loading'>Loading...</div> :
+            {loading ? <Loader /> :
                 <div className='FriendsPage-Wrapper'>
                     <div className='FriendsPage-Title'>Friendlist</div>
                     <div className='FriendsPage-Searchbar'>
@@ -66,4 +68,4 @@ const FriendsPage = () => {
     )
 }
 
-export default FriendsPage
+export default observer(FriendsPage)

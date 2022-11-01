@@ -1,27 +1,38 @@
 .LandingPage-Container {
     display: flex;
-    background-color: #1b1f24;
+    background-color: var(--color-background);
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    color: #fff;
+    color: var(--color-text);
     font-family: "Caviar Dreams" !important;
     user-select: none;
     flex: 1;
     width: 100%;
+
     img {
-        width: 50%;
-        position: absolute;
-        z-index: 1;
-        height: auto !important;
-        -webkit-user-drag: none;
+        @media screen and (min-width: 768px) {
+            width: 50%;
+            position: absolute;
+            z-index: 1;
+            height: auto !important;
+            -webkit-user-drag: none;
+        }
+
+        @media screen and (max-width: 768px) {
+            position: absolute;
+            height: 100%;
+            -webkit-user-drag: none;
+            
+        }
     }
+
     .LandingPage-Wrapper {
         z-index: 2;
         width: 350px;
         height: 400px;
         border-radius: 15px;
-        background-color: #24292f;
+        background-color: var(--color-foreground);
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -31,6 +42,7 @@
             0 10px 8px rgba(0, 0, 0, 0.05), 0 4px 4px rgba(0, 0, 0, 0.04), 0 2px 2px rgba(0, 0, 0, 0.03);
 
         animation: 0.35s opacity forwards;
+
         .LandingPage-JoinWrapper {
             .LandingPage-JoinLabel {
                 font-family: "Caviar Dreams";
@@ -43,18 +55,20 @@
                 align-items: center;
                 justify-content: center;
             }
+
             .LandingPage-JoinInput {
                 width: 280px;
                 height: 40px;
-                background: rgba(255, 255, 255, 0.05);
+                background: var(--color-input-background);
                 backdrop-filter: blur(5px);
                 border-radius: 5px;
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                border: 2px solid rgba(0, 0, 0, 0.5);
+                border: 2px solid var(--color-input-border);
                 margin-bottom: 24px;
                 transition: box-shadow 0.2s, outline 0.2s ease;
+
                 input {
                     width: 100%;
                     height: 100%;
@@ -66,23 +80,25 @@
                     font-weight: 400;
                     font-size: 16px;
                     line-height: 0%;
-                    color: #fff;
+                    color: var(--color-text);
 
                     &::placeholder {
-                        color: #ccc;
+                        color: var(--color-input-placeholder);
                     }
                 }
+
                 &:hover {
-                    box-shadow: rgb(255 255 255) 0 0 0 2px inset;
+                    box-shadow: var(--color-highlighthover) 0 0 0 2px inset;
                 }
             }
+
             .LandingPage-JoinButton {
                 width: 280px;
                 height: 40px;
-                background: rgba(255, 255, 255);
+                background: var(--color-text);
                 backdrop-filter: blur(5px);
                 border-radius: 5px;
-                border: 2px solid #fff;
+                border: 2px solid var(--color-text);
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -91,33 +107,36 @@
                 font-weight: 400;
                 font-size: 20px;
                 line-height: 0%;
-                color: #000;
+                color: var(--color-jointext-color);
                 margin-bottom: 78px;
                 cursor: pointer;
             }
         }
+
         .LandingPage-CreateRoom {
             font-family: "Caviar Dreams";
             font-style: normal;
             font-weight: 400;
             font-size: 24px;
             line-height: 0%;
-            border: 2px solid rgba(0, 0, 0, 0.5);
+            border: 2px solid var(--color-input-border);
             border-radius: 5px;
             width: 280px;
             height: 40px;
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--color-input-background);
             display: flex;
             justify-content: center;
             align-items: center;
             transition: box-shadow 0.2s, outline 0.2s ease;
         }
+
         .LandingPage-CreateRoom:hover {
             cursor: pointer;
-            box-shadow: rgb(255 255 255) 0 0 0 2px inset;
+            box-shadow: var(--color-highlighthover) 0 0 0 2px inset;
         }
     }
 }
+
 .LandingPage-Wrapper::after {
     position: absolute;
     top: 0;
@@ -132,13 +151,14 @@
 }
 
 .active {
-    box-shadow: rgb(255 255 255) 0 0 0 2px inset !important;
+    box-shadow: var(--color-highlighthover) 0 0 0 2px inset !important;
 }
 
 @keyframes opacity {
     0% {
         opacity: 0;
     }
+
     100% {
         opacity: 100%;
     }

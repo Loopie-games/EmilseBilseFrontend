@@ -1,8 +1,12 @@
-import { observer } from 'mobx-react-lite';
-import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { autorun } from 'mobx';
+import {observer} from 'mobx-react-lite';
+import React, {useEffect, useState} from 'react'
+import {useNavigate} from 'react-router-dom';
+import Loader from '../../components/shared/loader/loader';
+import { Lobby } from '../../models/game/gameInterfaces';
+import lobbyStore from '../../stores/lobbyStore';
 
-import { useStore } from '../../stores/store';
+import {useStore} from '../../stores/store';
 import './landingPage.scss'
 
 const LandingPage = () => {
@@ -13,13 +17,17 @@ const LandingPage = () => {
     /**
      * Example of how to use the store context
      */
-    const { userStore, gameStore } = useStore();
+    const {userStore, gameStore, popupStore, lobbyStore} = useStore();
 
     useEffect(() => {
         setLoaded(true);
         console.log('====================================');
         console.log(`${process.env.NODE_ENV}`);
         console.log('====================================');
+        return () => {
+            console.log("UNMOUNTING");
+        }
+
     }, []);
 
     const handlePinChange = (e: any) => {
@@ -33,11 +41,13 @@ const LandingPage = () => {
     const handleJoinClick = async () => {
         if (userStore.user === undefined) {
             navigate('/login');
-        }
-        else {
-            await gameStore.createHubConnection();
-            await gameStore.joinLobby(userStore.user!.id, pinValue,
-                () => { navigate('/lobby') });
+        } else {
+            try {
+                navigate('/lobby/' + pinValue)
+            } catch (e: any) {
+                popupStore.setErrorMessage(e.message);
+                popupStore.show();
+            }
         }
         return
     }
@@ -46,25 +56,31 @@ const LandingPage = () => {
         if (userStore.user === undefined) {
             navigate('/login');
         } else {
-            await gameStore.createHubConnection();
-            await gameStore.createLobby(userStore.user.id,
-                () => { navigate('/lobby') });
+            try {
+                let l : Lobby = await lobbyStore.createlobby()
+                navigate('/lobby/' + l.pin)
+            } catch (e: any) {
+                popupStore.setErrorMessage(e.message);
+                popupStore.show();
+            }
         }
         return
     }
 
     return (
         <>
-            {!loaded ? <div>Loading...</div> :
+            {!loaded ? <Loader/> :
                 <div className='LandingPage-Container '>
-                    <img src='https://github.githubassets.com/images/modules/site/codespaces/glow.png' alt={"glow img"}></img>
+                    <img src='https://github.githubassets.com/images/modules/site/codespaces/glow.png'
+                         alt={"glow img"}></img>
                     <div className='LandingPage-Wrapper'>
                         <div className='LandingPage-JoinWrapper'>
                             <div className='LandingPage-JoinLabel'>
                                 Join Room
                             </div>
-                            <div className={`LandingPage-JoinInput ${hasPin ? "active" : ""}`} >
-                                <input type="text" placeholder='Pin Code' maxLength={5} onChange={(e) => handlePinChange(e)} onKeyUp={() => checkPinLength()} />
+                            <div className={`LandingPage-JoinInput ${hasPin ? "active" : ""}`}>
+                                <input type="text" placeholder='Pin Code' maxLength={5}
+                                       onChange={(e) => handlePinChange(e)} onKeyUp={() => checkPinLength()}/>
                             </div>
                             <div className='LandingPage-JoinButton' onClick={() => handleJoinClick()}>Join</div>
                         </div>

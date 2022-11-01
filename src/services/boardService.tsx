@@ -1,9 +1,13 @@
 import http from "../http-common"
-import {BoardTileDTO, TileForUser, TileNewFromUser } from "../models/tile/tileInterface";
+import {BoardTileDTO, TileNewFromUser } from "../models/tile/tileInterface";
 
 class boardService {
     async getByBoardId(boardId: string ) {
         return http.get<BoardTileDTO[]>("/BoardTile/GetByBoardId/" + boardId)
+    }
+
+    async getBoard(gameId: string) {
+        return http.get<BoardTileDTO[]>("/BoardTile/GetByGameId/" + gameId)
     }
 
 }

@@ -1,0 +1,54 @@
+.Privacy_Container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: Caviar Dreams;
+    color: var(--color-text);
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    .Privacy_Wrapper{
+        width: 90%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        .Privacy_HeadTitle{
+            font-size: 36px;
+            font-weight: 600;
+            margin-top: 20px;
+            
+        }
+        .Privacy_HeadContent{
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 1.5;
+            text-align: justify;
+        }
+        .Privacy_Section{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            &:last-of-type{
+                padding-bottom: 20px;
+            }
+            .Privacy_SectionTitle{
+                font-size: 24px;
+                font-weight: 600;
+            }
+            .Privacy_SectionContent{
+                font-size: 16px;
+                font-weight: 400;
+                line-height: 1.5;
+                text-align: justify;
+                #Privacy_Link{
+                    color: var(--color-text);
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}

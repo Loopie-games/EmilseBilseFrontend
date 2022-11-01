@@ -1,0 +1,94 @@
+.Loader {
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-background);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    font-family: "Caviar Dreams";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    color: var(--color-text);
+
+    .facespinner {
+        width: 5rem;
+        height: 5rem;
+        background-color: var(--color-foreground);
+        border-radius: 15px;
+        display: flex;
+        justify-content: center;
+        position: relative;
+        box-shadow: 0 0 0 1px #101316, 0 30px 30px rgba(0, 0, 0, 0.07), 0 15px 15px rgba(0, 0, 0, 0.06),
+            0 10px 8px rgba(0, 0, 0, 0.05), 0 4px 4px rgba(0, 0, 0, 0.04), 0 2px 2px rgba(0, 0, 0, 0.03);
+
+        &__eye {
+            width: 2.5rem;
+            position: relative;
+            transform: translate(-50%, 20%);
+            animation: facespinner 3s infinite cubic-bezier(0.76, 0, 0.24, 1) both;
+
+            &:before,
+            &:after {
+                content: "";
+                left: 0;
+                width: 0.8rem;
+                height: 0.8rem;
+                border-radius: 0.8rem;
+                position: absolute;
+                background-color: var(--color-text);
+                animation: facespinnereye 1.5s 1s infinite;
+            }
+            &:after {
+                left: inherit;
+                right: 0;
+            }
+        }
+
+        &::after {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            content: "";
+            border-radius: inherit;
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+        }
+    }
+}
+@keyframes facespinner {
+    0% {
+        transform: translate(-50%, 20%);
+    }
+    30% {
+        transform: translate(0%, 30%);
+    }
+    60% {
+        transform: translate(50%, 20%);
+    }
+    80% {
+        transform: translate(0%, 30%);
+    }
+}
+@keyframes facespinnereye {
+    0% {
+        transform: scaleY(1);
+    }
+    80% {
+        transform: scaleY(1);
+    }
+    85% {
+        transform: scaleY(0);
+    }
+    90% {
+        transform: scaleY(1);
+    }
+    95% {
+        transform: scaleY(0);
+    }
+}

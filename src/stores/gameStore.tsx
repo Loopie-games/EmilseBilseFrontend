@@ -1,141 +1,142 @@
-import { observable, makeAutoObservable, runInAction, toJS, action } from "mobx";
-import { HubConnection, HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
-import { GameRoom, Lobby, CloseLobbyDto, LeaveLobbyDto, StartGameDto } from "../models/game/gameInterfaces";
-import { UserDTO } from "../models/user/userInterface";
-import { useNavigate } from 'react-router-dom';
-import { pendingPlayerDto } from "../models/player/playerInterface";
+import {observable, makeAutoObservable, runInAction, toJS, action, observe, when} from "mobx";
+import {HubConnection, HubConnectionBuilder, LogLevel} from "@microsoft/signalr";
+import {CloseLobbyDto, GameDTO, LeaveLobbyDto, Lobby, StartGameDto, TopPlayer} from "../models/game/gameInterfaces";
+import {SimplePlayerDTO, SimpleUserDTO, UserDTO} from "../models/user/userInterface";
+import {useNavigate} from 'react-router-dom';
+import {pendingPlayerDto} from "../models/player/playerInterface";
 import boardService from "../services/boardService";
-import { BoardTileDTO } from "../models/tile/tileInterface";
+import gameService from "../services/gameService";
+import {BoardDTO, BoardTileDTO} from "../models/tile/tileInterface";
+import colorLookupService from "../services/colorLookupService";
+import TopPlayerService from "../services/topPlayerService";
 
 export default class GameStore {
-
-    @observable gameRoom: GameRoom | undefined;
-    @observable lobby: Lobby | undefined;
     @observable tiles: BoardTileDTO[] = [];
-    @observable players: any[] = [{ username: 'Test', nickname: 'Hovedskovasddasdas' }]
-    @observable lobbyPlayers: pendingPlayerDto[] = [];
-    @observable gameId: string | undefined;
+    @observable players: SimpleUserDTO[] = [];
+    @observable game: GameDTO | undefined;
+    @observable board: BoardDTO | undefined;
+    @observable topRanked: TopPlayer[] = [];
+    @observable boardFilled: boolean = false;
     hubConnection: HubConnection | null = null;
+    testhashmap = new Map<string, string>();
 
     constructor() {
         makeAutoObservable(this);
     }
-    createHubConnection = async () => {
+
+    private createHubConnection = async () => {
         this.hubConnection = new HubConnectionBuilder()
             .withUrl(process.env.REACT_APP_GAME_SOCKET !== undefined ? process.env.REACT_APP_GAME_SOCKET : "http://localhost:5121/", {accessTokenFactory: () => localStorage.getItem("token")!.toString()})
             .withAutomaticReconnect()
             .configureLogging(LogLevel.Information)
             .build();
 
-
-
         await this.hubConnection.start()
-            .then(result => console.log("connected"))
+            .then(result => console.log("connected game"))
             .catch(error => {
                 console.log(error)
             });
 
-        this.listenForBoardReady(()=>{
-            console.log("boardReady")
-        })
-
-        this.hubConnection.on('server_StartGame', (game) => {
-            runInAction(() => {
-                this.gameRoom = game;
-            });
-        });
-
-        this.hubConnection.on('server_JoinLobby', (lobby) => {
-            runInAction(() => {
-                this.lobby = lobby;
-            });
-        });
-
-        this.hubConnection.on('lobbyPlayerListUpdate', (players: pendingPlayerDto[]) => {
-            runInAction(() => {
-                this.lobbyPlayers = players;
-            });
-        })
-
-        this.hubConnection.on('lobbyClosed', () => {
+        this.hubConnection.on('gameConnected', async (board: BoardDTO) => {
             runInAction(async () => {
-                this.lobby = undefined;
-                console.log('lobby is Closed');
-            });
+                this.board = board;
+                this.tiles = await this.getByBoardId(board.id);
+                this.players = await this.getPlayers()
+                return
+            })
         });
+        this.hubConnection.on('updateGame', async (game: GameDTO) => {
+            runInAction(async () => {
+                this.game = game
+            })
+        });
+        this.hubConnection.on('winnerClaimed', async (board: BoardDTO) => {
+            runInAction(async () => {
+                //Todo show host winner board
+                //this.board = board;
+            })
+        });
+        this.hubConnection?.on('TileTurned', async (boardTile: BoardTileDTO) => {
+            runInAction(async () => {
+                this.tiles.find((t: BoardTileDTO) => t.id === boardTile.id)!.isActivated = boardTile.isActivated
+            })
+        })
+        this.hubConnection?.on('boardFilled', async (boardId: string) => {
+            runInAction(async () => {
+                this.boardFilled = true
+            })
+        })
         return;
     }
 
-    stopHubConnection = () => {
-        this.hubConnection?.stop().catch(error => { });
-    }
-
-    createLobby = async (userId: string, func: Function) => {
-        this.hubConnection?.invoke('CreateLobby', userId);
-        this.hubConnection?.on('receiveLobby', async (lobby) => {
-            runInAction(async () => {
-                this.lobby = await lobby;
-                func()
-            });
-        });
-    }
-
-    startGame = async (sg: StartGameDto, callBack: Function) => {
-        this.hubConnection?.invoke('StartGame', sg)
-        await this.gameStarting(callBack);
+    stopConnection = async () => {
+        await this.hubConnection?.stop()
         return
     }
 
-    joinLobby = async (userId: string, lobbyPin: string, lobbyrecieved: Function) => {
-        this.hubConnection?.invoke('JoinLobby', userId, lobbyPin)
-        this.hubConnection?.on('receiveLobby', async (lobby: Lobby) => {
-            this.lobby = await lobby;
-            lobbyrecieved();
-        });
-    }
-
-    gameStarting = async(gameStarting: Function) => {
-        this.hubConnection?.on('gameStarting', async(gameId: string) => {
-            runInAction( async() => {
-                this.gameId = await gameId;
-                gameStarting()
-                return
-            })
-        })
-        this.listenForBoardReady(()=>{
-            console.log("boardReady2")
-        })
+    connectToGame = async (gameId: string) => {
+        this.game = await this.getGame(gameId);
+        await this.createHubConnection()
+        await this.hubConnection?.invoke('ConnectToGame', gameId)
         return
     }
 
-    closeLobby = async (lobbyId: string, hostId: string) => {
-        let cl: CloseLobbyDto = { lobbyID: lobbyId, hostID: hostId }
-        this.hubConnection?.invoke('CloseLobby', cl)
+    turnTile = async (boardtileId: string) => {
+        this.hubConnection?.invoke('TurnTile', boardtileId)
     }
 
-    kickPlayer = async (userId: string) => {
-        console.log(userId);
+    claimWin = async () => {
+        this.hubConnection?.invoke('ClaimWin', this.board!.id)
+        return
     }
 
-    leaveLobby = async (lobbyId: string, userId: string) => {
-        let ll: LeaveLobbyDto = { lobbyID: lobbyId, userID: userId }
-        this.hubConnection?.invoke('LeaveLobby', ll)
+    confirmWin = async () => {
+        this.hubConnection?.invoke('ConfirmWin', this.game!.id)
+        return
     }
 
-    listenForBoardReady = async(callback: Function) =>{
-        this.hubConnection?.on('boardReady', async(boardId)=>{
-            await this.getByBoardId(await boardId)
-            callback
-            return
-        })
+    denyWin = async () => {
+        this.hubConnection?.invoke('DenyWin', this.game!.id)
         return
     }
 
     @action
     getByBoardId = async (boardId: string) => {
         const response = await boardService.getByBoardId(boardId)
-        this.tiles = await response.data
-        return response;
+        response.data.forEach(async (tile) => {
+            if (!this.testhashmap.has(tile.aboutUser.id)) {
+                tile.aboutUser.color = colorLookupService.lookupColor(tile.position)
+                this.testhashmap.set(tile.aboutUser.id, tile.aboutUser.color)
+            } else {
+                tile.aboutUser.color = this.testhashmap.get(tile.aboutUser.id)
+            }
+        })
+        return response.data;
+    }
+
+    @action
+    getPlayers = async () => {
+        const response = await gameService.getPlayers(this.game!.id);
+        return response.data
+    }
+
+    @action
+    getGame = async (gameId: string) => {
+        const response = await gameService.getById(gameId);
+        return response.data
+    }
+
+    @action
+    getTop3 = async (gameId: string) => {
+        const response = await TopPlayerService.getTop3(gameId);
+        this.topRanked = response.data
+        return response.data
+    }
+
+    @action
+    getEnded = async () => {
+        const response = await gameService.getEndedGames();
+        return response.data
     }
 
 }

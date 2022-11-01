@@ -1,0 +1,156 @@
+.PopUp_CloseBackground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-input-border);
+    z-index: 1000;
+}
+
+.PopUp_Container {
+    height: 30%;
+    max-width: 400px;
+    max-height: 250px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--color-foreground);
+    border-radius: 15px;
+    z-index: 10001;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+
+    .PopUp_Title {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Caviar Dreams';
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--color-text);
+        text-align: center;
+    }
+
+    .PopUp_Error {
+        font-family: 'Caviar Dreams';
+        font-size: 16px;
+        color: var(--color-text);
+        flex-grow: 1;
+        flex-basis: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+        margin: 10px 0;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px 0 rgba(0,0,0,0.75) inset;
+    }
+
+    .PopUp_ButtonContainer {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+
+        .PopUp_Button {
+            font-family: 'Caviar Dreams';
+            font-size: 16px;
+            font-weight: 700;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--color-text);
+            border-radius: 5px;
+            border: 2px solid var(--color-input-border);
+            padding: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+
+            &:hover {
+                box-shadow: var(--color-highlighthover) 0 0 0 2px inset;
+
+            }
+
+        }
+
+        .confirm{
+            &:hover{
+                box-shadow: #7CB06B 0 0 0 2px inset;
+            }
+        }
+
+        .close {
+            
+            &:hover {
+                box-shadow: #c66161 0 0 0 2px inset;
+            }
+        }
+    }
+}
+
+.PopUp_Desktop{
+    
+    width: 30%;
+}
+
+.PopUp_Mobile{
+    width: 80%;
+}
+
+.closing{
+    z-index: 99;
+    animation: fadeout 0.2s forwards ease-in-out;
+    z-index: 1000;
+}
+
+.opening{
+    z-index: 99;
+    animation: fadein 0.2s forwards ease-in-out;
+    z-index: 1000;
+}
+
+@keyframes fadeout {
+    from {
+        opacity: 100%;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 100%;
+    }
+}
+
+#Popup_Textarea{
+    font-family: 'Caviar Dreams';
+    font-size: 16px;
+    color: var(--color-text);
+    width: calc(100%);
+    min-height: 100%;
+    resize:none;
+    overflow: hidden;;
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+
+.Popup_InputContainer{
+    height: fit-content !important;
+}
+
+.Popup_InputBox {
+    min-height: 40px !important;
+    overflow: hidden !important;
+}
+    

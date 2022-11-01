@@ -1,8 +1,9 @@
+import { Lobby } from "../game/gameInterfaces";
 import { SimpleUserDTO } from "../user/userInterface";
 
 export interface pendingPlayerDto {
-
     id: string
-    lobbyId: string
-    player: SimpleUserDTO
+    isHost: boolean
+    lobby: Lobby
+    user: SimpleUserDTO
 }

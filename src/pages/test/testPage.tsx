@@ -1,29 +1,22 @@
+import { PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import React, { useEffect, useState } from 'react'
+import Loader from '../../components/shared/loader/loader';
+import Popup from '../../components/shared/popups/popup';
 import { useStore } from '../../stores/store';
 import './testPage.scss'
 
 const TestPage = () => {
-  const [tile, setTile] = useState('');
-  const { tileStore, friendshipStore, userStore } = useStore();
+  const {popupStore} = useStore();
 
-  const handleCreateTile = (username: string) => {
-    let addedByUserId = userStore.user?.id !== undefined ? userStore.user?.id : '';
+  const t = () => {
+    popupStore.showInput('Test', 'Test', (e: string) => {console.log(e)}, () => {console.log('asdasd2')})
   }
-
-  const loadFriends = async () => {
-    await friendshipStore.getFriendList(userStore.user?.id ? userStore.user.id : '');
-  }
-  useEffect(() => {
-    loadFriends();
-    console.log("asdasdasd");
-
-    console.log(friendshipStore._friendlist);
-
-  }, [])
 
   return (
     <>
-      <div> ASDASDASD</div>
+      <div className='Test_Container'>
+          <div onClick={t}>aaaaaaaaaaaaaa</div>
+      </div>
     </>
   )
 }
