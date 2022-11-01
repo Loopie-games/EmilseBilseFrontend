@@ -18,7 +18,7 @@ pipeline {
             steps{
                 script {
                     try {
-                        sh "docker-compose -f docker-compose.prod.yml --env-file config/prod.env down"
+                        sh "docker-compose -f docker-compose.yml --env-file config/dev.env down"
                     }
                     finally {}
                 }
@@ -26,7 +26,7 @@ pipeline {
         }
         stage("Deploy containers") {
             steps {
-                sh "docker-compose -f docker-compose.prod.yml --env-file config/prod.env up -d --build"
+                sh "docker-compose -f docker-compose.yml --env-file config/dev.env up -d --build"
             }
         }
     }
