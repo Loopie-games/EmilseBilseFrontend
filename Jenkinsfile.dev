@@ -8,10 +8,10 @@ pipeline {
     tools {nodejs "NodeJS"}
 
     stages {
-               stage("s"){
-                steps{
-                    echo "AAAAAAAAA"
-                }
-               }
+        stage('s'){
+            steps{
+                echo 'Hello World'
+            }
+        }
     }
 }
