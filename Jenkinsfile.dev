@@ -8,6 +8,12 @@ pipeline {
     tools {nodejs "NodeJS"}
 
     stages {
+    stage('Building') {
+            steps{
+                sh "npm install"
+                sh "CI=False npm run build" 
+            }
+        }
         stage("Reset containers"){
             steps{
                 script {
