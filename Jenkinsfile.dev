@@ -8,9 +8,25 @@ pipeline {
     tools {nodejs "NodeJS"}
 
     stages {
-        stage('s'){
+         stage('Building') {
             steps{
-                echo 'Hello World'
+                sh "npm install"
+                sh "CI=False npm run build" 
+            }
+        }
+        stage("Reset containers"){
+            steps{
+                script {
+                    try {
+                        sh "docker-compose -f docker-compose.prod.yml --env-file config/prod.env down"
+                    }
+                    finally {}
+                }
+            }
+        }
+        stage("Deploy containers") {
+            steps {
+                sh "docker-compose -f docker-compose.prod.yml --env-file config/prod.env up -d --build"
             }
         }
     }
