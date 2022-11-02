@@ -20,5 +20,10 @@ pipeline {
                 sh "docker-compose -f docker-compose.yml --env-file config/dev.env up -d --build"
             }
         }
+        stage("Clean up"){
+            steps {
+                sh "docker system prune -af --volumes"
+            }
+        }
     }
 }
