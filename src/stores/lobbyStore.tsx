@@ -107,4 +107,13 @@ export default class LobbyStore {
         return response.data
     }
 
+    @action
+    startFFA = async (cDto:CreateGameDto) => {
+        if (this.lobby === undefined) throw new Error("Game cannot be created without a lobby")
+        const response = await lobbyService.startFFA(cDto);
+        let gameId = response.data.id
+        await this.hubConnection!.invoke('StartGame', this.lobby.id, gameId)
+        return response.data
+    }
+
 }
