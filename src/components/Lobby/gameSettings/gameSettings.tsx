@@ -7,10 +7,10 @@ import './gameSettings.scss'
 import {TilePack, TilePackSetting} from "../../../models/tile/tileInterface";
 
 const GameSettings = (GSCom:GameSettingCom) => {
-    const {tileStore } = useStore();
+    const {tileStore, popupStore } = useStore();
     const [isShown, setIsShown] = useState(false);
     const [restIsShown, setRestIsShown] = useState(false);
-    const [generalSettingsShown, setGeneralSettingsShown] = useState(false);
+    const [gamemodeSettingsShown, setGamemodeSettingsShown] = useState(false);
     const [tilepackSettingsShown, setTilepackSettingsShown] = useState(false);
 
     const initTilePacks = async () => {
@@ -37,12 +37,14 @@ const GameSettings = (GSCom:GameSettingCom) => {
         }, 200);
     }
 
-    const handleGeneralSettingsClick = () => {
-        setGeneralSettingsShown(!generalSettingsShown);
+    const handleGamemodeSettingsClick = () => {
+        setGamemodeSettingsShown(true);
+        setTilepackSettingsShown(false);
     }
 
     const handleTilepackSettingsClick = () => {
         setTilepackSettingsShown(true);
+        setGamemodeSettingsShown(false);
     }
 
     const handleCancelClick = () => {
@@ -53,6 +55,10 @@ const GameSettings = (GSCom:GameSettingCom) => {
     const handleSaveClick = () => {
         setRestIsShown(false);
         setIsShown(false);
+    }
+
+    const handleOnClickBackground = () => {
+        popupStore.showConfirmation("Are you sure?", "If you leave without saving, your changes wont be saved. ", handleCancelClick, ()=>{handleSaveClick})
     }
 
 
@@ -80,9 +86,33 @@ const GameSettings = (GSCom:GameSettingCom) => {
                 </div>
 
                 {restIsShown && <>
-                    <div className={`LoggedInBar-Wrapper ${isShown ? 'asdasdasd ' : ''}`} onClick={handleTilepackSettingsClick}>
+                    <div className={`LoggedInBar-Wrapper ${gamemodeSettingsShown ? 'asdasdasd ' : ''}`} onClick={handleGamemodeSettingsClick}>
+                        <div className={`LoggedInBar-ComponentTitle ${isShown ? 'shown' : ''} ${gamemodeSettingsShown ? 'activated' : ''}`}>
+                            <div className='LoggedInBar-ComponentTitleIcon'><Icon name="gamemodes" /></div>
+                            <div className='LoggedInBar-ComponentTitleText shown'>Gamemodes</div>
+                        </div>
+                        <div className={`LoggedInBar-ComponentContainer ${gamemodeSettingsShown ? 'asdasd' : ''}`}>
+                            {
+                                <>
+                                    {GSCom.tilePacks.map((tilePack) => {
+                                        return (
+                                            <div className={`GameSettings_TilePackComponentContainer ${tilePack.isActivated ? 'GameSettings_TilepackActivated' : ''}`} onClick={() => { toggleTilepack(tilePack.tilePack.id!); console.log(tilePack.isActivated) }}>
+                                                <div className='GameSettings_TilePackText'>{tilePack.tilePack.name}</div>
+                                                {tilePack.isActivated &&
+                                                    <div className='GameSettings_TilePackIcon'>
+                                                        <Icon name="check_circle" />
+                                                    </div>
+                                                }
+                                            </div>
+                                        )
+                                    })}
+                                </>
+                            }
+                        </div>
+                    </div>
+                    <div className={`LoggedInBar-Wrapper ${tilepackSettingsShown ? 'asdasdasd ' : ''}`} onClick={handleTilepackSettingsClick}>
                         <div className={`LoggedInBar-ComponentTitle ${isShown ? 'shown' : ''} ${tilepackSettingsShown ? 'activated' : ''}`}>
-                            <div className='LoggedInBar-ComponentTitleIcon'><Icon name="settings" /></div>
+                            <div className='LoggedInBar-ComponentTitleIcon'><Icon name="tilepack_creator" /></div>
                             <div className='LoggedInBar-ComponentTitleText shown'>Tile packs</div>
                         </div>
                         <div className={`LoggedInBar-ComponentContainer ${tilepackSettingsShown ? 'asdasd' : ''}`}>
@@ -122,7 +152,7 @@ const GameSettings = (GSCom:GameSettingCom) => {
             </div >
             <InvertedCornerQ1 />
             {isShown &&
-                <div className='GameSettings_CloseContainer'></div>
+                <div className='GameSettings_CloseContainer' onClick={handleOnClickBackground}></div>
             }
         </>
     )
