@@ -10,6 +10,7 @@ import { StripeStore } from "./stripeStore";
 import { ThemeStore } from "./themeStore";
 import { TileStore } from "./tileStore";
 import { UserStore } from "./userStore";
+import {gameModeStore} from "./gameModeStore";
 
 type Store = {
     authStore: AuthStore,
@@ -21,7 +22,8 @@ type Store = {
     mobileStore: MobileStore,
     themeStore: ThemeStore,
     stripeStore: StripeStore,
-    lobbyStore: LobbyStore
+    lobbyStore: LobbyStore,
+    gameModeStore: gameModeStore
 }
 
 export const store: Store = {
@@ -34,7 +36,8 @@ export const store: Store = {
     mobileStore: new MobileStore(),
     themeStore: new ThemeStore(),
     stripeStore: new StripeStore(),
-    lobbyStore: new LobbyStore()
+    lobbyStore: new LobbyStore(),
+    gameModeStore: new gameModeStore()
 };
 
 export const StoreContext = createContext<Store>({} as Store);
