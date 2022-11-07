@@ -21,16 +21,9 @@
             font-family: "Caviar Dreams";
             font-style: normal;
             font-weight: 400;
-
-            @media screen and (max-height: 414px) {
-                font-size: 14px;
-            }
-
-            @media screen and (min-height: 415px) {
-                font-size: 24px;
-            }
-
-            line-height: 0%;
+            font-size: 1vw;
+            text-align: center;
+            word-wrap: break-word;
             z-index: 3;
             border: 2px solid var(--color-input-border);
             border-radius: 5px;
@@ -42,7 +35,6 @@
             align-items: center;
             position: relative;
             transition: box-shadow 0.2s, outline 0.2s ease;
-
             &:hover {
                 box-shadow: var(--color-highlighthover) 0 0 0 2px inset !important;
             }
@@ -62,14 +54,7 @@
             grid-column-end: 3;
             grid-row-start: 3;
             grid-row-end: 3;
-
-            @media screen and (max-height: 414px) {
-                font-size: 14px;
-            }
-
-            @media screen and (min-height: 415px) {
-                font-size: 24px;
-            }
+            font-size: 1vw;
             color: var(--color-text);
         }
     }

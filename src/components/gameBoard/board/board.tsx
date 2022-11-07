@@ -1,11 +1,11 @@
-import React, {useEffect, useRef, useState} from 'react'
-import {useStore} from '../../../stores/store';
-import {observer} from 'mobx-react-lite';
+import React, { useEffect, useRef, useState } from 'react'
+import { useStore } from '../../../stores/store';
+import { observer } from 'mobx-react-lite';
 import './board.scss'
-import {BoardTileDTO} from '../../../models/tile/tileInterface';
+import { BoardTileDTO } from '../../../models/tile/tileInterface';
 
 const Board = () => {
-    const {gameStore, mobileStore} = useStore();
+    const { gameStore, mobileStore } = useStore();
     let triggerTime: number;
     let longPressTime = 200;
     useEffect(() => {
@@ -43,7 +43,8 @@ const Board = () => {
                                 onClick={() => handleClick(tile)}
                                 onMouseDown={handleTouchStart}
                                 onMouseUp={handleTouchEnd}>
-                                {index + 1}
+                                    {tile.aboutUser.nickname} {tile.byTile.tile.action}
+                                
                                 {tile.isActivated ?
                                     <div className='GameBoard_TileShadow'
                                         style={{ "boxShadow": `0px 0px 20px ${getPlayerColor(tile.aboutUser.id)}` }}>
