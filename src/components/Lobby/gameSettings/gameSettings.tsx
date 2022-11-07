@@ -86,6 +86,18 @@ const GameSettings = (GSCom:GameSettingCom) => {
         GSCom.setTilePacks(newTilePacks);
     }
 
+    const toggleGamemode = (id: string) => {
+        const newGameModes = gameModes.map(gameMode => {
+            if (gameMode.gameMode.id === id) {
+                gameMode.isActivated = !gameMode.isActivated;
+            } else {
+                gameMode.isActivated = false;
+            }
+            return gameMode;
+        })
+        setGameModes(newGameModes);
+    }
+
 
 
 
@@ -110,7 +122,7 @@ const GameSettings = (GSCom:GameSettingCom) => {
                                 <>
                                     {gameModes.map((gamemodeSetting) => {
                                         return (
-                                            <div className={`GameSettings_TilePackComponentContainer ${gamemodeSetting.isActivated ? 'GameSettings_TilepackActivated' : ''}`} onClick={() => { toggleTilepack(gamemodeSetting.gameMode.id!); console.log(gamemodeSetting.isActivated) }}>
+                                            <div className={`GameSettings_TilePackComponentContainer ${gamemodeSetting.isActivated ? 'GameSettings_TilepackActivated' : ''}`} onClick={() => { toggleGamemode(gamemodeSetting.gameMode.id!); console.log(gamemodeSetting.isActivated) }}>
                                                 <div className='GameSettings_TilePackText'>{gamemodeSetting.gameMode.name}</div>
                                                 {gamemodeSetting.isActivated &&
                                                     <div className='GameSettings_TilePackIcon'>
