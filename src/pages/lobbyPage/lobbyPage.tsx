@@ -16,7 +16,7 @@ import sortService from '../../services/sortService';
 import { SORT_TYPE } from '../../models/sortService/sortServiceInterface';
 
 const LobbyPage = () => {
-    const {userStore, popupStore, lobbyStore, mobileStore} = useStore();
+    const {userStore, popupStore, lobbyStore, mobileStore, gameModeStore} = useStore();
     const [tilePacks, setTilePacks] = useState<TilePackSetting[]>([])
     const navigate = useNavigate();
     const params = useParams();
@@ -96,8 +96,13 @@ const LobbyPage = () => {
 
     const handleStartGame = async () => {
         try {
-            let activated = tilePacks.filter(t => t.isActivated).map(t => t.tilePack.id)
-            await lobbyStore.startGame({lobbyId: lobbyStore.lobby?.id!, tpIds: activated})
+            let activated = tilePacks.filter(t => t.isActivated).map(t => t.tilePack.id);
+            let gamemode = gameModeStore.gameModes.filter(g => g.isActivated)[0].gameMode.name;
+            if (gamemode === 'Free For All'){
+                await lobbyStore.startFFA({lobbyId: lobbyStore.lobby!.id, tpIds: activated})
+            } else if (gamemode === 'Original Gamemode'){
+                await lobbyStore.startGame({lobbyId: lobbyStore.lobby?.id!, tpIds: activated})
+            }
         } catch (e: any) {
             popupStore.setErrorMessage(e.message)
             popupStore.show();

@@ -4,11 +4,11 @@ import { useStore } from '../../../stores/store';
 import Icon from '../../shared/icon/Icon';
 import InvertedCornerQ1 from '../../shared/invertedCorners/invertedCornerQ1';
 import './gameSettings.scss'
-import {TilePackSetting} from "../../../models/tile/tileInterface";
-import {GameMode, GameModeSetting} from "../../../models/gameMode/gameModeInterfaces";
+import { TilePackSetting } from "../../../models/tile/tileInterface";
+import { GameMode, GameModeSetting } from "../../../models/gameMode/gameModeInterfaces";
 
-const GameSettings = (GSCom:GameSettingCom) => {
-    const {tileStore, popupStore, gameModeStore } = useStore();
+const GameSettings = (GSCom: GameSettingCom) => {
+    const { tileStore, popupStore, gameModeStore } = useStore();
     const [isShown, setIsShown] = useState(false);
     const [restIsShown, setRestIsShown] = useState(false);
     const [gamemodeSettingsShown, setGamemodeSettingsShown] = useState(false);
@@ -18,31 +18,25 @@ const GameSettings = (GSCom:GameSettingCom) => {
     const initTilePacks = async () => {
         GSCom.setTilePacks([])
         let tpList = await tileStore.getOwnedTilePack()
-        let tpSetList:TilePackSetting[] = []
+        let tpSetList: TilePackSetting[] = []
 
-        tpList.forEach((tom)=>{
-            let tpSetting: TilePackSetting = {isActivated: false, tilePack: tom}
+        tpList.forEach((tom) => {
+            let tpSetting: TilePackSetting = { isActivated: false, tilePack: tom }
             tpSetList.push(tpSetting)
         })
 
         GSCom.setTilePacks(tpSetList)
     }
 
-    const initGameModes = async () =>{
-        let gmList = await gameModeStore.getAll();
-        let gmSetList:GameModeSetting[] = []
-        gmList.forEach(((gm)=>{
-            let gmSetting = {gameMode: gm, isActivated: false}
-            gmSetList.push(gmSetting)
-        }))
-        setGameModes(gmSetList)
+    const initGameModes = async () => {
+        await gameModeStore.getAll();
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         initTilePacks();
         initGameModes();
 
-    },[])
+    }, [])
 
     const handleSettingsClicked = () => {
         setIsShown(true);
@@ -72,7 +66,7 @@ const GameSettings = (GSCom:GameSettingCom) => {
     }
 
     const handleOnClickBackground = () => {
-        popupStore.showConfirmation("Are you sure?", "If you leave without saving, your changes wont be saved. ", handleCancelClick, ()=>{handleSaveClick})
+        popupStore.showConfirmation("Are you sure?", "If you leave without saving, your changes wont be saved. ", handleCancelClick, () => { handleSaveClick })
     }
 
 
@@ -87,15 +81,7 @@ const GameSettings = (GSCom:GameSettingCom) => {
     }
 
     const toggleGamemode = (id: string) => {
-        const newGameModes = gameModes.map(gameMode => {
-            if (gameMode.gameMode.id === id) {
-                gameMode.isActivated = !gameMode.isActivated;
-            } else {
-                gameMode.isActivated = false;
-            }
-            return gameMode;
-        })
-        setGameModes(newGameModes);
+        gameModeStore.toggleGameMode(id);
     }
 
 
@@ -120,7 +106,7 @@ const GameSettings = (GSCom:GameSettingCom) => {
                         <div className={`LoggedInBar-ComponentContainer ${gamemodeSettingsShown ? 'asdasd' : ''}`}>
                             {
                                 <>
-                                    {gameModes.map((gamemodeSetting) => {
+                                    {gameModeStore.gameModes.map((gamemodeSetting) => {
                                         return (
                                             <div className={`GameSettings_TilePackComponentContainer ${gamemodeSetting.isActivated ? 'GameSettings_TilepackActivated' : ''}`} onClick={() => { toggleGamemode(gamemodeSetting.gameMode.id!); console.log(gamemodeSetting.isActivated) }}>
                                                 <div className='GameSettings_TilePackText'>{gamemodeSetting.gameMode.name}</div>
@@ -188,5 +174,5 @@ export default observer(GameSettings)
 
 interface GameSettingCom {
     tilePacks: TilePackSetting[]
-    setTilePacks: (tps:TilePackSetting[])=>void
+    setTilePacks: (tps: TilePackSetting[]) => void
 }
