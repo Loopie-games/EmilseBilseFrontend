@@ -79,8 +79,10 @@ const GameSettings = (GSCom: GameSettingCom) => {
         gameModeStore.toggleGameMode(id);
     }
 
-
-
+    const handleCloseOverlay = () => {
+        setRestIsShown(false);
+        setIsShown(false);
+    }
 
     return (
         <>
@@ -146,7 +148,7 @@ const GameSettings = (GSCom: GameSettingCom) => {
             </div >
             <InvertedCornerQ1 />
             {isShown &&
-                <div className='GameSettings_CloseContainer'></div>
+                <div className='GameSettings_CloseContainer' onClick={handleCloseOverlay}></div>
             }
         </>
     )
