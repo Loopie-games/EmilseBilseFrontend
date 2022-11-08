@@ -65,11 +65,6 @@ const GameSettings = (GSCom: GameSettingCom) => {
         setIsShown(false);
     }
 
-    const handleOnClickBackground = () => {
-        popupStore.showConfirmation("Are you sure?", "If you leave without saving, your changes wont be saved. ", handleCancelClick, () => { handleSaveClick })
-    }
-
-
     const toggleTilepack = (id: string) => {
         const newTilePacks = GSCom.tilePacks.map(tilePack => {
             if (tilePack.tilePack.id === id) {
@@ -148,23 +143,10 @@ const GameSettings = (GSCom: GameSettingCom) => {
                     </div>
                 </>
                 }
-
-                <div className='GameSettings_ButtonContainer'>
-                    {restIsShown &&
-                        <>
-                            <div className='GameSettings_Button cancel' onClick={handleCancelClick}>
-                                Cancel
-                            </div>
-                            <div className='GameSettings_Button save' onClick={handleSaveClick}>
-                                Save
-                            </div>
-                        </>
-                    }
-                </div>
             </div >
             <InvertedCornerQ1 />
             {isShown &&
-                <div className='GameSettings_CloseContainer' onClick={handleOnClickBackground}></div>
+                <div className='GameSettings_CloseContainer'></div>
             }
         </>
     )
