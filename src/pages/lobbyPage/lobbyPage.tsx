@@ -99,6 +99,10 @@ const LobbyPage = () => {
             let activated = tilePacks.filter(t => t.isActivated).map(t => t.tilePack.id);
             let gamemode = gameModeStore.gameModes.filter(g => g.isActivated)[0].gameMode.name;
             if (gamemode === 'Free For All'){
+                if (activated.length < 1){
+                    popupStore.showError("An Error Occured","Please select at least one tile pack")
+                    return;
+                }
                 await lobbyStore.startFFA({lobbyId: lobbyStore.lobby!.id, tpIds: activated})
             } else if (gamemode === 'Original Gamemode'){
                 await lobbyStore.startGame({lobbyId: lobbyStore.lobby?.id!, tpIds: activated})
