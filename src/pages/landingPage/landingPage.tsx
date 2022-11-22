@@ -57,7 +57,7 @@ const LandingPage = () => {
             navigate('/login');
         } else {
             try {
-                let l : Lobby = await lobbyStore.createlobby()
+                let l  = await lobbyStore.createlobby()
                 navigate('/lobby/' + l.pin)
             } catch (e: any) {
                 popupStore.setErrorMessage(e.message);
