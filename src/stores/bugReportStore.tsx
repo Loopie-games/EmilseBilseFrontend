@@ -4,6 +4,7 @@ import bugReportService from "../services/bugReportService";
 
 export class bugReportStore {
 
+    
     constructor() {
         makeAutoObservable(this);
     }
