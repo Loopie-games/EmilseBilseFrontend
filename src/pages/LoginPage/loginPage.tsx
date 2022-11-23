@@ -30,7 +30,7 @@ const LoginPage = () => {
                 console.log('jwt: ' + localStorage.getItem("token"))
                 setLoggedIn(true)
                 navigate('/')
-                document.location.reload();
+                document.location.reload(); //TODO fix this
                 return
             }
         }
