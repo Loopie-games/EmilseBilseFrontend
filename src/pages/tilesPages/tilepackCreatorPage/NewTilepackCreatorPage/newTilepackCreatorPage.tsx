@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {useNavigate, useParams} from 'react-router-dom'
 import Icon from '../../../../components/shared/icon/Icon'
-import {Tile, TilePack} from '../../../../models/tile/tileInterface'
+import {idkTile, TilePack} from '../../../../models/tile/tileInterface'
 import {useStore} from '../../../../stores/store'
 import './newTilepackCreatorPage.scss'
 
@@ -12,8 +12,8 @@ const NewTilepackCreatorPage = () => {
     const [price, setPrice] = useState<number>(0)
     const [discount, setDiscount] = useState('')
     const [tilePack, setTilePack] = useState<TilePack>()
-    const [availableTiles, setAvailableTiles] = useState<Tile[]>([])
-    const [selectedTiles, setSelectedTiles] = useState<Tile[]>([])
+    const [availableTiles, setAvailableTiles] = useState<idkTile[]>([])
+    const [selectedTiles, setSelectedTiles] = useState<idkTile[]>([])
 
     const params = useParams();
     const navigate = useNavigate();
@@ -67,13 +67,13 @@ const NewTilepackCreatorPage = () => {
         }
     }
 
-    const addTile = (tile: Tile) => {
+    const addTile = (tile: idkTile) => {
         setAvailableTiles(prev => prev.filter(t => t !== tile));
         setSelectedTiles(() => [...selectedTiles, tile])
         return
     }
 
-    const removeTile = (tile: Tile) => {
+    const removeTile = (tile: idkTile) => {
         setAvailableTiles(() => [...availableTiles, tile])
         setSelectedTiles(prev => prev.filter(t => t !== tile));
         return
@@ -157,7 +157,7 @@ const NewTilepackCreatorPage = () => {
                                             return 1;
                                         }
                                         return 0;
-                                    }).map((tile: Tile) =>
+                                    }).map((tile: idkTile) =>
                                         <div className='NewTile_Container'>
                                             <div className='NewTile_Ikon' onClick={() => addTile(tile)}>
                                                 <Icon name={"rightArrow"}/>
@@ -180,7 +180,7 @@ const NewTilepackCreatorPage = () => {
                                             return 1;
                                         }
                                         return 0;
-                                    }).map((mtile: Tile) =>
+                                    }).map((mtile: idkTile) =>
                                         <div className='NewTile_Container'>
                                             <div className='NewTile_Ikon' onClick={() => removeTile(mtile)}>
                                                 <Icon name={"leftArrow"}/>

@@ -106,6 +106,8 @@ const LobbyPage = () => {
                 await lobbyStore.startFFA({lobbyId: lobbyStore.lobby!.id, tpIds: activated})
             } else if (gamemode === 'Original Gamemode'){
                 await lobbyStore.startGame({lobbyId: lobbyStore.lobby?.id!, tpIds: activated})
+            } else if (gamemode === 'Shared Board'){
+                await lobbyStore.startShared({lobbyId: lobbyStore.lobby?.id!, tpIds: activated})
             }
         } catch (e: any) {
             popupStore.setErrorMessage(e.message)

@@ -29,35 +29,38 @@ const Board = () => {
     }
 
     const getPlayerColor = (playerId: string) => {
-        return gameStore.tiles.find((tile: BoardTileDTO) => tile.aboutUser.id === playerId)?.aboutUser.color;
+        return gameStore.tiles.find((tile: BoardTileDTO) => tile.ActivatedBy?.id! === playerId)?.ActivatedBy?.color;
     }
 
     return (
         <>
             <div className='GameBoard_Container'>
                 <div className={`GameBoard_TileContainer ${mobileStore.isMobile ? 'mobileGab' : 'desktopGab'}`}>
-                    {gameStore.tiles.map((tile, index) => (
+                    {gameStore.tiles.map((boardtile, index) => (
                         <>
-                            <div style={{ "color": `${getPlayerColor(tile.aboutUser.id)}` }}
-                                className={`GameBoard_Tile ${tile.isActivated ? 'active' : ''}`} key={index}
-                                onClick={() => handleClick(tile)}
-                                onMouseDown={handleTouchStart}
-                                onMouseUp={handleTouchEnd}>
-                                    {tile.aboutUser.nickname} {tile.byTile.tile.action}
-                                
-                                {tile.isActivated ?
+                            <div style={{ "color": `${getPlayerColor(boardtile.ActivatedBy?.id ?? ' ') }` }}
+                                 className={`GameBoard_Tile ${boardtile.ActivatedBy !== undefined ? 'active' : ''}`} key={index}
+                                 onClick={() => handleClick(boardtile)}
+                                 onMouseDown={handleTouchStart}
+                                 onMouseUp={handleTouchEnd}>
+                                {boardtile.aboutUser?.nickname ?? ''} {boardtile.tile?.action ?? 'FREE'}
+
+                                {boardtile.ActivatedBy !== undefined ?
                                     <div className='GameBoard_TileShadow'
-                                        style={{ "boxShadow": `0px 0px 20px ${getPlayerColor(tile.aboutUser.id)}` }}>
+                                         style={{ "boxShadow": `0px 0px 20px ${getPlayerColor(boardtile.ActivatedBy.id ?? ' ')}` }}>
                                     </div>
                                     : null}
                             </div>
                         </>
                     ))}
-                    <div className='GameBoard_Tile active TileFree'> FREE</div>
                 </div>
             </div>
         </>
     )
+
+    /*
+
+     */
 }
 
 export default observer(Board)

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Tile } from '../../../models/tile/tileInterface'
+import { idkTile } from '../../../models/tile/tileInterface'
 import Icon from '../../shared/icon/Icon'
 import './newTile.scss'
 
@@ -41,7 +41,7 @@ const NewTile = ({tile, callBack, icon}: NTcom)=> {
 }
 
 export interface NTcom {
-    tile: Tile
+    tile: idkTile
     callBack: ()=> void
     icon: string
 }

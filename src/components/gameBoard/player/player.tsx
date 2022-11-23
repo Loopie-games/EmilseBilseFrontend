@@ -11,8 +11,8 @@ const Player = ({ player }: any) => {
 
     useEffect(() => {
         gameStore.tiles.forEach((tile: BoardTileDTO) => {
-            if (tile.aboutUser.id === player.id) {
-                setColor(tile.aboutUser.color!)
+            if (tile.ActivatedBy?.id === player.id) {
+                setColor(tile.ActivatedBy?.color!)
             }
         })
     }, [])

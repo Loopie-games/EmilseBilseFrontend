@@ -7,7 +7,7 @@ const Tiles = (boardTileDTO: BoardTileDTO) => {
     const [color, setColor] = useState('');
     const [isShown, setIsShown] = useState(false)
     useEffect(() => {
-        setColor(boardTileDTO.aboutUser.color!)
+        //setColor(boardTileDTO.aboutUser.color!)
     }, [])
 
     const handleShow = () => {
@@ -21,9 +21,13 @@ const Tiles = (boardTileDTO: BoardTileDTO) => {
                     {boardTileDTO.position + 1}
                 </div>
             </div>
-            <div className='Tile_ActionContainer'>
+        </div>
+    )
+
+    /*
+    <div className='Tile_ActionContainer'>
                 <div className={`Tile_Action ${isShown ? 'tileActionShown' : ''}`}>
-                    {boardTileDTO.aboutUser.nickname} {boardTileDTO.byTile.tile.action}
+                    {boardTileDTO.aboutUser.nickname ?? ''} {boardTileDTO.byTile.tile.action}
                 </div>
                 {isShown ?
                     <>
@@ -33,8 +37,7 @@ const Tiles = (boardTileDTO: BoardTileDTO) => {
                     </>
                     : null}
             </div>
-        </div>
-    )
+     */
 }
 
 export default observer(Tiles)

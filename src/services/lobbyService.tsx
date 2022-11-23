@@ -10,6 +10,10 @@ class LobbyService {
         return http.post<GameDTO>("/FFA",createGameDto);
     }
 
+    startShared(createGameDto: CreateGameDto){
+        return http.post<string>("/Shared",createGameDto);
+    }
+
     closeLobby(lobbyId: string) {
         return http.delete<boolean>("/Lobby/CloseLobby?lobbyId=" + lobbyId);
     }
