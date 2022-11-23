@@ -46,12 +46,12 @@ const GameSettings = (GSCom: GameSettingCom) => {
     }
 
     const handleGamemodeSettingsClick = () => {
-        setGamemodeSettingsShown(true);
+        setGamemodeSettingsShown(!gamemodeSettingsShown);
         setTilepackSettingsShown(false);
     }
 
     const handleTilepackSettingsClick = () => {
-        setTilepackSettingsShown(true);
+        setTilepackSettingsShown(!tilepackSettingsShown);
         setGamemodeSettingsShown(false);
     }
 
