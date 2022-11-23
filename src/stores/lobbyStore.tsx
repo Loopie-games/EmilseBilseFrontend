@@ -81,7 +81,7 @@ export default class LobbyStore {
     createlobby = async () => {
         this.reset();
         const response = await lobbyService.create();
-        this.lobby = response.data
+        //this.lobby = response.data
         return response.data
     }
 

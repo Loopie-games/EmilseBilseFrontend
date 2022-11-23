@@ -113,7 +113,7 @@ const RegisterPage = () => {
 
 
     async function onSubmitNewUser() {
-        if (validateUsername() && validatePassword() && validateRepeatPassword() && validateNickname() && validateEmail() && validateBirthday() && validateTerms()) {
+        //if (validateUsername() && validatePassword() && validateRepeatPassword() && validateNickname() && validateEmail() && validateBirthday() && validateTerms()) {
 
             let user: CreateUserDTO = { userName: username, password: password, nickName: nickname, salt: '', profilePicUrl: '' };
             await userStore.create(user)
@@ -121,9 +121,9 @@ const RegisterPage = () => {
             if (userStore.user) {
                 navigate('/')
             }
-        } else {
+        //} else {
             popupStore.showError('An Error occured', 'Please check your inputs')
-        }
+        //}
     }
 
     var tooltips: any = document.querySelectorAll('.tooltip div');

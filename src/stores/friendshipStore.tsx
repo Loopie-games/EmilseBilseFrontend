@@ -15,12 +15,6 @@ export class FriendshipStore {
     }
 
     @action
-    setFriends = (friends: Friend[]) => {
-        this._friendlist = friends
-    }
-
-    
-    @action
     searchForUsers = async (search: string) => {
         const response = await FriendshipService.searchUsers(search)
         this._searchResults = response.data;
