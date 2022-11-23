@@ -1,14 +1,14 @@
 import http from "../http-common"
-import {Tile } from "../models/tile/tileInterface";
+import {idkTile } from "../models/tile/tileInterface";
 
 class tileService {
 
     getUsedInPacks= async () => {
-        return await http.get<Tile[]>(`Tile/GetTilesUsedInPacks`)
+        return await http.get<idkTile[]>(`Tile/GetTilesUsedInPacks`)
     }
 
     getAll = async () =>{
-        return await http.get<Tile[]>('Tile')
+        return await http.get<idkTile[]>('Tile')
     }
 }
 export default new tileService();

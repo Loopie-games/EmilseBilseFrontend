@@ -58,7 +58,7 @@ export default class GameStore {
         });
         this.hubConnection?.on('TileTurned', async (boardTile: BoardTileDTO) => {
             runInAction(async () => {
-                this.tiles.find((t: BoardTileDTO) => t.id === boardTile.id)!.isActivated = boardTile.isActivated
+                this.tiles.find((t: BoardTileDTO) => t.id === boardTile.id)!.ActivatedBy = boardTile.ActivatedBy
             })
         })
         this.hubConnection?.on('boardFilled', async (boardId: string) => {
@@ -103,6 +103,7 @@ export default class GameStore {
     @action
     getByBoardId = async (boardId: string) => {
         const response = await boardService.getByBoardId(boardId)
+        console.log(response)
         return response.data;
     }
 
