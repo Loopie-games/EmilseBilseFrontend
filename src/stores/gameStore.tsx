@@ -103,14 +103,6 @@ export default class GameStore {
     @action
     getByBoardId = async (boardId: string) => {
         const response = await boardService.getByBoardId(boardId)
-        response.data.forEach(async (tile) => {
-            if (!this.testhashmap.has(tile.aboutUser.id)) {
-                tile.aboutUser.color = colorLookupService.lookupColor(tile.position)
-                this.testhashmap.set(tile.aboutUser.id, tile.aboutUser.color)
-            } else {
-                tile.aboutUser.color = this.testhashmap.get(tile.aboutUser.id)
-            }
-        })
         return response.data;
     }
 
