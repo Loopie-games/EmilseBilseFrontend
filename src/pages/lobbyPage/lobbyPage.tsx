@@ -170,7 +170,7 @@ const LobbyPage = () => {
                             </div>
                         }
                         {sorted.map((player) => (<>
-                            {player.isHost ? null : <UserComponent {...player.user} />}
+                            {player.isHost ? null : <UserComponent key={player.id} {...player.user} />}
                         </>
                         ))}
                     </div>

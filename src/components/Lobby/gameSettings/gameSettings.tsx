@@ -105,7 +105,7 @@ const GameSettings = (GSCom: GameSettingCom) => {
                                 <>
                                     {gameModeStore.gameModes.map((gamemodeSetting) => {
                                         return (
-                                            <div className={`GameSettings_TilePackComponentContainer ${gamemodeSetting.isActivated ? 'GameSettings_TilepackActivated' : ''}`} onClick={() => { toggleGamemode(gamemodeSetting.gameMode.id!); console.log(gamemodeSetting.isActivated) }}>
+                                            <div className={`GameSettings_TilePackComponentContainer ${gamemodeSetting.isActivated ? 'GameSettings_TilepackActivated' : ''}`} key={gamemodeSetting.gameMode.id} onClick={() => { toggleGamemode(gamemodeSetting.gameMode.id!); console.log(gamemodeSetting.isActivated) }}>
                                                 <div className='GameSettings_TilePackText'>{gamemodeSetting.gameMode.name}</div>
                                                 {gamemodeSetting.isActivated &&
                                                     <div className='GameSettings_TilePackIcon'>
@@ -129,7 +129,7 @@ const GameSettings = (GSCom: GameSettingCom) => {
                                 <>
                                     {GSCom.tilePacks.map((tilePack) => {
                                         return (
-                                            <div className={`GameSettings_TilePackComponentContainer ${tilePack.isActivated ? 'GameSettings_TilepackActivated' : ''}`} onClick={() => { toggleTilepack(tilePack.tilePack.id!); console.log(tilePack.isActivated) }}>
+                                            <div className={`GameSettings_TilePackComponentContainer ${tilePack.isActivated ? 'GameSettings_TilepackActivated' : ''}`} key={tilePack.tilePack.id} onClick={() => { toggleTilepack(tilePack.tilePack.id!); console.log(tilePack.isActivated) }}>
                                                 <div className='GameSettings_TilePackText'>{tilePack.tilePack.name}</div>
                                                 {tilePack.isActivated &&
                                                     <div className='GameSettings_TilePackIcon'>
