@@ -32,11 +32,12 @@ import Terms from './pages/termsPage/terms';
 import PrivacyPage from './pages/privacyPage/privacyPage';
 import ShopPage from './pages/shopPage/shopPage';
 import NewsletterPage from './pages/newsletterPage/newsletterPage';
+import ProfileGamesPage from './pages/profileGames/profileGamesPage';
 const stripePromise = loadStripe('pk_test_51Lf0qhHlPakEYz1FbXf2tOuCqoV5jPQcIoPASo8amOG1px2sOMObFsPGFhfDPaZZ5tT2RcjCBQZtgrN63khxdS8P00HCW9k4rl');
 
 function App() {
 
-  const { userStore, popupStore, mobileStore, themeStore, stripeStore} = useStore();
+  const { userStore, popupStore, mobileStore, themeStore, stripeStore } = useStore();
   const [showPortraitError, setShowPortraitError] = useState(false);
   const [showLandscapeError, setShowLandscapeError] = useState(false);
 
@@ -52,7 +53,7 @@ function App() {
       borderRadius: "5px",
 
     },
-    
+
     rules: {
       '.tab': {
         background: 'var(--color-input-background)',
@@ -63,7 +64,7 @@ function App() {
       },
 
       '.tab:hover': {
-        boxShadow: 'var(--color-highlighthover) 0 0 0 2px inset', 
+        boxShadow: 'var(--color-highlighthover) 0 0 0 2px inset',
       },
 
       '.tab:active': {
@@ -95,6 +96,7 @@ function App() {
     { path: "/user/friendRequests", element: <FriendRequestPage />, isLandscape: false },
     { path: "/user/tiles/:id", element: <TilesForYouPage />, isLandscape: false },
     { path: "/user/tilesby/:id", element: <TilesMadeByYouPage />, isLandscape: false },
+    { path: "/user/games/:id", element: <ProfileGamesPage />, isLandscape: false },
     { path: "/admin/tilepackcreator", element: <TilepackCreatorPage />, isLandscape: false },
     { path: "/admin/tilepackcreator/addnew/", element: <NewTilepackCreatorPage />, isLandscape: false },
     { path: "/admin/tilepackcreator/edit/:id", element: <NewTilepackCreatorPage />, isLandscape: false },
@@ -140,7 +142,7 @@ function App() {
 
     window.screen.orientation.addEventListener('change', () => {
       let r = routes.find(r => r.path.toLowerCase() === window.location.pathname.toLowerCase());
-      
+
       if (r?.isLandscape === true && window.screen.orientation.type === "portrait-primary") {
         setShowLandscapeError(true);
       }
@@ -158,7 +160,7 @@ function App() {
         document.getElementsByTagName('head')[0].appendChild(link);
       }
       link.href = themeStore.theme === "light" ? "/loopie_logo_black.ico" : "/loopie_logo_white.ico";
-  
+
     })
   })
 

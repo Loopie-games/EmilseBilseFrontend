@@ -1,0 +1,154 @@
+.ProfileGamesPage-Container {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    user-select: none;
+    background: var(--color-background);
+    flex-direction: column;
+
+    .ProfileGamesPage-NavBackground {
+        width: 100%;
+        height: 100px;
+        background-color: var(--color-foreground);
+        margin-bottom: 90px;
+    }
+
+    .ProfileGamesPage-Wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        @media screen and (min-width: 500px) {
+            width: 100% !important;
+            max-width: 450px !important;
+        }
+
+        @media screen and (max-width: 500px) {
+            width: 90% !important;
+        }
+
+        height: 100%;
+
+        .ProfileGamesPage-Title {
+            width: 100%;
+            height: 85px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: "Caviar Dreams";
+            font-style: normal;
+            font-weight: 400;
+            font-size: 32px;
+            color: var(--color-text);
+            margin-bottom: 55px;
+        }
+
+        .ProfileGamesPage-Searchbar {
+            height: 40px;
+
+            @media screen and (max-width: 500px) {
+                margin-bottom: 20px !important;
+            }
+            @media screen and (min-width: 500px) {
+                margin-bottom: 40px !important;
+                max-width: 450px !important;
+                
+            }
+
+            width: 100% !important;
+
+
+            .ProfileGamesPage-SearchbarContainer {
+                width: 100%;
+                height: 100%;
+                background: var(--color-input-background);
+                backdrop-filter: blur(5px);
+                border-radius: 5px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border: 2px solid var(--color-input-border);
+                transition: box-shadow 0.2s, outline 0.2s ease;
+                gap: 10px;
+
+                .ProfileGamesPage-SearchbarIcon:first-of-type {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    padding-left: 10px;
+                    filter: var(--color-icon);
+                }
+
+                .ProfileGamesPage-SearchbarIcon:last-of-type {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    padding-right: 10px;
+                    animation: fadeIn 0.2s ease-in-out;
+                    cursor: pointer;
+                    filter: var(--color-icon);
+
+                    img {
+                        height: 16px;
+                        width: 16px;
+                    }
+                }
+
+                .ProfileGamesPage-SearchbarInput {
+                    flex: 1;
+
+                    input {
+                        width: 100%;
+                        height: 100%;
+                        background-color: transparent;
+                        outline: none;
+                        border: 0;
+                        font-style: normal;
+                        font-weight: 400;
+                        font-size: 16px;
+                        line-height: 0%;
+                        color: var(--color-text);
+
+                        &::placeholder {
+                            color: var(--color-input-placeholder)
+                        }
+                    }
+                }
+
+                &:hover {
+                    box-shadow: var(--color-highlighthover) 0 0 0 2px inset;
+                }
+            }
+        }
+
+        .ProfileGamesPage-FriendsContainer {
+            flex-grow: 1 !important;
+            flex-basis: 0 !important;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
+            padding: 4px;
+            gap: 15px;
+            margin-bottom: 20px;
+
+            @media screen and (min-width: 500px) {
+                align-items: center;
+                width: 100% !important;
+            }
+            @media screen and (max-width: 500px) {
+                width: 100%;
+            }
+        }
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
