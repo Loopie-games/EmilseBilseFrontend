@@ -1,13 +1,20 @@
 import { observer } from 'mobx-react-lite'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { TilePackSetting } from '../../../models/tile/tileInterface'
 import { useStore } from '../../../stores/store'
 import Icon from '../../shared/icon/Icon'
 import './mobileGameSettings.scss'
 
-const MobileGameSettings = () => {
-    const { lobbyStore } = useStore()
+interface GameSettingCom {
+    tilePacks: TilePackSetting[]
+    setTilePacks: (tps: TilePackSetting[]) => void
+}
+
+const MobileGameSettings = (GSCom: GameSettingCom) => {
+    const { tileStore, gameModeStore } = useStore()
     const [isShown, setIsShown] = useState(false)
-    const [tilepackSettingsShown, setTilepackSettingsShown] = useState(false)
+    const [gamemodeSettingsShown, setGamemodeSettingsShown] = useState(false);
+    const [tilepackSettingsShown, setTilepackSettingsShown] = useState(false);
     const [testTilePacks, setTestTilePacks] = useState([
         {
             id: 1,
@@ -76,9 +83,28 @@ const MobileGameSettings = () => {
         },
     ])
 
-    const handleTilepackSettingsClick = () => {
-        setTilepackSettingsShown(!tilepackSettingsShown)
+    const initTilePacks = async () => {
+        GSCom.setTilePacks([])
+        let tpList = await tileStore.getOwnedTilePack()
+        let tpSetList: TilePackSetting[] = []
+
+        tpList.forEach((tom) => {
+            let tpSetting: TilePackSetting = { isActivated: false, tilePack: tom }
+            tpSetList.push(tpSetting)
+        })
+
+        GSCom.setTilePacks(tpSetList)
     }
+
+    const initGameModes = async () => {
+        await gameModeStore.getAll();
+    }
+
+    useEffect(() => {
+        initTilePacks();
+        initGameModes();
+
+    }, [])
 
     const handleSettingsClicked = () => {
         setIsShown(true)
@@ -101,26 +127,29 @@ const MobileGameSettings = () => {
         }, 200);
     }
 
-    const handleSaveClick = () => {
-        let e = document.getElementById('t');
-        let t = document.getElementById('closingContainer');
-        e?.classList.remove('GameSettingsM_Test');
-        t?.classList.remove('GameSettingsM_closingOverlayOpacity');
-        setTimeout(() => {
-            setIsShown(false)
-        }, 200);
-    }
-
-    const toggleTilepack = (id: number) => {
-        const newTilePacks = testTilePacks.map((tilePack) => {
-            if (tilePack.id === id) {
-                tilePack.isActivated = !tilePack.isActivated
+    const toggleTilepack = (id: string) => {
+        const newTilePacks = GSCom.tilePacks.map(tilePack => {
+            if (tilePack.tilePack.id === id) {
+                tilePack.isActivated = !tilePack.isActivated;
             }
-            return tilePack
+            return tilePack;
         })
-        setTestTilePacks(newTilePacks)
+        GSCom.setTilePacks(newTilePacks);
     }
 
+    const toggleGamemode = (id: string) => {
+        gameModeStore.toggleGameMode(id);
+    }
+
+    const handleGamemodeSettingsClick = () => {
+        setGamemodeSettingsShown(!gamemodeSettingsShown);
+        setTilepackSettingsShown(false);
+    }
+
+    const handleTilepackSettingsClick = () => {
+        setTilepackSettingsShown(!tilepackSettingsShown);
+        setGamemodeSettingsShown(false);
+    }
     return (
         <>
             <div className='GameSettingsM_OpenIconContainer' onClick={handleSettingsClicked}>
@@ -138,9 +167,41 @@ const MobileGameSettings = () => {
                                 Game Settings
                             </div>
                             <div className={`GameSettingsM_ContentWrapper`}>
-                                <div className={`GameSettingsM_ContentTitleContainer`} onClick={handleTilepackSettingsClick}>
+                                {/**
+                                 * GAMEMODE SETTINGS
+                                */}
+                                <div className={`GameSettingsM_ContentTitleContainer `} onClick={handleGamemodeSettingsClick}>
                                     <div className='GameSettingsM_ContentIcon'>
-                                        <Icon name="settings" />
+                                        <Icon name="gamemodes" />
+                                    </div>
+                                    <div className='GameSettingsM_ContentTitle'>
+                                        Gamemodes
+                                    </div>
+                                </div>
+                                <div className={`GameSettingsM_ContentContainer ${gamemodeSettingsShown ? 'TilePackSettingsShown' : ''}`}>
+                                    {
+                                        <>
+                                            {gameModeStore.gameModes.map((gamemodeSetting) => {
+                                                return (
+                                                    <div className={`GameSettings_TilePackComponentContainer ${gamemodeSetting.isActivated ? 'GameSettings_TilepackActivated' : ''}`} key={gamemodeSetting.gameMode.id} onClick={() => { toggleGamemode(gamemodeSetting.gameMode.id!) }}>
+                                                        <div className='GameSettings_TilePackText'>{gamemodeSetting.gameMode.name}</div>
+                                                        {gamemodeSetting.isActivated &&
+                                                            <div className='GameSettings_TilePackIcon'>
+                                                                <Icon name="check_circle" />
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                )
+                                            })}
+                                        </>
+                                    }
+                                </div>
+                                {/**
+                                 * TILEPACK SETTINGS
+                                */}
+                                <div className={`GameSettingsM_ContentTitleContainer `} onClick={handleTilepackSettingsClick}>
+                                    <div className='GameSettingsM_ContentIcon'>
+                                        <Icon name="tilepack_creator" />
                                     </div>
                                     <div className='GameSettingsM_ContentTitle'>
                                         Tile packs
@@ -148,28 +209,24 @@ const MobileGameSettings = () => {
                                 </div>
                                 <div className={`GameSettingsM_ContentContainer ${tilepackSettingsShown ? 'TilePackSettingsShown' : ''}`}>
                                     {
-                                        testTilePacks.map((tilePack) => (
-                                            <div className={`GameSettingsM_Content ${tilePack.isActivated ? 'GameSettingsM_TilepackActivated' : ''}`} key={tilePack.id} onClick={() => toggleTilepack(tilePack.id)}>
-                                                <div className='GameSettingsM_ContentName'>
-                                                    {tilePack.name}
-                                                </div>
-                                                {tilePack.isActivated &&
-                                                    <div className='GameSettingsM_ContentIcon'>
-                                                        <Icon name="check_circle" />
+                                        <>
+                                            {GSCom.tilePacks.map((tilePack) => {
+                                                return (
+                                                    <div className={`GameSettings_TilePackComponentContainer ${tilePack.isActivated ? 'GameSettings_TilepackActivated' : ''}`} key={tilePack.tilePack.id} onClick={() => { toggleTilepack(tilePack.tilePack.id!) }}>
+                                                        <div className='GameSettings_TilePackText'>{tilePack.tilePack.name}</div>
+                                                        {tilePack.isActivated &&
+                                                            <div className='GameSettings_TilePackIcon'>
+                                                                <Icon name="check_circle" />
+                                                            </div>
+                                                        }
                                                     </div>
-                                                }
-                                            </div>
-                                        ))
+                                                )
+                                            })}
+                                        </>
                                     }
                                 </div>
-                            </div>
-                            <div className='GameSettingsM_ButtonContainer'>
-                                <div className='GameSettingsM_Button' onClick={handleCancelClick}>
-                                    Cancel
-                                </div>
-                                <div className='GameSettingsM_Button' onClick={handleSaveClick}>
-                                    Save
-                                </div>
+
+
                             </div>
                         </div>
                     </div>
