@@ -20,7 +20,6 @@ const RequireAuth = ({ children }: any) => {
     const loadUser = async () => {
         setLoaded(false);
         const t = localStorage.getItem("userId");
-        console.log(t);
 
         if (t !== null) {
             await userStore.getLogged();

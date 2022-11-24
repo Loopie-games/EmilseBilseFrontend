@@ -92,9 +92,6 @@ export class UserStore {
         formData.append('file', file);
         formData.append('upload_preset', 'profileImage');
         let newProfilePicURL = await cloudinaryService.uploadProfilePic(formData);
-        console.log('====================================');
-        console.log(newProfilePicURL);
-        console.log('====================================');
         return newProfilePicURL;
     }
 

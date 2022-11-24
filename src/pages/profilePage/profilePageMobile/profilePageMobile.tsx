@@ -85,12 +85,6 @@ const ProfilePageMobile = () => {
 
     }, [params.id])
 
-    useEffect(() => {
-        console.log(tileStore.tilesAboutUser?.length);
-
-
-    }, [tileStore.tilesAboutUser])
-
     const getUser = async () => {
         const user = await userStore.getUserById(params.id!);
         setUser(user);
@@ -106,7 +100,6 @@ const ProfilePageMobile = () => {
             setFiltered(friendshipStore._friendlist!);
         }
         setLoading(false);
-        console.log(friendshipStore._friendlist);
     }
 
     const getTilesAboutUser = async () => {
@@ -163,9 +156,6 @@ const ProfilePageMobile = () => {
         if (friendshipStore._friendlist !== undefined) {
             setFiltered(filterService.filterForFriends(query, friendshipStore._friendlist));
         }
-        console.log('====================================');
-        console.log(filtered);
-        console.log('====================================');
     }
 
     const filterInTiles = (query: string) => {

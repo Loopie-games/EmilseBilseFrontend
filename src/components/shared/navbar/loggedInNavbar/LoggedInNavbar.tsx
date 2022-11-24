@@ -12,10 +12,6 @@ const LoggedInNavbar = () => {
 
     const [isOpen, setIsOpen] = useState(false);
 
-    useEffect(() => {
-        console.log(userStore.user);
-        
-    }, [])
 
     const handleProfile = () => {
         setIsOpen(false);

@@ -32,10 +32,6 @@ export default class GameStore {
             .build();
 
         await this.hubConnection.start()
-            .then(result => console.log("connected game"))
-            .catch(error => {
-                console.log(error)
-            });
 
         this.hubConnection.on('gameConnected', async (board: BoardDTO) => {
             runInAction(async () => {
@@ -103,7 +99,6 @@ export default class GameStore {
     @action
     getByBoardId = async (boardId: string) => {
         const response = await boardService.getByBoardId(boardId)
-        console.log(response)
         return response.data;
     }
 

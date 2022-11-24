@@ -4,8 +4,6 @@ import axios from "axios";
 
 class UserService {
     async getLogged() {
-        console.log(localStorage.getItem("token"));
-
         return http.get("/User/GetLogged", {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`

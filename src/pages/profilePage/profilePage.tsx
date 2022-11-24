@@ -87,12 +87,6 @@ const ProfilePage = () => {
 
     }, [params.id])
 
-    useEffect(() => {
-        console.log(tileStore.tilesAboutUser?.length);
-
-
-    }, [tileStore.tilesAboutUser])
-
     const getUser = async () => {
         const user = await userStore.getUserById(params.id!);
         setUser(user);
@@ -108,7 +102,6 @@ const ProfilePage = () => {
             setFiltered(friendshipStore._friendlist!);
         }
         setLoading(false);
-        console.log(friendshipStore._friendlist);
     }
 
     const getTilesAboutUser = async () => {
@@ -141,7 +134,6 @@ const ProfilePage = () => {
     const edit = () => {
         if (isInEditMode) {
             //TODO save changes when endpoint is done
-            //console.log(`nick: ${nickname}\ndesc: ${description}`);
 
             //Create object to send to db for handling
             let data: UserDTO = {
@@ -152,7 +144,6 @@ const ProfilePage = () => {
             }
 
             userStore.update(data).then(res=>{
-                console.log(res);
                 
             })
             
@@ -184,9 +175,6 @@ const ProfilePage = () => {
         if (friendshipStore._friendlist !== undefined) {
             setFiltered(filterService.filterForFriends(query, friendshipStore._friendlist));
         }
-        console.log('====================================');
-        console.log(filtered);
-        console.log('====================================');
     }
 
     const filterInTiles = (query: string) => {

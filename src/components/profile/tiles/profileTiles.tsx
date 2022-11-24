@@ -8,10 +8,6 @@ import './profileTiles.scss'
 const ProfileTiles = (tile: UserTile) => {
     const { userStore, tileStore, popupStore } = useStore()
 
-    useEffect(() => {
-        console.log(tile);
-    }, [tile])
-
     const isOwner = () => {
         return tile.user.id === userStore.user?.id || tile.addedByUser.id === userStore.user?.id;
     }

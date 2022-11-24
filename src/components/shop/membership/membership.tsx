@@ -2,7 +2,6 @@ import React from 'react'
 import './membership.scss'
 
 const Membership = ({ addToCart, membership }: any) => {
-    console.log(membership);
 
     return (
         <div className='Membership_Container'>

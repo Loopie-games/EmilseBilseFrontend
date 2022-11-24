@@ -180,7 +180,7 @@ const LoggedInBar = () => {
                                 {
                                     linkSublinks.map((subLink, index) => {
                                         return (
-                                            <div className={`LoggedInBar-ComponentTitle ${linksShown ? 'shown' : ''} ${url === subLink.link ? 'activated' : ''}`} key={index} onClick={() => { setIsShown(!isShown); navigate(subLink.link); console.log(isShown) }}>
+                                            <div className={`LoggedInBar-ComponentTitle ${linksShown ? 'shown' : ''} ${url === subLink.link ? 'activated' : ''}`} key={index} onClick={() => { setIsShown(!isShown); navigate(subLink.link); }}>
                                                 <div className='LoggedInBar-ComponentTitleIcon'><Icon name={subLink.iconName} /></div>
                                                 <div className='LoggedInBar-SubComponentTitleText shown'>{subLink.name}</div>
                                             </div>
@@ -201,7 +201,7 @@ const LoggedInBar = () => {
                                 {
                                     profileSubLinks.map((subLink, index) => {
                                         return (
-                                            <div className={`LoggedInBar-ComponentTitle ${profileShown ? 'shown' : ''} ${url === subLink.link ? 'activated' : ''}`} key={index} onClick={() => { setIsShown(!isShown); navigate(subLink.link); console.log(isShown) }}>
+                                            <div className={`LoggedInBar-ComponentTitle ${profileShown ? 'shown' : ''} ${url === subLink.link ? 'activated' : ''}`} key={index} onClick={() => { setIsShown(!isShown); navigate(subLink.link);}}>
                                                 <div className='LoggedInBar-ComponentTitleIcon'><Icon name={subLink.iconName} /></div>
                                                 <div className='LoggedInBar-SubComponentTitleText shown'>{subLink.name}</div>
                                             </div>

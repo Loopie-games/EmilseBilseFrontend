@@ -42,9 +42,6 @@ const NewsletterPage = () => {
 
     setShowSuccess(true);
     localStorage.setItem('newsletter', 'true');
-
-    console.log(showSuccess);
-
   }
 
   const onBack = () => {

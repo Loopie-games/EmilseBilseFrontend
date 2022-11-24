@@ -90,7 +90,6 @@ const NewTilepackCreatorPage = () => {
             try {
                 let tp = await tileStore.createTilePack({name: name, price: price})
                 navigate("/admin/tilepackcreator/edit/" + tp.id!)
-                console.log(tp)
                 return
             } catch (e) {
                 console.log(e)

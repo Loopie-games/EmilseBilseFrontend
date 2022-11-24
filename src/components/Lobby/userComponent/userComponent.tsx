@@ -18,7 +18,6 @@ const UserComponent = (player: SimpleUserDTO) => {
         if (lobbyStore.players.length > 0) {
             lobbyStore.lobby?.host === player.id ? setIsHost(true) : setIsHost(false);
         }
-        console.log(isHost);
     }, [])
 
     return (

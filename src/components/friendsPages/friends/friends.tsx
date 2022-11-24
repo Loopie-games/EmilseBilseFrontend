@@ -29,7 +29,6 @@ const Friends = (friend: Friend) => {
     const handleExpand = async () => {
         setExpanded(!expanded);
         if (expanded === true) {
-            console.log("asdasdasdsad")
             await tileStore.getTilesCreatedByUser(friend.user.id!, userStore.user!.id!);
             if (tileStore.tilesAboutUserCreatedByYou?.length !== undefined && tileStore.tilesAboutUserCreatedByYou.length > 0) {
                 setLoaded(true);

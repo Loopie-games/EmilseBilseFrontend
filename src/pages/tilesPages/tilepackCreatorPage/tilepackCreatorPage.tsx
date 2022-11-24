@@ -28,7 +28,6 @@ const TilepackCreatorPage = () => {
     }
 
     const handleAddTilePack = () => {
-        console.log('add tile pack');
         navigate('/admin/tilepackcreator/addnew');
     }
 

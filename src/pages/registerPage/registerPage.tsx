@@ -117,7 +117,6 @@ const RegisterPage = () => {
 
             let user: CreateUserDTO = { userName: username, password: password, nickName: nickname, salt: '', profilePicUrl: '' };
             await userStore.create(user)
-            console.log(userStore.user)
             if (userStore.user) {
                 navigate('/')
             }

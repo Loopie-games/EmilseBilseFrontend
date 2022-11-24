@@ -28,10 +28,6 @@ export default class LobbyStore {
             .build();
 
         await this.hubConnection.start()
-            .then(result => console.log("connected lobby"))
-            .catch(error => {
-                console.log(error)
-            });
 
         this.hubConnection.on('receiveLobby', async (lobby: Lobby) => {
             runInAction(()=>{
@@ -48,7 +44,6 @@ export default class LobbyStore {
         this.hubConnection.on('playerList', (players: pendingPlayerDto[]) => {
             runInAction(() => {
                 this.players = players;
-                console.log(players)
                 return
             });
         })

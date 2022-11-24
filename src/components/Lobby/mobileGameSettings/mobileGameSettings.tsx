@@ -85,7 +85,6 @@ const MobileGameSettings = () => {
         setTimeout(() => {
             let e = document.getElementById('t');
             let t = document.getElementById('closingContainer');
-            console.log(t);
             e?.classList.add('GameSettingsM_Test');
             t?.classList.add('GameSettingsM_closingOverlayOpacity');
         }, 200);
@@ -95,7 +94,6 @@ const MobileGameSettings = () => {
     const handleCancelClick = () => {
         let e = document.getElementById('t');
         let t = document.getElementById('closingContainer');
-        console.log(e);
         e?.classList.remove('GameSettingsM_Test');
         t?.classList.remove('GameSettingsM_closingOverlayOpacity');
         setTimeout(() => {
@@ -106,7 +104,6 @@ const MobileGameSettings = () => {
     const handleSaveClick = () => {
         let e = document.getElementById('t');
         let t = document.getElementById('closingContainer');
-        console.log(e);
         e?.classList.remove('GameSettingsM_Test');
         t?.classList.remove('GameSettingsM_closingOverlayOpacity');
         setTimeout(() => {

@@ -12,13 +12,11 @@ const NewTile = ({tile, callBack, icon}: NTcom)=> {
 
     const handleEdit = () => {
         setIsEditable(true)
-        console.log('edit');
     }
 
     const handleSaveEdit = () => {
 
         setIsEditable(false)
-        console.log('save edit');
     }
 
   return (

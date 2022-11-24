@@ -23,7 +23,6 @@ const Searchbar = () => {
             setIsActivated(true);
             await friendshipStore.searchForUsers(query);
             friendshipStore._searchResults?.forEach((user) => {
-                console.log(user.user.profilePicUrl);
             })
 
         }

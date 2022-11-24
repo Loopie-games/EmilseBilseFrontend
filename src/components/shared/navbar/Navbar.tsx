@@ -17,7 +17,7 @@ const Navbar = () => {
     useEffect(() => {
         setLoaded(false);
         userStore.user !== undefined ? setIsLoggedIn(true) : setIsLoggedIn(false);
-        console.log(isLoggedIn);
+        
 
         setLoaded(true);
     }, [])

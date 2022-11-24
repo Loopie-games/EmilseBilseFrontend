@@ -16,7 +16,6 @@ const AboutUsPage = () => {
 
     useEffect(() => {
         themeStore.setTheme();
-        console.log(themeStore.theme);
         
     }, [themeStore.theme])
 

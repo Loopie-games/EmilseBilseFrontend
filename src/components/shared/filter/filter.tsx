@@ -13,9 +13,6 @@ const Filter = ({ filter, placeholder }: any) => {
   const [query, setQuery] = useState('');
 
   useEffect(() => {
-    console.log('====================================');
-    console.log(placeholder);
-    console.log('====================================');
     if (query.length > 0) {
 
       handleSearch();

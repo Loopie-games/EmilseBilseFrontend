@@ -19,8 +19,6 @@ const FriendsPage = () => {
 
 
     useEffect(() => {
-        console.log(params);
-
         const loadData = async () => {
             await friendshipStore.getFriendList(params.id!);
             setLoading(false);
@@ -28,8 +26,6 @@ const FriendsPage = () => {
         }
 
         params.id !== undefined ? loadData() : setLoading(false);
-        console.log(userStore.user);
-        
 
     }, [])
 
