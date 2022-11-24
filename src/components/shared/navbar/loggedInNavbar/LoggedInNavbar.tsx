@@ -50,8 +50,8 @@ const LoggedInNavbar = () => {
                     </div>
                 </div>
                 <div className={`LoggedInNavbar-DropDownContainer ${isOpen ? 'show' : ''}`}>
-                    <div className='LoggedInNavbar-DropDownItem'>
-                        <div className='LoggedInNavbar-DropDownItemIcon' onClick={() => handleProfile()}>
+                    <div className='LoggedInNavbar-DropDownItem' onClick={() => handleProfile()}>
+                        <div className='LoggedInNavbar-DropDownItemIcon' >
                             <Icon name="profile" />
                         </div>
                         <div className='LoggedInNavbar-DropDownItemText'>
