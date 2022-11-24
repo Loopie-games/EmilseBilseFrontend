@@ -45,7 +45,10 @@ const MobileNav = () => {
         { name: 'Privacy policy', link: `/privacy`, iconName: 'link' },
     ];
 
-    const profileSubLinks = [{ name: 'Your Profile', link: `/user/profile/${userStore.user?.id}`, iconName: 'profile' }];
+    const profileSubLinks = [
+        { name: 'Your Profile', link: `/user/profile/${userStore.user?.id}`, iconName: 'profile' },
+        { name: 'Games', link: `/user/games/${userStore.user?.id}`, iconName: 'gamemodes' }
+    ];
     const friendlistSubLinks = [{ name: 'Friendlist', link: `/user/friendlist/${userStore.user?.id}`, iconName: 'friendslist' }, { name: 'Add Friend', link: `/user/addfriend/`, iconName: 'add_friend' }, { name: 'Friend Requests', link: `/user/friendrequests/`, iconName: 'friend_requests' }];
     const tileSubLinks = [{ name: 'Your Tiles', link: `/user/tiles/${userStore.user?.id}`, iconName: 'tiles_user' }, { name: 'Tiles created by you', link: `/user/tilesby/${userStore.user?.id}`, iconName: 'tiles_byUser' }];
     const UserInteractionSubLinks: any[] = [
@@ -155,15 +158,15 @@ const MobileNav = () => {
             switch (subLink.type) {
                 case POPUP_STATES.Bug:
                     setShowMenu(false);
-                    popupStore.showBug('Bug Report', 
-                    'Oh no, looks like you found a bug! Please describe the bug in detail and we will try to fix it as soon as possible.'
-                    , (e:string) => {console.log(e) });
+                    popupStore.showBug('Bug Report',
+                        'Oh no, looks like you found a bug! Please describe the bug in detail and we will try to fix it as soon as possible.'
+                        , (e: string) => { console.log(e) });
                     break;
                 case POPUP_STATES.Feedback:
                     setShowMenu(false);
                     popupStore.showFeedback('Feedback',
-                     'We would love to hear your feedback! Please describe your feedback in detail and we will try to implement it as soon as possible.'
-                     , (e:string) => {console.log(e)});
+                        'We would love to hear your feedback! Please describe your feedback in detail and we will try to implement it as soon as possible.'
+                        , (e: string) => { console.log(e) });
                     break;
                 default:
                     break;
