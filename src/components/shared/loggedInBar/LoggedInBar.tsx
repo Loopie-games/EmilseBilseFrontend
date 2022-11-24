@@ -31,7 +31,10 @@ const LoggedInBar = () => {
         { name: 'Terms of use', link: `/terms`, iconName: 'link' },
         { name: 'Privacy policy', link: `/privacy`, iconName: 'link' },
     ];
-    const profileSubLinks = [{ name: 'Your Profile', link: `/user/profile/${userStore.user?.id}`, iconName: 'profile' }];
+    const profileSubLinks = [
+        { name: 'Your Profile', link: `/user/profile/${userStore.user?.id}`, iconName: 'profile' },
+        { name: 'Games', link: `/user/games/${userStore.user?.id}`, iconName: 'gamemodes' }
+    ];
     const friendlistSubLinks = [{ name: 'Friendlist', link: `/user/friendlist/${userStore.user?.id}`, iconName: 'friendslist' }, { name: 'Add Friend', link: `/user/addfriend/`, iconName: 'add_friend' }, { name: 'Friend Requests', link: `/user/friendrequests/`, iconName: 'friend_requests' }];
     const tileSubLinks = [
         { name: 'Your Tiles', link: `/user/tiles/${userStore.user?.id}`, iconName: 'tiles_user' },
@@ -39,7 +42,7 @@ const LoggedInBar = () => {
         { name: 'Create Tilepack', link: `/admin/tilepackcreator/`, iconName: 'tilepack_creator' }
     ];
     const UserInteractionSubLinks: any[] = [
-        { name: 'Bug Report', type: POPUP_STATES.Bug , iconName: 'bug' },
+        { name: 'Bug Report', type: POPUP_STATES.Bug, iconName: 'bug' },
         { name: 'Feedback', type: POPUP_STATES.Feedback, iconName: 'feedback' },
         { name: 'Newsletter', link: `/newsletter`, iconName: 'mail' },
     ];
@@ -51,7 +54,7 @@ const LoggedInBar = () => {
     const checkIfBlacklistedRoute = (path: string) => {
         let t = false;
         barBlacklistRoutes.forEach((route) => {
-            if (path.includes(route)) {
+            if (path.startsWith(route)) {
                 t = true;
                 return t;
             }
@@ -148,15 +151,15 @@ const LoggedInBar = () => {
             switch (subLink.type) {
                 case POPUP_STATES.Bug:
                     popupStore.showBug('Bug Report', 'Oh no, looks like you found a bug! Please describe the bug in detail and we will try to fix it as soon as possible.'
-                    , (e:string) => {console.log(e)});
+                        , (e: string) => { console.log(e) });
                     break;
                 case POPUP_STATES.Feedback:
                     popupStore.showFeedback('Feedback', 'We would love to hear your feedback! Please describe your feedback in detail and we will try to implement it as soon as possible.',
-                     (e: string) => {console.log(e) });
+                        (e: string) => { console.log(e) });
                     break;
                 default:
                     break;
-                
+
             }
         }
 
@@ -201,7 +204,7 @@ const LoggedInBar = () => {
                                 {
                                     profileSubLinks.map((subLink, index) => {
                                         return (
-                                            <div className={`LoggedInBar-ComponentTitle ${profileShown ? 'shown' : ''} ${url === subLink.link ? 'activated' : ''}`} key={index} onClick={() => { setIsShown(!isShown); navigate(subLink.link);}}>
+                                            <div className={`LoggedInBar-ComponentTitle ${profileShown ? 'shown' : ''} ${url === subLink.link ? 'activated' : ''}`} key={index} onClick={() => { setIsShown(!isShown); navigate(subLink.link); }}>
                                                 <div className='LoggedInBar-ComponentTitleIcon'><Icon name={subLink.iconName} /></div>
                                                 <div className='LoggedInBar-SubComponentTitleText shown'>{subLink.name}</div>
                                             </div>
@@ -264,7 +267,7 @@ const LoggedInBar = () => {
                                 {
                                     UserInteractionSubLinks.map((subLink, index) => {
                                         return (
-                                            <div className={`LoggedInBar-ComponentTitle ${settingsShown ? 'shown' : ''} ${url === subLink.link ? 'activated' : ''}`} key={index} onClick={() => {handleUserInteraction(subLink)}}>
+                                            <div className={`LoggedInBar-ComponentTitle ${settingsShown ? 'shown' : ''} ${url === subLink.link ? 'activated' : ''}`} key={index} onClick={() => { handleUserInteraction(subLink) }}>
                                                 <div className='LoggedInBar-ComponentTitleIcon'><Icon name={subLink.iconName} /></div>
                                                 <div className='LoggedInBar-SubComponentTitleText shown'>{subLink.name}</div>
                                             </div>
