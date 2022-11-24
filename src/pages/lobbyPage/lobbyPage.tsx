@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import UserComponent from '../../components/Lobby/userComponent/userComponent';
 import './lobbyPage.scss'
 import { useStore } from '../../stores/store'
@@ -11,12 +11,12 @@ import MobileGameSettings from '../../components/Lobby/mobileGameSettings/mobile
 import Loader from '../../components/shared/loader/loader';
 import { pendingPlayerDto } from '../../models/player/playerInterface';
 import { SimpleUserDTO } from '../../models/user/userInterface';
-import {TilePackSetting} from "../../models/tile/tileInterface";
+import { TilePackSetting } from "../../models/tile/tileInterface";
 import sortService from '../../services/sortService';
 import { SORT_TYPE } from '../../models/sortService/sortServiceInterface';
 
 const LobbyPage = () => {
-    const {userStore, popupStore, lobbyStore, mobileStore, gameModeStore} = useStore();
+    const { userStore, popupStore, lobbyStore, mobileStore, gameModeStore } = useStore();
     const [tilePacks, setTilePacks] = useState<TilePackSetting[]>([])
     const navigate = useNavigate();
     const params = useParams();
@@ -98,16 +98,16 @@ const LobbyPage = () => {
         try {
             let activated = tilePacks.filter(t => t.isActivated).map(t => t.tilePack.id);
             let gamemode = gameModeStore.gameModes.filter(g => g.isActivated)[0].gameMode.name;
-            if (gamemode === 'Free For All'){
-                if (activated.length < 1){
-                    popupStore.showError("An Error Occured","Please select at least one tile pack")
+            if (gamemode === 'Free For All') {
+                if (activated.length < 1) {
+                    popupStore.showError("An Error Occured", "Please select at least one tile pack")
                     return;
                 }
-                await lobbyStore.startFFA({lobbyId: lobbyStore.lobby!.id, tpIds: activated})
-            } else if (gamemode === 'Original Gamemode'){
-                await lobbyStore.startGame({lobbyId: lobbyStore.lobby?.id!, tpIds: activated})
-            } else if (gamemode === 'Shared Board'){
-                await lobbyStore.startShared({lobbyId: lobbyStore.lobby?.id!, tpIds: activated})
+                await lobbyStore.startFFA({ lobbyId: lobbyStore.lobby!.id, tpIds: activated })
+            } else if (gamemode === 'Original Gamemode') {
+                await lobbyStore.startGame({ lobbyId: lobbyStore.lobby?.id!, tpIds: activated })
+            } else if (gamemode === 'Shared Board') {
+                await lobbyStore.startShared({ lobbyId: lobbyStore.lobby?.id!, tpIds: activated })
             }
         } catch (e: any) {
             popupStore.setErrorMessage(e.message)
@@ -134,11 +134,11 @@ const LobbyPage = () => {
     return (
         <>
             {isHost() &&
-            <>
-                {mobileStore.isMobile ? <MobileGameSettings/> :
-                    <GameSettings tilePacks={tilePacks} setTilePacks={(tps:TilePackSetting[])=>setTilePacks(tps)}/>
-                }
-            </>
+                <>
+                    {mobileStore.isMobile ? <MobileGameSettings tilePacks={tilePacks} setTilePacks={(tps: TilePackSetting[]) => setTilePacks(tps)} /> :
+                        <GameSettings tilePacks={tilePacks} setTilePacks={(tps: TilePackSetting[]) => setTilePacks(tps)} />
+                    }
+                </>
             }
             <div className='Lobby_Container'>
                 <div className='Lobby_Wrapper'>
