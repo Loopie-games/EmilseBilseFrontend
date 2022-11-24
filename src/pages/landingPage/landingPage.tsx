@@ -1,12 +1,12 @@
 import { autorun } from 'mobx';
-import {observer} from 'mobx-react-lite';
-import React, {useEffect, useState} from 'react'
-import {useNavigate} from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import Loader from '../../components/shared/loader/loader';
 import { Lobby } from '../../models/game/gameInterfaces';
 import lobbyStore from '../../stores/lobbyStore';
 
-import {useStore} from '../../stores/store';
+import { useStore } from '../../stores/store';
 import './landingPage.scss'
 
 const LandingPage = () => {
@@ -17,7 +17,7 @@ const LandingPage = () => {
     /**
      * Example of how to use the store context
      */
-    const {userStore, gameStore, popupStore, lobbyStore} = useStore();
+    const { userStore, gameStore, popupStore, lobbyStore } = useStore();
 
     useEffect(() => {
         setLoaded(true);
@@ -38,6 +38,14 @@ const LandingPage = () => {
         setHasPin(pinValue.length > 0);
     }
 
+    const checkEnter = (e: any) => {
+        checkPinLength();
+        if (e.key === 'Enter') {
+            handleJoinClick();
+        }
+    }
+
+
     const handleJoinClick = async () => {
         if (userStore.user === undefined) {
             navigate('/login');
@@ -57,7 +65,7 @@ const LandingPage = () => {
             navigate('/login');
         } else {
             try {
-                let l  = await lobbyStore.createlobby()
+                let l = await lobbyStore.createlobby()
                 navigate('/lobby/' + l.pin)
             } catch (e: any) {
                 popupStore.setErrorMessage(e.message);
@@ -69,10 +77,10 @@ const LandingPage = () => {
 
     return (
         <>
-            {!loaded ? <Loader/> :
+            {!loaded ? <Loader /> :
                 <div className='LandingPage-Container '>
                     <img src='https://github.githubassets.com/images/modules/site/codespaces/glow.png'
-                         alt={"glow img"}></img>
+                        alt={"glow img"}></img>
                     <div className='LandingPage-Wrapper'>
                         <div className='LandingPage-JoinWrapper'>
                             <div className='LandingPage-JoinLabel'>
@@ -80,7 +88,7 @@ const LandingPage = () => {
                             </div>
                             <div className={`LandingPage-JoinInput ${hasPin ? "active" : ""}`}>
                                 <input type="text" placeholder='Pin Code' maxLength={5}
-                                       onChange={(e) => handlePinChange(e)} onKeyUp={() => checkPinLength()}/>
+                                    onChange={(e) => handlePinChange(e)} onKeyUp={(e) => checkEnter(e)} />
                             </div>
                             <div className='LandingPage-JoinButton' onClick={() => handleJoinClick()}>Join</div>
                         </div>

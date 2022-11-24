@@ -7,6 +7,7 @@
     opacity: 0.5;
     transition: opacity 0.2s;
     text-decoration: none;
+    min-width: fit-content;
     &:hover {
         opacity: 1;
     }
