@@ -26,17 +26,46 @@
         display: flex;
         flex-direction: column;
 
-        .Lobby_Title {
+        .Lobby_TitleContainer {
             width: 100%;
-            height: 85px;
+            height: 100px;
             display: flex;
-            align-items: center;
             justify-content: center;
-            font-family: "Caviar Dreams";
-            font-style: normal;
-            font-weight: 400;
-            font-size: 32px;
-            color: var(--color-text);
+            align-items: center;
+            position: relative;
+            .Lobby_Title {
+                width: 100%;
+                height: 85px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-family: "Caviar Dreams";
+                font-style: normal;
+                font-weight: 400;
+                font-size: 32px;
+                color: var(--color-text);
+                text-align: center;
+
+                outline: none;
+                border: none;
+                background: transparent;
+            }
+
+            &:hover > .Lobby_EditIcon {
+                filter: var(--color-icon);
+                display: block;
+            }
+
+            .Lobby_EditIcon {
+                width: 20px;
+                height: 20px;
+                cursor: pointer;
+                position: absolute;
+                right: 10px;
+                top: 10px;
+                filter: var(--color-icon);
+                display: none;
+            }
         }
 
         .Lobby_InputContainer {
@@ -86,7 +115,6 @@
                         color: var(--color-input-placeholder);
                     }
                 }
-
             }
 
             .Lobby_StartButton {

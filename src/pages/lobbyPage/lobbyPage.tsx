@@ -14,6 +14,7 @@ import { SimpleUserDTO } from '../../models/user/userInterface';
 import { TilePackSetting } from "../../models/tile/tileInterface";
 import sortService from '../../services/sortService';
 import { SORT_TYPE } from '../../models/sortService/sortServiceInterface';
+import Icon from '../../components/shared/icon/Icon';
 
 const LobbyPage = () => {
     const { userStore, popupStore, lobbyStore, mobileStore, gameModeStore } = useStore();
@@ -23,6 +24,8 @@ const LobbyPage = () => {
     const [hostActive, setHostActive] = useState<boolean>(false);
     const [t, setT] = useState<SimpleUserDTO>();
     const [sorted, setSorted] = useState<pendingPlayerDto[]>([]);
+    const [title, setTitle] = useState<string>("");
+
 
     useEffect(() => {
         joinLobby()
@@ -41,6 +44,7 @@ const LobbyPage = () => {
         }
         setSorted(sortService.sortArray(lobbyStore.players, SORT_TYPE.Ascending));
     }, [lobbyStore.players])
+
 
     const getHostAvailability = () => {
         if (lobbyStore.players.length > 0) {
@@ -142,8 +146,9 @@ const LobbyPage = () => {
             }
             <div className='Lobby_Container'>
                 <div className='Lobby_Wrapper'>
-                    <div className='Lobby_Title'>
-                        Lobby
+                    <div className='Lobby_TitleContainer' >
+                        <input type='text' className='Lobby_Title' value={title} onChange={(e) => setTitle(e.target.value)} placeholder='Game Title' />
+
                     </div>
                     <div className='Lobby_InputContainer'>
                         <div className='Lobby_PinCode'>
