@@ -15,9 +15,10 @@ import { TilePackSetting } from "../../models/tile/tileInterface";
 import sortService from '../../services/sortService';
 import { SORT_TYPE } from '../../models/sortService/sortServiceInterface';
 import Icon from '../../components/shared/icon/Icon';
+import {GameNameChangeDto} from "../../models/game/gameInterfaces";
 
 const LobbyPage = () => {
-    const { userStore, popupStore, lobbyStore, mobileStore, gameModeStore } = useStore();
+    const { userStore, popupStore, lobbyStore, mobileStore, gameModeStore, gameStore } = useStore();
     const [tilePacks, setTilePacks] = useState<TilePackSetting[]>([])
     const navigate = useNavigate();
     const params = useParams();
@@ -107,12 +108,21 @@ const LobbyPage = () => {
                     popupStore.showError("An Error Occured", "Please select at least one tile pack")
                     return;
                 }
-                await lobbyStore.startFFA({ lobbyId: lobbyStore.lobby!.id, tpIds: activated })
+                let gId = await lobbyStore.startFFA({ lobbyId: lobbyStore.lobby!.id, name:title,tpIds: activated })
+                if(title !== ""){
+                    let gn : GameNameChangeDto = {gameId : gId, name : title}
+                    await gameStore.updateGameName(gn);
+                }
             } else if (gamemode === 'Original Gamemode') {
-                await lobbyStore.startGame({ lobbyId: lobbyStore.lobby?.id!, tpIds: activated })
+                let gId = await lobbyStore.startGame({ lobbyId: lobbyStore.lobby?.id!, name:title,tpIds: activated })
+                if(title !== ""){
+                    let gn : GameNameChangeDto = {gameId : gId, name : title}
+                    await gameStore.updateGameName(gn);
+                }
             } else if (gamemode === 'Shared Board') {
-                await lobbyStore.startShared({ lobbyId: lobbyStore.lobby?.id!, tpIds: activated })
+               let gId = await lobbyStore.startShared({ lobbyId: lobbyStore.lobby?.id!, name:title, tpIds: activated })
             }
+
         } catch (e: any) {
             popupStore.setErrorMessage(e.message)
             popupStore.show();

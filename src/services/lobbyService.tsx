@@ -3,11 +3,11 @@ import {CreateGameDto, GameDTO, Lobby} from "../models/game/gameInterfaces";
 
 class LobbyService {
     startGame(createGameDto: CreateGameDto) {
-        return http.post<GameDTO>("/Game",createGameDto);
+        return http.post<string>("/Game",createGameDto);
     }
 
     startFFA(createGameDto: CreateGameDto) {
-        return http.post<GameDTO>("/FFA",createGameDto);
+        return http.post<string>("/FFA",createGameDto);
     }
 
     startShared(createGameDto: CreateGameDto){

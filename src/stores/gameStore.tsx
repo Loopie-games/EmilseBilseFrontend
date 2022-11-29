@@ -1,6 +1,14 @@
 import {observable, makeAutoObservable, runInAction, toJS, action, observe, when} from "mobx";
 import {HubConnection, HubConnectionBuilder, LogLevel} from "@microsoft/signalr";
-import {CloseLobbyDto, GameDTO, LeaveLobbyDto, Lobby, StartGameDto, TopPlayer} from "../models/game/gameInterfaces";
+import {
+    CloseLobbyDto,
+    GameDTO,
+    GameNameChangeDto,
+    LeaveLobbyDto,
+    Lobby,
+    StartGameDto,
+    TopPlayer
+} from "../models/game/gameInterfaces";
 import {SimplePlayerDTO, SimpleUserDTO, UserDTO} from "../models/user/userInterface";
 import {useNavigate} from 'react-router-dom';
 import {pendingPlayerDto} from "../models/player/playerInterface";
@@ -105,6 +113,12 @@ export default class GameStore {
     @action
     getPlayers = async () => {
         const response = await gameService.getPlayers(this.game!.id);
+        return response.data
+    }
+
+    @action
+    updateGameName = async (gn: GameNameChangeDto) => {
+        const response = await gameService.setName(gn);
         return response.data
     }
 

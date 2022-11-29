@@ -8,11 +8,18 @@ export interface Lobby {
 
 export interface CreateGameDto{
     lobbyId:string
+    name?: string
     tpIds:(string | undefined)[]
+}
+
+export interface GameNameChangeDto{
+    gameId: string
+    name?: string
 }
 
 export interface GameDTO {
     id: string
+    name?: string
     host: SimpleUserDTO
     winner?: SimpleUserDTO
     state: State
