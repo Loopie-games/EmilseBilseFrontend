@@ -1,5 +1,5 @@
 import http from "../http-common"
-import { GameDTO } from "../models/game/gameInterfaces";
+import {GameDTO, GameNameChangeDto} from "../models/game/gameInterfaces";
 import { SimpleUserDTO } from "../models/user/userInterface";
 
 class GameService {
@@ -14,6 +14,10 @@ class GameService {
 
     async getEndedGames() {
         return http.get<GameDTO[]>("/Game/GetEnded/");
+    }
+
+    async setName(gn: GameNameChangeDto){
+        return http.put<GameDTO>("/Game/SetName", gn)
     }
 
 
