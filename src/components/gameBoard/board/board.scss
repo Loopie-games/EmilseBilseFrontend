@@ -34,8 +34,9 @@
             justify-content: center;
             align-items: center;
             position: relative;
-            transition: box-shadow 0.2s, outline 0.2s ease;
+            transition: all 0.2s ease-in-out;
             &:hover {
+                scale: 1.05;
                 box-shadow: var(--color-highlighthover) 0 0 0 2px inset !important;
             }
 

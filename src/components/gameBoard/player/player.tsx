@@ -7,20 +7,15 @@ import './player.scss'
 
 const Player = ({ player }: any) => {
     const { gameStore } = useStore();
-    const [color, setColor] = useState('');
 
-    useEffect(() => {
-        gameStore.tiles.forEach((tile: BoardTileDTO) => {
-            if (tile.ActivatedBy?.id === player.id) {
-                setColor(tile.ActivatedBy?.color!)
-            }
-        })
-    }, [])
+    const getPlayerColor = (playerId: string) => {
+        return gameStore.colorMap.get(playerId)
+    }
 
     return (
         <div className='Player_Container'>
             <div className='Player_IndicatorContainer'>
-                <div className='Player_Indicator' style={{ backgroundColor: color }}></div>
+                <div className='Player_Indicator' style={{ "backgroundColor": `${getPlayerColor(player.id ?? ' ')}` }}></div>
             </div>
             <div className='Player_InfoContainer'>
                 <div className='Player_InfoNickname'>
@@ -30,7 +25,7 @@ const Player = ({ player }: any) => {
                     {player.username}
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 

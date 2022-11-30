@@ -1,5 +1,5 @@
-import {observable, makeAutoObservable, runInAction, toJS, action, observe, when} from "mobx";
-import {HubConnection, HubConnectionBuilder, LogLevel} from "@microsoft/signalr";
+import { observable, makeAutoObservable, runInAction, toJS, action, observe, when } from "mobx";
+import { HubConnection, HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import {
     CloseLobbyDto,
     GameDTO,
@@ -9,12 +9,12 @@ import {
     StartGameDto,
     TopPlayer
 } from "../models/game/gameInterfaces";
-import {SimplePlayerDTO, SimpleUserDTO, UserDTO} from "../models/user/userInterface";
-import {useNavigate} from 'react-router-dom';
-import {pendingPlayerDto} from "../models/player/playerInterface";
+import { SimplePlayerDTO, SimpleUserDTO, UserDTO } from "../models/user/userInterface";
+import { useNavigate } from 'react-router-dom';
+import { pendingPlayerDto } from "../models/player/playerInterface";
 import boardService from "../services/boardService";
 import gameService from "../services/gameService";
-import {BoardDTO, BoardTileDTO} from "../models/tile/tileInterface";
+import { BoardDTO, BoardTileDTO } from "../models/tile/tileInterface";
 import colorLookupService from "../services/colorLookupService";
 import TopPlayerService from "../services/topPlayerService";
 
@@ -26,7 +26,7 @@ export default class GameStore {
     @observable topRanked: TopPlayer[] = [];
     @observable boardFilled: boolean = false;
     hubConnection: HubConnection | null = null;
-    testhashmap = new Map<string, string>();
+    @observable colorMap = new Map<string, string>();
 
     constructor() {
         makeAutoObservable(this);
@@ -34,7 +34,7 @@ export default class GameStore {
 
     private createHubConnection = async () => {
         this.hubConnection = new HubConnectionBuilder()
-            .withUrl(process.env.REACT_APP_GAME_SOCKET !== undefined ? process.env.REACT_APP_GAME_SOCKET : "http://localhost:5121/", {accessTokenFactory: () => localStorage.getItem("token")!.toString()})
+            .withUrl(process.env.REACT_APP_GAME_SOCKET !== undefined ? process.env.REACT_APP_GAME_SOCKET : "http://localhost:5121/", { accessTokenFactory: () => localStorage.getItem("token")!.toString() })
             .withAutomaticReconnect()
             .configureLogging(LogLevel.Information)
             .build();
@@ -45,6 +45,18 @@ export default class GameStore {
             runInAction(async () => {
                 this.board = board;
                 this.tiles = await this.getByBoardId(board.id);
+                this.tiles.forEach(t => {
+                    console.log(this.colorMap.get(t.aboutUser?.id!));
+                    if (this.colorMap.get(t.aboutUser?.id!) !== undefined) {
+                        return
+                    }
+
+                    let index = this.tiles.findIndex(x => x.aboutUser?.id === t.aboutUser?.id);
+                    this.colorMap.set(t.aboutUser?.id!, colorLookupService.lookupColor(index));
+                })
+                console.log(this.tiles);
+
+
                 this.players = await this.getPlayers()
                 return
             })
@@ -62,7 +74,9 @@ export default class GameStore {
         });
         this.hubConnection?.on('TileTurned', async (boardTile: BoardTileDTO) => {
             runInAction(async () => {
-                this.tiles.find((t: BoardTileDTO) => t.id === boardTile.id)!.ActivatedBy = boardTile.ActivatedBy
+                console.log(boardTile);
+
+                this.tiles.find((t: BoardTileDTO) => t.id === boardTile.id)!.activatedBy = boardTile.activatedBy
             })
         })
         this.hubConnection?.on('boardFilled', async (boardId: string) => {
