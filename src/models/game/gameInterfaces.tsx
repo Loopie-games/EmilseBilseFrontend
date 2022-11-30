@@ -1,4 +1,6 @@
 import {SimpleUserDTO, UserDTO} from "../user/userInterface";
+import Board from "../../components/gameBoard/board/board";
+import {BoardDTO} from "../tile/tileInterface";
 
 export interface Lobby {
     id: string
@@ -21,7 +23,7 @@ export interface GameDTO {
     id: string
     name?: string
     host: SimpleUserDTO
-    winner?: SimpleUserDTO
+    winner?: BoardDTO
     state: State
 }
 

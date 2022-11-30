@@ -15,9 +15,16 @@ class GameService {
     async getEndedGames() {
         return http.get<GameDTO[]>("/Game/GetEnded/");
     }
+    async getSavedGames() {
+        return http.get<GameDTO[]>("/Game/GetSavedGames/");
+    }
 
     async setName(gn: GameNameChangeDto){
         return http.put<GameDTO>("/Game/SetName", gn)
+    }
+
+    async delete(gameId:string){
+        return http.delete("/Game?gameId=" + gameId)
     }
 
 

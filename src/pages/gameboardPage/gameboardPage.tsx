@@ -62,7 +62,7 @@ const GameboardPage = () => {
                         if (gameStore.game!.host.id === userStore.user!.id) {
                             //player is host
                             if (gameStore.game!.state === State.Paused && gameStore.game!.winner != undefined) {
-                                popupStore.showConfirmation("Confirm win claim", "check board of " + gameStore.game!.winner!.username + " and conirm or deny win", async () => {
+                                popupStore.showConfirmation("Confirm win claim", " conirm or deny win", async () => {
                                     await gameStore.confirmWin();
                                 }, async () => {
                                     await gameStore.denyWin()
@@ -88,8 +88,7 @@ const GameboardPage = () => {
             <div className='Gameboard_WinnerClaim'>
                 <div className='Gameboard_WinnerClaimBox'>
                     <div className='Gameboard_WinnerClaimBoxTitle'>Game Paused!</div>
-                    <div className='Gameboard_WinnerClaimBoxContent'>The host i currently confirming a winner claim
-                        from {gameStore.game?.winner.username}. Please wait
+                    <div className='Gameboard_WinnerClaimBoxContent'>The host i currently confirming a winner claim. Please wait
                     </div>
                 </div>
             </div>

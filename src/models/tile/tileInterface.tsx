@@ -54,7 +54,6 @@ export enum TileType {
 export interface BoardDTO{
     id: string
     gameId: string
-    userId: string
 }
 
 export interface BoardTileDTO {
