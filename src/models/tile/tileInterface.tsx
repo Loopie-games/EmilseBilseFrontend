@@ -63,7 +63,7 @@ export interface BoardTileDTO {
     tile?: Tile
     aboutUser?: SimplePlayerDTO
     position: number
-    ActivatedBy?: SimplePlayerDTO
+    activatedBy?: SimplePlayerDTO
 }
 
 export interface ByTile {

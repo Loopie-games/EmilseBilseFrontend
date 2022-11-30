@@ -82,6 +82,26 @@
         display: flex;
         flex-direction: row;
         overflow: hidden;
+        position: relative;
+
+        .Gameboard_Title{
+            font-family: "Caviar Dreams";
+            font-style: normal;
+            font-weight: 400;
+
+            @media screen and (max-width: 768px) {
+                font-size: 2vmax;
+            }
+
+            @media screen and (min-width: 768px) {
+                font-size: 1.5vmax;
+            }
+
+            color: var(--color-text);
+            margin-bottom: 0;
+            position: absolute;
+            left: 25px;
+        }
 
         .Gameboard_TracklistContainer {
             @media screen and (max-height: 414px) and (orientation: landscape) {

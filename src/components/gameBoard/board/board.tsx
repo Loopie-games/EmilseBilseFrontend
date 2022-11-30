@@ -9,8 +9,9 @@ const Board = () => {
     let triggerTime: number;
     let longPressTime = 200;
     useEffect(() => {
+        console.log(gameStore.tiles);
 
-    }, [])
+    }, [gameStore.tiles])
 
     const completeTile = async (boardTileDTO: BoardTileDTO) => {
         await gameStore.turnTile(boardTileDTO.id)
@@ -19,6 +20,8 @@ const Board = () => {
 
     const handleClick = (e: any) => {
         triggerTime > longPressTime ? completeTile(e) : completeTile(e);
+        console.log(e);
+
     }
 
     const handleTouchStart = () => {
@@ -29,7 +32,10 @@ const Board = () => {
     }
 
     const getPlayerColor = (playerId: string) => {
-        return gameStore.tiles.find((tile: BoardTileDTO) => tile.ActivatedBy?.id! === playerId)?.ActivatedBy?.color;
+        if (playerId !== ' ') {
+            return gameStore.colorMap.get(playerId)
+        }
+        return 'white'
     }
 
     return (
@@ -38,16 +44,16 @@ const Board = () => {
                 <div className={`GameBoard_TileContainer ${mobileStore.isMobile ? 'mobileGab' : 'desktopGab'}`}>
                     {gameStore.tiles.map((boardtile, index) => (
                         <>
-                            <div style={{ "color": `${getPlayerColor(boardtile.ActivatedBy?.id ?? ' ') }` }}
-                                 className={`GameBoard_Tile ${boardtile.ActivatedBy !== undefined ? 'active' : ''}`} key={index}
-                                 onClick={() => handleClick(boardtile)}
-                                 onMouseDown={handleTouchStart}
-                                 onMouseUp={handleTouchEnd}>
+                            <div style={{ "color": `${getPlayerColor(boardtile.aboutUser?.id ?? ' ')}` }}
+                                className={`GameBoard_Tile ${boardtile.activatedBy !== null ? 'active' : ''}`} key={index}
+                                onClick={() => handleClick(boardtile)}
+                                onMouseDown={handleTouchStart}
+                                onMouseUp={handleTouchEnd}>
                                 {boardtile.aboutUser?.nickname ?? ''} {boardtile.tile?.action ?? 'FREE'}
 
-                                {boardtile.ActivatedBy !== undefined ?
+                                {boardtile.activatedBy !== null ?
                                     <div className='GameBoard_TileShadow'
-                                         style={{ "boxShadow": `0px 0px 20px ${getPlayerColor(boardtile.ActivatedBy.id ?? ' ')}` }}>
+                                        style={{ "boxShadow": `0px 0px 10px 0px ${getPlayerColor(boardtile.aboutUser?.id ?? ' ')}` }}>
                                     </div>
                                     : null}
                             </div>
