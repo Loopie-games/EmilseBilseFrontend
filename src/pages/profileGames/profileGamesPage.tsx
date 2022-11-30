@@ -8,9 +8,10 @@ import UserCreatedTile from '../../components/tilesPages/userCreatedTile';
 import { UserTile } from '../../models/tile/tileInterface';
 import { useStore } from '../../stores/store';
 import './profileGamesPage.scss'
+import {GameDTO} from "../../models/game/gameInterfaces";
 
 const ProfileGamesPage = () => {
-    const { gamesStore, popupStore } = useStore();
+    const { gameStore, popupStore } = useStore();
     const params = useParams();
     const [filteredList, setFilteredList] = useState<any[]>([]);
     const [search, setSearch] = useState('');
@@ -20,14 +21,14 @@ const ProfileGamesPage = () => {
     useEffect(() => {
         setLoading(false);
         getAllGames()
-    }, [gamesStore, gamesStore.games, search, params.id])
+    }, [search, params.id])
 
 
     const getAllGames = async () => {
         try {
-            //await gamesStore.getAllGames(params.id!);
+            let games = await gameStore.getSaved();
             const debouncedSearch = setTimeout(async () => {
-                setFilteredList(gamesStore.games!.filter(((t: { title: string; status: string; }) => t.title.toLowerCase().includes(search.toLowerCase()) || t.status.toLowerCase().includes(search.toLowerCase())))!);
+                setFilteredList(games.filter(((t: GameDTO) => t.name?.toLowerCase().includes(search.toLowerCase()) || t.state.toString().toLowerCase().includes(search.toLowerCase())))!);
             }, 500);
             return () => {
                 clearTimeout(debouncedSearch);
@@ -38,16 +39,17 @@ const ProfileGamesPage = () => {
         }
     }
 
-    const handleClearSearch = () => {
-        setFilteredList(gamesStore.games!);
+    const handleClearSearch = async () => {
+        let games = await gameStore.getSaved();
+        setFilteredList(games);
         setSearch('');
     }
 
-    const handleDeleteGame = async (game: any) => {
+    const handleDeleteGame = async (game: GameDTO) => {
         try {
             popupStore.showConfirmation('Are you sure',
-                `Are you sure you want to delete ${game.title} ?`, () => {
-                    gamesStore.deleteGame(game.id);
+                `Are you sure you want to delete ${game.name} ?`, () => {
+                    gameStore.deleteGame(game.id)
                 },
                 () => {
                     popupStore.hide();

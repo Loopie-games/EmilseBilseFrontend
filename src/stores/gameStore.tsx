@@ -137,6 +137,12 @@ export default class GameStore {
     }
 
     @action
+    deleteGame = async (gameId: string) => {
+        const response = await gameService.delete(gameId);
+        return response.data
+    }
+
+    @action
     getGame = async (gameId: string) => {
         const response = await gameService.getById(gameId);
         return response.data
@@ -152,6 +158,12 @@ export default class GameStore {
     @action
     getEnded = async () => {
         const response = await gameService.getEndedGames();
+        return response.data
+    }
+
+    @action
+    getSaved = async () =>{
+        const response = await gameService.getSavedGames();
         return response.data
     }
 

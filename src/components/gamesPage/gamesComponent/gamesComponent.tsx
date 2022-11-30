@@ -4,9 +4,10 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useStore } from '../../../stores/store'
 import Icon from '../../shared/icon/Icon'
 import './gamesComponent.scss'
+import {GameDTO} from "../../../models/game/gameInterfaces";
 
 export interface gamesComponentProps {
-    game: any,
+    game: GameDTO,
     onDelete: any,
 }
 
@@ -14,7 +15,7 @@ export interface gamesComponentProps {
 const GamesComponent = ({ game, onDelete }: gamesComponentProps) => {
     const params = useParams();
     const navigate = useNavigate();
-    const { userStore, gamesStore, popupStore } = useStore();
+    const { userStore, gameStore, popupStore } = useStore();
     const [isLoggedInUser, setIsLoggedInUser] = useState(false);
 
     useEffect(() => {
@@ -24,10 +25,7 @@ const GamesComponent = ({ game, onDelete }: gamesComponentProps) => {
 
     const deleteGame = async () => {
         try {
-            //await tileStore.deleteTile(tile.id);
-            onDelete();
-            
-
+             onDelete();
         } catch (e: any) {
             popupStore.setErrorMessage(e.message);
             popupStore.show();
@@ -36,7 +34,7 @@ const GamesComponent = ({ game, onDelete }: gamesComponentProps) => {
 
     const handleClickGotoGame = () => {
         popupStore.showConfirmation('Are you sure',
-            `Are you sure you want to go to ${game.title}?`, () => {
+            `Are you sure you want to go to ${game.name}?`, () => {
                 navigate(`/game/${game.id}`);
             },
             () => {
@@ -47,8 +45,8 @@ const GamesComponent = ({ game, onDelete }: gamesComponentProps) => {
     return (
         <div className='GameComponent_Container'>
             <div className='GameComponent_TileInfoContainer'>
-                <div className='GameComponent_TileInfo Title'>{game.title}</div>
-                <div className='GameComponent_TileInfo Status'>Status: {game.status}</div>
+                <div className='GameComponent_TileInfo Title'>{game.name}</div>
+                <div className='GameComponent_TileInfo Status'>Status: {game.state}</div>
             </div>
 
             {isLoggedInUser ?
