@@ -1,7 +1,7 @@
-import {HubConnection, HubConnectionBuilder, LogLevel} from "@microsoft/signalr";
-import {action, makeAutoObservable, observable, runInAction} from "mobx";
-import {CreateGameDto, Lobby} from "../models/game/gameInterfaces";
-import {pendingPlayerDto} from "../models/player/playerInterface";
+import { HubConnection, HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
+import { action, makeAutoObservable, observable, runInAction } from "mobx";
+import { CreateGameDto, Lobby } from "../models/game/gameInterfaces";
+import { pendingPlayerDto } from "../models/player/playerInterface";
 import lobbyService from "../services/lobbyService";
 
 export default class LobbyStore {
@@ -22,7 +22,7 @@ export default class LobbyStore {
 
     private createHubConnection = async () => {
         this.hubConnection = new HubConnectionBuilder()
-            .withUrl(process.env.REACT_APP_LOBBY_SOCKET !== undefined ? process.env.REACT_APP_LOBBY_SOCKET : "http://localhost:5121/", {accessTokenFactory: () => localStorage.getItem("token")!.toString()})
+            .withUrl(process.env.REACT_APP_LOBBY_SOCKET !== undefined ? process.env.REACT_APP_LOBBY_SOCKET : "http://localhost:5121/", { accessTokenFactory: () => localStorage.getItem("token")!.toString() })
             .withAutomaticReconnect()
             .configureLogging(LogLevel.Information)
             .build();
@@ -30,13 +30,13 @@ export default class LobbyStore {
         await this.hubConnection.start()
 
         this.hubConnection.on('receiveLobby', async (lobby: Lobby) => {
-            runInAction(()=>{
+            runInAction(() => {
                 this.lobby = lobby;
                 return
             })
         });
         this.hubConnection.on('lobbyClosed', async () => {
-            runInAction(()=> {
+            runInAction(() => {
                 this.reset()
                 return
             })
@@ -93,7 +93,7 @@ export default class LobbyStore {
     }
 
     @action
-    startGame = async (cDto:CreateGameDto) => {
+    startGame = async (cDto: CreateGameDto) => {
         if (this.lobby === undefined) throw new Error("Game cannot be created without a lobby")
         if (this.players.length < 2) throw new Error("You need to be at least to players to start a game")
         const response = await lobbyService.startGame(cDto);
@@ -103,7 +103,7 @@ export default class LobbyStore {
     }
 
     @action
-    startFFA = async (cDto:CreateGameDto) => {
+    startFFA = async (cDto: CreateGameDto) => {
         if (this.lobby === undefined) throw new Error("Game cannot be created without a lobby")
         const response = await lobbyService.startFFA(cDto);
         let gameId = response.data
@@ -112,12 +112,18 @@ export default class LobbyStore {
     }
 
     @action
-    startShared = async (cDto:CreateGameDto) => {
+    startShared = async (cDto: CreateGameDto) => {
         if (this.lobby === undefined) throw new Error("Game cannot be created without a lobby")
         const response = await lobbyService.startShared(cDto);
         let gameId = response.data
         await this.hubConnection!.invoke('StartGame', this.lobby.id, gameId)
         return response.data
+    }
+
+    @action
+    changeLobbyTitle = async (title: string) => {
+        if (this.lobby === undefined) throw new Error("Cannot update lobby title without a lobby")
+        await this.hubConnection!.invoke('ChangeLobbyTitle', this.lobby.id, title)
     }
 
 }
