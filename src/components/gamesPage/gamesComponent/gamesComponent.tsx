@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useStore } from '../../../stores/store'
 import Icon from '../../shared/icon/Icon'
 import './gamesComponent.scss'
-import {GameDTO} from "../../../models/game/gameInterfaces";
+import { GameDTO, State } from "../../../models/game/gameInterfaces";
 
 export interface gamesComponentProps {
     game: GameDTO,
@@ -20,12 +20,13 @@ const GamesComponent = ({ game, onDelete }: gamesComponentProps) => {
 
     useEffect(() => {
         setIsLoggedInUser(userStore.user?.id === params.id);
+        console.log(State[game.state]);
 
     }, [userStore, params.id])
 
     const deleteGame = async () => {
         try {
-             onDelete();
+            onDelete();
         } catch (e: any) {
             popupStore.setErrorMessage(e.message);
             popupStore.show();
@@ -46,7 +47,7 @@ const GamesComponent = ({ game, onDelete }: gamesComponentProps) => {
         <div className='GameComponent_Container'>
             <div className='GameComponent_TileInfoContainer'>
                 <div className='GameComponent_TileInfo Title'>{game.name}</div>
-                <div className='GameComponent_TileInfo Status'>Status: {game.state}</div>
+                <div className='GameComponent_TileInfo Status'>Status: {State[game.state]}</div>
             </div>
 
             {isLoggedInUser ?
