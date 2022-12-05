@@ -115,13 +115,13 @@ const RegisterPage = () => {
     async function onSubmitNewUser() {
         //if (validateUsername() && validatePassword() && validateRepeatPassword() && validateNickname() && validateEmail() && validateBirthday() && validateTerms()) {
 
-            let user: CreateUserDTO = { userName: username, password: password, nickName: nickname, salt: '', profilePicUrl: '' };
-            await userStore.create(user)
-            if (userStore.user) {
-                navigate('/')
-            }
+        let user: CreateUserDTO = { userName: username, password: password, nickName: nickname, salt: '', profilePicUrl: '' };
+        await userStore.create(user)
+        if (userStore.user) {
+            navigate('/')
+        }
         //} else {
-            popupStore.showError('An Error occured', 'Please check your inputs')
+        popupStore.showError('An Error occured', 'Please check your inputs', () => { })
         //}
     }
 

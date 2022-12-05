@@ -36,7 +36,7 @@ const NewsletterPage = () => {
 
   const onSignupNewsletter = () => {
     if (!validateEmail(email)) {
-      popupStore.showError("An error occured!", "Please enter a valid email address and try again.")
+      popupStore.showError("An error occured!", "Please enter a valid email address and try again.", () => { })
       return;
     }
 

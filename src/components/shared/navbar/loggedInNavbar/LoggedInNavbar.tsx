@@ -37,7 +37,6 @@ const LoggedInNavbar = () => {
         <>
             <Link className={`LoggedInNavbar-Link ${location.pathname === '/' ? 'LinkActive' : ''}`} to={'/'}>Home</Link>
             <Link className={`LoggedInNavbar-Link ${location.pathname === '/host' ? 'LinkActive' : ''}`} to={'/host'}>Host a game</Link>
-            <Link className={`LoggedInNavbar-Link ${location.pathname === '/join' ? 'LinkActive' : ''}`} to={'/join'}>Join a game</Link>
             <Link className={`LoggedInNavbar-Link ${location.pathname === '/features/upgrade' ? 'LinkActive' : ''}`} to={'/features/upgrade'}>Go Pro!</Link>
 
 

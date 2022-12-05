@@ -26,7 +26,6 @@ const LobbyPage = () => {
     const [t, setT] = useState<SimpleUserDTO>();
     const [sorted, setSorted] = useState<pendingPlayerDto[]>([]);
     const [title, setTitle] = useState<string>("");
-    const [started, setStarted] = useState<boolean>(false);
 
     useEffect(() => {
         joinLobby()
@@ -114,14 +113,15 @@ const LobbyPage = () => {
     }
 
     const handleStartGame = async () => {
+
         try {
-            if (!started) {
-                setStarted(true)
+            if (!lobbyStore.gameStarted) {
+                lobbyStore.setGameStarted(true);
                 let activated = tilePacks.filter(t => t.isActivated).map(t => t.tilePack.id);
                 let gamemode = gameModeStore.gameModes.filter(g => g.isActivated)[0].gameMode.name;
                 if (gamemode === 'Free For All') {
                     if (activated.length < 1) {
-                        popupStore.showError("An Error Occured", "Please select at least one tile pack")
+                        popupStore.showError("An Error Occured", "Please select at least one tile pack", () => { lobbyStore.setGameStarted(false) })
                         return;
                     }
                     let gId = await lobbyStore.startFFA({ lobbyId: lobbyStore.lobby!.id, name: title, tpIds: activated })
@@ -140,9 +140,10 @@ const LobbyPage = () => {
                 }
             }
         } catch (e: any) {
+            lobbyStore.setGameStarted(false);
             popupStore.setErrorMessage(e.message)
+            popupStore.setOnCancel(() => { lobbyStore.setGameStarted(false) })
             popupStore.show();
-            setStarted(false)
         }
     }
 
