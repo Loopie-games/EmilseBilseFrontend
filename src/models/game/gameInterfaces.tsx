@@ -23,7 +23,7 @@ export interface GameDTO {
     id: string
     name?: string
     host: SimpleUserDTO
-    winner?: BoardDTO
+    winnerId?: string
     state: State
 }
 

@@ -63,6 +63,7 @@ export default class GameStore {
         });
         this.hubConnection.on('updateGame', async (game: GameDTO) => {
             runInAction(async () => {
+
                 this.game = game
             })
         });
@@ -162,7 +163,7 @@ export default class GameStore {
     }
 
     @action
-    getSaved = async () =>{
+    getSaved = async () => {
         const response = await gameService.getSavedGames();
         return response.data
     }

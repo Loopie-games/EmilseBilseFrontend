@@ -39,6 +39,12 @@ const GameboardPage = () => {
         }
     }, [gameStore.game?.state])
 
+    useEffect(() => {
+        console.log(gameStore.game);
+
+    }, [gameStore.game])
+
+
     const connectToGame = async () => {
         await gameStore.connectToGame(params.id!)
             .catch(() => {
@@ -61,7 +67,12 @@ const GameboardPage = () => {
                         }
                         if (gameStore.game!.host.id === userStore.user!.id) {
                             //player is host
-                            if (gameStore.game!.state === State.Paused && gameStore.game!.winner != undefined) {
+                            console.log("host");
+                            console.log();
+
+
+                            if (gameStore.game!.state === State.Paused && gameStore.game!.winnerId != undefined) {
+
                                 popupStore.showConfirmation("Confirm win claim", " conirm or deny win", async () => {
                                     await gameStore.confirmWin();
                                 }, async () => {
@@ -84,7 +95,7 @@ const GameboardPage = () => {
 
     return (
         <>
-            {(gameStore.game?.winner != undefined && gameStore.game?.state == State.Paused) &&
+            {(gameStore.game?.winnerId != undefined && gameStore.game?.state == State.Paused) &&
 
                 <div className='Gameboard_WinnerClaim'>
                     <div className='Gameboard_WinnerClaimBox'>
@@ -111,7 +122,7 @@ const GameboardPage = () => {
  */}
 
                     <h1 className='Gameboard_Title'>{gameStore.game?.name}</h1>
-                    {(gameStore.game?.winner !== undefined && gameStore.game?.state === State.Ended) ?
+                    {(gameStore.game?.winnerId !== undefined && gameStore.game?.state === State.Ended) ?
                         <Winnerscreen /> :
                         <div className='Gameboard_GameboardContainer'>
                             {mobileStore.isMobile &&
