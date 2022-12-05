@@ -86,16 +86,10 @@ const GameboardPage = () => {
         <>
             {(gameStore.game?.winner != undefined && gameStore.game?.state == State.Paused) &&
 
-            <div className='Gameboard_WinnerClaim'>
-                <div className='Gameboard_WinnerClaimBox'>
-                    <div className='Gameboard_WinnerClaimBoxTitle'>Game Paused!</div>
-                    <div className='Gameboard_WinnerClaimBoxContent'>The host is currently confirming a winner claim. Please wait
-
-                
-                    
-                        
- </div>
-
+                <div className='Gameboard_WinnerClaim'>
+                    <div className='Gameboard_WinnerClaimBox'>
+                        <div className='Gameboard_WinnerClaimBoxTitle'>Game Paused!</div>
+                        <div className='Gameboard_WinnerClaimBoxContent'>The host is currently confirming a winner claim. Please wait</div>
                     </div>
                 </div>
             }

@@ -8,7 +8,7 @@ import UserCreatedTile from '../../components/tilesPages/userCreatedTile';
 import { UserTile } from '../../models/tile/tileInterface';
 import { useStore } from '../../stores/store';
 import './profileGamesPage.scss'
-import {GameDTO} from "../../models/game/gameInterfaces";
+import { GameDTO } from "../../models/game/gameInterfaces";
 
 const ProfileGamesPage = () => {
     const { gameStore, popupStore } = useStore();
@@ -49,7 +49,8 @@ const ProfileGamesPage = () => {
         try {
             popupStore.showConfirmation('Are you sure',
                 `Are you sure you want to delete ${game.name} ?`, () => {
-                    gameStore.deleteGame(game.id)
+                    gameStore.deleteGame(game.id);
+                    getAllGames();
                 },
                 () => {
                     popupStore.hide();
@@ -61,27 +62,27 @@ const ProfileGamesPage = () => {
     }
 
 
-            return (
-                <div className='ProfileGamesPage-Container'>
-                    {loading ? <Loader /> :
-                        <div className='ProfileGamesPage-Wrapper'>
-                            <div className='ProfileGamesPage-Title'>My Games</div>
-                            <div className='ProfileGamesPage-Searchbar'>
-                                <div className={`ProfileGamesPage-SearchbarContainer ${search.length > 0 ? 'active' : ''}`}>
-                                    <div className='ProfileGamesPage-SearchbarIcon'><Icon name="filter" /></div>
-                                    <div className='ProfileGamesPage-SearchbarInput'>
-                                        <input type="text" onKeyUp={e => { }} onChange={e => setSearch(e.target.value)} value={search} placeholder="Filter for your games" />
-                                    </div>
-                                    {search.length > 0 ? <div className='ProfileGamesPage-SearchbarIcon' onClick={handleClearSearch}><Icon name="cross" /></div> : null}
-                                </div>
+    return (
+        <div className='ProfileGamesPage-Container'>
+            {loading ? <Loader /> :
+                <div className='ProfileGamesPage-Wrapper'>
+                    <div className='ProfileGamesPage-Title'>My Games</div>
+                    <div className='ProfileGamesPage-Searchbar'>
+                        <div className={`ProfileGamesPage-SearchbarContainer ${search.length > 0 ? 'active' : ''}`}>
+                            <div className='ProfileGamesPage-SearchbarIcon'><Icon name="filter" /></div>
+                            <div className='ProfileGamesPage-SearchbarInput'>
+                                <input type="text" onKeyUp={e => { }} onChange={e => setSearch(e.target.value)} value={search} placeholder="Filter for your games" />
                             </div>
-                            <div className='ProfileGamesPage-FriendsContainer'>
-                                {filteredList.map((g, i) => <GamesComponent key={i} game={g} onDelete={() => handleDeleteGame(g)} />)}
-                            </div>
+                            {search.length > 0 ? <div className='ProfileGamesPage-SearchbarIcon' onClick={handleClearSearch}><Icon name="cross" /></div> : null}
                         </div>
-                    }
+                    </div>
+                    <div className='ProfileGamesPage-FriendsContainer'>
+                        {filteredList.map((g, i) => <GamesComponent key={i} game={g} onDelete={() => handleDeleteGame(g)} />)}
+                    </div>
                 </div>
-            )
-        }
+            }
+        </div>
+    )
+}
 
 export default observer(ProfileGamesPage)
