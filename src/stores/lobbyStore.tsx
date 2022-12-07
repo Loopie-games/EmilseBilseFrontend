@@ -9,6 +9,7 @@ export default class LobbyStore {
     @observable lobby: Lobby | undefined;
     @observable players: pendingPlayerDto[] = [];
     @observable gameId: string | undefined;
+    @observable gameStarted: boolean = false;
 
     constructor() {
         makeAutoObservable(this)
@@ -126,4 +127,9 @@ export default class LobbyStore {
         await this.hubConnection!.invoke('ChangeLobbyTitle', this.lobby.id, title)
     }
 
+    @action
+    setGameStarted = (gameStarted: boolean) => {
+        this.gameStarted = gameStarted;
+    }
+    
 }

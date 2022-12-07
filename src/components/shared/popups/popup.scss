@@ -23,12 +23,23 @@
     flex-direction: column;
     padding: 20px;
 
+    .PopUp_CloseIconContainer {
+        display: flex;
+        align-items: center;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 10002;
+        cursor: pointer;
+        filter: var(--color-icon);
+    }
+
     .PopUp_Title {
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        font-family: 'Caviar Dreams';
+        font-family: "Caviar Dreams";
         font-size: 24px;
         font-weight: 700;
         color: var(--color-text);
@@ -36,7 +47,7 @@
     }
 
     .PopUp_Error {
-        font-family: 'Caviar Dreams';
+        font-family: "Caviar Dreams";
         font-size: 16px;
         color: var(--color-text);
         flex-grow: 1;
@@ -46,7 +57,7 @@
         margin: 10px 0;
         padding: 10px;
         border-radius: 5px;
-        box-shadow: 0 0 10px 0 rgba(0,0,0,0.75) inset;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.75) inset;
     }
 
     .PopUp_ButtonContainer {
@@ -57,7 +68,7 @@
         gap: 10px;
 
         .PopUp_Button {
-            font-family: 'Caviar Dreams';
+            font-family: "Caviar Dreams";
             font-size: 16px;
             font-weight: 700;
             flex: 1;
@@ -73,19 +84,16 @@
 
             &:hover {
                 box-shadow: var(--color-highlighthover) 0 0 0 2px inset;
-
             }
-
         }
 
-        .confirm{
-            &:hover{
-                box-shadow: #7CB06B 0 0 0 2px inset;
+        .confirm {
+            &:hover {
+                box-shadow: #7cb06b 0 0 0 2px inset;
             }
         }
 
         .close {
-            
             &:hover {
                 box-shadow: #c66161 0 0 0 2px inset;
             }
@@ -93,22 +101,21 @@
     }
 }
 
-.PopUp_Desktop{
-    
+.PopUp_Desktop {
     width: 30%;
 }
 
-.PopUp_Mobile{
+.PopUp_Mobile {
     width: 80%;
 }
 
-.closing{
+.closing {
     z-index: 99;
     animation: fadeout 0.2s forwards ease-in-out;
     z-index: 1000;
 }
 
-.opening{
+.opening {
     z-index: 99;
     animation: fadein 0.2s forwards ease-in-out;
     z-index: 1000;
@@ -132,20 +139,20 @@
     }
 }
 
-#Popup_Textarea{
-    font-family: 'Caviar Dreams';
+#Popup_Textarea {
+    font-family: "Caviar Dreams";
     font-size: 16px;
     color: var(--color-text);
     width: calc(100%);
     min-height: 100%;
-    resize:none;
-    overflow: hidden;;
+    resize: none;
+    overflow: hidden;
     background-color: transparent;
     border: none;
     outline: none;
 }
 
-.Popup_InputContainer{
+.Popup_InputContainer {
     height: fit-content !important;
 }
 
@@ -153,4 +160,3 @@
     min-height: 40px !important;
     overflow: hidden !important;
 }
-    

@@ -8,6 +8,7 @@
     transition: opacity 0.2s;
     text-decoration: none;
     min-width: fit-content;
+    cursor: pointer;
     &:hover {
         opacity: 1;
     }

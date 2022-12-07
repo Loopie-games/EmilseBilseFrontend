@@ -135,7 +135,7 @@ const ShopPage = () => {
             setCartItems([...cartItems, item])
             setCartTotal(cartTotal + item.price)
         } else {
-            popupStore.showError('Error!', 'Item already in cart')
+            popupStore.showError('Error!', 'Item already in cart', () => {})
         }
 
     }

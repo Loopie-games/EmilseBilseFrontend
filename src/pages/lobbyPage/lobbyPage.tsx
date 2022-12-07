@@ -27,7 +27,6 @@ const LobbyPage = () => {
     const [sorted, setSorted] = useState<pendingPlayerDto[]>([]);
     const [title, setTitle] = useState<string>("");
 
-
     useEffect(() => {
         joinLobby()
 
@@ -114,31 +113,36 @@ const LobbyPage = () => {
     }
 
     const handleStartGame = async () => {
-        try {
-            let activated = tilePacks.filter(t => t.isActivated).map(t => t.tilePack.id);
-            let gamemode = gameModeStore.gameModes.filter(g => g.isActivated)[0].gameMode.name;
-            if (gamemode === 'Free For All') {
-                if (activated.length < 1) {
-                    popupStore.showError("An Error Occured", "Please select at least one tile pack")
-                    return;
-                }
-                let gId = await lobbyStore.startFFA({ lobbyId: lobbyStore.lobby!.id, name: title, tpIds: activated })
-                if (title !== "") {
-                    let gn: GameNameChangeDto = { gameId: gId, name: title }
-                    await gameStore.updateGameName(gn);
-                }
-            } else if (gamemode === 'Original Gamemode') {
-                let gId = await lobbyStore.startGame({ lobbyId: lobbyStore.lobby?.id!, name: title, tpIds: activated })
-                if (title !== "") {
-                    let gn: GameNameChangeDto = { gameId: gId, name: title }
-                    await gameStore.updateGameName(gn);
-                }
-            } else if (gamemode === 'Shared Board') {
-                let gId = await lobbyStore.startShared({ lobbyId: lobbyStore.lobby?.id!, name: title, tpIds: activated })
-            }
 
+        try {
+            if (!lobbyStore.gameStarted) {
+                lobbyStore.setGameStarted(true);
+                let activated = tilePacks.filter(t => t.isActivated).map(t => t.tilePack.id);
+                let gamemode = gameModeStore.gameModes.filter(g => g.isActivated)[0].gameMode.name;
+                if (gamemode === 'Free For All') {
+                    if (activated.length < 1) {
+                        popupStore.showError("An Error Occured", "Please select at least one tile pack", () => { lobbyStore.setGameStarted(false) })
+                        return;
+                    }
+                    let gId = await lobbyStore.startFFA({ lobbyId: lobbyStore.lobby!.id, name: title, tpIds: activated })
+                    if (title !== "") {
+                        let gn: GameNameChangeDto = { gameId: gId, name: title }
+                        await gameStore.updateGameName(gn);
+                    }
+                } else if (gamemode === 'Original Gamemode') {
+                    let gId = await lobbyStore.startGame({ lobbyId: lobbyStore.lobby?.id!, name: title, tpIds: activated })
+                    if (title !== "") {
+                        let gn: GameNameChangeDto = { gameId: gId, name: title }
+                        await gameStore.updateGameName(gn);
+                    }
+                } else if (gamemode === 'Shared Board') {
+                    let gId = await lobbyStore.startShared({ lobbyId: lobbyStore.lobby?.id!, name: title, tpIds: activated })
+                }
+            }
         } catch (e: any) {
+            lobbyStore.setGameStarted(false);
             popupStore.setErrorMessage(e.message)
+            popupStore.setOnCancel(() => { lobbyStore.setGameStarted(false) })
             popupStore.show();
         }
     }

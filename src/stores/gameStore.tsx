@@ -90,6 +90,12 @@ export default class GameStore {
 
     stopConnection = async () => {
         await this.hubConnection?.stop()
+        this.game = undefined;
+        this.board = undefined;
+        this.tiles = [];
+        this.players = [];
+        this.boardFilled = false;
+        this.colorMap.clear();
         return
     }
 

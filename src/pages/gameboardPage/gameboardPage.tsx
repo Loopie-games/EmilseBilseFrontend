@@ -35,7 +35,7 @@ const GameboardPage = () => {
 
     useEffect(() => {
         if (gameStore.game?.state === State.Ended) {
-            navigate(`/game/won/${gameStore.game.id}`)
+            //navigate(`/game/won/${gameStore.game.id}`)
         }
     }, [gameStore.game?.state])
 
@@ -121,18 +121,26 @@ const GameboardPage = () => {
                     {mobileStore.isMobile && <InvertedCornerQ3/>}
  */}
 
-                    <h1 className='Gameboard_Title'>{gameStore.game?.name}</h1>
-                    {(gameStore.game?.winnerId !== undefined && gameStore.game?.state === State.Ended) ?
-                        <Winnerscreen /> :
-                        <div className='Gameboard_GameboardContainer'>
-                            {mobileStore.isMobile &&
-                                <div className='GameBoard_MobileBack' onClick={() => navigate('/')}>← Back to home</div>
-                            }
-                            <div className={`Gameboard_GameboardWrapper ${mobileStore.isMobile ? 'mobile' : 'desktop'}`}>
-                                <Board />
+                    {gameStore.game?.state === State.Ended &&
+                        <div className='Gameboard_WinnerOverlayContainer'>
+                            <div className='GameBoard_WinnerTitleContainer'>
+                                <h1 className='Gameboard_WinnerTitle'>Congratulations</h1>
+                            </div>
+                            <div className='Gameboard_WinnerParagraphContainer'>
+                                <p className='Gameboard_WinnerParagraph'>The game has ended</p>
                             </div>
                         </div>
                     }
+
+                    <h1 className='Gameboard_Title'>{gameStore.game?.name}</h1>
+                    <div className='Gameboard_GameboardContainer'>
+                        {mobileStore.isMobile &&
+                            <div className='GameBoard_MobileBack' onClick={() => navigate('/')}>← Back to home</div>
+                        }
+                        <div className={`Gameboard_GameboardWrapper ${mobileStore.isMobile ? 'mobile' : 'desktop'}`}>
+                            <Board />
+                        </div>
+                    </div>
                     <InvertedCornerQ2 />
                     {mobileStore.isMobile && <InvertedCornerQ4 />}
                     <div className={`Gameboard_PlayersContainer ${playersShown ? 'shown' : ''}`}>

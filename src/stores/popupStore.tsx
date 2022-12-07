@@ -7,7 +7,7 @@ export class PopupStore {
     @observable isShown: boolean = false;
     @observable errorMessage: string = '';
     @observable title: string = ""
-    @observable type: POPUP_STATES | undefined ;
+    @observable type: POPUP_STATES | undefined;
     @observable onConfirm: Function | undefined;
     @observable onCancel: Function | undefined;
 
@@ -39,7 +39,7 @@ export class PopupStore {
         this.type = type;
     }
 
-    showConfirmation(title: string, message: string, onConfirm: Function, onCancel: Function){
+    showConfirmation(title: string, message: string, onConfirm: Function, onCancel: Function) {
         this.setErrorMessage(message);
         this.setTitle(title);
         this.setOnConfirm(async () => {
@@ -55,17 +55,18 @@ export class PopupStore {
         this.show();
     }
 
-    showError(title: string, message: string){
+    showError(title: string, message: string, onCancel: Function) {
         this.setErrorMessage(message);
         this.setTitle(title);
         this.setOnCancel(() => {
+            onCancel();
             this.hide();
         })
         this.setType(POPUP_STATES.Information);
         this.show();
     }
 
-    showInput(title: string, message: string, onConfirm: Function, onCancel: Function){
+    showInput(title: string, message: string, onConfirm: Function, onCancel: Function) {
         this.setErrorMessage(message);
         this.setTitle(title);
         this.setOnConfirm(async (e: string) => {
@@ -80,7 +81,7 @@ export class PopupStore {
         this.show();
     }
 
-    showBug(title: string, message: string, onConfirm: Function){
+    showBug(title: string, message: string, onConfirm: Function) {
         this.setErrorMessage(message);
         this.setTitle(title);
         this.setOnConfirm(async (e: string) => {
@@ -94,7 +95,7 @@ export class PopupStore {
         this.show();
     }
 
-    showFeedback(title: string, message: string, onConfirm: Function){
+    showFeedback(title: string, message: string, onConfirm: Function) {
         this.setErrorMessage(message);
         this.setTitle(title);
         this.setOnConfirm(async (e: string) => {
@@ -108,7 +109,7 @@ export class PopupStore {
         this.setType(POPUP_STATES.Feedback);
         this.show();
     }
-    
+
     constructor() {
         makeAutoObservable(this);
     }

@@ -17,7 +17,7 @@ const ProfileTiles = (tile: UserTile) => {
             await tileStore.deleteTile(tile.id);
         } catch (e: any) {
 
-            popupStore.showError("Something went wrong!",e.message);
+            popupStore.showError("Something went wrong!", e.message, () => { });
         }
     }
 
