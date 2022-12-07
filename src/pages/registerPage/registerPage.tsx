@@ -114,14 +114,13 @@ const RegisterPage = () => {
 
     async function onSubmitNewUser() {
         //if (validateUsername() && validatePassword() && validateRepeatPassword() && validateNickname() && validateEmail() && validateBirthday() && validateTerms()) {
-
-        let user: CreateUserDTO = { userName: username, password: password, nickName: nickname, salt: '', profilePicUrl: '' };
-        await userStore.create(user)
-        if (userStore.user) {
-            navigate('/')
-        }
+            let user: CreateUserDTO = { userName: username, password: password, nickName: nickname, salt: '', email: email, birthdate: birthday};
+            await userStore.create(user)
+            if (userStore.user) {
+                navigate('/')
+            }
         //} else {
-        popupStore.showError('An Error occured', 'Please check your inputs', () => { })
+          //  popupStore.showError('An Error occured', 'Please check your inputs')
         //}
     }
 
@@ -194,7 +193,7 @@ const RegisterPage = () => {
                                 <div className='Register-InputTitle' style={{ display: "flex", flexDirection: "row" }}>Birthday </div>
                                 <div className={`Register-InputFieldWrapper ${birthday.length > 0 ? 'active' : ''}  ${birthdayError ? 'error' : ''}`}>
                                     <div className='Register-InputIcon'><Icon name="cake" /></div>
-                                    <input className='Register-InputInput' placeholder='Birthday' onClick={() => setBirthdayError(false)} onChange={(e) => { setBirthday(e.target.value); if (e.target.value.length <= 1) { setBirthdayError(false) } }} type="date" />
+                                    <input className='Register-InputInput' placeholder='Birthday' onClick={() => setBirthdayError(false)} onChange={(e) => { setBirthday(e.target.value); console.log(e.target.value); if (e.target.value.length <= 1) { setBirthdayError(false) } }} type="date" />
                                 </div>
                             </div>
                             {/**
