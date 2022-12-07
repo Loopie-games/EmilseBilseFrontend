@@ -32,6 +32,8 @@ const ProfilePage = () => {
     const [filtered, setFiltered] = useState<any[]>([]);
     const [placeholder, setPlaceholder] = useState('');
     const defaultPic = 'https://as2.ftcdn.net/v2/jpg/02/15/84/43/1000_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg'
+    const defaultBanner = 'https://res.cloudinary.com/moonbaboon/image/upload/v1670418295/u4yzxz6oryahlm9wisoc.png'
+    
     const [testAchievements, setTestAchievements] = useState<any[]>([
         {
             achievement: {
@@ -58,17 +60,12 @@ const ProfilePage = () => {
 
     const cloudinaryRef = useRef<any>();
     const widgetRef = useRef<any>();
+    const bannerWidgetRef = useRef<any>();
+
 
     const { userStore, mobileStore, friendshipStore, tileStore } = useStore();
     useEffect(() => {
-        if (userStore.user?.id === params.id) {
-            setIsOwner(true);
-            setNickname(userStore.user!.nickname);
-            setUser(userStore.user);
-        } else {
-            setIsOwner(false);
-            getUser();
-        }
+
 
         if (showing === 'friends') {
             getFriendList();
@@ -89,6 +86,21 @@ const ProfilePage = () => {
         }
 
     }, [params.id])
+    const getUser = async () => {
+        const user = await userStore.getUserById(params.id!);
+        setUser(user);
+    }
+
+    useEffect(() => {
+        if (userStore.user?.id === params.id) {
+            setIsOwner(true);
+            setNickname(userStore.user!.nickname);
+            setUser(userStore.user);
+        } else {
+            setIsOwner(false);
+            getUser();
+        }
+    }, [userStore.user, params.id])
 
     //create cloudinary upload widget
     useEffect(() => {
@@ -102,14 +114,20 @@ const ProfilePage = () => {
                     userStore.updateProfilePic(result.info.secure_url);
                 }
             })
+
+            bannerWidgetRef.current = window.cloudinary.createUploadWidget({
+                cloudName: 'moonbaboon',
+                uploadPreset: 'bannerImage',
+            }, (error: any, result: any) => {
+                if (result.event === 'success') {
+                    userStore.updateBannerPic(result.info.secure_url);
+                }
+            })
         }
     }, [cloudinaryRef])
 
 
-    const getUser = async () => {
-        const user = await userStore.getUserById(params.id!);
-        setUser(user);
-    }
+
 
     const getFriendList = async () => {
         setFiltered([]);
@@ -246,8 +264,8 @@ const ProfilePage = () => {
                             <div className='ProfilePage_UserWrapper'>
                                 <div className='ProfilePage_UserPic'>
                                     <div className='ProfilePage_UserPicContainer'>
-                                        <img src={`${testPB}`} alt='userpic' />
-                                        {isOwner && <div className='ProfilePage_UserPicEdit' onClick={() => widgetRef.current!.open()}><Icon name="cross" /></div>}
+                                        <img src={`${user?.profilePicture !== undefined ? user.profilePicture : defaultPic}`} alt='userpic' />
+                                        {isOwner && <div className='ProfilePage_UserPicEdit' onClick={() => widgetRef.current!.open()}><Icon name="edit" /></div>}
                                     </div>
                                 </div>
                                 {isOwner &&
@@ -301,8 +319,8 @@ const ProfilePage = () => {
                 */}
                         <div className='ProfilePage_RightSideContainer'>
                             <div className='ProfilePage_BannerImageContainer'>
-                                <img id='banner' src='https://i.imgur.com/4ZQ3Z4u.png' alt='banner' />
-                                {isOwner && <div className='ProfilePage_BannerImageEdit'><Icon name="cross" /></div>}
+                                <img id='banner' src={`${defaultBanner}`} alt='banner' />
+                                {isOwner && <div className='ProfilePage_BannerImageEdit' onClick={() => bannerWidgetRef.current.open()}><Icon name="edit" /></div>}
                             </div>
                             <InvertedCornerQ1 />
                             <div className='ProfilePage_MainSection'>

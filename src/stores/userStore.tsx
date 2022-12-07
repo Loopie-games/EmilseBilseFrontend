@@ -91,9 +91,15 @@ export class UserStore {
         const user = { ...this.user, profilePicUrl: url } as SimpleUserDTO
         const response = await userService.update(user)
         console.log(response.data);
-        
+
         return response.data
     }
+
+    @action
+    updateBannerPic(secure_url: any) {
+        throw new Error('Method not implemented.');
+    }
+
 
     @action
     validateUsername(username: string) {
