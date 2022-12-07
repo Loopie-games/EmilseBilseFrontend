@@ -31,9 +31,10 @@ export interface SimplePlayerDTO extends SimpleUserDTO {
 export interface CreateUserDTO {
     userName: string
     nickName: string
+    email:string
+    birthdate: string
     password: string
     salt: string
-    profilePicUrl?: string
 }
 
 export interface LoginDTO {

@@ -17,10 +17,11 @@ export class UserStore {
 
     @action
     create = async (data: CreateUserDTO) => {
+        let p = data.password
         data.salt = decodeURIComponent(await securityService.generateSalt());
         data.password = decodeURIComponent(await securityService.hashPassword(data.password, data.salt));
         let response = await userService.createUser(data)
-        this.user = response.data
+        await this.login( {username: data.userName, password: p})
         return response.data;
     }
 
