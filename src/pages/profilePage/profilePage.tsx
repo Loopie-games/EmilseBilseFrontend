@@ -290,7 +290,7 @@ const ProfilePage = () => {
                                         {
                                             friendshipStore._friendlist?.slice(0, 3).map((friend: Friend) => (
                                                 <div className='ProfilePage_FriendPics' key={friend.id}>
-                                                    <img id='ProfilePage_FriendsPic' src={defaultPic} alt='friendpic' onClick={() => navigate(`/user/profile/${friend.user.id}`)} />
+                                                    <img id='ProfilePage_FriendsPic' src={`${friend.user?.profilePicUrl !== undefined ? friend.user.profilePicUrl : defaultPic}`} alt='friendpic' onClick={() => navigate(`/user/profile/${friend.user.id}`)} />
                                                 </div>
                                             ))
                                         }
