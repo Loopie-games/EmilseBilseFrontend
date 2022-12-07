@@ -7,7 +7,7 @@ import './LoggedInNavbar.scss'
 const LoggedInNavbar = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const { userStore } = useStore();
+    const { userStore, lobbyStore, popupStore } = useStore();
     const defaultPic = 'https://as2.ftcdn.net/v2/jpg/02/15/84/43/1000_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg'
 
     const [isOpen, setIsOpen] = useState(false);
@@ -33,11 +33,24 @@ const LoggedInNavbar = () => {
         navigate('/');
     }
 
+    const handleHostGame = async () => {
+        if (userStore.user === undefined) {
+            navigate('/login');
+        } else {
+            try {
+                let l = await lobbyStore.createlobby()
+                navigate('/lobby/' + l.pin)
+            } catch (e: any) {
+                popupStore.setErrorMessage(e.message);
+                popupStore.show();
+            }
+        }
+    }
+
     return (
         <>
             <Link className={`LoggedInNavbar-Link ${location.pathname === '/' ? 'LinkActive' : ''}`} to={'/'}>Home</Link>
-            <Link className={`LoggedInNavbar-Link ${location.pathname === '/host' ? 'LinkActive' : ''}`} to={'/host'}>Host a game</Link>
-            <Link className={`LoggedInNavbar-Link ${location.pathname === '/join' ? 'LinkActive' : ''}`} to={'/join'}>Join a game</Link>
+            <span className={`LoggedInNavbar-Link`} onClick={() => handleHostGame()} >Host a game</span>
             <Link className={`LoggedInNavbar-Link ${location.pathname === '/features/upgrade' ? 'LinkActive' : ''}`} to={'/features/upgrade'}>Go Pro!</Link>
 
 

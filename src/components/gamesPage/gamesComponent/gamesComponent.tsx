@@ -20,8 +20,6 @@ const GamesComponent = ({ game, onDelete }: gamesComponentProps) => {
 
     useEffect(() => {
         setIsLoggedInUser(userStore.user?.id === params.id);
-        console.log(State[game.state]);
-
     }, [userStore, params.id])
 
     const deleteGame = async () => {
@@ -46,7 +44,7 @@ const GamesComponent = ({ game, onDelete }: gamesComponentProps) => {
     return (
         <div className='GameComponent_Container'>
             <div className='GameComponent_TileInfoContainer'>
-                <div className='GameComponent_TileInfo Title'>{game.name}</div>
+                <div className='GameComponent_TileInfo Title'>{game.name!.length > 0 ? game.name : 'Unnamed'}</div>
                 <div className='GameComponent_TileInfo Status'>Status: {State[game.state]}</div>
             </div>
 

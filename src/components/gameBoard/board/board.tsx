@@ -3,6 +3,7 @@ import { useStore } from '../../../stores/store';
 import { observer } from 'mobx-react-lite';
 import './board.scss'
 import { BoardTileDTO } from '../../../models/tile/tileInterface';
+import { State } from '../../../models/game/gameInterfaces';
 
 const Board = () => {
     const { gameStore, mobileStore } = useStore();
@@ -53,7 +54,8 @@ const Board = () => {
 
                                 {boardtile.activatedBy !== null ?
                                     <div className='GameBoard_TileShadow'
-                                        style={{ "boxShadow": `0px 0px 10px 0px ${getPlayerColor(boardtile.aboutUser?.id ?? ' ')}` }}>
+                                        style={gameStore.game?.state !== State.Ended ? { "boxShadow": `0px 0px 10px 0px ${getPlayerColor(boardtile.aboutUser?.id ?? ' ')}` } : {}}
+                                    >
                                     </div>
                                     : null}
                             </div>

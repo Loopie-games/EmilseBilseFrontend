@@ -1,6 +1,7 @@
 .GameComponent_Container {
     width: calc(100% - 4px);
     height: 60px;
+    min-height: 60px;
     border-radius: 5px;
     display: flex;
     background: var(--color-input-background);

@@ -114,7 +114,6 @@ const RegisterPage = () => {
 
     async function onSubmitNewUser() {
         //if (validateUsername() && validatePassword() && validateRepeatPassword() && validateNickname() && validateEmail() && validateBirthday() && validateTerms()) {
-
             let user: CreateUserDTO = { userName: username, password: password, nickName: nickname, salt: '', email: email, birthdate: birthday};
             await userStore.create(user)
             if (userStore.user) {

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { POPUP_STATES } from '../../../models/popup/popupInterface';
 import { useStore } from '../../../stores/store';
+import Icon from '../icon/Icon';
 import './popup.scss'
 
 const Popup = ({ type, title, errorMessage, handleClose, handleConfirm }: any) => {
@@ -13,6 +14,8 @@ const Popup = ({ type, title, errorMessage, handleClose, handleConfirm }: any) =
 
         setTimeout(() => {
             handleClose()
+            console.log('closing');
+
         }, 200)
     }
 
@@ -41,6 +44,9 @@ const Popup = ({ type, title, errorMessage, handleClose, handleConfirm }: any) =
         <>
             <div className={`${isClosing ? 'closing' : 'opening'} `}>
                 <div className={`PopUp_Container ${mobileStore.isMobile ? 'PopUp_Mobile' : 'PopUp_Desktop'} ${type === POPUP_STATES.Input ? 'Popup_InputContainer' : ''}`}>
+                    <div className='PopUp_CloseIconContainer' onClick={handleClose} >
+                        <Icon name='cross' />
+                    </div>
                     <div className='PopUp_Title'>{title}</div>
                     <div className={`PopUp_Error ${type === POPUP_STATES.Input ? 'Popup_InputBox' : ''}`}>
                         {type === POPUP_STATES.Confirmation && errorMessage}
