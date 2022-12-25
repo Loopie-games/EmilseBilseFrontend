@@ -1,4 +1,4 @@
-import React, { createRef, useEffect, useState } from 'react'
+import React, { createRef, useEffect, useRef, useState } from 'react'
 import { observer } from 'mobx-react-lite';
 import './profilePage.scss'
 import { useStore } from '../../stores/store';
@@ -19,7 +19,7 @@ const inputFile = createRef<HTMLInputElement>();
 const ProfilePage = () => {
     const [isOwner, setIsOwner] = useState(false);
     const [isInEditMode, setIsInEditMode] = useState(false);
-    const [showing, setShowing] = useState('overview');
+    const [showing, setShowing] = useState('friends');
     const [user, setUser] = useState<UserDTO>();
     const params = useParams();
 
@@ -32,6 +32,8 @@ const ProfilePage = () => {
     const [filtered, setFiltered] = useState<any[]>([]);
     const [placeholder, setPlaceholder] = useState('');
     const defaultPic = 'https://as2.ftcdn.net/v2/jpg/02/15/84/43/1000_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg'
+    const defaultBanner = 'https://res.cloudinary.com/moonbaboon/image/upload/v1670418295/u4yzxz6oryahlm9wisoc.png'
+    
     const [testAchievements, setTestAchievements] = useState<any[]>([
         {
             achievement: {
@@ -56,16 +58,14 @@ const ProfilePage = () => {
         },
     ]);
 
+    const cloudinaryRef = useRef<any>();
+    const widgetRef = useRef<any>();
+    const bannerWidgetRef = useRef<any>();
+
+
     const { userStore, mobileStore, friendshipStore, tileStore } = useStore();
     useEffect(() => {
-        if (userStore.user?.id === params.id) {
-            setIsOwner(true);
-            setNickname(userStore.user!.nickname);
-            setUser(userStore.user);
-        } else {
-            setIsOwner(false);
-            getUser();
-        }
+
 
         if (showing === 'friends') {
             getFriendList();
@@ -86,11 +86,48 @@ const ProfilePage = () => {
         }
 
     }, [params.id])
-
     const getUser = async () => {
         const user = await userStore.getUserById(params.id!);
         setUser(user);
     }
+
+    useEffect(() => {
+        if (userStore.user?.id === params.id) {
+            setIsOwner(true);
+            setNickname(userStore.user!.nickname);
+            setUser(userStore.user);
+        } else {
+            setIsOwner(false);
+            getUser();
+        }
+    }, [userStore.user, params.id])
+
+    //create cloudinary upload widget
+    useEffect(() => {
+        cloudinaryRef.current = window.cloudinary;
+        if (cloudinaryRef.current) {
+            widgetRef.current = window.cloudinary.createUploadWidget({
+                cloudName: 'moonbaboon',
+                uploadPreset: 'profileImage',
+            }, (error: any, result: any) => {
+                if (result.event === 'success') {
+                    userStore.updateProfilePic(result.info.secure_url);
+                }
+            })
+
+            bannerWidgetRef.current = window.cloudinary.createUploadWidget({
+                cloudName: 'moonbaboon',
+                uploadPreset: 'bannerImage',
+            }, (error: any, result: any) => {
+                if (result.event === 'success') {
+                    userStore.updateBannerPic(result.info.secure_url);
+                }
+            })
+        }
+    }, [cloudinaryRef])
+
+
+
 
     const getFriendList = async () => {
         setFiltered([]);
@@ -143,25 +180,21 @@ const ProfilePage = () => {
                 profilePicture: user!.profilePicture!
             }
 
-            userStore.update(data).then(res=>{
-                
+            userStore.update(data).then(res => {
+
             })
-            
+
             setIsInEditMode(false);
         } else {
             setIsInEditMode(true);
         }
     }
 
-    const selectPB = () => {
-        if (inputFile.current !== null && inputFile.current !== undefined) {
-            inputFile.current.click();
-        }
-    }
-
     const uploadProfilePic = async (event: any) => {
         const file = event[0]
         const response = await userStore.updateProfilePic(file);
+        console.log(response);
+
         setTestPB(response);
     }
 
@@ -231,8 +264,8 @@ const ProfilePage = () => {
                             <div className='ProfilePage_UserWrapper'>
                                 <div className='ProfilePage_UserPic'>
                                     <div className='ProfilePage_UserPicContainer'>
-                                        <img src={`${testPB}`} alt='userpic' />
-                                        {isOwner && <div className='ProfilePage_UserPicEdit' onClick={selectPB}><Icon name="cross" /></div>}
+                                        <img src={`${user?.profilePicture !== undefined ? user.profilePicture : defaultPic}`} alt='userpic' />
+                                        {isOwner && <div className='ProfilePage_UserPicEdit' onClick={() => widgetRef.current!.open()}><Icon name="edit" /></div>}
                                     </div>
                                 </div>
                                 {isOwner &&
@@ -246,12 +279,7 @@ const ProfilePage = () => {
 
                                     </div>
                                     <div className='ProfilePage_NicknameContainer'>
-                                        <input id='nicknameChange' type='text' placeholder='Nickname' value={/*user?.nickname*/nickname} disabled={!isInEditMode} onChange={(e)=> {setNickname(e.target.value)}} />
-                                    </div>
-                                </div>
-                                <div className='ProfilePage_Description'>
-                                    <div className='ProfilePage_DescriptionContainer'>
-                                        <textarea id='descriptionChange' placeholder='Description' disabled={!isInEditMode} onChange={(e)=>{setDescription(e.target.value)}} />
+                                        <input id='nicknameChange' type='text' placeholder='Nickname' value={/*user?.nickname*/nickname} disabled={!isInEditMode} onChange={(e) => { setNickname(e.target.value) }} />
                                     </div>
                                 </div>
                                 <div className='ProfilePage_Friends'>
@@ -262,12 +290,15 @@ const ProfilePage = () => {
                                         {
                                             friendshipStore._friendlist?.slice(0, 3).map((friend: Friend) => (
                                                 <div className='ProfilePage_FriendPics' key={friend.id}>
-                                                    <img id='ProfilePage_FriendsPic' src={defaultPic} alt='friendpic' onClick={() => navigate(`/user/profile/${friend.user.id}`)} />
+                                                    <img id='ProfilePage_FriendsPic' src={`${friend.user?.profilePicUrl !== undefined ? friend.user.profilePicUrl : defaultPic}`} alt='friendpic' onClick={() => navigate(`/user/profile/${friend.user.id}`)} />
                                                 </div>
                                             ))
                                         }
                                     </div>
                                 </div>
+                                {/**
+                                 * TODO: Achievements
+                                 
                                 <div className='ProfilePage_Achievements'>
                                     <div className='ProfilePage_AchievementsTitle'>
                                         Achievements - {testAchievements?.length}
@@ -280,6 +311,7 @@ const ProfilePage = () => {
                                         ))}
                                     </div>
                                 </div>
+                                */}
                             </div>
                         </div>
                         {/*
@@ -287,18 +319,12 @@ const ProfilePage = () => {
                 */}
                         <div className='ProfilePage_RightSideContainer'>
                             <div className='ProfilePage_BannerImageContainer'>
-                                <img id='banner' src='https://i.imgur.com/4ZQ3Z4u.png' alt='banner' />
-                                {isOwner && <div className='ProfilePage_BannerImageEdit'><Icon name="cross" /></div>}
+                                <img id='banner' src={`${defaultBanner}`} alt='banner' />
+                                {isOwner && <div className='ProfilePage_BannerImageEdit' onClick={() => bannerWidgetRef.current.open()}><Icon name="edit" /></div>}
                             </div>
                             <InvertedCornerQ1 />
                             <div className='ProfilePage_MainSection'>
                                 <div className='ProfilePage_MainSectionNavbar'>
-                                    <div className={`ProfilePage_MainSectionNavbarButton ${showing === 'overview' ? 'active' : ''}`} onClick={() => setShowing('overview')}>
-                                        Overview
-                                    </div>
-                                    <div className={`ProfilePage_MainSectionNavbarButton ${showing === 'achievements' ? 'active' : ''}`} onClick={() => getAchievements()}>
-                                        Achievements
-                                    </div>
                                     <div className={`ProfilePage_MainSectionNavbarButton ${showing === 'friends' ? 'active' : ''}`} onClick={() => getFriendList()}>
                                         Friends
                                     </div>
@@ -334,6 +360,7 @@ const ProfilePage = () => {
                                         }
                                     </>
                                     }
+                                    {/*
                                     {showing === 'achievements' && <>
                                         {loading ? <Loader /> :
                                             <div className='ProfilePage_ContentContainer'>
@@ -343,6 +370,7 @@ const ProfilePage = () => {
                                             </div>
                                         }
                                     </>}
+                                    */}
                                 </div>
                             </div>
                         </div>

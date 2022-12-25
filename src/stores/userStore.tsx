@@ -88,13 +88,19 @@ export class UserStore {
     }
 
     @action
-    updateProfilePic = async (file: File) => {
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('upload_preset', 'profileImage');
-        let newProfilePicURL = await cloudinaryService.uploadProfilePic(formData);
-        return newProfilePicURL;
+    updateProfilePic = async (url: string) => {
+        const user = { ...this.user, profilePicUrl: url } as SimpleUserDTO
+        const response = await userService.update(user)
+        console.log(response.data);
+
+        return response.data
     }
+
+    @action
+    updateBannerPic(secure_url: any) {
+        throw new Error('Method not implemented.');
+    }
+
 
     @action
     validateUsername(username: string) {

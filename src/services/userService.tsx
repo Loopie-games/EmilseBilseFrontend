@@ -3,6 +3,7 @@ import http from "../http-common"
 import axios from "axios";
 
 class UserService {
+
     async getLogged() {
         return http.get("/User/GetLogged", {
             headers: {
