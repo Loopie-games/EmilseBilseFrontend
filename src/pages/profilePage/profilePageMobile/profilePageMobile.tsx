@@ -21,14 +21,15 @@ const ProfilePageMobile = () => {
     const [nickname, setNickname] = useState(user?.nickname);
     const [newNickname, setNewNickname] = useState("");
     const [showing, setShowing] = useState('overview');
-    const defaultPic = 'https://as2.ftcdn.net/v2/jpg/02/15/84/43/1000_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg'
     const navigate = useNavigate();
     const [testPB, setTestPB] = useState("");
     const [loading, setLoading] = useState(false);
     const [filtered, setFiltered] = useState<any[]>([]);
     const [placeholder, setPlaceholder] = useState('');
     const defaultImage = 'https://github.githubassets.com/images/modules/profile/achievements/yolo-default.png';
-    
+    const defaultPic = 'https://as2.ftcdn.net/v2/jpg/02/15/84/43/1000_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg'
+    const defaultBanner = 'https://res.cloudinary.com/moonbaboon/image/upload/v1670418295/u4yzxz6oryahlm9wisoc.png'
+
     const [testAchievements, setTestAchievements] = useState<any[]>([
         {
             achievement: {
@@ -202,7 +203,7 @@ const ProfilePageMobile = () => {
     return (
         <div className='ProfilePageM_Container'>
             <div className='ProfilePageM_BannerContainer'>
-                <img id="banner" src={testBanner} alt="" />
+                <img id="banner" src={defaultBanner} alt="" />
             </div>
             <div className='ProfilePageM_Wrapper'>
                 <div className='ProfilePageM_UserInfoContainer'>
@@ -213,7 +214,7 @@ const ProfilePageMobile = () => {
                     </div>
                     <div className='ProfilePageM_InfoContainer'>
                         <div className='ProfilePageM_NicknameContainer'>
-                            <input type='text' placeholder='Nickname' onChange={(e) => setNewNickname(e.target.value)} disabled={!isInEditMode} />
+                            <input type='text' placeholder='Nickname' value={user?.nickname} onChange={(e) => setNewNickname(e.target.value)} disabled={!isInEditMode} />
                         </div>
                         <div className='ProfilePageM_UsernameContainer'>
                             <input type='text' placeholder='Username' value={user?.username} disabled={true} />
@@ -227,9 +228,11 @@ const ProfilePageMobile = () => {
                         </div>
                     }
                 </div>
+                {/*
                 <div className='ProfilePageM_UserBio'>
                     <input id='Bio' type="text" disabled={!isInEditMode} />
                 </div>
+                */}
                 <div className='ProfilePageM_AchievementContainer'>
                     <div className='ProfilePageM_FriendsContainer'>
                         <div className='ProfilePageM_FriendsTitle'>Friends - {friendshipStore._friendlist?.length}</div>
@@ -242,6 +245,7 @@ const ProfilePageMobile = () => {
                             ))}
                         </div>
                     </div>
+                    {/*
                     <div className='ProfilePageM_FriendsContainer'>
                         <div className='ProfilePageM_FriendsTitle'>Achievements - {testAchievements.length}</div>
                         <div className='ProfilePageM_FriendsContentContainer'>
@@ -253,16 +257,21 @@ const ProfilePageMobile = () => {
                         </div>
 
                     </div>
+                    */}
                 </div>
                 <div className='ProfilePageM_ContentContainer'>
                     <div className='ProfilePageM_ContentWrapper'>
                         <div className='ProfilePageM_NavContainer'>
+
+                            {/*
                             <div className={`ProfilePageM_NavItem ${showing === 'overview' ? 'active' : ''}`} onClick={() => setShowing('overview')}>
                                 Overview
                             </div>
                             <div className={`ProfilePageM_NavItem ${showing === 'achievements' ? 'active' : ''}`} onClick={() => getAchievements()}>
                                 Achievements
                             </div>
+                            
+                            */}
                             <div className={`ProfilePageM_NavItem ${showing === 'friends' ? 'active' : ''}`} onClick={() => getFriendList()}>
                                 Friends
                             </div>
@@ -278,6 +287,7 @@ const ProfilePageMobile = () => {
                                     </div>
                                 </div>
                             }
+                            {/*
                             {showing === 'overview' && <div>Overview</div>}
                             {showing === 'achievements' && <>
                                 {loading ? <Loader /> :
@@ -288,6 +298,7 @@ const ProfilePageMobile = () => {
                                     </div>
                                 }
                             </>}
+                            */}
                             {showing === 'friends' && <>
                                 {loading ? <Loader /> :
                                     <div className='ProfilePageM_cContainer'>
