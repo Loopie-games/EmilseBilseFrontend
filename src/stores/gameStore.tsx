@@ -47,12 +47,12 @@ export default class GameStore {
                 this.tiles = await this.getByBoardId(board.id);
                 this.tiles.forEach(t => {
                     console.log(this.colorMap.get(t.aboutUser?.id!));
-                    if (this.colorMap.get(t.aboutUser?.id!) !== undefined) {
+                    if (this.colorMap.get(t.activatedBy?.id!) !== undefined) {
                         return
                     }
 
-                    let index = this.tiles.findIndex(x => x.aboutUser?.id === t.aboutUser?.id);
-                    this.colorMap.set(t.aboutUser?.id!, colorLookupService.lookupColor(index));
+                    let index = this.tiles.findIndex(x => x.activatedBy?.id === t.activatedBy?.id);
+                    this.colorMap.set(t.activatedBy?.id!, colorLookupService.lookupColor(index));
                 })
                 console.log(this.tiles);
 

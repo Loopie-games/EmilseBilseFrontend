@@ -33,6 +33,8 @@ const Board = () => {
     }
 
     const getPlayerColor = (playerId: string) => {
+        console.log(playerId);
+        
         if (playerId !== ' ') {
             return gameStore.colorMap.get(playerId)
         }
@@ -54,7 +56,7 @@ const Board = () => {
 
                                 {boardtile.activatedBy !== null ?
                                     <div className='GameBoard_TileShadow'
-                                        style={gameStore.game?.state !== State.Ended ? { "boxShadow": `0px 0px 10px 0px ${getPlayerColor(boardtile.aboutUser?.id ?? ' ')}` } : {}}
+                                        style={gameStore.game?.state !== State.Ended ? { "boxShadow": `0px 0px 10px 0px ${getPlayerColor(boardtile.activatedBy?.id ?? ' ')}` } : {}}
                                     >
                                     </div>
                                     : null}
