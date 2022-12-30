@@ -12,6 +12,7 @@ const Board = () => {
     useEffect(() => {
         console.log(gameStore.tiles);
 
+
     }, [gameStore.tiles])
 
     const completeTile = async (boardTileDTO: BoardTileDTO) => {
@@ -20,6 +21,8 @@ const Board = () => {
     }
 
     const handleClick = (e: any) => {
+        if (e.aboutUser === null) return;
+        if (e.tile === null) return;
         triggerTime > longPressTime ? completeTile(e) : completeTile(e);
         console.log(e);
 
@@ -34,7 +37,7 @@ const Board = () => {
 
     const getPlayerColor = (playerId: string) => {
         console.log(playerId);
-        
+
         if (playerId !== ' ') {
             return gameStore.colorMap.get(playerId)
         }
@@ -45,22 +48,36 @@ const Board = () => {
         <>
             <div className='GameBoard_Container'>
                 <div className={`GameBoard_TileContainer ${mobileStore.isMobile ? 'mobileGab' : 'desktopGab'}`}>
+
                     {gameStore.tiles.map((boardtile, index) => (
                         <>
-                            <div style={{ "color": `${getPlayerColor(boardtile.aboutUser?.id ?? ' ')}` }}
-                                className={`GameBoard_Tile ${boardtile.activatedBy !== null ? 'active' : ''}`} key={index}
-                                onClick={() => handleClick(boardtile)}
-                                onMouseDown={handleTouchStart}
-                                onMouseUp={handleTouchEnd}>
-                                {boardtile.aboutUser?.nickname ?? ''} {boardtile.tile?.action ?? 'FREE'}
+                            {index !== 12 ?
+                                <div style={{ "color": `${getPlayerColor(boardtile.aboutUser?.id ?? ' ')}` }}
+                                    className={`GameBoard_Tile ${boardtile.activatedBy !== null ? 'active' : ''}`} key={index}
+                                    onClick={() => handleClick(boardtile)}
+                                    onMouseDown={handleTouchStart}
+                                    onMouseUp={handleTouchEnd}>
+                                    {boardtile.aboutUser?.nickname} {boardtile.tile?.action}
 
-                                {boardtile.activatedBy !== null ?
+                                    {boardtile.activatedBy !== null ?
+                                        <div className='GameBoard_TileShadow'
+                                            style={gameStore.game?.state !== State.Ended ? { "boxShadow": `0px 0px 10px 0px ${getPlayerColor(boardtile.activatedBy?.id ?? ' ')}` } : {}}
+                                        >
+                                        </div>
+                                        : null}
+                                </div>
+                                : null}
+                            {index === 12 ?
+                                <div style={{ "color": `#fff` }}
+                                    className={`GameBoard_Tile active TileFree`} key={index}
+                                > FREE
+
                                     <div className='GameBoard_TileShadow'
-                                        style={gameStore.game?.state !== State.Ended ? { "boxShadow": `0px 0px 10px 0px ${getPlayerColor(boardtile.activatedBy?.id ?? ' ')}` } : {}}
+                                        style={gameStore.game?.state !== State.Ended ? { "boxShadow": `0px 0px 10px 0px #fff` } : {}}
                                     >
                                     </div>
-                                    : null}
-                            </div>
+                                </div>
+                                : null}
                         </>
                     ))}
                 </div>
