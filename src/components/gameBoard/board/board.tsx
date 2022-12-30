@@ -39,6 +39,8 @@ const Board = () => {
         console.log(playerId);
 
         if (playerId !== ' ') {
+            console.log('aaaaaaaaaaaaaaaaa ' + gameStore.colorMap.get(playerId));
+            
             return gameStore.colorMap.get(playerId)
         }
         return 'white'
@@ -52,16 +54,16 @@ const Board = () => {
                     {gameStore.tiles.map((boardtile, index) => (
                         <>
                             {index !== 12 ?
-                                <div style={{ "color": `${getPlayerColor(boardtile.aboutUser?.id ?? ' ')}` }}
+                                <div style={{ "color": `${getPlayerColor(boardtile.aboutUser?.id!)}` }}
                                     className={`GameBoard_Tile ${boardtile.activatedBy !== null ? 'active' : ''}`} key={index}
                                     onClick={() => handleClick(boardtile)}
                                     onMouseDown={handleTouchStart}
                                     onMouseUp={handleTouchEnd}>
-                                    {boardtile.aboutUser?.nickname} {boardtile.tile?.action}
+                                    <span>{boardtile.aboutUser?.nickname} {boardtile.tile?.action}</span>
 
                                     {boardtile.activatedBy !== null ?
                                         <div className='GameBoard_TileShadow'
-                                            style={gameStore.game?.state !== State.Ended ? { "boxShadow": `0px 0px 10px 0px ${getPlayerColor(boardtile.activatedBy?.id ?? ' ')}` } : {}}
+                                            style={gameStore.game?.state !== State.Ended ? { "boxShadow": `0px 0px 10px 0px ${getPlayerColor(boardtile.aboutUser?.id ?? ' ')}` } : {}}
                                         >
                                         </div>
                                         : null}
