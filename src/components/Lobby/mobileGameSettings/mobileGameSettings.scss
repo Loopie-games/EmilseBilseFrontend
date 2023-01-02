@@ -8,6 +8,7 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    z-index: 2;
     img {
         width: 100%;
         height: 100%;
@@ -23,7 +24,7 @@
     right: 0;
     width: 100%;
     height: 85%;
-    z-index: 2;
+    z-index: 3;
     transition: opacity 0.2s ease-in-out;
     display: flex;
     flex-direction: column;
@@ -229,7 +230,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 1;
+    z-index: 2;
     background: var(--color-overlay);
     backdrop-filter: blur(5px);
     opacity: 0;

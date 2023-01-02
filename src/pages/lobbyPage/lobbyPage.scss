@@ -49,6 +49,7 @@
                 outline: none;
                 border: none;
                 background: transparent;
+                z-index: 1;
             }
 
             &:hover > .Lobby_EditIcon {
