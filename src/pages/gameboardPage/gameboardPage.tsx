@@ -41,9 +41,7 @@ const GameboardPage = () => {
 
     useEffect(() => {
         console.log(gameStore.game);
-
     }, [gameStore.game])
-
 
     const connectToGame = async () => {
         await gameStore.connectToGame(params.id!)
@@ -68,10 +66,10 @@ const GameboardPage = () => {
                         if (gameStore.game!.host.id === userStore.user!.id) {
                             //player is host
                             console.log("host");
-                            console.log();
+                            console.log(gameStore.game.state === State.Paused);
 
 
-                            if (gameStore.game!.state === State.Paused && gameStore.game!.winnerId != undefined) {
+                            if (gameStore.game!.winnerId != undefined && gameStore.game.state != State.Ended) {
 
                                 popupStore.showConfirmation("Confirm win claim", " conirm or deny win", async () => {
                                     await gameStore.confirmWin();
@@ -95,7 +93,7 @@ const GameboardPage = () => {
 
     return (
         <>
-            {(gameStore.game?.winnerId != undefined && gameStore.game?.state == State.Paused) &&
+            {(gameStore.game?.winnerId != undefined && gameStore.game.state != State.Ended) &&
 
                 <div className='Gameboard_WinnerClaim'>
                     <div className='Gameboard_WinnerClaimBox'>

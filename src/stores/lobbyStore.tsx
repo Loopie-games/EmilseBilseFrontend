@@ -23,7 +23,8 @@ export default class LobbyStore {
 
     private createHubConnection = async () => {
         this.hubConnection = new HubConnectionBuilder()
-            .withUrl(process.env.REACT_APP_LOBBY_SOCKET !== undefined ? process.env.REACT_APP_LOBBY_SOCKET : "http://localhost:5121/", { accessTokenFactory: () => localStorage.getItem("token")!.toString() })
+            .withUrl(process.env.REACT_APP_LOBBY_SOCKET !== undefined ? process.env.REACT_APP_LOBBY_SOCKET : 
+                "http://localhost:5121/", { accessTokenFactory: () => localStorage.getItem("token")!.toString() })
             .withAutomaticReconnect()
             .configureLogging(LogLevel.Information)
             .build();

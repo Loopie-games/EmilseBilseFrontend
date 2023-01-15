@@ -16,6 +16,8 @@ const Board = () => {
     }, [gameStore.tiles])
 
     const completeTile = async (boardTileDTO: BoardTileDTO) => {
+        console.log('completeTile');
+        
         await gameStore.turnTile(boardTileDTO.id)
         return
     }
@@ -36,11 +38,7 @@ const Board = () => {
     }
 
     const getPlayerColor = (playerId: string) => {
-        console.log(playerId);
-
         if (playerId !== ' ') {
-            console.log('aaaaaaaaaaaaaaaaa ' + gameStore.colorMap.get(playerId));
-            
             return gameStore.colorMap.get(playerId)
         }
         return 'white'
