@@ -23,7 +23,6 @@ const Board = () => {
     }
 
     const handleClick = (e: any) => {
-        if (e.aboutUser === null) return;
         if (e.tile === null) return;
         triggerTime > longPressTime ? completeTile(e) : completeTile(e);
         console.log(e);
@@ -44,6 +43,11 @@ const Board = () => {
         return 'white'
     }
 
+    const test = (boardTile: BoardTileDTO) => {
+        return boardTile.aboutUser !== null ? boardTile.aboutUser?.id! : boardTile.activatedBy?.id!
+    }
+
+
     return (
         <>
             <div className='GameBoard_Container'>
@@ -52,7 +56,7 @@ const Board = () => {
                     {gameStore.tiles.map((boardtile, index) => (
                         <>
                             {index !== 12 ?
-                                <div style={{ "color": `${getPlayerColor(boardtile.aboutUser?.id!)}` }}
+                                <div style={{ "color": `${getPlayerColor(test(boardtile))}` }}
                                     className={`GameBoard_Tile ${boardtile.activatedBy !== null ? 'active' : ''}`} key={index}
                                     onClick={() => handleClick(boardtile)}
                                     onMouseDown={handleTouchStart}
