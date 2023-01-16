@@ -44,20 +44,30 @@ export default class GameStore {
         this.hubConnection.on('gameConnected', async (board: BoardDTO) => {
             runInAction(async () => {
                 this.board = board;
+                this.players = await this.getPlayers()
                 this.tiles = await this.getByBoardId(board.id);
                 this.tiles.forEach(t => {
-                    console.log(this.colorMap.get(t.aboutUser?.id!));
-                    if (this.colorMap.get(t.aboutUser?.id!) !== undefined) {
-                        return
+                    if (t.aboutUser?.id === undefined) {
+                        
+                        this.players.forEach(p => {
+                            if (this.colorMap.get(p.id!) !== undefined) {
+                                return
+                            }
+
+                            let index = this.players.findIndex(x => x.id === p.id);
+                            this.colorMap.set(p.id!, colorLookupService.lookupColor(index));
+                        })
+                    } else {
+
+                        if (this.colorMap.get(t.aboutUser?.id!) !== undefined) {
+                            return
+                        }
+
+                        let index = this.tiles.findIndex(x => x.aboutUser?.id === t.aboutUser?.id);
+                        this.colorMap.set(t.aboutUser?.id!, colorLookupService.lookupColor(index));
                     }
-
-                    let index = this.tiles.findIndex(x => x.aboutUser?.id === t.aboutUser?.id);
-                    this.colorMap.set(t.aboutUser?.id!, colorLookupService.lookupColor(index));
                 })
-                console.log(this.tiles);
-
-
-                this.players = await this.getPlayers()
+                
                 return
             })
         });

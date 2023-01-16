@@ -9,11 +9,6 @@ const Board = () => {
     const { gameStore, mobileStore } = useStore();
     let triggerTime: number;
     let longPressTime = 200;
-    useEffect(() => {
-        console.log(gameStore.tiles);
-
-
-    }, [gameStore.tiles])
 
     const completeTile = async (boardTileDTO: BoardTileDTO) => {
         console.log('completeTile');
@@ -40,11 +35,18 @@ const Board = () => {
         if (playerId !== ' ') {
             return gameStore.colorMap.get(playerId)
         }
+        
         return 'white'
     }
 
-    const test = (boardTile: BoardTileDTO) => {
-        return boardTile.aboutUser !== null ? boardTile.aboutUser?.id! : boardTile.activatedBy?.id!
+    const getTextColor = (boardTile: BoardTileDTO) => {
+        return boardTile.aboutUser !== null ? boardTile.aboutUser?.id! : ' '
+    }
+
+    const getActivatedColor = (boardTile: BoardTileDTO) => {
+        if (boardTile.aboutUser !== null) return boardTile.aboutUser?.id!
+
+        return boardTile.activatedBy !== null ? boardTile.activatedBy?.id! : ' '
     }
 
 
@@ -56,8 +58,8 @@ const Board = () => {
                     {gameStore.tiles.map((boardtile, index) => (
                         <>
                             {index !== 12 ?
-                                <div style={{ "color": `${getPlayerColor(test(boardtile))}` }}
-                                    className={`GameBoard_Tile ${boardtile.activatedBy !== null ? 'active' : ''}`} key={index}
+                                <div style={{ "color": `${getPlayerColor(getTextColor(boardtile))}` }}
+                                    className={`GameBoard_Tile ${boardtile.activatedBy !== null ? 'active' : ''}`} key={boardtile.tile?.id}
                                     onClick={() => handleClick(boardtile)}
                                     onMouseDown={handleTouchStart}
                                     onMouseUp={handleTouchEnd}>
@@ -65,7 +67,7 @@ const Board = () => {
 
                                     {boardtile.activatedBy !== null ?
                                         <div className='GameBoard_TileShadow'
-                                            style={gameStore.game?.state !== State.Ended ? { "boxShadow": `0px 0px 10px 0px ${getPlayerColor(boardtile.aboutUser?.id ?? ' ')}` } : {}}
+                                            style={gameStore.game?.state !== State.Ended ? { "boxShadow": `0px 0px 10px 0px ${getPlayerColor(getActivatedColor(boardtile))}` } : {}}
                                         >
                                         </div>
                                         : null}
@@ -73,7 +75,7 @@ const Board = () => {
                                 : null}
                             {index === 12 ?
                                 <div style={{ "color": `#fff` }}
-                                    className={`GameBoard_Tile active TileFree`} key={index}
+                                    className={`GameBoard_Tile active TileFree`} key={boardtile.tile?.id}
                                 > FREE
 
                                     <div className='GameBoard_TileShadow'
